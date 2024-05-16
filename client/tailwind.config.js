@@ -12,6 +12,10 @@ module.exports = {
           'main-color-white': '#fffbf2',
           'main-color-beige': '#f1ecd5',
         },
+        fontFamily: {
+          kulim: ['Kulim Park'],
+          source: ['Source-Serif-4']
+        }
       },
     },
     variants: {

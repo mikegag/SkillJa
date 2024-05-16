@@ -15,4 +15,16 @@
 
 body {
   margin: 0;
+  overscroll-behavior: none;
+}
+
+@layer components {
+  .form-input {
+    @apply text-main-color-darkgreen py-3 px-5 border border-opacity-50 border-main-color-darkgreen 
+              rounded-2xl shadow-lg font-kulim cursor-pointer;
+  }
+  .form-btn {
+    @apply bg-main-color-lightgreen text-main-color-white font-kulim font-semibold text-xl rounded-full 
+              px-16 py-3 shadow-lg mt-14 mb-7 cursor-pointer hover:bg-main-color-darkgreen;
+  }
 }
