@@ -4,16 +4,15 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root {
+  --main-color-lightgreen: #6d9773;
+  --main-color-darkgreen: #0c3b2e;
+  --main-color-lightbrown: #b46617;
+  --main-color-gold: #ffba00;
+  --main-color-white: #fffbf2;
+  --main-color-beige: #f1ecd5;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+body {
+  margin: 0;
 }

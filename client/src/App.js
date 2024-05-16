@@ -1,11 +1,10 @@
-import logo from './logo.svg';
+import React from "react"
 
-function App() {
+export default function App() {
   return (
-    <div className=" bg-red-600">
+    <div className=" bg-main-color-lightgreen">
       <h1>SkillJa </h1>
     </div>
-  );
+  )
 }
 
-export default App;
