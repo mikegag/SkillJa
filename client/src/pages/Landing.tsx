@@ -1,4 +1,5 @@
 import React from "react"
+import { Link } from "react-router-dom"
 
 export default function Landing(){
     return (
@@ -21,12 +22,14 @@ export default function Landing(){
                     size={21} 
                 />
             </form>
-            <button 
-                className="bg-main-color-darkgreen text-lg font-medium text-main-color-white font-kulim px-16 py-3 rounded-3xl mt-5 mb-9"
-                aria-label="create an account button that redirects to sign up page"
-                >
-                    Create an Account
-            </button>
+            <Link to={'/signup'}>
+                <button 
+                    className="bg-main-color-darkgreen text-lg font-medium text-main-color-white font-kulim px-16 py-3 rounded-3xl mt-5 mb-9"
+                    aria-label="create an account button that redirects to sign up page"
+                    >
+                        Create an Account
+                </button>
+            </Link>
             <p className="text-gray-400 font-source">Already have an account? <span className="underline text-main-color-darkgreen">Login Here</span></p>
         </div>
     )

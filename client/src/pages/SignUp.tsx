@@ -1,4 +1,5 @@
 import React from "react"
+import { Link } from "react-router-dom"
 
 export default function SignUp(){
     return (
@@ -55,9 +56,11 @@ export default function SignUp(){
                 </form>
                 <p className="text-gray-400 font-source">
                     Already have an account? 
-                    <span className="underline cursor-pointer text-main-color-darkgreen ml-1">
-                        Login Here
-                    </span>
+                    <Link to={'/login'}>
+                        <span className="underline cursor-pointer text-main-color-darkgreen ml-1">
+                            Login Here
+                        </span>
+                    </Link>
                 </p>
             </div>
         </div>

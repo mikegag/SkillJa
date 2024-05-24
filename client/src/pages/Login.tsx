@@ -1,4 +1,5 @@
 import React from "react"
+import { Link } from "react-router-dom"
 
 export default function Login(){
     return (
@@ -49,9 +50,11 @@ export default function Login(){
                 </div>
                 <p className="text-gray-400 font-source">
                     Don't have an account? 
-                    <span className="underline cursor-pointer text-main-color-darkgreen ml-1">
-                        Sign Up Here
-                    </span>
+                    <Link to={'/signup'}>
+                        <span className="underline cursor-pointer text-main-color-darkgreen ml-1">
+                            Sign Up Here
+                        </span>
+                    </Link>
                 </p>
             </div>
         </div>
