@@ -1,0 +1,52 @@
+{
+    "signup":[
+        {
+            "series": 1,
+            "inputs": [
+              { "id":"fullname", "name":"fullname", "icon": "faUser", "type": "text", "placeholder": "Full Name"}, 
+              { "id":"email", "name":"email", "icon": "faEnvelope", "type": "email", "placeholder": "Email"},
+              { "id":"password", "name":"password", "icon": "faLock", "type": "password", "placeholder": "Password"},
+              { "id":"confirmpassword", "name":"confirmpassword", "icon": "faLock", "type": "password", "placeholder": "Confirm Password"}
+            ]
+        },
+        {
+            "series": 2,
+            "inputs": [
+              { "id":"date", "name":"date", "icon": "faCalendar", "type": "date", "placeholder": "Date of birth (DD-MM-YYYY)"}, 
+              { "id":"phonenumber", "name":"phonenumber", "icon": "faPhone", "type": "tel", "placeholder": "Phone Number (ex. 123-456-7890)", "pattern": "[0-9]{3}-[0-9]{3}-[0-9]{4}"},
+              { "id":"gender", "name":"gender", "icon": "faUser", "type": "select", 
+                    "options":[
+                        {"value": "gender", "selected":true, "placeholder":"Gender"},
+                        {"value": "male", "selected":false, "placeholder":"Male"},
+                        {"value": "female", "selected":false, "placeholder":"Female"},
+                        {"value": "other", "selected":false, "placeholder":"Other"}
+                    ]
+              }
+            ]
+        },
+        {
+            "series": 3,
+            "inputs": [
+              { "id": "agreement", "name":"agreement", "type": "checkbox", "placeholder": "I have read the terms and agreements", "required":true}, 
+              { "id": "marketing", "name":"marketing","type": "checkbox", "placeholder": "I would like to receive marketing detail", "required":false}
+            ],
+            "information": [
+                {"index": 0, "title": "Terms and Conditions", "body": ""},
+                {"index": 1, "title": "Introduction", "body": "Welcome to SkillJa! These Terms and Conditions govern your use of our platform and the services provided therein. By accessing or using our platform, you agree to comply with these Terms and Conditions."},
+                {"index": 2, "title": "Definitions", "body": "Platform refers to SkillJa. User refers to any individual accessing or using the Platform. Coach refers to registered sports coaches offering their services through the Platform. Services refers to the coaching services provided by Coaches through the Platform. Content refers to any information, data, text, images, videos, or other materials uploaded, posted, or transmitted on the Platform."},
+                {"index": 3, "title": "Registration", "body": "Users must register an account to access certain features and services of the Platform. Users agree to provide accurate, current, and complete information during the registration process. Users are responsible for maintaining the confidentiality of their account credentials and for all activities that occur under their account."},
+                {"index": 4, "title": "Coach Services", "body": "Coaches are independent contractors responsible for the provision of coaching services. Coaches agree to provide services in a professional and competent manner. Coaches are responsible for setting their own rates and scheduling sessions with Users."},
+                {"index": 5, "title": "Payments", "body": "Users agree to pay the applicable fees for coaching services as set by the Coach. Payment terms and methods will be specified by the Platform. All payments are non-refundable unless otherwise specified."},
+                {"index": 6, "title": "User Responsibilities", "body": "Users agree to comply with all applicable laws and regulations. Users are solely responsible for their interactions with Coaches and other Users. Users agree not to use the Platform for any illegal or unauthorized purpose."},
+                {"index": 7, "title": "Content", "body": "Users retain ownership of any Content they upload or post on the Platform. Users grant the Platform a worldwide, non-exclusive, royalty-free license to use, reproduce, modify, adapt, publish, translate, distribute, and display their Content. Users agree not to upload or post any Content that is unlawful, defamatory, obscene, or otherwise objectionable."},
+                {"index": 8, "title": "Intellectual Property", "body": "The Platform and its contents are protected by copyright, trademark, and other laws. Users agree not to reproduce, modify, distribute, or otherwise use any content from the Platform without permission."},
+                {"index": 9, "title": "Limitation of Liability", "body": "The Platform is provided on an 'as is' and 'as available' basis without any warranties of any kind. In no event shall the Platform be liable for any indirect, incidental, special, or consequential damages arising out of or in any way connected with the use of the Platform."},
+                {"index": 10, "title": "Termination", "body": "The Platform reserves the right to suspend or terminate User accounts at any time without prior notice for violations of these Terms and Conditions. Upon termination, Users must cease all use of the Platform and any Services provided therein."},
+                {"index": 11, "title": "Changes to Terms and Conditions", "body": "The Platform reserves the right to update or modify these Terms and Conditions at any time without prior notice. Users are encouraged to review the Terms and Conditions periodically for changes."},
+                {"index": 12, "title": "Governing Law", "body": "These Terms and Conditions shall be governed by and construed in accordance with the laws of Ontario Canada."},
+                {"index": 13, "title": "Contact Us", "body": "If you have any questions or concerns about these Terms and Conditions, please contact us at info@skillja.ca."}
+            ]
+        }
+    ]
+
+}
