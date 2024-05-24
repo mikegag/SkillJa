@@ -63,19 +63,19 @@
         {
             "series": 1,
             "questions": [
-              { "id": 1, "title": "Are you an Athlete or a Coach?", "options": ["Athlete 🏋️‍♂️", "Coach 🎓"] }
+              { "id": 1, "title": "Are you an Athlete or a Coach?", "options": ["Athlete 🏋️‍♂️", "Coach 🎓"], "multiSelect":false }
             ]
         },
         {
             "series": 2,
             "questions": [
-              { "id": 2, "title": "What are your current goals 🎯?", "options": ["Becoming a better athlete", "Learning a new skill/sport"] }
+              { "id": 2, "title": "What are your current goals 🎯?", "options": ["Becoming a better athlete", "Learning a new skill/sport"], "multiSelect":true }
             ]
         },
         {
             "series": 3,
             "questions": [
-              { "id": 3, "title": "What sports are you interested in 👀?", "options": ["Baseball ⚾️", "Golf ⛳", "Basketball 🏀", "Personal Training", "Skiing ⛷️", "Basketball 🏀", "Running 🏃", "Cycling 🚴", "Football 🏈", "Soccer ⚽️"] }
+              { "id": 3, "title": "What sports are you interested in 👀?", "options": ["Baseball ⚾️", "Golf ⛳", "Basketball 🏀", "Personal Training", "Skiing ⛷️", "Basketball 🏀", "Running 🏃", "Cycling 🚴", "Football 🏈", "Soccer ⚽️"], "multiSelect":true }
             ]
         },
         {
@@ -90,31 +90,31 @@
         {
             "series": 1,
             "questions": [
-              { "id": 1, "title": "Are you an Athlete or a Coach?", "options": ["Athlete 🏋️‍♂️", "Coach 🎓"] }
+              { "id": 1, "title": "Are you an Athlete or a Coach?", "options": ["Athlete 🏋️‍♂️", "Coach 🎓"], "multiSelect":false }
             ]
         },
         {
             "series": 2,
             "questions": [
-              { "id": 2, "title": "What are your current goals 🎯?", "options": ["Build a network of clients to establish my brand", "Coach part-time whenever i`m free"] }
+              { "id": 2, "title": "What are your current goals 🎯?", "options": ["Build a network of clients to establish my brand", "Coach part-time whenever i`m free"], "multiSelect":true }
             ]
         },
         {
             "series": 3,
             "questions": [
-              { "id": 3, "title": "Which sports will you be coaching 👀?", "options": ["Baseball ⚾️", "Golf ⛳", "Basketball 🏀", "Personal Training", "Skiing ⛷️", "Basketball 🏀", "Running 🏃", "Cycling 🚴", "Football 🏈", "Soccer ⚽️"] }
+              { "id": 3, "title": "Which sports will you be coaching 👀?", "options": ["Baseball ⚾️", "Golf ⛳", "Basketball 🏀", "Personal Training", "Skiing ⛷️", "Basketball 🏀", "Running 🏃", "Cycling 🚴", "Football 🏈", "Soccer ⚽️"], "multiSelect":true}
             ]
         },
         {
             "series": 4,
             "questions": [
-              { "id": 4, "title": "Which age groups do you specialize in coaching?", "options": ["Adults", "Children"] }
+              { "id": 4, "title": "Which age groups do you specialize in coaching?", "options": ["Adults", "Children"], "multiSelect":false}
             ]
         },
         {
             "series": 5,
             "questions": [
-              { "id": 5, "title": "Upload any relevant certifications and documents", "fineprint":"(These can include Police, Vulnerable sector, or background checks, completed certifications relevant to your educational background, and other relevant information to confirm your skills as a coach.)", "options": ["Upload ⬆️"] }
+              { "id": 5, "title": "Upload any relevant certifications and documents", "fineprint":"(These can include Police, Vulnerable sector, or background checks, completed certifications relevant to your educational background, and other relevant information to confirm your skills as a coach.)", "options": ["Upload ⬆️"], "specificType":"file" }
             ]
         },
         {
