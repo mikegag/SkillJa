@@ -123,6 +123,16 @@
               { "title": "Thank you for your application!", "body": "You will receive an email in the following days regarding your application status.", "buttonValue":"Return Home"}
             ]
         }
+    ],
+
+    "filterMenu": [
+        {
+            "location":[],
+            "price":[],
+            "distance":[],
+            "-------------implement this section similar to login as you will still use inputs":""
+            
+        }
     ]
 
 }
