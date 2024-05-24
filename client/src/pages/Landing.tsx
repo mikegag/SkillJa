@@ -33,7 +33,7 @@ export default function Landing(){
             <p className="text-gray-400 font-source">
                 Already have an account? 
                 <Link to={'/login'}>
-                    <span className="underline text-main-color-darkgreen">Login Here</span>
+                    <span className="underline text-main-color-darkgreen ml-2">Login Here</span>
                 </Link>
             </p>
         </div>

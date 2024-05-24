@@ -4,8 +4,8 @@ import { Link } from "react-router-dom"
 export default function SignUp(){
     return (
         <div className="flex flex-col justify-end h-dvh bg-main-color-darkgreen">
-            <div className="flex flex-col justify-center items-center bg-main-color-white rounded-t-3xl py-8">
-                <div className="flex justify-center mt-4 mb-12">
+            <div className="flex flex-col justify-center items-center bg-main-color-white rounded-t-3xl py-16 lg:py-10">
+                <div className="flex justify-center mt-4 mb-14">
                     <img 
                         src={require('../assets/Apple-logo.png')} 
                         className="w-12 cursor-pointer" 
@@ -22,7 +22,7 @@ export default function SignUp(){
                         alt="facebook logo which redirects user to sign in through their facebook account"
                     />
                 </div>
-                <form className="flex flex-col justify-center w-full mx-auto px-11 lg:w-4/12">
+                <form className="flex flex-col justify-center w-full mx-auto px-11 md:w-7/12 lg:w-4/12">
                     <input
                         type="text"
                         className="form-input mb-9"
