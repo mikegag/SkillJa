@@ -5,8 +5,8 @@ export default function Login(){
     return (
         <div className="flex flex-col justify-end h-dvh bg-main-color-darkgreen">
             <h2 className="font-source font-normal text-3xl text-main-color-white mx-auto my-auto pt-8">Welcome Back!</h2>
-            <div className="flex flex-col justify-center items-center bg-main-color-white rounded-t-3xl py-8">
-                <form className="flex flex-col justify-center w-full mx-auto px-11 md:7/12 lg:w-4/12">
+            <div className="flex flex-col justify-center items-center bg-main-color-white rounded-t-3xl py-12">
+                <form className="flex flex-col justify-center w-full mx-auto px-11 md:w-7/12 lg:w-4/12">
                     <input
                         type="email"
                         className="form-input mb-9 mt-5"
@@ -15,7 +15,7 @@ export default function Login(){
                     />
                     <input
                         type="password"
-                        className="form-input mb-4"
+                        className="form-input mb-5"
                         placeholder="Password"
                         required
                     />

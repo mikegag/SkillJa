@@ -4,8 +4,8 @@ import { Link } from "react-router-dom"
 export default function SignUp(){
     return (
         <div className="flex flex-col justify-end h-dvh bg-main-color-darkgreen">
-            <div className="flex flex-col justify-center items-center bg-main-color-white rounded-t-3xl py-16 lg:py-10">
-                <div className="flex justify-center mt-4 mb-14">
+            <div className="flex flex-col justify-center items-center bg-main-color-white rounded-t-3xl py-14 lg:py-10">
+                <div className="flex justify-center mt-3 mb-14">
                     <img 
                         src={require('../assets/Apple-logo.png')} 
                         className="w-12 cursor-pointer" 
@@ -43,7 +43,7 @@ export default function SignUp(){
                     />
                     <input
                         type="password"
-                        className="form-input"
+                        className="form-input mb-5"
                         placeholder="Confirm Password"
                         required
                     />
