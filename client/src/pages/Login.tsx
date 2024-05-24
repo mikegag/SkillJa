@@ -6,7 +6,7 @@ export default function Login(){
         <div className="flex flex-col justify-end h-dvh bg-main-color-darkgreen">
             <h2 className="font-source font-normal text-3xl text-main-color-white mx-auto my-auto pt-8">Welcome Back!</h2>
             <div className="flex flex-col justify-center items-center bg-main-color-white rounded-t-3xl py-8">
-                <form className="flex flex-col justify-center w-full mx-auto px-11 lg:w-4/12">
+                <form className="flex flex-col justify-center w-full mx-auto px-11 md:7/12 lg:w-4/12">
                     <input
                         type="email"
                         className="form-input mb-9 mt-5"

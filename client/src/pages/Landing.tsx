@@ -22,9 +22,9 @@ export default function Landing(){
                     size={21} 
                 />
             </form>
-            <Link to={'/signup'}>
+            <Link to={'/signup'} className="mt-5 mb-9">
                 <button 
-                    className="bg-main-color-darkgreen text-lg font-medium text-main-color-white font-kulim px-16 py-3 rounded-3xl mt-5 mb-9"
+                    className="bg-main-color-darkgreen text-lg font-medium text-main-color-white font-kulim px-16 py-3 rounded-3xl"
                     aria-label="create an account button that redirects to sign up page"
                     >
                         Create an Account
