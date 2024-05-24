@@ -30,7 +30,12 @@ export default function Landing(){
                         Create an Account
                 </button>
             </Link>
-            <p className="text-gray-400 font-source">Already have an account? <span className="underline text-main-color-darkgreen">Login Here</span></p>
+            <p className="text-gray-400 font-source">
+                Already have an account? 
+                <Link to={'/login'}>
+                    <span className="underline text-main-color-darkgreen">Login Here</span>
+                </Link>
+            </p>
         </div>
     )
 } 
