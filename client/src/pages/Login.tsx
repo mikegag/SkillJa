@@ -1,4 +1,5 @@
 import React from "react"
+import SignInPartners from "../components/SignInPartners"
 import { Link } from "react-router-dom"
 
 export default function Login(){
@@ -31,22 +32,8 @@ export default function Login(){
                     <p className="mx-2">Or</p>
                     <div className="bg-main-color-darkgreen h-0.5 w-24"></div>
                 </div>
-                <div className="flex justify-center mt-6 mb-8">
-                    <img 
-                        src={require('../assets/Apple-logo.png')} 
-                        className="w-12 cursor-pointer" 
-                        alt="apple logo which redirects user to sign in through their apple account"
-                    />
-                    <img 
-                        src={require('../assets/Google-logo.png')} 
-                        className="w-12 ml-10 mr-10 cursor-pointer" 
-                        alt="google logo which redirects user to sign in through their google account"
-                    />
-                    <img 
-                        src={require('../assets/FB-logo.png')} 
-                        className="w-12 cursor-pointer" 
-                        alt="facebook logo which redirects user to sign in through their facebook account"
-                    />
+                <div className="mt-6 mb-8">
+                    <SignInPartners />
                 </div>
                 <p className="text-gray-400 font-source">
                     Don't have an account? 

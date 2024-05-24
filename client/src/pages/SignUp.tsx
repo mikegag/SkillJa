@@ -1,26 +1,13 @@
 import React from "react"
+import SignInPartners from "../components/SignInPartners"
 import { Link } from "react-router-dom"
 
 export default function SignUp(){
     return (
         <div className="flex flex-col justify-end h-dvh bg-main-color-darkgreen">
             <div className="flex flex-col justify-center items-center bg-main-color-white rounded-t-3xl py-14 lg:py-10">
-                <div className="flex justify-center mt-3 mb-14">
-                    <img 
-                        src={require('../assets/Apple-logo.png')} 
-                        className="w-12 cursor-pointer" 
-                        alt="apple logo which redirects user to sign in through their apple account"
-                    />
-                    <img 
-                        src={require('../assets/Google-logo.png')} 
-                        className="w-12 ml-10 mr-10 cursor-pointer" 
-                        alt="google logo which redirects user to sign in through their google account"
-                    />
-                    <img 
-                        src={require('../assets/FB-logo.png')} 
-                        className="w-12 cursor-pointer" 
-                        alt="facebook logo which redirects user to sign in through their facebook account"
-                    />
+                <div className="mt-3 mb-14">
+                    <SignInPartners />
                 </div>
                 <form className="flex flex-col justify-center w-full mx-auto px-11 md:w-7/12 lg:w-4/12">
                     <input
