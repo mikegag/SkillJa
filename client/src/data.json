@@ -75,7 +75,7 @@
         {
           "series": 3,
           "questions": [
-            { "id": 2, "title": "What are your current goals 🎯?", "options": ["Becoming a better athlete", "Learning a new skill/sport"], "multiSelect":true }
+            { "id": 3, "title": "What are your current goals 🎯?", "options": ["Becoming a better athlete", "Learning a new skill/sport"], "multiSelect":true }
           ]
         },
         {
@@ -120,7 +120,7 @@
         {
             "series": 6,
             "questions": [
-              { "title": "Thank you for your application!", "body": "You will receive an email in the following days regarding your application status.", "buttonValue":"Return Home"}
+              { "id":6, "title": "Thank you for your application!", "body": "You will receive an email in the following days regarding your application status.", "buttonValue":"Return Home"}
             ]
         }
     ],

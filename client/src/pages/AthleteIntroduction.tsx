@@ -49,12 +49,16 @@ const reducer = (state: State, action: Action): State => {
 
 export default function AthleteIntroduction() {
     const [state, dispatch] = useReducer(reducer, initialState)
+    const [optionsOverloaded, setOptionsOverloaded] = useState(false)
     const [progress, setProgress] = useState(1)
     const athleteQuestions: Series[] = data.athleteQuestions
 
     useEffect(() => {
         document.title = "SkillJa - Onboarding Process"
         console.log(state.answers)
+        //checks if multiple options have been selected on questions where this feature has been disabled
+        state.answers[0]?.answer?.length > 1 && athleteQuestions[state.currentSeries].questions[0].multiSelect === false ? 
+            setOptionsOverloaded(true) : setOptionsOverloaded(false)
     }, [state])
 
     const handleAnswer = (questionId: number, option: string) => {
@@ -91,8 +95,8 @@ export default function AthleteIntroduction() {
 
             <div className="mt-36 w-full mx-auto flex flex-col items-center">
                 <button 
-                    className={`w-72 selectBtn bg-main-green-500 text-main-cream hover:bg-main-green-700 ${isContinueButtonEnabled() ? '' : 'opacity-70 cursor-not-allowed'}`} 
-                    disabled={!isContinueButtonEnabled()}
+                    className={`w-72 selectBtn bg-main-green-500 text-main-cream hover:bg-main-green-700 ${isContinueButtonEnabled() && !optionsOverloaded ? '' : 'opacity-70 cursor-not-allowed'}`} 
+                    disabled={!isContinueButtonEnabled() || optionsOverloaded}
                     onClick={()=>{
                         setProgress(progress+1) 
                         dispatch({ type: 'NEXT_SERIES' })
