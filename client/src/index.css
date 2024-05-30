@@ -5,6 +5,7 @@
 @import "tailwindcss/utilities";
 
 :root {
+  /* these need to be removed once components have been updated */
   --main-color-lightgreen: #6d9773;
   --main-color-darkgreen: #0c3b2e;
   --main-color-lightbrown: #b46617;
