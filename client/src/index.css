@@ -11,11 +11,29 @@
   --main-color-gold: #ffba00;
   --main-color-white: #fffbf2;
   --main-color-beige: #f1ecd5;
+
+  --main-green-100: #c9ebcd;
+  --main-green-200: #b1d5b6;
+  --main-green-300: #9ac09f;
+  --main-green-400: #83ab89;
+  --main-green-500: #6d9773;
+  --main-green-600: #507656;
+  --main-green-700: #35563a;
+
+  --main-grey-100: #e3e3e3;
+  --main-grey-200: #a3a3a3;
+  --main-grey-300: #8a8a8a;
+  --main-grey-400: #5c5c5c;
+  --main-grey-500: #474747;
+
+  --main-white: #ffffff;
+  --main-cream: #fffbf2;
+  --main-black: #000000;
 }
 
 body {
   margin: 0;
-  overscroll-behavior: none;
+  background-color: var(--main-cream);
 }
 
 @layer components {
