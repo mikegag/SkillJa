@@ -54,8 +54,7 @@ export default function AthleteIntroduction() {
     const athleteQuestions: Series[] = data.athleteQuestions
 
     useEffect(() => {
-        document.title = "SkillJa - Onboarding Process"
-        console.log(state.answers)
+        document.title = "SkillJa - Onboarding"
         //checks if multiple options have been selected on questions where this feature has been disabled
         state.answers[0]?.answer?.length > 1 && athleteQuestions[state.currentSeries].questions[0].multiSelect === false ? 
             setOptionsOverloaded(true) : setOptionsOverloaded(false)

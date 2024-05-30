@@ -1,13 +1,19 @@
 import React from "react"
 import SignInPartners from "../components/SignInPartners"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 export default function Login(){
+    const navigate = useNavigate()
+    function handleSubmit(e:React.FormEvent<HTMLFormElement>){
+        e.preventDefault()
+        navigate('/onboarding')
+    }
+    
     return (
         <div className="flex flex-col justify-end h-dvh bg-main-color-darkgreen">
             <h2 className="font-source font-normal text-3xl text-main-color-white mx-auto my-auto pt-8">Welcome Back!</h2>
             <div className="flex flex-col justify-center items-center bg-main-color-white rounded-t-3xl py-12">
-                <form className="flex flex-col justify-center w-full mx-auto px-11 md:w-7/12 lg:w-4/12">
+                <form className="flex flex-col justify-center w-full mx-auto px-11 md:w-7/12 lg:w-4/12" onSubmit={handleSubmit}>
                     <input
                         type="email"
                         className="form-input mb-9 mt-5"
