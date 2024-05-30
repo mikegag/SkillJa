@@ -63,25 +63,25 @@
         {
             "series": 1,
             "questions": [
-              { "id": 1, "title": "Are you an Athlete or a Coach?", "options": ["Athlete 🏋️‍♂️", "Coach 🎓"], "multiSelect":false }
+              { "id": 1, "title": "Are you an Athlete or a Coach?", "options": ["Athlete 🥇", "Coach 🎓"], "multiSelect":false }
             ]
         },
         {
             "series": 2,
             "questions": [
-              { "id": 2, "title": "What are your current goals 🎯?", "options": ["Becoming a better athlete", "Learning a new skill/sport"], "multiSelect":true }
+              { "id": 2, "title": "What sports are you interested in 👀?", "options": ["Baseball ⚾️", "Softball 🥎", "Golf ⛳", "Lacrosse 🥍", "Basketball 🏀", "Personal Training", "Skiing ⛷️", "Running 🏃", "Cycling 🚴", "Football 🏈", "Soccer ⚽️"], "multiSelect":true }
             ]
         },
         {
-            "series": 3,
-            "questions": [
-              { "id": 3, "title": "What sports are you interested in 👀?", "options": ["Baseball ⚾️", "Golf ⛳", "Basketball 🏀", "Personal Training", "Skiing ⛷️", "Basketball 🏀", "Running 🏃", "Cycling 🚴", "Football 🏈", "Soccer ⚽️"], "multiSelect":true }
-            ]
+          "series": 3,
+          "questions": [
+            { "id": 2, "title": "What are your current goals 🎯?", "options": ["Becoming a better athlete", "Learning a new skill/sport"], "multiSelect":true }
+          ]
         },
         {
             "series": 4,
             "questions": [
-              { "title": "Awesome!", "body": "You are ready to start learning 📈", "buttonValue":"Find Coaches"}
+              { "id": 4, "title": "Awesome!", "body": "You are ready to start learning 📈", "buttonValue":"Find Coaches"}
             ]
         }
     ],
