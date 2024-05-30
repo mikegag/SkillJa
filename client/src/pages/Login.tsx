@@ -1,14 +1,18 @@
-import React from "react"
+import React, { useEffect } from "react"
 import SignInPartners from "../components/SignInPartners"
 import { Link, useNavigate } from "react-router-dom"
 
 export default function Login(){
+    useEffect(() => {
+        document.title = "SkillJa - Login"
+    }, [])
+
     const navigate = useNavigate()
     function handleSubmit(e:React.FormEvent<HTMLFormElement>){
         e.preventDefault()
         navigate('/onboarding')
     }
-    
+
     return (
         <div className="flex flex-col justify-end h-dvh bg-main-color-darkgreen">
             <h2 className="font-source font-normal text-3xl text-main-color-white mx-auto my-auto pt-8">Welcome Back!</h2>

@@ -1,8 +1,12 @@
-import React from "react"
+import React, { useEffect } from "react"
 import SignInPartners from "../components/SignInPartners"
 import { Link, useNavigate } from "react-router-dom"
 
 export default function SignUp(){
+    useEffect(() => {
+        document.title = "SkillJa - Sign Up"
+    }, [])
+    
     const navigate = useNavigate()
     function handleSubmit(e:React.FormEvent<HTMLFormElement>){
         e.preventDefault()

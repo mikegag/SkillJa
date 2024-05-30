@@ -3,7 +3,7 @@ import Landing from "./pages/Landing"
 import Login from "./pages/Login"
 import SignUp from "./pages/SignUp"
 import Authentication from "./pages/Authentication"
-import AthleteIntroduction from "./pages/AthleteIntroduction"
+import AthleteIntroduction from "./pages/protected/AthleteIntroduction"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
