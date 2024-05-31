@@ -3,21 +3,22 @@ import React from "react";
 export default function SignInPartners(){
     return (
         <div className="flex justify-center">
-            <img 
-                src={require('../assets/Apple-logo.png')} 
-                className="w-12 cursor-pointer" 
-                alt="apple logo which redirects user to sign in through their apple account"
-            />
-            <img 
-                src={require('../assets/Google-logo.png')} 
-                className="w-12 ml-10 mr-10 cursor-pointer" 
-                alt="google logo which redirects user to sign in through their google account"
-            />
-            <img 
-                src={require('../assets/FB-logo.png')} 
-                className="w-12 cursor-pointer" 
-                alt="facebook logo which redirects user to sign in through their facebook account"
-            />
+            <div className="bg-main-black flex rounded-2xl p-1 mr-5 cursor-pointer">
+                <img 
+                    src={require('../assets/Apple-logo.png')} 
+                    className="w-10 cursor-pointer ml-5 my-auto" 
+                    alt="apple logo which redirects user to sign in through their apple account"
+                />
+                <p className="text-main-white my-auto mr-9">Apple</p>
+            </div>
+            <div className="bg-main-white flex rounded-2xl p-1 border-main-black border cursor-pointer">
+                <img 
+                    src={require('../assets/google-logo.png')} 
+                    className="w-7 ml-5 my-auto rounded-full" 
+                    alt="google logo which redirects user to sign in through their google account"
+                />
+                <p className="text-main-black my-auto ml-2 mr-9">Apple</p>
+            </div>
         </div>
     )
 }
