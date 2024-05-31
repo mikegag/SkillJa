@@ -42,7 +42,7 @@ export default function Login(){
                     <p className="mx-3 text-main-grey-200">Or Login with</p>
                     <div className="bg-main-grey-300 h-0.5 w-28 lg:w-40"></div>
                 </div>
-                <div className="mb-20">
+                <div className="mb-16">
                     <SignInPartners />
                 </div>
                 <p className="text-main-grey-300 font-kulim">
