@@ -1,6 +1,9 @@
 import React, { useEffect } from "react"
 import SignInPartners from "../components/SignInPartners"
 import { Link, useNavigate } from "react-router-dom"
+import { faUser } from "@fortawesome/free-regular-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faLock } from "@fortawesome/free-solid-svg-icons"
 
 export default function Login(){
     useEffect(() => {
@@ -18,20 +21,32 @@ export default function Login(){
             <h2 className="heading mt-24">Welcome Back!</h2>
             <div className="flex flex-col justify-center items-center py-12">
                 <form className="flex flex-col justify-center w-full mx-auto px-4 md:w-7/12 lg:w-4/12" onSubmit={handleSubmit}>
-                    <input
-                        type="email"
-                        className="form-input mb-5 mt-5"
-                        placeholder="Email"
-                        required
-                    />
-                    <input
-                        type="password"
-                        className="form-input mb-5"
-                        placeholder="Password"
-                        required
-                    />
+                    <div className="relative w-full">
+                        <input
+                            type="email"
+                            className="form-input w-full mb-5 mt-5"
+                            placeholder="Email"
+                            required
+                        />
+                        <FontAwesomeIcon
+                            icon={faUser}
+                            className="absolute inset-y-9 left-0 flex items-center pl-4 text-main-grey-500"
+                        />
+                    </div>
+                    <div className="relative w-full">
+                        <input
+                            type="password"
+                            className="form-input w-full mb-5"
+                            placeholder="Password"
+                            required
+                        />
+                        <FontAwesomeIcon
+                            icon={faLock}
+                            className="absolute inset-y-4 left-0 flex items-center pl-4 text-main-grey-500"
+                        />
+                    </div>
                     <button
-                        className="w-full form-btn bg-main-green-500 text-main-cream mx-auto hover:bg-main-green-700"
+                        className="w-full form-btn mx-auto"
                         type="submit"
                     >
                         Login

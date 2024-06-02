@@ -1,6 +1,6 @@
+import React from "react"
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import React from "react"
 import { Link } from "react-router-dom"
 
 
@@ -17,11 +17,11 @@ export default function Landing(){
                 alt="two runners kneeling down ready to race each other"
             />
             <form className="mx-auto w-72">   
-                <div className="relative w-max">
+                <div className="relative w-full">
                     <input
                         type="search"
                         id="default-search"
-                        className="rounded-2xl w-72 py-3 px-10 pl-12 bg-white text-main-grey-300 font-kulim border-main-grey-400 border-solid border"
+                        className="form-input"
                         placeholder="Find coaches near me..."
                     />
                     <FontAwesomeIcon
@@ -32,7 +32,7 @@ export default function Landing(){
             </form>
             <Link to={'/signup'} className="mt-5 mb-9">
                 <button 
-                    className="bg-main-green-500 text-lg font-semibold text-main-cream font-kulim px-16 py-3 rounded-2xl w-72"
+                    className="form-btn w-full mx-auto"
                     aria-label="create an account button that redirects to sign up page"
                     >
                         Create an Account
