@@ -5,7 +5,8 @@
             "inputs": [
               { "id":"email", "name":"email", "icon": "faEnvelope", "type": "email", "placeholder": "Email"},
               { "id":"password", "name":"password", "icon": "faLock", "type": "password", "placeholder": "Password"}
-            ]
+            ],
+            "title": "Welcome Back!"
         }
     ],
 
@@ -17,7 +18,8 @@
               { "id":"email", "name":"email", "icon": "faEnvelope", "type": "email", "placeholder": "Email"},
               { "id":"password", "name":"password", "icon": "faLock", "type": "password", "placeholder": "Password"},
               { "id":"confirmpassword", "name":"confirmpassword", "icon": "faLock", "type": "password", "placeholder": "Confirm Password"}
-            ]
+            ],
+            "title": "“No one has come up with a substitute for hard work.” - Ted Williams"
         },
         {
             "series": 2,
