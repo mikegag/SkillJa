@@ -40,7 +40,7 @@ body {
 @layer components {
   .form-input {
     @apply rounded-2xl w-full py-3 px-10 bg-white text-main-grey-300 font-kulim 
-          border-main-grey-400 border-solid border cursor-pointer;
+          border-main-grey-400 border-solid border cursor-pointer focus:outline-offset-0 focus:outline-main-green-500;
   }
   .form-btn {
     @apply bg-main-color-lightgreen text-main-color-white font-kulim font-semibold text-lg rounded-2xl 

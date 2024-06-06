@@ -21,7 +21,7 @@ export default function Landing(){
                     <input
                         type="search"
                         id="default-search"
-                        className="form-input"
+                        className="form-input before:outline-none active:outline-none"
                         placeholder="Find coaches near me..."
                     />
                     <FontAwesomeIcon
