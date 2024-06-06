@@ -36,16 +36,16 @@ const reducer = (state: State, action: Action): State => {
             return {
                 ...state,
                 answers: [...state.answers.filter(ans => ans.questionId !== action.payload!.questionId), action.payload!],
-            };
+            }
         case 'NEXT_SERIES':
             return {
                 ...state,
                 currentSeries: state.currentSeries + 1,
-            };
+            }
         default:
-            return state;
+            return state
     }
-};
+}
 
 export default function AthleteIntroduction() {
     const [state, dispatch] = useReducer(reducer, initialState)
