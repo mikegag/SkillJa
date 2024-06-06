@@ -17,7 +17,7 @@ export default function SignInPartners(){
                     className="w-7 ml-5 my-auto rounded-full" 
                     alt="google logo which redirects user to sign in through their google account"
                 />
-                <p className="text-main-black my-auto ml-2 mr-9 font-kulim">Apple</p>
+                <p className="text-main-black my-auto ml-2 mr-9 font-kulim">Google</p>
             </div>
         </div>
     )
