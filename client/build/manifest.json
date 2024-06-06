@@ -1,0 +1,11 @@
+{
+  "short_name": "SkillJa",
+  "name": "SkillJa | Sports Coaching App",
+  "icons": [
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

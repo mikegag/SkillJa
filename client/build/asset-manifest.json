@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/static/css/main.77b9cb12.css",
+    "main.js": "/static/js/main.d9cc8186.js",
+    "static/js/453.419a5d54.chunk.js": "/static/js/453.419a5d54.chunk.js",
+    "static/media/google-logo.png": "/static/media/google-logo.d2ace79a84bc22261966.png",
+    "static/media/main-landing-racers.png": "/static/media/main-landing-racers.2db9e2de9385fbda7f8a.png",
+    "index.html": "/index.html",
+    "main.77b9cb12.css.map": "/static/css/main.77b9cb12.css.map",
+    "main.d9cc8186.js.map": "/static/js/main.d9cc8186.js.map",
+    "453.419a5d54.chunk.js.map": "/static/js/453.419a5d54.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.77b9cb12.css",
+    "static/js/main.d9cc8186.js"
+  ]
+}
