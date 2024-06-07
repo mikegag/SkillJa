@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import SignInPartners from "../components/SignInPartners"
+import SignInPartners from "../components/userAuthentication/SignInPartners"
 import { Link, useNavigate } from "react-router-dom"
 import { faUser } from "@fortawesome/free-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"

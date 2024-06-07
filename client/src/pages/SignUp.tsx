@@ -1,5 +1,6 @@
-import React, { useEffect, useReducer } from "react"
-import SignInPartners from "../components/SignInPartners"
+import React, { useEffect, useReducer, useState } from "react"
+import SignInPartners from "../components/userAuthentication/SignInPartners"
+import AgreementTerms from "../components/userAuthentication/AgreementTerms"
 import { Link, useNavigate } from "react-router-dom"
 import { faCalendar, faEnvelope, faUser } from "@fortawesome/free-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -68,6 +69,7 @@ interface Input {
 export default function SignUp(){
     const navigate = useNavigate()
     const [state, dispatch] = useReducer(reducer, initialState)
+    const [agreeToTerms, setAgreeToTerms] = useState<boolean>(false)
     const signupQuestions: Series[] = data.signup
 
     useEffect(() => {
@@ -136,6 +138,11 @@ export default function SignUp(){
                     )}
                     </div>
                 ))}
+                {state.currentSeries === signupQuestions.length - 1 ?
+                      <AgreementTerms isClicked = {agreeToTerms} /> 
+                      :
+                      <></>
+                }
                 <button
                     className="w-full form-btn mx-auto"
                     aria-label="sign up form submission"

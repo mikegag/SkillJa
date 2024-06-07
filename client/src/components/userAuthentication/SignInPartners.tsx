@@ -5,7 +5,7 @@ export default function SignInPartners(){
         <div className="flex justify-center">
             <div className="bg-main-black mr-5 sign-in-partner-btn">
                 <img 
-                    src={require('../assets/Apple-logo.png')} 
+                    src={require('../../assets/Apple-logo.png')} 
                     className="w-10 cursor-pointer ml-5 my-auto" 
                     alt="apple logo which redirects user to sign in through their apple account"
                 />
@@ -13,7 +13,7 @@ export default function SignInPartners(){
             </div>
             <div className="bg-main-white border-main-black outline-1 outline sign-in-partner-btn">
                 <img 
-                    src={require('../assets/google-logo.png')} 
+                    src={require('../../assets/google-logo.png')} 
                     className="w-7 ml-5 my-auto rounded-full" 
                     alt="google logo which redirects user to sign in through their google account"
                 />
