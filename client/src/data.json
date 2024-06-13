@@ -40,26 +40,44 @@
             "button": "Create Account"
         }],
     
-        "terms": {
-          "inputs": [
-            { "id": "agreement", "name":"agreement", "type": "checkbox", "placeholder": "I have read and agree to the Terms and Conditions, and Privacy Policy.", "required":true}
-          ],
-          "information": [
-              {"index": 0, "title": "Terms and Conditions", "body": ""},
-              {"index": 1, "title": "Introduction", "body": "Welcome to SkillJa! These Terms and Conditions govern your use of our platform and the services provided therein. By accessing or using our platform, you agree to comply with these Terms and Conditions."},
-              {"index": 2, "title": "Definitions", "body": "Platform refers to SkillJa. User refers to any individual accessing or using the Platform. Coach refers to registered sports coaches offering their services through the Platform. Services refers to the coaching services provided by Coaches through the Platform. Content refers to any information, data, text, images, videos, or other materials uploaded, posted, or transmitted on the Platform."},
-              {"index": 3, "title": "Registration", "body": "Users must register an account to access certain features and services of the Platform. Users agree to provide accurate, current, and complete information during the registration process. Users are responsible for maintaining the confidentiality of their account credentials and for all activities that occur under their account."},
-              {"index": 4, "title": "Coach Services", "body": "Coaches are independent contractors responsible for the provision of coaching services. Coaches agree to provide services in a professional and competent manner. Coaches are responsible for setting their own rates and scheduling sessions with Users."},
-              {"index": 5, "title": "Payments", "body": "Users agree to pay the applicable fees for coaching services as set by the Coach. Payment terms and methods will be specified by the Platform. All payments are non-refundable unless otherwise specified."},
-              {"index": 6, "title": "User Responsibilities", "body": "Users agree to comply with all applicable laws and regulations. Users are solely responsible for their interactions with Coaches and other Users. Users agree not to use the Platform for any illegal or unauthorized purpose."},
-              {"index": 7, "title": "Content", "body": "Users retain ownership of any Content they upload or post on the Platform. Users grant the Platform a worldwide, non-exclusive, royalty-free license to use, reproduce, modify, adapt, publish, translate, distribute, and display their Content. Users agree not to upload or post any Content that is unlawful, defamatory, obscene, or otherwise objectionable."},
-              {"index": 8, "title": "Intellectual Property", "body": "The Platform and its contents are protected by copyright, trademark, and other laws. Users agree not to reproduce, modify, distribute, or otherwise use any content from the Platform without permission."},
-              {"index": 9, "title": "Limitation of Liability", "body": "The Platform is provided on an 'as is' and 'as available' basis without any warranties of any kind. In no event shall the Platform be liable for any indirect, incidental, special, or consequential damages arising out of or in any way connected with the use of the Platform."},
-              {"index": 10, "title": "Termination", "body": "The Platform reserves the right to suspend or terminate User accounts at any time without prior notice for violations of these Terms and Conditions. Upon termination, Users must cease all use of the Platform and any Services provided therein."},
-              {"index": 11, "title": "Changes to Terms and Conditions", "body": "The Platform reserves the right to update or modify these Terms and Conditions at any time without prior notice. Users are encouraged to review the Terms and Conditions periodically for changes."},
-              {"index": 12, "title": "Governing Law", "body": "These Terms and Conditions shall be governed by and construed in accordance with the laws of Ontario Canada."},
-              {"index": 13, "title": "Contact Us", "body": "If you have any questions or concerns about these Terms and Conditions, please contact us at info@skillja.ca."}
-          ]
+    "terms": {
+            "inputs": [
+              { "id": "agreement", "name":"agreement", "type": "checkbox", "placeholder": "I have read and agree to the Terms and Conditions, and Privacy Policy.", "required":true}
+            ],
+            "terms_conditions": [
+                {"index": 0, "title": "Terms and Conditions", "body": ""},
+                {"index": 1, "title": "1. Introduction", "body": "Welcome to SkillJa! These Terms and Conditions govern your use of our platform and the services provided therein. By accessing or using our platform, you agree to comply with these Terms and Conditions."},
+                {"index": 2, "title": "2. Definitions", "body": "Platform refers to SkillJa. User refers to any individual accessing or using the Platform. Coach refers to registered sports coaches offering their services through the Platform. Services refers to the coaching services provided by Coaches through the Platform. Content refers to any information, data, text, images, videos, or other materials uploaded, posted, or transmitted on the Platform."},
+                {"index": 3, "title": "3. Registration", "body": "Users must register an account to access certain features and services of the Platform. Users agree to provide accurate, current, and complete information during the registration process. Users are responsible for maintaining the confidentiality of their account credentials and for all activities that occur under their account."},
+                {"index": 4, "title": "4. Coach Services", "body": "Coaches are independent contractors responsible for the provision of coaching services. Coaches agree to provide services in a professional and competent manner. Coaches are responsible for setting their own rates and scheduling sessions with Users."},
+                {"index": 5, "title": "5. Payments", "body": "Users agree to pay the applicable fees for coaching services as set by the Coach. Payment terms and methods will be specified by the Platform. All payments are non-refundable unless otherwise specified."},
+                {"index": 6, "title": "6. User Responsibilities", "body": "Users agree to comply with all applicable laws and regulations. Users are solely responsible for their interactions with Coaches and other Users. Users agree not to use the Platform for any illegal or unauthorized purpose."},
+                {"index": 7, "title": "7. Content", "body": "Users retain ownership of any Content they upload or post on the Platform. Users grant the Platform a worldwide, non-exclusive, royalty-free license to use, reproduce, modify, adapt, publish, translate, distribute, and display their Content. Users agree not to upload or post any Content that is unlawful, defamatory, obscene, or otherwise objectionable."},
+                {"index": 8, "title": "8. Intellectual Property", "body": "The Platform and its contents are protected by copyright, trademark, and other laws. Users agree not to reproduce, modify, distribute, or otherwise use any content from the Platform without permission."},
+                {"index": 9, "title": "9. Limitation of Liability", "body": "The Platform is provided on an 'as is' and 'as available' basis without any warranties of any kind. In no event shall the Platform be liable for any indirect, incidental, special, or consequential damages arising out of or in any way connected with the use of the Platform."},
+                {"index": 10, "title": "10. Termination", "body": "The Platform reserves the right to suspend or terminate User accounts at any time without prior notice for violations of these Terms and Conditions. Upon termination, Users must cease all use of the Platform and any Services provided therein."},
+                {"index": 11, "title": "11. Changes to Terms and Conditions", "body": "The Platform reserves the right to update or modify these Terms and Conditions at any time without prior notice. Users are encouraged to review the Terms and Conditions periodically for changes."},
+                {"index": 12, "title": "12. Governing Law", "body": "These Terms and Conditions shall be governed by and construed in accordance with the laws of Ontario Canada."},
+                {"index": 13, "title": "13. Contact Us", "body": "If you have any questions or concerns about these Terms and Conditions, please contact us at info@skillja.ca."}
+            ],
+            "privacy_policy": [ 
+                {"index": 0, "title": "Privacy Policy", "body": ""},
+                {"index": 1, "title": "Effective Date:", "body": "July 11th 2024"},
+                {"index": 2, "title": "Last Updated:", "body": "June 7th 2024"},
+                {"index": 3, "title": "1. Introduction", "body": "Welcome to SkillJa! Your privacy is important to us. This Privacy Policy explains how we collect, use, disclose, and protect your personal information when you use our app and services. By using SkillJa, you agree to the terms outlined in this policy."},
+                {"index": 4, "title": "2. Personal Information", "body": "When you register or use SkillJa, we may collect the following personal information:\nContact Information: Name, email address, phone number.\nProfile Information: Age, gender, location, and photos.\nPayment Information: Credit card details and billing information for transactions.\nActivity Information: Details about your sports, experience levels, and training preferences.\nDevice Information: Device type, operating system, and unique device identifiers."},
+                {"index": 5, "title": "3. Usage Data", "body": "We automatically collect data about your interactions with our app, including:\nLog Data: IP address, browser type, pages viewed, and access times.\nCookies: Data stored on your device to track usage and preferences."},
+                {"index": 6, "title": "4. Location Data", "body": "With your permission, we collect and process information about your location to provide location-based services."},
+                {"index": 7, "title": "5. How We Use Your Information", "body": "We use the collected information for the following purposes:\nService Provision: To create and manage your account, and to provide personalized recommendations for coaches and athletes.\nCommunication: To send you notifications, updates, and promotional materials.\nPayment Processing: To process transactions and manage subscriptions.\nImprovement: To analyze usage and enhance the app’s features and functionality.\nCompliance: To comply with legal obligations and prevent fraud."},
+                {"index": 8, "title": "6. How We Share Your Information", "body": "We may share your information with:\nService Providers: Third-party companies that assist us in providing services (e.g., payment processors, email services).\nLegal Authorities: When required by law, or to protect our rights and users’ safety.\nBusiness Transfers: In the event of a merger, acquisition, or sale of assets."},
+                {"index": 9, "title": "7. Access and Control", "body": "You have the right to:\nAccess: Request a copy of the personal information we hold about you.\nCorrection: Request corrections to inaccurate or incomplete personal information.\nDeletion: Request the deletion of your personal information, subject to legal obligations.\nRestriction: Request the restriction of processing your personal information in certain circumstances.\nPortability: Request the transfer of your personal information to another service provider."},
+                {"index": 10, "title": "8. Opt-Out", "body": "You may opt-out of receiving promotional communications from us by following the unsubscribe instructions in those communications or by contacting us directly."},
+                {"index": 11, "title": "9. Data Security", "body": "We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, disclosure, alteration, or destruction. However, no internet-based service is completely secure, and we cannot guarantee absolute security."},
+                {"index": 12, "title": "10. Data Retention", "body": "We retain your personal information for as long as necessary to fulfill the purposes outlined in this policy, or as required by law. Once the information is no longer needed, we will delete it securely."},
+                {"index": 13, "title": "11. Children's Privacy", "body": "SkillJa is not intended for use by children under the age of 13. We do not knowingly collect personal information from children under 13. If we become aware that we have inadvertently received such information, we will take steps to delete it."},
+                {"index": 14, "title": "12. Changes to This Privacy Policy", "body": "We may update this Privacy Policy from time to time. We will notify you of any significant changes by posting the new policy on our app and updating the effective date. Your continued use of the app after the changes take effect constitutes your acceptance of the new policy."},
+                {"index": 15, "title": "13. Contact Us", "body": "If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at:\nEmail: support@skillja.com\nAddress: SkillJa, [Your Office Address]"}
+              ]
     },
     
 
@@ -135,8 +153,10 @@
             "price":[],
             "distance":[],
             "-------------implement this section similar to login as you will still use inputs":""
-        
         }
-    ]
-
+    ],
+    "options": {
+      "team":["Ice Hockey 🏒", "Basketball 🏀", "Soccer ⚽", "Baseball ⚾", "Football 🏈", "Rugby 🏉", "Lacrosse 🥍", "Cricket 🏏", "Softball 🥎", "Volleyball 🏐", "Curling 🥌", "Field Hockey 🏑", "Water Polo 💧"],
+      "individual": ["Running 🏃", "Golf ⛳", "Cycling 🚲", "Swimming 🏊‍♂️", "Snowboarding 🏂", "Skiing 🎿", "Personal Training 🏋️", "Tennis 🎾", "Gymnastics 🤸‍♂️", "Boxing 🥊", "Martial Arts 🥋", "Wrestling 🤼", "Track & Field 👟"]
+    }
 }
