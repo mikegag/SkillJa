@@ -58,7 +58,7 @@
                 {"index": 10, "title": "10. Termination", "body": "The Platform reserves the right to suspend or terminate User accounts at any time without prior notice for violations of these Terms and Conditions. Upon termination, Users must cease all use of the Platform and any Services provided therein."},
                 {"index": 11, "title": "11. Changes to Terms and Conditions", "body": "The Platform reserves the right to update or modify these Terms and Conditions at any time without prior notice. Users are encouraged to review the Terms and Conditions periodically for changes."},
                 {"index": 12, "title": "12. Governing Law", "body": "These Terms and Conditions shall be governed by and construed in accordance with the laws of Ontario Canada."},
-                {"index": 13, "title": "13. Contact Us", "body": "If you have any questions or concerns about these Terms and Conditions, please contact us at info@skillja.ca."}
+                {"index": 13, "title": "13. Contact Us", "body": "If you have any questions or concerns about these Terms and Conditions, please contact us at support@skillja.com."}
             ],
             "privacy_policy": [ 
                 {"index": 0, "title": "Privacy Policy", "body": ""},
@@ -76,7 +76,7 @@
                 {"index": 12, "title": "10. Data Retention", "body": "We retain your personal information for as long as necessary to fulfill the purposes outlined in this policy, or as required by law. Once the information is no longer needed, we will delete it securely."},
                 {"index": 13, "title": "11. Children's Privacy", "body": "SkillJa is not intended for use by children under the age of 13. We do not knowingly collect personal information from children under 13. If we become aware that we have inadvertently received such information, we will take steps to delete it."},
                 {"index": 14, "title": "12. Changes to This Privacy Policy", "body": "We may update this Privacy Policy from time to time. We will notify you of any significant changes by posting the new policy on our app and updating the effective date. Your continued use of the app after the changes take effect constitutes your acceptance of the new policy."},
-                {"index": 15, "title": "13. Contact Us", "body": "If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at:\nEmail: support@skillja.com\nAddress: SkillJa, [Your Office Address]"}
+                {"index": 15, "title": "13. Contact Us", "body": "If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at:\nEmail: support@skillja.com"}
               ]
     },
     
@@ -91,19 +91,29 @@
         {
             "series": 2,
             "questions": [
-              { "id": 2, "title": "What sports are you interested in 👀?", "options": ["Baseball ⚾️", "Softball 🥎", "Golf ⛳", "Lacrosse 🥍", "Basketball 🏀", "Personal Training", "Skiing ⛷️", "Running 🏃", "Cycling 🚴", "Football 🏈", "Soccer ⚽️"], "multiSelect":true }
+              { "id": 2, "title": "What sports are you interested in 👀?", "multiOptions": {
+                    "team":["Ice Hockey 🏒", "Basketball 🏀", "Soccer ⚽", "Baseball ⚾", "Football 🏈", "Rugby 🏉", "Lacrosse 🥍", "Cricket 🏏", "Softball 🥎", "Volleyball 🏐", "Curling 🥌", "Field Hockey 🏑", "Water Polo 💧"],
+                    "individual": ["Running 🏃", "Golf ⛳", "Cycling 🚲", "Swimming 🏊‍♂️", "Snowboarding 🏂", "Skiing 🎿", "Personal Training 🏋️", "Tennis 🎾", "Gymnastics 🤸‍♂️", "Boxing 🥊", "Martial Arts 🥋", "Wrestling 🤼", "Track & Field 👟"]
+                  }, 
+                "multiSelect":true }
             ]
         },
         {
           "series": 3,
           "questions": [
-            { "id": 3, "title": "What are your current goals 🎯?", "options": ["Becoming a better athlete", "Learning a new skill/sport"], "multiSelect":true }
+            { "id": 3, "title": "What is your current experience level?", "options": ["I'm new to the sport!", "I have some experience", "I compete at a high level"], "multiSelect":false }
           ]
         },
         {
-            "series": 4,
+          "series": 4,
+          "questions": [
+            { "id": 4, "title": "What is your current goal?", "options": ["Preparing for an Event", "Improving my Skills", "Improving Overall Fitness"], "multiSelect":true, "buttonValue":"Finish" }
+          ]
+        },
+        {
+            "series": 5,
             "questions": [
-              { "id": 4, "title": "Awesome!", "body": "You are ready to start learning 📈", "buttonValue":"Find Coaches"}
+              { "id": 5, "title": "Awesome! You are ready to start learning 📈","image": "main-landing-racers.png","buttonValue":"Browse Coaches"}
             ]
         }
     ],
@@ -116,33 +126,31 @@
             ]
         },
         {
-            "series": 2,
-            "questions": [
-              { "id": 2, "title": "What are your current goals 🎯?", "options": ["Build a network of clients to establish my brand", "Coach part-time whenever i`m free"], "multiSelect":true }
-            ]
+          "series": 2,
+          "questions": [
+            { "id": 2, "title": "What sports are you interested in 👀?", "multiOptions": {
+                  "team":["Ice Hockey 🏒", "Basketball 🏀", "Soccer ⚽", "Baseball ⚾", "Football 🏈", "Rugby 🏉", "Lacrosse 🥍", "Cricket 🏏", "Softball 🥎", "Volleyball 🏐", "Curling 🥌", "Field Hockey 🏑", "Water Polo 💧"],
+                  "individual": ["Running 🏃", "Golf ⛳", "Cycling 🚲", "Swimming 🏊‍♂️", "Snowboarding 🏂", "Skiing 🎿", "Personal Training 🏋️", "Tennis 🎾", "Gymnastics 🤸‍♂️", "Boxing 🥊", "Martial Arts 🥋", "Wrestling 🤼", "Track & Field 👟"]
+                }, 
+              "multiSelect":true }
+          ]
         },
         {
             "series": 3,
             "questions": [
-              { "id": 3, "title": "Which sports will you be coaching 👀?", "options": ["Baseball ⚾️", "Golf ⛳", "Basketball 🏀", "Personal Training", "Skiing ⛷️", "Basketball 🏀", "Running 🏃", "Cycling 🚴", "Football 🏈", "Soccer ⚽️"], "multiSelect":true}
+              { "id": 3, "title": "How long have you been coaching?", "options": ["I've been coaching for less than 1 year", "I've been coaching for 1-3 years", "I've been coaching for 5+ years"], "multiSelect":false }
             ]
         },
         {
             "series": 4,
             "questions": [
-              { "id": 4, "title": "Which age groups do you specialize in coaching?", "options": ["Adults", "Children"], "multiSelect":false}
+              { "id": 4, "title": "What age groups do you typically coach?", "options": ["Children (Under 12)", "Teens (13-17)", "Adults (18-64)", "Seniors (65+)"], "multiSelect":true}
             ]
         },
         {
             "series": 5,
             "questions": [
-              { "id": 5, "title": "Upload any relevant certifications and documents", "fineprint":"(These can include Police, Vulnerable sector, or background checks, completed certifications relevant to your educational background, and other relevant information to confirm your skills as a coach.)", "options": ["Upload ⬆️"], "specificType":"file" }
-            ]
-        },
-        {
-            "series": 6,
-            "questions": [
-              { "id":6, "title": "Thank you for your application!", "body": "You will receive an email in the following days regarding your application status.", "buttonValue":"Return Home"}
+              { "id":5, "title": "Thank you for your application!", "subtitle": "You will receive an email shortly regarding your application status!", "image": "main-landing-racers.png", "buttonValue":"Browse SkillJa"}
             ]
         }
     ],
@@ -154,9 +162,5 @@
             "distance":[],
             "-------------implement this section similar to login as you will still use inputs":""
         }
-    ],
-    "options": {
-      "team":["Ice Hockey 🏒", "Basketball 🏀", "Soccer ⚽", "Baseball ⚾", "Football 🏈", "Rugby 🏉", "Lacrosse 🥍", "Cricket 🏏", "Softball 🥎", "Volleyball 🏐", "Curling 🥌", "Field Hockey 🏑", "Water Polo 💧"],
-      "individual": ["Running 🏃", "Golf ⛳", "Cycling 🚲", "Swimming 🏊‍♂️", "Snowboarding 🏂", "Skiing 🎿", "Personal Training 🏋️", "Tennis 🎾", "Gymnastics 🤸‍♂️", "Boxing 🥊", "Martial Arts 🥋", "Wrestling 🤼", "Track & Field 👟"]
-    }
+    ]
 }

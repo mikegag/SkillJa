@@ -26,6 +26,7 @@ export default function Login(){
                             type="email"
                             className="form-input w-full mb-5 mt-5"
                             placeholder="Email"
+                            autoComplete="on"
                             required
                         />
                         <FontAwesomeIcon
@@ -38,6 +39,7 @@ export default function Login(){
                             type="password"
                             className="form-input w-full mb-5"
                             placeholder="Password"
+                            autoComplete="on"
                             required
                         />
                         <FontAwesomeIcon

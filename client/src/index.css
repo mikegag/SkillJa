@@ -50,7 +50,7 @@ body {
     @apply text-center text-main-green-700 font-medium text-3xl px-4 font-source;
   }
   .selectBtn {
-    @apply bg-main-white font-source font-medium text-main-black text-lg border border-main-grey-300 
+    @apply bg-main-white font-source font-medium text-main-black text-lg border border-main-grey-200 
             rounded-2xl px-8 py-2 hover:bg-main-green-700 hover:text-main-white;
   }
 }
