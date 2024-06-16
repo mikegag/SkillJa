@@ -17,8 +17,8 @@ export default function App() {
         <Route path="signup" element={<SignUp />} />
         <Route path="onboarding"element={<Authentication />}>
           <Route index element={<Onboarding/>}/>
-          <Route path="home-feed" element={<HomeFeed />} />
         </Route>
+        <Route path="home-feed" element={<HomeFeed />} />
       </Routes>
     </BrowserRouter>
   )

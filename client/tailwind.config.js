@@ -20,6 +20,8 @@ module.exports = {
           'main-green-500':'#6D9773',
           'main-green-600':'#507656',
           'main-green-700':'#35563A',
+          'main-green-800':'#1B3820',
+          'main-green-900':'#001D02',
 
           'main-grey-100':'#E3E3E3',
           'main-grey-200':'#A3A3A3',
