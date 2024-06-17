@@ -1,7 +1,7 @@
 import React from "react"
 import SearchBar from "../../components/navigation/SearchBar"
 import ProfilePreview from "../../components/navigation/ProfilePreview"
-import Filter from "../../components/general/Filter"
+import Filter from "../../components/navigation/search/Filter"
 
 
 export default function HomeFeed(){

@@ -157,10 +157,17 @@
 
     "filterMenu": [
         {
-            "location":[],
-            "price":[],
-            "distance":[],
-            "-------------implement this section similar to login as you will still use inputs":""
+            "location":{
+              "title": "Location", "options": ["0km", "10km", "20km", "30km", "40km", "50km"]
+            },
+            "price":{
+              "title": "Price", "options": ["$", "$$", "$$$", "$$$$"]
+            },
+            "sport":{ 
+              "title": "Sports",
+              "options": 
+                ["Ice Hockey 🏒", "Basketball 🏀", "Soccer ⚽", "Baseball ⚾", "Football 🏈", "Rugby 🏉", "Lacrosse 🥍", "Cricket 🏏", "Softball 🥎", "Volleyball 🏐", "Curling 🥌", "Field Hockey 🏑", "Water Polo 💧", "Running 🏃", "Golf ⛳", "Cycling 🚲", "Swimming 🏊‍♂️", "Snowboarding 🏂", "Skiing 🎿", "Tennis 🎾", "Gymnastics 🤸‍♂️", "Boxing 🥊", "Martial Arts 🥋", "Wrestling 🤼", "Track & Field 👟", "Personal Training 🏋️"]
+            }
         }
     ]
 }
