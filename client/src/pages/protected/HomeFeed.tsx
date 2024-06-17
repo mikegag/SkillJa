@@ -1,7 +1,6 @@
-import React from "react"
+import React, { useState } from "react"
 import SearchBar from "../../components/navigation/SearchBar"
 import ProfilePreview from "../../components/navigation/ProfilePreview"
-import Filter from "../../components/navigation/search/Filter"
 
 
 export default function HomeFeed(){
@@ -24,7 +23,6 @@ export default function HomeFeed(){
                     Because you like running...
                 </h2>
                 <ProfilePreview />
-                <Filter />
             </div>
         </div>
     )
