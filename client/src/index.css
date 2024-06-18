@@ -59,7 +59,7 @@ body {
     @apply w-dvw h-dvh flex justify-center items-center bg-black bg-opacity-60 absolute pb-10 top-0 left-0;
   }
   .pop-up-container {
-    @apply relative flex flex-col bg-white rounded-2xl border border-main-black w-80 h-96 lg:w-6/12 lg:h-4/6 overflow-scroll py-5;
+    @apply relative flex flex-col bg-white rounded-2xl border border-main-black w-80 h-4/6 lg:w-6/12 overflow-scroll py-5;
   }
 }
 

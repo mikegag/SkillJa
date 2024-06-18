@@ -5,7 +5,8 @@ import SignUp from "./pages/SignUp"
 import Authentication from "./pages/Authentication"
 import Onboarding from "./pages/protected/Onboarding"
 import HomeFeed from "./pages/protected/HomeFeed"
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import Coach from "./pages/protected/Coach"
 
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
           <Route index element={<Onboarding/>}/>
         </Route>
         <Route path="home-feed" element={<HomeFeed />} />
+        <Route path="coach" element={<Coach />} />
       </Routes>
     </BrowserRouter>
   )
