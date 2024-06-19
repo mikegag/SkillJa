@@ -16,11 +16,11 @@ export default function App() {
         <Route path="/" element={<Landing />} />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<SignUp />} />
-        <Route path="onboarding"element={<Authentication />}>
-          <Route index element={<Onboarding/>}/>
+        <Route path="auth"element={<Authentication />}>
+          <Route path="onboarding" element={<Onboarding/>}/>
+          <Route path="home-feed" element={<HomeFeed />} />
+          <Route path="coach" element={<Coach />} />
         </Route>
-        <Route path="home-feed" element={<HomeFeed />} />
-        <Route path="coach" element={<Coach />} />
       </Routes>
     </BrowserRouter>
   )

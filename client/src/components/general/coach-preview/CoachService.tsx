@@ -43,7 +43,7 @@ export default function CoachService({exitView}:ServiceProps){
                     <li className="font-kulim list-disc font-light">Training plan</li> 
                     <li className="font-kulim list-disc font-light">Weekly Contact (Available in Chat)</li>
                 </ul>
-                <button className="form-btn mt-8 mb-3">Buy Now</button>
+                <button className="form-btn mt-8 lg:mt-auto">Buy Now</button>
             </div>
         </div>
     )

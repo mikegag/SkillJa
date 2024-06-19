@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import SearchBar from "../../components/navigation/SearchBar"
 import ProfilePreview from "../../components/navigation/ProfilePreview"
+import { Link } from "react-router-dom"
 
 
 export default function HomeFeed(){
@@ -22,7 +23,9 @@ export default function HomeFeed(){
                 <h2 className="font-source font-medium text-2xl mt-14 mb-8">
                     Because you like running...
                 </h2>
-                <ProfilePreview />
+                <Link to={'/auth/coach'} className="mx-auto lg:w-5/12">
+                    <ProfilePreview />
+                </Link>
             </div>
         </div>
     )

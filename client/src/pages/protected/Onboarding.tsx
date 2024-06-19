@@ -117,7 +117,7 @@ export default function Onboarding() {
                             {currentQuestion.options?.map((option, index) => (
                             
                                 <button onClick={() => handleAnswer(currentQuestion.id, option)} key={index}>
-                                    <div className={`selectBtn w-72 m-2 ${state.answers.find(ans => ans.questionId === currentQuestion.id)?.answer.includes(option) ? 'bg-main-green-500 text-main-white' : 'bg-main-white text-main-black'}`}>
+                                    <div className={`select-btn w-72 m-2 ${state.answers.find(ans => ans.questionId === currentQuestion.id)?.answer.includes(option) ? 'bg-main-green-500 text-main-white' : 'bg-main-white text-main-black'}`}>
                                         {option}
                                     </div>
                                 </button>
@@ -161,7 +161,7 @@ export default function Onboarding() {
                 {state.currentSeries !== userQuestions.length-1 ? 
                     <div className="mt-36 w-full mx-auto flex flex-col items-center">
                         <button 
-                            className={`w-72 selectBtn bg-main-green-500 text-main-cream hover:bg-main-green-700 ${isContinueButtonEnabled() && !optionsOverloaded ? '' : 'opacity-70 cursor-not-allowed'}`} 
+                            className={`w-72 select-btn bg-main-green-500 text-main-cream hover:bg-main-green-700 ${isContinueButtonEnabled() && !optionsOverloaded ? '' : 'opacity-70 cursor-not-allowed'}`} 
                             disabled={!isContinueButtonEnabled() || optionsOverloaded}
                             onClick={()=>{
                                 setProgress(progress+1) 
@@ -185,9 +185,9 @@ export default function Onboarding() {
                             className="w-72 mb-5"
                             alt="two runners kneeling down ready to race each other"
                         />
-                        <Link to={'home-feed'}>
+                        <Link to={'../home-feed'}>
                             <button 
-                                className="w-72 selectBtn bg-main-green-500 text-main-cream hover:bg-main-green-700">
+                                className="w-72 select-btn bg-main-green-500 text-main-cream hover:bg-main-green-700">
                                     {currentQuestion.buttonValue? currentQuestion.buttonValue : "Explore"}
                             </button>
                         </Link>

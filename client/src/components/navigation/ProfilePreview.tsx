@@ -6,16 +6,16 @@ import React from "react"
 
 export default function ProfilePreview(){
     return (
-        <div className="flex w-80 lg:w-5/12 justify-center rounded-2xl bg-main-white border-2 border-main-grey-100 p-3 hover:border-main-green-500 hover:cursor-pointer">
+        <div className="flex mx-auto w-full lg:w-10/12 justify-center rounded-2xl bg-main-white border-2 border-main-grey-100 p-3 hover:border-main-green-500 hover:cursor-pointer">
             <img 
                 src={require('../../assets/google-logo.png')} 
-                className="w-12 h-12 my-auto rounded-full border"
+                className="w-12 h-12 my-2 mx-auto rounded-full border"
             />
             <div className="flex justify-start flex-wrap my-auto mx-3">
-                <p className="w-full text-base py-0.5">Ma Buddy Fred</p>
+                <p className="w-full text-lg pb-2">Ma Buddy Fred</p>
                 <FontAwesomeIcon 
                     icon={faStar} 
-                    className="text-amber-400 w-4 mr-1 my-auto"
+                    className="text-amber-300 w-4 my-auto"
                     aria-label="star icon associated with the reviews for this profile"
                 />
                 <p className="mx-1">4.5</p>

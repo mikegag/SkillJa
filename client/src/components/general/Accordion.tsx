@@ -26,7 +26,7 @@ export default function Accordion({ title, children }: AccordionProps) {
         onClick={toggleAccordion}
         className={`flex justify-between items-center w-full p-3   ${isOpen ? 'rounded-b-none' : ''}`}
       >
-        <p className="select-btn">{title}</p>
+        <p className="bg-main-white font-source font-medium text-main-black text-base">{title}</p>
         <FontAwesomeIcon
           icon={faChevronDown}
           className={`ml-3 h-4 w-4 transform transition-transform duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`}

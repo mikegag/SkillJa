@@ -11,7 +11,7 @@ export default function SearchBar(){
         {isFilterOpen ? 
             <Filter exitView= {setIsFilterOpen} /> 
             :  
-            <div role="search" className="flex bg-main-white rounded-2xl border-2 border-main-grey-100 w-96 p-3 hover:border-main-green-500 hover:cursor-pointer">
+            <div role="search" className="flex bg-main-white rounded-2xl border-2 border-main-grey-100 w-80 lg:w-4/12 p-3 hover:border-main-green-500 hover:cursor-pointer">
                 <FontAwesomeIcon 
                     icon={faMagnifyingGlass} 
                     className="my-auto mx-2 text-lg"
