@@ -1,4 +1,5 @@
 import React, { useEffect } from "react"
+import Header from "../components/general/Header"
 import SignInPartners from "../components/userAuthentication/SignInPartners"
 import { Link, useNavigate } from "react-router-dom"
 import { faUser } from "@fortawesome/free-regular-svg-icons"
@@ -13,12 +14,13 @@ export default function Login(){
     const navigate = useNavigate()
     function handleSubmit(e:React.FormEvent<HTMLFormElement>){
         e.preventDefault()
-        navigate('/onboarding')
+        navigate('/auth/onboarding')
     }
 
     return (
-        <div className="flex flex-col h-dvh p-2">
-            <h2 className="heading mt-20">Welcome Back!</h2>
+        <div className="flex flex-col h-dvh px-2">
+            <Header useCase="default" />
+            <h2 className="heading mt-10">Welcome Back!</h2>
             <div className="flex flex-col justify-center items-center py-12">
                 <form className="flex flex-col justify-center w-full mx-auto px-4 md:w-7/12 lg:w-4/12" onSubmit={handleSubmit}>
                     <div className="relative w-full">

@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer, useState } from "react"
+import Header from "../components/general/Header"
 import SignInPartners from "../components/userAuthentication/SignInPartners"
 import AgreementTerms from "../components/userAuthentication/AgreementTerms"
 import { Link, useNavigate } from "react-router-dom"
@@ -81,15 +82,16 @@ export default function SignUp(){
         if (state.currentSeries < signupQuestions.length - 1) {
           dispatch({ type: "NEXT_SERIES" })
         } else {
-          navigate("/onboarding")
+          navigate("/auth/onboarding")
         }
       }
     
       const currentInputs = signupQuestions[state.currentSeries].inputs
 
     return (
-        <div className="flex flex-col h-dvh p-2">
-          <h2 className="heading mt-20">{signupQuestions[state.currentSeries].title}</h2>
+        <div className="flex flex-col h-dvh px-2">
+          <Header useCase="default" />
+          <h2 className="heading mt-0">{signupQuestions[state.currentSeries].title}</h2>
           <div className="flex flex-col justify-center items-center py-12">
               <form className="flex flex-col justify-center w-full mx-auto px-11 md:w-7/12 lg:w-4/12" onSubmit={handleSubmit}>
                   {currentInputs.map((input) => (

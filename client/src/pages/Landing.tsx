@@ -1,4 +1,5 @@
 import React from "react"
+import Header from "../components/general/Header"
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Link } from "react-router-dom"
@@ -6,7 +7,8 @@ import { Link } from "react-router-dom"
 
 export default function Landing(){
     return (
-        <div className="h-dvh bg-main-color-white flex flex-col justify-center items-center p-2">
+        <div className="h-dvh bg-main-color-white flex flex-col justify-start items-center px-2">
+            <Header  useCase="default" />
             <h1 className="text-center text-main-green-700 font-medium text-4xl px-4 font-source">
                 Athletic Performance Unleashed
                 <span className="text-main-green-200 ml-1">.</span>
