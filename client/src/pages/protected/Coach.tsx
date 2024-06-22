@@ -1,20 +1,79 @@
-import { faArrowLeftLong, faCirclePlus, faHeart, faStar } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { useState } from "react"
-import { Link } from "react-router-dom"
 import CoachService from "../../components/general/coach-preview/CoachService"
+import ReviewRatings from "../../components/general/coach-preview/ReviewRatings"
+import { Link } from "react-router-dom"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import {faHeart as hollowfaHeart} from "@fortawesome/free-regular-svg-icons"
+import { faArrowLeftLong, faCirclePlus, faHeart, faStar } from "@fortawesome/free-solid-svg-icons"
 
 export default function Coach(){
-    //implement later for heart icon
     const [isFavourite, setIsFavourite] = useState<boolean>(false)
-
+    const [viewRatings, setViewRatings] = useState<boolean>(false)
+    const dummyData = [{
+        rating: 4.2,
+        title: "good coach",
+        description: "this is great stuff!"
+    },
+    {
+        rating: 1.0,
+        title: "good coach",
+        description: "this is great stuff!"
+    },
+    {
+        rating: 2.0,
+        title: "good coach",
+        description: "this is great stuff!"
+    },
+    {
+        rating: 3.8,
+        title: "good coach",
+        description: "this is great stuff!"
+    },
+    {
+        rating: 3.2,
+        title: "good coach",
+        description: "this is great stuff!"
+    },
+    {
+        rating: 5.0,
+        title: "good coach",
+        description: "this is great stuff!"
+    },
+    {
+        rating: 4.0,
+        title: "good coach",
+        description: "this is great stuff!"
+    },
+    {
+        rating: 4.4,
+        title: "good coach",
+        description: "this is great stuff!"
+    },
+    {
+        rating: 4.4,
+        title: "good coach",
+        description: "this is great stuff!"
+    },
+    {
+         
+        rating: 4.4,
+        title: "good coach",
+        description: "this is great stuff!"
+    },
+    
+    {
+        rating: 5.0,
+        title: "good coach",
+        description: "this is great stuff!"
+    },
+    
+    ]
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
     return (
         <div className="py-2 px-5 lg:px-20 text-main-green-900">
             <div className="flex justify-center mt-16">
-                <Link to={'/home-feed'} className="text-2xl mr-auto my-auto pl-2 hover:text-main-green-500">
+                <Link to={'/auth/home-feed'} className="text-2xl mr-auto my-auto pl-2 hover:text-main-green-500">
                     <FontAwesomeIcon icon={faArrowLeftLong}/>
                 </Link>
                 <h1 className="font-source text-main-green-900 text-3xl m-auto">Tom Chant</h1>
@@ -44,10 +103,20 @@ export default function Coach(){
                 <div className="flex flex-col ml-8 font-kulim max-w-44 font-semibold truncate overflow-ellipsis leading-tight">
                     <p className="mt-0 mb-auto lg:mb-4 mr-auto text-lg max-w-44 font-semibold truncate overflow-ellipsis">Toronto, ON</p>
                     <p className="my-auto mr-auto text-lg max-w-44 font-semibold truncate overflow-ellipsis">5K, 10K, Running Programs</p>
-                    <div className="flex justify-center mt-auto lg:mb-3 mb-0 mr-auto px-3 py-1 bg-main-green-500 rounded-full text-main-white w-fit">
-                        <FontAwesomeIcon icon={faStar} className="text-amber-300 text-base my-auto mr-2" />
-                        <p>4.8 Ratings</p>
+                    <div 
+                        className="flex justify-center mt-auto lg:mb-3 mb-0 mr-auto px-3 py-1 bg-main-green-500 rounded-full text-main-white w-fit hover:bg-main-green-800 hover:cursor-pointer"
+                        onClick={()=>setViewRatings(!viewRatings)}
+                    >
+                        {viewRatings ?
+                            <p>View Services</p>
+                        :
+                            <>
+                                <FontAwesomeIcon icon={faStar} className="text-amber-300 text-base my-auto mr-2" />
+                                <p>4.8 Ratings</p>
+                            </>
+                        }  
                     </div>
+                    
                 </div>
                 <div className="border-b-4 border-main-green-900 text-lg pb-7 mt-10">
                     <p>Hi! I'm Tom and I love running! With over 10+ years of coaching experience I can help you 
@@ -55,14 +124,20 @@ export default function Coach(){
                     </p>
                 </div>
                 <div className="w-full mt-10">
-                    <h2 className="underline text-2xl font-source mx-auto text-center font-medium mb-6">Services</h2>
-                    <div className="flex py-4 px-6 bg-main-white shadow-lg border border-main-green-900 w-full rounded-xl hover:border-main-green-500 hover:cursor-pointer" onClick={()=>setIsModalOpen(true)}>
-                        <div className="w-52 my-auto">
-                            <h3 className="truncate overflow-ellipsis text-lg font-medium">Training Plan (5K, 10K, Marathons)</h3>
-                            <p>See Price and More</p>
+                    {viewRatings ?
+                        <ReviewRatings reviews={dummyData} />
+                    :
+                    <>
+                        <h2 className="underline text-2xl font-source mx-auto text-center font-medium mb-6">Services</h2>
+                        <div className="flex py-4 px-6 bg-main-white shadow-lg border border-main-green-900 w-full rounded-xl hover:border-main-green-500 hover:cursor-pointer" onClick={()=>setIsModalOpen(true)}>
+                            <div className="w-52 my-auto">
+                                <h3 className="truncate overflow-ellipsis text-lg font-medium">Training Plan (5K, 10K, Marathons)</h3>
+                                <p>See Price and More</p>
+                            </div>
+                            <FontAwesomeIcon icon={faCirclePlus} className="my-auto ml-auto text-main-green-500 text-2xl"/>
                         </div>
-                        <FontAwesomeIcon icon={faCirclePlus} className="my-auto ml-auto text-main-green-500 text-2xl"/>
-                    </div>
+                    </>
+                    }
                 </div>
             </div>
             {isModalOpen? <CoachService exitView={setIsModalOpen}/> : <></>}
