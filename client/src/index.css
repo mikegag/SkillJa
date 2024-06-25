@@ -69,8 +69,22 @@ body {
   }
   .date-input::-webkit-calendar-picker-indicator {
     position: absolute;
-    left: 13px; /* Adjust as needed to position the icon */
+    left: 13px;
     top: 50%;
+    font-size: large;
+    transform: translateY(-50%);
+  }
+  .date-input-alternative::-webkit-calendar-picker-indicator {
+    position: absolute;
+    left: 12px;
+    top: 37%;
+    font-size: large;
+    transform: translateY(-50%);
+  }
+  .time-input::-webkit-calendar-picker-indicator {
+    position: absolute;
+    left: 3px;
+    top: 37%;
     font-size: large;
     transform: translateY(-50%);
   }

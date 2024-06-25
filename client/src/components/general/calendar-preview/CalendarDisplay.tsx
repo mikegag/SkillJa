@@ -7,16 +7,21 @@ interface MonthDays {
 }
 
 interface CalendarProps {
-    monthDays: MonthDays
+    monthDays: MonthDays,
+    daySelection: (value:string)=>void
 }
 
-export default function CalendarDisplay({ monthDays }:CalendarProps){
+export default function CalendarDisplay({ monthDays, daySelection }:CalendarProps){
     const [selectedDay, setSelectedDay] = useState<string>("1")
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
     useEffect(()=>{
         setSelectedDay(today.toDateString().slice(8,10))
     },[])
+
+    useEffect(()=>{
+        daySelection(selectedDay)
+    },[selectedDay])
 
     function getFirstDayOfMonth(year: number, month: number): number {
         return new Date(year, month, 1).getDay()
@@ -49,8 +54,8 @@ export default function CalendarDisplay({ monthDays }:CalendarProps){
     }
 
     return (
-        <div>
-            <h2 className="text-main-green-900 font-source text-xl mb-4">
+        <div className="text-lg lg:text-2xl">
+            <h2 className="text-main-green-900 font-source text-2xl lg:text-3xl mb-4 lg:mb-8">
                 {monthDays.month.slice(0,4)} {selectedDay}
             </h2>
             <table>
@@ -59,7 +64,7 @@ export default function CalendarDisplay({ monthDays }:CalendarProps){
                         {daysOfWeek.map((day) => (
                             <th
                                 key={day}
-                                className="pr-2 pb-1 font-kulim font-light"
+                                className="pr-3 lg:pr-5 pb-1 font-kulim font-light"
                             >
                                 {day}
                             </th>
@@ -81,8 +86,8 @@ export default function CalendarDisplay({ monthDays }:CalendarProps){
                                 }
                             >
                                 <div className="flex w-full cursor-pointer" onClick={()=>setSelectedDay(day.toString())}>
-                                    <p className={`px-2 py-0.5 mx-auto 
-                                            ${today.toDateString().slice(8,10)== day.toString()? "underline":""} 
+                                    <p className={`px-2 py-0.5 lg:py-2 lg:px-3 mx-auto 
+                                            ${today.toDateString().slice(8,10) == day.toString() && today.toDateString().slice(4,7) == monthDays.month.slice(0,3) ? "underline":""} 
                                             ${selectedDay == day.toString()? "flex justify-center bg-amber-400 rounded-full":""}  
                                             ${day === 0 ? 'cursor-not-allowed' : ''} `}
                                     >
