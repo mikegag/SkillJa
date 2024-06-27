@@ -8,6 +8,7 @@ import Onboarding from "./pages/protected/Onboarding"
 import HomeFeed from "./pages/protected/HomeFeed"
 import Coach from "./pages/protected/Coach"
 import Calendar from "./pages/protected/Calendar"
+import Chat from "./pages/protected/Chat"
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
           <Route path="home-feed" element={<HomeFeed />} />
           <Route path="coach" element={<Coach />} />
           <Route path="calendar" element={<Calendar />} />
+          <Route path="chat" element={<Chat />} />
         </Route>
       </Routes>
     </BrowserRouter>
