@@ -26,7 +26,7 @@ interface Input {
     faCalendar,
     faPhone,
     faUser
-  };
+  }
   
   interface Series {
     series: number;

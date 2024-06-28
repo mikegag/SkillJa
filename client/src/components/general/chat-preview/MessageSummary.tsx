@@ -2,9 +2,17 @@ import { faChevronRight, faCircle } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React from "react"
 
+interface UserInfoProps {
+    name: string,
+    messages:object[]
+}
+
 export default function MessageSummary(){
     return (
-        <div className="flex justify-center items-center bg-main-white border border-main-grey-100 p-3 lg:p-2 lg:border-r-0 lg:border-l-0 cursor-pointer hover:border-main-green-900">
+        <div 
+            className="flex justify-center items-center bg-main-white border border-main-grey-100 p-3 lg:p-2 lg:border-r-0 lg:border-l-0 cursor-pointer hover:border-main-green-900"
+            
+        >
             <FontAwesomeIcon icon={faCircle} className="text-lg lg:text-sm lg:ml-2 text-main-grey-100" />
             <img 
                 src={require('../../../assets/google-logo.png')} 

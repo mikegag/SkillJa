@@ -169,5 +169,21 @@
                 ["Ice Hockey 🏒", "Basketball 🏀", "Soccer ⚽", "Baseball ⚾", "Football 🏈", "Rugby 🏉", "Lacrosse 🥍", "Cricket 🏏", "Softball 🥎", "Volleyball 🏐", "Curling 🥌", "Field Hockey 🏑", "Water Polo 💧", "Running 🏃", "Golf ⛳", "Cycling 🚲", "Swimming 🏊‍♂️", "Snowboarding 🏂", "Skiing 🎿", "Tennis 🎾", "Gymnastics 🤸‍♂️", "Boxing 🥊", "Martial Arts 🥋", "Wrestling 🤼", "Track & Field 👟", "Personal Training 🏋️"]
             }
         }
+    ],
+
+   "settings": [
+        {
+            "general": [
+                { "id": "account", "title": "Account Information", "icon": "faUser", "link":"./account-information" },
+                { "id": "payments", "title": "Payment Methods", "icon": "faCreditCard", "link":"./payments" },
+                { "id": "notifications", "title": "Notifications", "icon": "faBell", "link":"./notifications" }
+            ]
+        },
+        {
+            "support": [
+                { "id": "report", "title": "Report an Issue", "icon": "faCircleInfo", "link":"./report-issue" },
+                { "id": "faqs", "title": "FAQs", "icon": "faQuestion", "link":"./faqs" }
+            ]
+        }
     ]
 }

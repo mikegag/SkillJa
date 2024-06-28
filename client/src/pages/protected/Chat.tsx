@@ -9,9 +9,7 @@ export default function Chat(){
     //gets current window size
     const size = GetWindowSize()
     const [openChat, setOpenChat] = useState<boolean>(false)
-    useEffect(()=>{
-        console.log(openChat)
-    },[openChat])
+
     return (
         <div className="flex">
             {size.width < 1024 && openChat === true?
