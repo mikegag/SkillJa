@@ -15,7 +15,7 @@ export default function Login(){
     function handleSubmit(e:React.FormEvent<HTMLFormElement>){
         e.preventDefault()
         navigate('/auth/onboarding')
-    }
+    } 
 
     return (
         <div className="flex flex-col h-dvh px-2">
@@ -59,7 +59,7 @@ export default function Login(){
                 </form>
                 <div className="flex justify-center items-center my-7">
                     <div className="bg-main-grey-300 h-0.5 w-28 lg:w-40"></div>
-                    <p className="mx-3 text-main-grey-200">Or Login with</p>
+                    <p className="mx-3 lg:mx-4 text-main-grey-200">Or Login with</p>
                     <div className="bg-main-grey-300 h-0.5 w-28 lg:w-40"></div>
                 </div>
                 <div className="mb-9">

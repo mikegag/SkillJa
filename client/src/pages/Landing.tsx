@@ -18,7 +18,7 @@ export default function Landing(){
                 className="w-72 mt-6 mb-5 lg:w-80"
                 alt="two runners kneeling down ready to race each other"
             />
-            <form className="mx-auto w-72">   
+            <form className="flex flex-col justify-center w-full mx-auto px-4 md:w-7/12 lg:w-4/12">   
                 <div className="relative w-full">
                     <input
                         type="search"
@@ -32,9 +32,9 @@ export default function Landing(){
                     />
                 </div>
             </form>
-            <Link to={'/signup'} className="mt-5 mb-9">
+            <Link to={'/signup'} className="flex flex-col justify-center w-full mx-auto px-4 md:w-7/12 lg:w-4/12 mt-5 mb-9">
                 <button 
-                    className="form-btn w-full mx-auto"
+                    className="form-btn"
                     aria-label="create an account button that redirects to sign up page"
                     >
                         Create an Account

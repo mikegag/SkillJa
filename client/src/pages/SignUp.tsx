@@ -93,7 +93,7 @@ export default function SignUp(){
           <Header useCase="default" />
           <h2 className="heading mt-0">{signupQuestions[state.currentSeries].title}</h2>
           <div className="flex flex-col justify-center items-center py-12">
-              <form className="flex flex-col justify-center w-full mx-auto px-11 md:w-7/12 lg:w-4/12" onSubmit={handleSubmit}>
+              <form className="flex flex-col justify-center w-full mx-auto px-4 md:w-7/12 lg:w-4/12" onSubmit={handleSubmit}>
                   {currentInputs.map((input) => (
                       <div className="relative w-full mb-5" key={input.id}>
                       {input.type !== "select" ? (
@@ -155,9 +155,9 @@ export default function SignUp(){
                   </button>
               </form>
               <div className="flex justify-center items-center my-7">
-                  <div className="bg-main-grey-300 h-0.5 w-28 lg:w-40"></div>
-                  <p className="mx-3 text-main-grey-200">Or Sign Up With</p>
-                  <div className="bg-main-grey-300 h-0.5 w-28 lg:w-40"></div>
+                  <div className="bg-main-grey-300 h-0.5 w-28 lg:w-36"></div>
+                  <p className="mx-3 lg:mx-4 text-main-grey-200">Or Sign Up With</p>
+                  <div className="bg-main-grey-300 h-0.5 w-28 lg:w-36"></div>
               </div>
               <div className="mb-9">
                   <SignInPartners />
