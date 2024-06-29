@@ -1,6 +1,6 @@
 import { IconDefinition, faArrowLeftLong, faBell, faChevronRight, faCircleInfo, faCreditCard, faQuestion, faUser } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import React from "react"
+import React, { useState } from "react"
 import data from "../../data.json"
 import { Link } from "react-router-dom"
 
@@ -13,6 +13,7 @@ const iconMap: Record<string, IconDefinition> = {
 }
 
 export default function Settings(){
+
     return (
         <div className="flex flex-col py-2 px-4 lg:px-16">
             <div className="flex justify-center text-center mt-10">
@@ -21,7 +22,7 @@ export default function Settings(){
                         icon={faArrowLeftLong}
                     />
                 </Link>
-                <h1 className="font-source text-3xl pr-8 mr-auto my-auto text-main-green-900 pl-6">
+                <h1 className="font-source text-3xl pr-8 mr-auto my-auto text-main-green-900">
                     Settings
                 </h1>
             </div>

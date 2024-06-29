@@ -11,6 +11,11 @@ import Calendar from "./pages/protected/Calendar"
 import Chat from "./pages/protected/Chat"
 import Profile from "./pages/protected/Profile"
 import Settings from "./pages/protected/Settings"
+import AccountInformation from "./pages/protected/settings/AccountInformation"
+import Notifications from "./pages/protected/settings/Notifications"
+import Faqs from "./pages/protected/settings/Faqs"
+import ReportIssue from "./pages/protected/settings/ReportIssue"
+import Payments from './pages/protected/settings/Payments'
 
 export default function App() {
   return (
@@ -27,7 +32,14 @@ export default function App() {
           <Route path="chat" element={<Chat />} />
           <Route path="profile">
             <Route index element={<Profile />} />
-            <Route path="settings" element={<Settings />}  />
+            <Route path="settings">
+              <Route index element={<Settings />} />
+                <Route path="account-information" element={<AccountInformation/>} />
+                <Route path="payments" element={<Payments/>} />
+                <Route path="notifications" element={<Notifications/>} />
+                <Route path="faqs" element={<Faqs/>} />
+                <Route path="report-issue" element={<ReportIssue/>} />
+              </Route>
           </Route>
         </Route>
       </Routes>
