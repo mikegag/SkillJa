@@ -75,7 +75,8 @@ export default function SignUp(){
 
     useEffect(() => {
         document.title = "SkillJa - Sign Up"
-    }, [])
+        console.log(state.answers)
+    }, [state])
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
@@ -162,7 +163,7 @@ export default function SignUp(){
               <div className="mb-9">
                   <SignInPartners />
               </div>
-              <p className="text-main-grey-300 font-kulim">
+              <p className="text-main-grey-300 font-kulim"> 
                   Already have an account? 
                   <Link to={'/login'}>
                       <span className="underline cursor-pointer text-main-green-700 ml-1 hover:text-main-green-500">
