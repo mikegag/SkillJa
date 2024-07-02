@@ -72,13 +72,7 @@ body {
   /* tailwind classes are not applying to date and time inputs so this is used */
   input[type="date"],
   input[type="time"] {
-    display: block;
-    -webkit-appearance: textfield;
-    -moz-appearance: textfield;
-  }
-  input[type="date"]:focus,
-  input[type="time"]:focus {
-    outline-color: #10b981; /* Tailwind 'focus:outline-main-green-500' */
+    -webkit-appearance: none;
   }
 
   .date-input::-webkit-calendar-picker-indicator {
