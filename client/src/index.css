@@ -69,12 +69,12 @@ body {
   .sign-in-partner-btn {
     @apply flex rounded-2xl p-1 cursor-pointer hover:shadow-lg hover:outline hover:outline-main-green-400;
   }
-  .date-input,
-  .time-input {
-    width: 100%; /* Ensure full width */
-    padding-left: 2.5rem; /* Adjust padding to account for the calendar picker indicator */
-    box-sizing: border-box; /* Include padding in the element's total width and height */
+  input[type="date"],
+  input[type="time"] {
+    min-height: 2.5rem;
+    min-width: 100%;
   }
+
   .date-input::-webkit-calendar-picker-indicator {
     position: absolute;
     left: 13px;
