@@ -69,10 +69,27 @@ body {
   .sign-in-partner-btn {
     @apply flex rounded-2xl p-1 cursor-pointer hover:shadow-lg hover:outline hover:outline-main-green-400;
   }
+  /* tailwind classes are not applying to date and time inputs so this is used */
   input[type="date"],
   input[type="time"] {
-    min-height: auto;
-    min-width: auto;
+    border-radius: 1rem; /* Tailwind 'rounded-2xl' */
+    width: 100%; /* Tailwind 'w-full' */
+    padding-top: 0.75rem; /* Tailwind 'py-3' */
+    padding-bottom: 0.75rem; /* Tailwind 'py-3' */
+    padding-left: 2.75rem; /* Tailwind 'px-11' */
+    padding-right: 2.75rem; /* Tailwind 'px-11' */
+    background-color: #ffffff; /* Tailwind 'bg-white' */
+    color: #6b7280; /* Tailwind 'text-main-grey-300' */
+    font-family: "Kulim"; /* Tailwind 'font-kulim' */
+    border-color: #9ca3af; /* Tailwind 'border-main-grey-400' */
+    border-style: solid; /* Tailwind 'border-solid' */
+    border-width: 1px; /* Tailwind 'border' */
+    cursor: pointer; /* Tailwind 'cursor-pointer' */
+    outline-offset: 0; /* Tailwind 'focus:outline-offset-0' */
+  }
+  input[type="date"]:focus,
+  input[type="time"]:focus {
+    outline-color: #10b981; /* Tailwind 'focus:outline-main-green-500' */
   }
 
   .date-input::-webkit-calendar-picker-indicator {
