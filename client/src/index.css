@@ -71,8 +71,8 @@ body {
   }
   input[type="date"],
   input[type="time"] {
-    min-height: 2.5rem;
-    min-width: 100%;
+    min-height: auto;
+    min-width: auto;
   }
 
   .date-input::-webkit-calendar-picker-indicator {
