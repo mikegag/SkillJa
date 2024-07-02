@@ -72,7 +72,7 @@ body {
   /* tailwind classes are not applying to date and time inputs so this is used */
   input[type="date"],
   input[type="time"] {
-    -webkit-appearance: none;
+    min-width: 95%;
     min-height: 3.125rem;
     content: attr(data-placeholder);
   }
