@@ -40,7 +40,9 @@ body {
 }
 
 @layer components {
-  .form-input {
+  .form-input,
+  .date-input,
+  .time-input {
     @apply rounded-2xl w-full py-3 px-11 bg-white text-main-grey-300 font-kulim 
           border-main-grey-400 border-solid border cursor-pointer focus:outline-offset-0 focus:outline-main-green-500;
   }

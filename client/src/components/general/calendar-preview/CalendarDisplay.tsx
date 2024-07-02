@@ -56,7 +56,7 @@ export default function CalendarDisplay({ monthDays, daySelection }:CalendarProp
     return (
         <div className="text-lg lg:text-2xl">
             <h2 className="text-main-green-900 font-source text-2xl lg:text-3xl mb-4 lg:mb-8">
-                {monthDays.month.slice(0,4)} {selectedDay}
+                {monthDays.month.slice(0,3)} {selectedDay}
             </h2>
             <table>
                 <thead className="border-b border-main-green-900">
@@ -87,7 +87,7 @@ export default function CalendarDisplay({ monthDays, daySelection }:CalendarProp
                             >
                                 <div className="flex w-full cursor-pointer" onClick={()=>setSelectedDay(day.toString())}>
                                     <p className={`px-2 py-0.5 lg:py-2 lg:px-3 mx-auto 
-                                            ${today.toDateString().slice(8,10) == day.toString() && today.toDateString().slice(4,7) == monthDays.month.slice(0,3) ? "underline":""} 
+                                            ${(today.toDateString().slice(8,10).replace(/^0+(?=\d)/, '') == day.toString()) && (today.toDateString().slice(4,7) == monthDays.month.slice(0,3)) ? "underline":""} 
                                             ${selectedDay == day.toString()? "flex justify-center bg-amber-400 rounded-full":""}  
                                             ${day === 0 ? 'cursor-not-allowed' : ''} `}
                                     >

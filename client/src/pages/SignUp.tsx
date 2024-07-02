@@ -96,23 +96,12 @@ export default function SignUp(){
 
     useEffect(() => {
         document.title = "SkillJa - Sign Up"
-        // need to update form data, no state created for it
-        console.log(passwordMismatch)
         if((formData.password !== formData.confirmpassword) && (formData.password !== "") && (formData.confirmpassword !== "") ){
           setPasswordMismatch(true)
         } else {
           setPasswordMismatch(false)
         }
     }, [formData])
-
-    function handlePasswordMismatch(){
-      console.log("llllll")
-      if((formData.password !== formData.confirmpassword) && (formData.password !== "") && (formData.confirmpassword !== "") ){
-        setPasswordMismatch(true)
-      } else {
-        setPasswordMismatch(false)
-      }
-    }
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>){
       const { name, value } = e.target;
