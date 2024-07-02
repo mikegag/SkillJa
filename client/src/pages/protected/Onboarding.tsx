@@ -106,8 +106,8 @@ export default function Onboarding() {
     return (
         <>
             {userQuestions[state.currentSeries].questions.map((currentQuestion: Question) => (
-            <>
-                <div key={`q-${currentQuestion.id}`} className="flex flex-row justify-center items-center flex-wrap">
+            <div key={`q-${currentQuestion.id}`}>
+                <div className="flex flex-row justify-center items-center flex-wrap">
                     <h3 className="heading my-14 px-4 w-full">{currentQuestion.title}</h3>
                     {currentQuestion.subtitle? <p> {currentQuestion.subtitle} </p> : <></>}
                     {state.currentSeries !== 1 ?
@@ -193,7 +193,7 @@ export default function Onboarding() {
                         </Link>
                     </div>  
                 }
-            </>
+            </div>
             ))}
             
         </>

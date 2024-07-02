@@ -2,11 +2,22 @@ import React, { useEffect, useReducer, useState } from "react"
 import Header from "../components/general/Header"
 import SignInPartners from "../components/userAuthentication/SignInPartners"
 import AgreementTerms from "../components/userAuthentication/AgreementTerms"
+import ErrorMessage from "../components/general/ErrorMessage"
 import { Link, useNavigate } from "react-router-dom"
 import { faCalendar, faEnvelope, faUser } from "@fortawesome/free-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { IconDefinition, faChevronDown, faLock, faPhone } from "@fortawesome/free-solid-svg-icons"
 import data from "../data.json"
+
+interface FormStructure {
+  fullname: string,
+  email: string,
+  password: string,
+  confirmpassword: string,
+  date: string,
+  phonenumber: string,
+  gender: string
+}
 
 interface Input {
     id: string;
@@ -69,14 +80,44 @@ interface Input {
 
 export default function SignUp(){
     const navigate = useNavigate()
+    const [formData, setFormData] = useState<FormStructure>({
+      fullname: '',
+      email: '',
+      password: '',
+      confirmpassword: '',
+      date: '',
+      phonenumber: '',
+      gender: ''
+    })
+    const [passwordMismatch, setPasswordMismatch] = useState<boolean>(false)
     const [state, dispatch] = useReducer(reducer, initialState)
     const [agreeToTerms, setAgreeToTerms] = useState<boolean>(false)
     const signupQuestions: Series[] = data.signup
 
     useEffect(() => {
         document.title = "SkillJa - Sign Up"
-        console.log(state.answers)
-    }, [state])
+        // need to update form data, no state created for it
+        console.log(passwordMismatch)
+        if((formData.password !== formData.confirmpassword) && (formData.password !== "") && (formData.confirmpassword !== "") ){
+          setPasswordMismatch(true)
+        } else {
+          setPasswordMismatch(false)
+        }
+    }, [formData])
+
+    function handlePasswordMismatch(){
+      console.log("llllll")
+      if((formData.password !== formData.confirmpassword) && (formData.password !== "") && (formData.confirmpassword !== "") ){
+        setPasswordMismatch(true)
+      } else {
+        setPasswordMismatch(false)
+      }
+    }
+
+    function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>){
+      const { name, value } = e.target;
+      setFormData({ ...formData, [name]: value })
+    }
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
@@ -85,9 +126,9 @@ export default function SignUp(){
         } else {
           navigate("/auth/onboarding")
         }
-      }
+    }
     
-      const currentInputs = signupQuestions[state.currentSeries].inputs
+    const currentInputs = signupQuestions[state.currentSeries].inputs
 
     return (
         <div className="flex flex-col h-dvh px-2">
@@ -105,6 +146,7 @@ export default function SignUp(){
                               type={input.type}
                               placeholder={input.placeholder}
                               className={`form-input ${input.type==='date'? 'date-input': '' }`}
+                              onChange={handleChange}
                               required
                               autoComplete="on"
                           />
@@ -119,19 +161,24 @@ export default function SignUp(){
                       </>
                       ) : (
                           <>
-                          <select id={input.id} name={input.name} className="form-input appearance-none" required>
-                          {input.options?.map((option, index) => (
-                              index === 0 ? (
-                                  <option key={option.value} disabled selected={option.selected} value="">
-                                  {option.placeholder}
-                                  </option>
-                              ) : (
-                                  <option key={option.value} value={option.value} selected={option.selected}>
-                                      {option.placeholder}
-                                  </option>
-                              )
-                          ))}
-                          
+                          <select 
+                            id={input.id} 
+                            name={input.name} 
+                            className="form-input appearance-none" 
+                            onChange={handleChange}
+                            required
+                          >
+                            {input.options?.map((option, index) => (
+                                index === 0 ? (
+                                    <option key={option.value} disabled selected={option.selected} value="">
+                                    {option.placeholder}
+                                    </option>
+                                ) : (
+                                    <option key={option.value} value={option.value} selected={option.selected}>
+                                        {option.placeholder}
+                                    </option>
+                                )
+                            ))}
                           </select>
                           <FontAwesomeIcon
                               icon={iconMap[input.icon]}
@@ -146,11 +193,12 @@ export default function SignUp(){
                         :
                         <></>
                   }
+                  {passwordMismatch? <ErrorMessage /> : <></>}
                   <button
                       className="w-full form-btn mx-auto"
                       aria-label="sign up form submission"
                       type="submit"
-                      disabled={agreeToTerms=== true && state.currentSeries === signupQuestions.length - 1}
+                      disabled={(agreeToTerms=== true && state.currentSeries === signupQuestions.length - 1) || passwordMismatch === true}
                   >
                       {signupQuestions[state.currentSeries].button}
                   </button>
