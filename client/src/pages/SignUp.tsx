@@ -138,6 +138,7 @@ export default function SignUp(){
                               onChange={handleChange}
                               required
                               autoComplete="on"
+                              pattern={input.pattern}
                           />
                           {input.type!=='date'?
                               <FontAwesomeIcon
