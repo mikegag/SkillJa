@@ -1,22 +1,16 @@
-# models.py
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
-from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
-from django.contrib.auth import get_user_model
-from django.contrib.auth.backends import ModelBackend
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
 class UserManager(BaseUserManager):
     def create_user(self, email, fullname, password=None, **extra_fields):
         if not email:
-            raise ValueError(_('The Email field must be set'))
-        if not username:
-            raise ValueError(_('The Username field must be set'))
+            raise ValueError('The Email field must be set')
         if not fullname:
-            raise ValueError(_('The Fullname field must be set'))
+            raise ValueError('The Fullname field must be set')
 
         email = self.normalize_email(email)
-        user = self.model(email=email, fullname=fullname, password=password, **extra_fields)
+        user = self.model(email=email, fullname=fullname, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -33,31 +27,38 @@ class UserManager(BaseUserManager):
         return self.create_user(email, fullname, password, **extra_fields)
 
 class User(AbstractBaseUser, PermissionsMixin):
-    fullname = models.CharField(max_length=50)
-    email = models.EmailField(_('email address'), unique=True)
-    date_joined = models.DateTimeField(default=timezone.now)
-    date_ideas = models.JSONField(default=list)
-    #need to map out all atributes for this (chats? is coach or athlete yet? etc.)
+    fullname = models.CharField(max_length=80)
+    email = models.EmailField('email address', unique=True)
+    birthdate = models.DateField()
+    phonenumber = models.CharField(max_length=20)
+    gender = models.CharField(max_length=20)
+    iscoach = models.BooleanField(default=False)
+    isathlete = models.BooleanField(default=False)
 
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'fullname']
-
-    groups = models.ManyToManyField(
-        'auth.Group',
-        verbose_name=_('groups'),
-        blank=True,
-        related_name='skillja_user_set',
-        related_query_name='skillja_user',
-    )
-    user_permissions = models.ManyToManyField(
-        'auth.Permission',
-        verbose_name=_('user permissions'),
-        blank=True,
-        related_name='skillja_user_set', 
-        related_query_name='skillja_user',
-    )
+    REQUIRED_FIELDS = ['fullname', 'birthdate', 'phonenumber', 'gender']
 
     def __str__(self):
         return self.email
+
+class CoachPreferences(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='coach_preferences')
+    experience_level = models.CharField(max_length=255)
+    age_groups = models.CharField(max_length=255)
+    specialization = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f'{self.user.email} - Coach Preferences'
+
+class AthletePreferences(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='athlete_preferences')
+    experience_level = models.CharField(max_length=255)
+    goals = models.CharField(max_length=255)
+    sport_interests = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f'{self.user.email} - Athlete Preferences'
+
+
