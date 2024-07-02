@@ -73,7 +73,7 @@ body {
   input[type="date"],
   input[type="time"] {
     min-width: 95%;
-    min-height: 3.125rem;
+    min-height: 4rem;
     content: attr(data-placeholder);
   }
 
