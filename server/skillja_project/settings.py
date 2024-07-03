@@ -31,7 +31,7 @@ DEBUG = os.getenv('DJANGO_DEBUG', 'False').lower() == 'true'
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '').strip("[]").split(',')
 DATABASE_URL = os.getenv('DATABASE_URL')
-
+print(ALLOWED_HOSTS)
 
 CSRF_COOKIE_SECURE = False if DEBUG else True
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
@@ -139,7 +139,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'client/build/static'
+    BASE_DIR / '../client/build/static' 
 ]
 
 #need to change when ready for production

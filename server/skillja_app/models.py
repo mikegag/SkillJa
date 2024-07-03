@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
 class UserManager(BaseUserManager):
@@ -35,6 +36,21 @@ class User(AbstractBaseUser, PermissionsMixin):
     iscoach = models.BooleanField(default=False)
     isathlete = models.BooleanField(default=False)
 
+    groups = models.ManyToManyField(
+        'auth.Group',
+        related_name='skillja_app_user_set',
+        blank=True,
+        help_text=_('The groups this user belongs to. A user will get all permissions granted to each of their groups.'),
+        verbose_name=_('groups')
+    )
+    user_permissions = models.ManyToManyField(
+        'auth.Permission',
+        related_name='skillja_app_user_set',
+        blank=True,
+        help_text=_('Specific permissions for this user.'),
+        verbose_name=_('user permissions')
+    )
+
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
@@ -49,6 +65,12 @@ class CoachPreferences(models.Model):
     age_groups = models.CharField(max_length=255)
     specialization = models.CharField(max_length=255)
 
+    def save(self, *args, **kwargs):
+        # Set iscoach flag to True when saving coach preferences
+        self.user.iscoach = True  
+        self.user.save() 
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f'{self.user.email} - Coach Preferences'
 
@@ -58,7 +80,18 @@ class AthletePreferences(models.Model):
     goals = models.CharField(max_length=255)
     sport_interests = models.CharField(max_length=255)
 
+    def save(self, *args, **kwargs):
+        # Set isathlete flag to True when saving athlete preferences
+        self.user.isathlete = True 
+        self.user.save()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f'{self.user.email} - Athlete Preferences'
 
-
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    location = models.CharField(max_length=100)
+    biography = models.CharField(max_length=255)
+    # picture = models.ImageField()
+    # sport specializations?
