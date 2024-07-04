@@ -12,7 +12,9 @@ from django.shortcuts import redirect
 from urllib.parse import urlparse, parse_qs
 from django.views.decorators.http import require_POST, require_GET
 
-
+def csrf_token(request):
+    return JsonResponse({'csrfToken': get_token(request)})
+    
 @require_POST
 def user_login(request):
     if request.method == 'POST':

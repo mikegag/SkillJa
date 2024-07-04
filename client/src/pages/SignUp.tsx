@@ -3,11 +3,13 @@ import Header from "../components/general/Header"
 import SignInPartners from "../components/userAuthentication/SignInPartners"
 import AgreementTerms from "../components/userAuthentication/AgreementTerms"
 import ErrorMessage from "../components/general/ErrorMessage"
+import GetCSFR from '../hooks/GetCSFR'
 import { Link, useNavigate } from "react-router-dom"
 import { faCalendar, faEnvelope, faUser } from "@fortawesome/free-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { IconDefinition, faChevronDown, faLock, faPhone } from "@fortawesome/free-solid-svg-icons"
 import data from "../data.json"
+import axios from "axios"
 
 interface FormStructure {
   fullname: string,
@@ -80,6 +82,7 @@ interface Input {
 
 export default function SignUp(){
     const navigate = useNavigate()
+    const csrfToken = GetCSFR({ name: "csrftoken" })
     const [formData, setFormData] = useState<FormStructure>({
       fullname: '',
       email: '',
@@ -113,7 +116,36 @@ export default function SignUp(){
         if (state.currentSeries < signupQuestions.length - 1) {
           dispatch({ type: "NEXT_SERIES" })
         } else {
-          navigate("/auth/onboarding")
+          axios.post('/api/signup/', formData, {
+            headers: {
+                'X-CSRFToken': csrfToken  ?? ''
+            }
+        })
+            .then(res => {
+                if (res.status === 201) {
+                    const userData = res.data
+                    setTimeout(() => {
+                      navigate("/auth/onboarding")
+                    }, 600)
+                } else {
+                    console.error("signup failed")
+                }
+            })
+            .catch(error => {
+                if (error.response) {
+                    // the server responded with a status code that falls out of the range of 2xx
+                    console.error('Error response:', error.response.data)
+                    console.error('Status:', error.response.status)
+                    console.error('Headers:', error.response.headers)
+                } else if (error.request) {
+                    // no response was received
+                    console.error('No response received:', error.request)
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.error('Error setting up request:', error.message)
+                }
+                console.error('Error config:', error.config)
+            })
         }
     }
     

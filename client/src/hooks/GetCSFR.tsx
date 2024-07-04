@@ -19,7 +19,7 @@ function getCookie(name: string): string | null {
     return cookieValue;
 }
 
-export function useCSFR({ name }: CsfrProps): string | null {
+export default function useCSFR({ name }: CsfrProps): string | null {
     const [csrfToken, setCsrfToken] = useState<string | null>(null);
 
     useEffect(() => {
