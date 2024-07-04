@@ -1,20 +1,71 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import Header from "../components/general/Header"
 import SignInPartners from "../components/userAuthentication/SignInPartners"
 import { Link, useNavigate } from "react-router-dom"
 import { faUser } from "@fortawesome/free-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faLock } from "@fortawesome/free-solid-svg-icons"
+import axios from "axios"
+import GetCSFR from "../hooks/GetCSFR"
+import CreateCSFR from "../hooks/CreateCSFR"
+
+interface FormStructure {
+    email: string,
+    password: string,
+}
 
 export default function Login(){
+    const csrfToken = GetCSFR({ name: "csrftoken" })
+    const navigate = useNavigate()
+    const [formData, setFormData] = useState<FormStructure>({
+        email: '',
+        password: ''
+    })
+
     useEffect(() => {
         document.title = "SkillJa - Login"
     }, [])
 
-    const navigate = useNavigate()
+
+    function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>){
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value })
+    }
+
     function handleSubmit(e:React.FormEvent<HTMLFormElement>){
         e.preventDefault()
-        navigate('/auth/onboarding')
+        axios.post('http://localhost:8000/login/', formData, {
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true
+        })
+            .then(res => {
+                if (res.status === 200) {
+                    const userData = res.data
+                    setTimeout(() => {
+                      navigate("/auth/home-feed")
+                    }, 600)
+                } else {
+                    console.error("login failed")
+                }
+            })
+            .catch(error => {
+                if (error.response) {
+                    // the server responded with a status code that falls out of the range of 2xx
+                    console.error('Error response:', error.response.data)
+                    console.error('Status:', error.response.status)
+                    console.error('Headers:', error.response.headers)
+                } else if (error.request) {
+                    // no response was received
+                    console.error('No response received:', error.request)
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.error('Error setting up request:', error.message)
+                }
+                console.error('Error config:', error.config)
+            })
     } 
 
     return (
@@ -29,6 +80,7 @@ export default function Login(){
                             className="form-input w-full mb-5 mt-5"
                             placeholder="Email"
                             autoComplete="on"
+                            onChange={handleChange}
                             required
                         />
                         <FontAwesomeIcon
@@ -42,6 +94,7 @@ export default function Login(){
                             className="form-input w-full mb-5"
                             placeholder="Password"
                             autoComplete="on"
+                            onChange={handleChange}
                             required
                         />
                         <FontAwesomeIcon
