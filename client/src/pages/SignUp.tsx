@@ -116,10 +116,15 @@ export default function SignUp(){
         if (state.currentSeries < signupQuestions.length - 1) {
           dispatch({ type: "NEXT_SERIES" })
         } else {
-          axios.post('/api/signup/', formData, {
+          console.log(formData)
+          console.log(csrfToken)
+
+          axios.post('http://localhost:8000/signup/', formData, {
             headers: {
-                'X-CSRFToken': csrfToken  ?? ''
-            }
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true
         })
             .then(res => {
                 if (res.status === 201) {

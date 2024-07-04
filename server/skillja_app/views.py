@@ -6,11 +6,11 @@ from django.http import JsonResponse, HttpResponseRedirect
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import User
-from django.views.decorators.csrf import csrf_exempt
 from django.middleware.csrf import get_token, rotate_token
 from django.shortcuts import redirect
 from urllib.parse import urlparse, parse_qs
 from django.views.decorators.http import require_POST, require_GET
+
 
 def csrf_token(request):
     return JsonResponse({'csrfToken': get_token(request)})
@@ -26,7 +26,7 @@ def user_login(request):
         if user is not None:
             auth_login(request,user)
             response = JsonResponse({'message': 'Login Successful'}, status = 200)
-            response.set_cookie ('user_email', user_email, httponly=True, secure = True)
+            response.set_cookie ('user_email', email, httponly=True, secure = False)
             return response
         else:
             return JsonResponse({'error': 'Invalid email or password'}, status = 400)
@@ -58,7 +58,7 @@ def sign_up(request):
             )
             response = JsonResponse({'message': 'User created successfully'}, status=201)
             # signup is followed by onboarding process which needs user email
-            response.set_cookie ('user_email', user_email, httponly=True, secure = True)
+            response.set_cookie ('user_email', user.email, httponly=True, secure = False)
             return response
 
         except Exception as e:

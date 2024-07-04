@@ -1,11 +1,37 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import Header from "../components/general/Header"
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Link } from "react-router-dom"
+import axios from "axios"
+import GetCSFR from '../hooks/GetCSFR'
 
 
 export default function Landing(){
+    const [csrfToken, setCsrfToken] = useState<string | null>(null);
+    const csrftoken = GetCSFR({ name: "csrftoken" });
+    useEffect(() => {
+        if (!csrftoken) {
+            fetchCsrfToken();
+        } else {
+            setCsrfToken(csrftoken);
+        }
+    }, [csrftoken]);
+
+    const fetchCsrfToken = () => {
+        axios.get('http://localhost:8000/csrf_token/')
+            .then(res => {
+                const token = res.data.csrfToken;
+                if (token) {
+                    setCsrfToken(token);
+                    document.cookie = `csrftoken=${token}; path=/`;
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching CSRF token:', error);
+            });
+    }
+
     return (
         <div className="h-dvh bg-main-color-white flex flex-col justify-start items-center px-2">
             <Header  useCase="default" />
@@ -49,3 +75,4 @@ export default function Landing(){
         </div>
     )
 } 
+
