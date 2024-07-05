@@ -2,6 +2,23 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.db.models import Q
+from django.contrib.auth.backends import BaseBackend
+
+class EmailAuthBackend(BaseBackend):
+    def authenticate(self, request, username=None, password=None, **kwargs):
+        try:
+            user = User.objects.get(email=username)
+            if user.check_password(password):
+                return user
+        except User.DoesNotExist:
+            return None
+
+    def get_user(self, user_id):
+        try:
+            return User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            return None
 
 class UserManager(BaseUserManager):
     def create_user(self, email, fullname, password=None, **extra_fields):
@@ -84,7 +101,7 @@ class AthletePreferences(models.Model):
         # Set isathlete flag to True when saving athlete preferences
         self.user.isathlete = True 
         self.user.save()
-        super().save(*args, **kwargs)
+        super().save(*args, **kwargs) 
 
     def __str__(self):
         return f'{self.user.email} - Athlete Preferences'

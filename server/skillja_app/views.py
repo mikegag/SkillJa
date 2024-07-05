@@ -22,7 +22,7 @@ def user_login(request):
         email = data.get('email')
         password = data.get('password')
 
-        user = authenticate(request, email=email, password=password)
+        user = authenticate(request, username=email, password=password)
         if user is not None:
             auth_login(request,user)
             response = JsonResponse({'message': 'Login Successful'}, status = 200)
@@ -30,7 +30,6 @@ def user_login(request):
             return response
         else:
             return JsonResponse({'error': 'Invalid email or password'}, status = 400)
-        return JsonResponse({'error': 'Invalid request'}, status = 400)
  
 @require_POST
 def user_logout(request):

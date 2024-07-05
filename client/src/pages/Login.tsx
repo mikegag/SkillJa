@@ -24,10 +24,11 @@ export default function Login(){
 
     useEffect(() => {
         document.title = "SkillJa - Login"
-    }, [])
+        console.log(formData)
+    }, [formData])
 
 
-    function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>){
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>){
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value })
     }
@@ -77,6 +78,7 @@ export default function Login(){
                     <div className="relative w-full">
                         <input
                             type="email"
+                            name="email"
                             className="form-input w-full mb-5 mt-5"
                             placeholder="Email"
                             autoComplete="on"
@@ -91,6 +93,7 @@ export default function Login(){
                     <div className="relative w-full">
                         <input
                             type="password"
+                            name="password"
                             className="form-input w-full mb-5"
                             placeholder="Password"
                             autoComplete="on"
