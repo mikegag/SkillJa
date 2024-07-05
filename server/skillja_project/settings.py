@@ -44,7 +44,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_COOKIE_SECURE = False
-SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Set to True if you want sessions to expire when the browser is closed
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_COOKIE_AGE = 3600
 
 
@@ -101,7 +101,7 @@ WSGI_APPLICATION = "skillja_project.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-     "default": dj_database_url.config(default=os.getenv('DATABASE_URL'))
+     "default": dj_database_url.config(default=DATABASE_URL)
 }
 
 
