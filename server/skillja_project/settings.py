@@ -16,10 +16,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Initialise environment variables 
 DEBUG = os.getenv('DJANGO_DEBUG', 'False').lower() == 'true'
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
-DATABASE_URL = os.getenv('DATABASE_URL')
+SECRET_KEY = os.getenv('SECRET_KEY')
+DATABASE_URL = os.getenv('DATABASE_URL') 
 ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '').split(',')
 CSRF_TRUSTED_ORIGINS = os.getenv('CSFR_ALLOWED_HOSTS', '').split(',')
+
 
 CORS_ALLOW_HEADERS = [
     'X-CSRFToken',
