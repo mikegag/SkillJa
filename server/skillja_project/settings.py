@@ -97,16 +97,32 @@ TEMPLATES = [
 WSGI_APPLICATION = "skillja_project.wsgi.application"
 
 
-# Database configuration
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL')
-    )
-}
+# # Database configuration
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default=os.getenv('DATABASE_URL')
+#     )
+# }
 
-# Ensure the ENGINE is set if it's not already defined
-if 'ENGINE' not in DATABASES['default']:
-    DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
+# # Ensure the ENGINE is set if it's not already defined
+# if 'ENGINE' not in DATABASES['default']:
+#     DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('PG_DATABASE'),     
+        'USER': os.getenv('PG_USER'),          
+        'PASSWORD': os.getenv('PG_PASSWORD'),      
+        'HOST': os.getenv('PG_HOST'),  
+        'PORT': os.getenv('PG_PORT')
+    }
+}
+DATABASE_URL = os.getenv('DATABASE_URL')
+if DATABASE_URL:
+    DATABASES['default'] = dj_database_url.config(default=DATABASE_URL)
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
