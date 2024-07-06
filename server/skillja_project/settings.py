@@ -118,10 +118,10 @@ DATABASES = {
         'HOST': os.getenv('PG_HOST'),  
         'PORT': os.getenv('PG_PORT')
     }
-}
-DATABASE_URL = os.getenv('DATABASE_URL')
-if DATABASE_URL:
-    DATABASES['default'] = dj_database_url.config(default=DATABASE_URL)
+} 
+
+# if DATABASE_URL:
+#     DATABASES['default'] = dj_database_url.config(default=DATABASE_URL)
 
 
 # Password validation
