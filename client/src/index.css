@@ -71,7 +71,7 @@ body {
   }
   /* tailwind classes are not applying to date and time inputs so this is used */
   input::-webkit-date-and-time-value {
-    height: 1.5em;
+    height: 4em;
   }
 
   .date-input::-webkit-calendar-picker-indicator {
