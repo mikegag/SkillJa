@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
 import { useState } from "react"
+import Header from "../../components/general/Header"
 import CalendarDisplay from "../../components/general/calendar-preview/CalendarDisplay"
 import CalendarForm from "../../components/general/calendar-preview/CalendarForm"
 import EventAccordion from "../../components/general/calendar-preview/EventAccordion"
@@ -68,64 +69,67 @@ export default function Calendar(){
     const { currentMonthDays, nextMonthDays } = getDaysCurrentAndNextMonth()
 
     return (
-        <div className="flex flex-wrap h-dvh">
-            <section className="flex flex-col m-auto my-8 lg:my-auto">
-                <div className="ml-auto">
-                    <button 
-                        className="p-1 mx-2 w-fit text-main-green-900 hover:text-main-green-500"
-                        onClick={()=>setDisplayCurrentMonth(true)}
-                    >
-                        <FontAwesomeIcon icon={faChevronLeft} />
-                    </button>
-                    <button 
-                        className="p-1 mx-2 w-fit text-main-green-900 hover:text-main-green-500"
-                        onClick={()=>setDisplayCurrentMonth(false)}
-                    >
-                        <FontAwesomeIcon icon={faChevronRight} />
-                    </button>
-                </div>
-                {displayCurrentMonth ? 
-                    <CalendarDisplay monthDays={currentMonthDays} daySelection ={setFirstMonthSelectedDay} />  
-                :
-                    <CalendarDisplay monthDays={nextMonthDays} daySelection ={setSecondMonthSelectedDay} />
-                }
-            </section>
-            <section className="flex flex-col items-center justify-start bg-main-green-800 mt-auto pb-6 min-h-96 lg:h-dvh w-full rounded-t-3xl lg:w-5/12 lg:ml-auto lg:rounded-l-none lg:rounded-tr-none">
-                {addNewEvent ?
-                <>
-                    <div className="flex justify-start w-full mt-12 mb-6 py-2 px-8">
-                        <h2 className="mr-auto heading text-main-cream"></h2>
-                        <FontAwesomeIcon 
-                            icon={faArrowLeftLong} 
-                            onClick={()=>setAddNewEvent(false)}
-                            className="text-3xl ml-auto text-main-cream hover:text-main-green-300 cursor-pointer" 
-                        />
+        <div className="flex flex-col">
+            <Header useCase="protected" />
+            <div className="flex flex-wrap h-dvh">
+                <section className="flex flex-col m-auto my-8 lg:my-auto">
+                    <div className="ml-auto">
+                        <button 
+                            className="p-1 mx-2 w-fit text-main-green-900 hover:text-main-green-500"
+                            onClick={()=>setDisplayCurrentMonth(true)}
+                        >
+                            <FontAwesomeIcon icon={faChevronLeft} />
+                        </button>
+                        <button 
+                            className="p-1 mx-2 w-fit text-main-green-900 hover:text-main-green-500"
+                            onClick={()=>setDisplayCurrentMonth(false)}
+                        >
+                            <FontAwesomeIcon icon={faChevronRight} />
+                        </button>
                     </div>
-                    <CalendarForm />
-                </>
-                :
-                <>
-                    <div className="flex justify-start w-full mt-12 mb-12 py-2 px-8">
-                        {displayCurrentMonth?
-                            <h2 className="mr-auto heading text-main-cream">
-                            {currentMonthDays.month} {firstMonthSelectedDay}
-                            </h2>
-                        : 
-                            <h2 className="mr-auto heading text-main-cream">
-                            {nextMonthDays.month} {secondMonthSelectedDay}
-                            </h2>
-                        }
-                        <FontAwesomeIcon 
-                            icon={faPlusCircle} 
-                            onClick={()=>setAddNewEvent(true)}
-                            className="text-2xl ml-auto text-main-cream hover:text-main-green-300 cursor-pointer" 
-                        />
-                    </div>
-                    <EventAccordion title="Workout with Fred" time="4:00pm" description="ma buddy fred workout ya" />
-                    <EventAccordion title="active recovery" time="7:00pm" description="sleep on da bed" />
-                </>
-                }
-            </section>
+                    {displayCurrentMonth ? 
+                        <CalendarDisplay monthDays={currentMonthDays} daySelection ={setFirstMonthSelectedDay} />  
+                    :
+                        <CalendarDisplay monthDays={nextMonthDays} daySelection ={setSecondMonthSelectedDay} />
+                    }
+                </section>
+                <section className="flex flex-col items-center justify-start bg-main-green-800 mt-auto pb-6 min-h-96 lg:h-dvh w-full rounded-t-3xl lg:w-5/12 lg:ml-auto lg:rounded-l-none lg:rounded-tr-none">
+                    {addNewEvent ?
+                    <>
+                        <div className="flex justify-start w-full mt-12 mb-6 py-2 px-8">
+                            <h2 className="mr-auto heading text-main-cream"></h2>
+                            <FontAwesomeIcon 
+                                icon={faArrowLeftLong} 
+                                onClick={()=>setAddNewEvent(false)}
+                                className="text-3xl ml-auto text-main-cream hover:text-main-green-300 cursor-pointer" 
+                            />
+                        </div>
+                        <CalendarForm />
+                    </>
+                    :
+                    <>
+                        <div className="flex justify-start w-full mt-12 mb-12 py-2 px-8">
+                            {displayCurrentMonth?
+                                <h2 className="mr-auto heading text-main-cream">
+                                {currentMonthDays.month} {firstMonthSelectedDay}
+                                </h2>
+                            : 
+                                <h2 className="mr-auto heading text-main-cream">
+                                {nextMonthDays.month} {secondMonthSelectedDay}
+                                </h2>
+                            }
+                            <FontAwesomeIcon 
+                                icon={faPlusCircle} 
+                                onClick={()=>setAddNewEvent(true)}
+                                className="text-2xl ml-auto text-main-cream hover:text-main-green-300 cursor-pointer" 
+                            />
+                        </div>
+                        <EventAccordion title="Workout with Fred" time="4:00pm" description="ma buddy fred workout ya" />
+                        <EventAccordion title="active recovery" time="7:00pm" description="sleep on da bed" />
+                    </>
+                    }
+                </section>
+            </div>
         </div>
     )
 }

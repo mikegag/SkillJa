@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
+import { Link } from "react-router-dom"
 
 interface UserDataStructure {
     picture: string
@@ -41,9 +42,19 @@ export default function HamburgerMenu(){
                 />
             </div>
             {menuOpen ?
-                <div className="flex flex-col absolute py-1 right-16 mt-2 shadow-sm bg-main-white rounded-2xl">
-                    <p>Messages</p>
-                    <p>Calendar</p>
+                <div className="flex flex-col absolute py-2 right-10 mt-2 shadow-sm border border-main-grey-100 bg-main-white rounded-2xl w-52 overflow-hidden">
+                    <Link to="/auth/chat" className="w-full p-2 hover:bg-main-grey-100 cursor-pointer">
+                        <p>Chats</p>
+                    </Link>
+                    <Link to="/auth/calendar" className="w-full p-2 hover:bg-main-grey-100 cursor-pointer">
+                        <p>Calendar</p>
+                    </Link>
+                    <Link to="/auth/profile" className="w-full p-2 hover:bg-main-grey-100 cursor-pointer">
+                        <p>Profile</p>
+                    </Link>
+                    <Link to="/" className="w-full p-2 hover:bg-main-grey-100 cursor-pointer">
+                        <p>Logout</p>
+                    </Link>
                 </div>
             :
                 <></>
