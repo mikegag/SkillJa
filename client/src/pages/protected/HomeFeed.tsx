@@ -1,19 +1,11 @@
 import React, { useEffect, useState } from "react"
+import Header from "../../components/general/Header"
 import SearchBar from "../../components/navigation/SearchBar"
 import ProfilePreview from "../../components/navigation/ProfilePreview"
 import { Link } from "react-router-dom"
 import axios from "axios"
 
-interface UserDataStructure {
-    fullname: string,
-    picture: string
-}
-
 export default function HomeFeed(){
-    const [userData, setuserData] = useState<UserDataStructure>({
-        fullname: '',
-        picture: ''
-    })
 
     // useEffect(()=>{
     //     axios.get('http://localhost:8000/auth/home-feed/', {
@@ -45,16 +37,7 @@ export default function HomeFeed(){
 
     return (
         <div className="p-4">
-            <div className="flex px-6 py-2">
-                <p className="ml-0 mr-auto my-auto font-medium font-source text-lg text-main-green-900">
-                    Hi, {userData.fullname? userData.fullname : "Guest"}
-                </p>
-                <img 
-                    src={userData.picture? userData.picture : require('../../assets/default-avatar.jpg')}
-                    className="w-10 rounded-full border-2 border-main-green-500" 
-                    alt="profile of logged in user"
-                />
-            </div>
+            <Header useCase="protected"/>
             <div className="flex flex-col items-center justify-center text-main-green-900 mt-10">
                 <h1 className="font-source font-medium text-4xl my-8">
                     Lets find your Coach.
