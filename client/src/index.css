@@ -70,7 +70,7 @@ body {
     @apply flex rounded-2xl p-1 cursor-pointer hover:shadow-lg hover:outline hover:outline-main-green-400;
   }
   /* tailwind classes are not applying to date and time inputs so this is used */
-  input::-webkit-date-and-time-value {
+  input::-webkit-date-and-time-value::after {
     -webkit-appearance: none;
   }
 
