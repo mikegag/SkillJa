@@ -45,7 +45,7 @@ CORS_ALLOW_CREDENTIALS = True
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_COOKIE_SECURE = False
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-SESSION_COOKIE_AGE = 3600
+SESSION_COOKIE_AGE = 7200
 
 
 # Application definition
@@ -96,19 +96,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "skillja_project.wsgi.application"
 
-
-# # Database configuration
-# DATABASES = {
-#     'default': dj_database_url.config(
-#         default=os.getenv('DATABASE_URL')
-#     )
-# }
-
-# # Ensure the ENGINE is set if it's not already defined
-# if 'ENGINE' not in DATABASES['default']:
-#     DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql'
-
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -119,10 +106,6 @@ DATABASES = {
         'PORT': os.getenv('PG_PORT')
     }
 } 
-
-# if DATABASE_URL:
-#     DATABASES['default'] = dj_database_url.config(default=DATABASE_URL)
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

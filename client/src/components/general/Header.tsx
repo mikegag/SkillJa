@@ -20,7 +20,7 @@ export default function Header({useCase}:HeaderProps){
             </div>
         :
             <div className="flex items-center px-2 pt-2 pb-4 lg:px-10 mb-10 border-b border-main-grey-100 lg:mb-8">
-                <Link to='/' className="mr-auto ml-0 my-auto">
+                <Link to='/auth/home-feed' className="mr-auto ml-0 my-auto">
                     <img 
                         src={require('../../assets/skillja-logo.png')} 
                         className="w-12 lg:w-16"

@@ -24,8 +24,7 @@ export default function Login(){
 
     useEffect(() => {
         document.title = "SkillJa - Login"
-        console.log(formData)
-    }, [formData])
+    }, [])
 
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>){

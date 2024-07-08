@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import axios from "axios"
+import GetCSFR from "../../hooks/GetCSFR"
 
 interface UserDataStructure {
     picture: string
@@ -11,6 +13,8 @@ export default function HamburgerMenu(){
         picture: ''
     })
     const menuRef = useRef<HTMLDivElement>(null)
+    const navigate = useNavigate()
+    const csrfToken = GetCSFR({ name: "csrftoken" })
     
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -23,6 +27,40 @@ export default function HamburgerMenu(){
             document.removeEventListener('mousedown', handleClickOutside)
         }
     }, [])
+
+    function handleLogout(){
+        axios.post('http://localhost:8000/logout/',{}, {
+            headers: {
+                'X-CSRFToken': csrfToken,
+            },
+            withCredentials: true
+        })
+            .then(res => {
+                if (res.status === 200) {
+                    const userData = res.data
+                    setTimeout(() => {
+                      navigate("/")
+                    }, 500)
+                } else {
+                    console.error("logout failed")
+                }
+            })
+            .catch(error => {
+                if (error.response) {
+                    // the server responded with a status code that falls out of the range of 2xx
+                    console.error('Error response:', error.response.data)
+                    console.error('Status:', error.response.status)
+                    console.error('Headers:', error.response.headers)
+                } else if (error.request) {
+                    // no response was received
+                    console.error('No response received:', error.request)
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.error('Error setting up request:', error.message)
+                }
+                console.error('Error config:', error.config)
+            })
+    }
     
     return (
         <div ref={menuRef}>
@@ -52,9 +90,9 @@ export default function HamburgerMenu(){
                     <Link to="/auth/profile" className="w-full p-2 hover:bg-main-grey-100 cursor-pointer">
                         <p>Profile</p>
                     </Link>
-                    <Link to="/" className="w-full p-2 hover:bg-main-grey-100 cursor-pointer">
+                    <div className="w-full p-2 hover:bg-main-grey-100 cursor-pointer" onClick={()=>handleLogout()}>
                         <p>Logout</p>
-                    </Link>
+                    </div>
                 </div>
             :
                 <></>
