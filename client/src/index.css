@@ -70,11 +70,10 @@ body {
     @apply flex rounded-2xl p-1 cursor-pointer hover:shadow-lg hover:outline hover:outline-main-green-400;
   }
   /* tailwind classes are not applying to date and time inputs so this is used */
-  input[type="date"],
-  input[type="time"] {
+  input[type="date"]::-webkit-date-and-time-value,
+  input[type="time"]::-webkit-date-and-time-value {
     min-width: 95%;
-    min-height: 6rem;
-    /* content: attr(data-placeholder); */
+    min-height: 4rem;
   }
 
   .date-input::-webkit-calendar-picker-indicator {
