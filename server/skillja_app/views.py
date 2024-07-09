@@ -75,7 +75,7 @@ def onboarding_user(request):
             return JsonResponse({'error': 'Email not found in cookies'}, status=400)
 
         user = User.objects.get(email=email)
-
+ 
         if request.method == 'POST':
             data = json.loads(request.body)
 

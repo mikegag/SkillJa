@@ -79,7 +79,6 @@
                 {"index": 15, "title": "13. Contact Us", "body": "If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at:\nEmail: support@skillja.com"}
               ]
     },
-    
 
     "athleteQuestions":[
         {
@@ -154,6 +153,24 @@
             ]
         }
     ],
+    
+    "onboarding": {
+          "coach":  [
+            {"id":1, "property": "account_type"},
+            {"id":2, "property": "experience_level"},
+            {"id":3, "property": "age_groups"},
+            {"id":4, "property": "specialization"}
+          ],
+          "athlete": [
+            {"id":1, "property": "account_type"},
+            {"id":2, "property": "sport_interests"},
+            {"id":3, "property": "experience_level"},
+            {"id":4, "property": "goals"}
+          ],
+          "sports": ["Ice Hockey 🏒", "Basketball 🏀", "Soccer ⚽", "Baseball ⚾", "Football 🏈", "Rugby 🏉", "Lacrosse 🥍", "Cricket 🏏", "Softball 🥎", "Volleyball 🏐", "Curling 🥌", "Field Hockey 🏑", "Water Polo 💧",
+            "Running 🏃", "Golf ⛳", "Cycling 🚲", "Swimming 🏊‍♂️", "Snowboarding 🏂", "Skiing 🎿", "Personal Training 🏋️", "Tennis 🎾", "Gymnastics 🤸‍♂️", "Boxing 🥊", "Martial Arts 🥋", "Wrestling 🤼", "Track & Field 👟"],
+          "accountTypes": ["Athlete 🥇", "Coach 🎓"]
+    },
 
     "filterMenu": [
         {

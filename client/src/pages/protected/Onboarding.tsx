@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer, useState, useRef } from "react"
 import data from "../../data.json"
 import Accordion from "../../components/general/Accordion"
+import FilterOnboardingData from "../../hooks/FilterOnboardingData"
 import { Link } from "react-router-dom"
 
 interface Question {
@@ -80,7 +81,7 @@ export default function Onboarding() {
                     questionSetRef.current = data.coachQuestions
                 }
             })
-        }   
+        } 
     }, [state, userQuestions, questionSetRef])
 
     const handleAnswer = (questionId: number, option: string) => {
@@ -191,6 +192,7 @@ export default function Onboarding() {
                                     {currentQuestion.buttonValue? currentQuestion.buttonValue : "Explore"}
                             </button>
                         </Link>
+                        <p><FilterOnboardingData data={state.answers}/></p>
                     </div>  
                 }
             </div>
