@@ -2,16 +2,11 @@ import React from "react"
 import data from '../../../data.json'
 import { Link } from "react-router-dom"
 
-export default function SecondSection(){
-    const landingInfo = data.landing.secondSection
+export default function ThirdSection(){
+    const landingInfo = data.landing.thirdSection
 
     return (
         <div className="bg-main-cream flex flex-wrap justify-center items-center px-2">
-            <img 
-                src={require('../../../assets/landingAssets/woman-jogging.png')}
-                className="w-80 mr-12 ml-0"
-                alt="woman jogging outside"
-            />
             <div className="flex flex-col justify-start items-start w-fit">
                 <h3 className="w-fit text-3xl font-source font-medium text-main-green-700">
                     {landingInfo.title}
@@ -26,18 +21,23 @@ export default function SecondSection(){
                     <p>{landingInfo.button.value}</p>
                 </Link>
             </div>
-            <div className="w-full flex justify-evenly mt-14">
+            <img 
+                src={require('../../../assets/landingAssets/coach-holding-timer.png')}
+                className="w-72 ml-12 mr-0"
+                alt="woman jogging outside"
+            />
+            <div className="w-full flex justify-evenly mt-16">
                 <img 
-                    src={require('../../../assets/landingAssets/coach-profile-1.png')}
-                    className="w-60 "
+                    src={require('../../../assets/landingAssets/calender-clock.png')}
+                    className="w-32 h-28"
                 />
                 <img 
-                    src={require('../../../assets/landingAssets/coach-profile-2.png')}
-                    className="w-60"
+                    src={require('../../../assets/landingAssets/phone-message.png')}
+                    className="w-32 h-28"
                 />
                 <img 
-                    src={require('../../../assets/landingAssets/coach-profile-3.png')}
-                    className="w-60"
+                    src={require('../../../assets/landingAssets/payment-process.png')}
+                    className="w-32 h-28"
                 />
             </div>
         </div>

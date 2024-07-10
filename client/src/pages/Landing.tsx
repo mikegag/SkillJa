@@ -7,6 +7,9 @@ import Header from "../components/general/Header"
 import GetWindowSize from "../hooks/GetWindowSize"
 import CreateCSFR from "../hooks/CreateCSFR"
 import HeroSection from "../components/general/landing-preview/HeroSection"
+import SecondSection from "../components/general/landing-preview/SecondSection"
+import ThirdSection from "../components/general/landing-preview/ThirdSection"
+import FourthSection from "../components/general/landing-preview/FourthSection"
 
 
 export default function Landing(){
@@ -19,7 +22,18 @@ export default function Landing(){
             {currentWindow.width < 1024 ?
                 <HeroSection view="mobile" />
             :
-                <HeroSection view="desktop" />
+                <>
+                    <HeroSection view="desktop" />
+                    <div className="mt-44">
+                        <SecondSection />
+                    </div>
+                    <div className="mt-44">
+                        <ThirdSection />
+                    </div>
+                    <div className="mt-44">
+                        <FourthSection />
+                    </div>
+                </>
             }
         </>
     )
