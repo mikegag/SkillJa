@@ -3,6 +3,8 @@ import data from "../../data.json"
 import Accordion from "../../components/general/Accordion"
 import FilterOnboardingData from "../../hooks/FilterOnboardingData"
 import { Link } from "react-router-dom"
+import axios from "axios"
+import GetCSFR from "../../hooks/GetCSFR"
 
 interface Question {
     id: number,
@@ -56,9 +58,13 @@ const reducer = (state: State, action: Action): State => {
 }
 
 export default function Onboarding() {
+    const csrfToken = GetCSFR({ name: "csrftoken" })
     const [state, dispatch] = useReducer(reducer, initialState)
     const [optionsOverloaded, setOptionsOverloaded] = useState(false)
+    //keeps track of completed questions (user progress)
     const [progress, setProgress] = useState(1)
+    //holds final onboarding responses
+    const [onboardingResponses, setOnboardingResponses] = useState<Record<string, string[] | string>>({})
     //default set to athlete question set
     const userData: Series[] = data.athleteQuestions
     const questionSetRef = useRef(userData)
@@ -82,6 +88,12 @@ export default function Onboarding() {
                 }
             })
         } 
+        //end of onboarding process, prepares answers to be submitted
+        if (state.currentSeries === userQuestions.length - 1) {
+            const formattedResponses = FilterOnboardingData(state.answers);
+            setOnboardingResponses(formattedResponses);
+            handleSubmit(formattedResponses)
+        }
     }, [state, userQuestions, questionSetRef])
 
     const handleAnswer = (questionId: number, option: string) => {
@@ -102,6 +114,37 @@ export default function Onboarding() {
             }
         }
         return false
+    }
+    //submits onboarding responses to api
+    function handleSubmit(responses: Record<string, string[] | string>){
+        console.log(onboardingResponses)
+        axios.post('http://localhost:8000/auth/onboarding/', responses, {
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true
+        })
+            .then(res => {
+                if (res.status !== 201) {
+                    console.error("onboarding failed")
+                }
+            })
+            .catch(error => {
+                if (error.response) {
+                    // the server responded with a status code that falls out of the range of 2xx
+                    console.error('Error response:', error.response.data)
+                    console.error('Status:', error.response.status)
+                    console.error('Headers:', error.response.headers)
+                } else if (error.request) {
+                    // no response was received
+                    console.error('No response received:', error.request)
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.error('Error setting up request:', error.message)
+                }
+                console.error('Error config:', error.config)
+            })
     }
 
     return (
@@ -171,13 +214,12 @@ export default function Onboarding() {
                             >
                             {currentQuestion.buttonValue ? currentQuestion.buttonValue : "Continue" }
                         </button>
-                    
-                            <div className="flex my-5">
-                                <div role="presentation" className="bg-main-green-300 h-2 w-16 rounded-l-full"></div>
-                                <div role="presentation" className={`${progress>=2? "bg-main-green-300" : "bg-main-grey-200"} h-2 w-16 ml-2 mr-1`}></div>
-                                <div role="presentation" className={`${progress>=3? "bg-main-green-300" : "bg-main-grey-200"} h-2 w-16 ml-1 mr-2`}></div>
-                                <div role="presentation" className={`${progress>=4? "bg-main-green-300" : "bg-main-grey-200"} h-2 w-16 rounded-r-full`}></div>
-                            </div> 
+                        <div className="flex my-5">
+                            <div role="presentation" className="bg-main-green-300 h-2 w-16 rounded-l-full"></div>
+                            <div role="presentation" className={`${progress>=2? "bg-main-green-300" : "bg-main-grey-200"} h-2 w-16 ml-2 mr-1`}></div>
+                            <div role="presentation" className={`${progress>=3? "bg-main-green-300" : "bg-main-grey-200"} h-2 w-16 ml-1 mr-2`}></div>
+                            <div role="presentation" className={`${progress>=4? "bg-main-green-300" : "bg-main-grey-200"} h-2 w-16 rounded-r-full`}></div>
+                        </div> 
                     </div>
                 : 
                     <div className="flex flex-col items-center">
@@ -192,12 +234,10 @@ export default function Onboarding() {
                                     {currentQuestion.buttonValue? currentQuestion.buttonValue : "Explore"}
                             </button>
                         </Link>
-                        <p><FilterOnboardingData data={state.answers}/></p>
                     </div>  
                 }
             </div>
-            ))}
-            
+            ))}   
         </>
     )
 }

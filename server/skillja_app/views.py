@@ -5,7 +5,7 @@ from django.contrib.auth import logout
 from django.http import JsonResponse, HttpResponseRedirect
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import User
+from .models import User, CoachPreferences, AthletePreferences, CoachProfile, AthleteProfile, Service, Review
 from django.middleware.csrf import get_token, rotate_token
 from django.shortcuts import redirect
 from urllib.parse import urlparse, parse_qs
