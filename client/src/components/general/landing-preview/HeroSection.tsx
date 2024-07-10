@@ -14,7 +14,7 @@ export default function HeroSection({view}:ViewProps){
     return (
         <>
         {view === 'mobile' ?
-            <div className="h-dvh bg-main-color-white flex flex-col justify-start items-center px-2">
+            <div className="h-dvh bg-main-cream flex flex-col justify-start items-center px-2">
                 <Header useCase="default" />
                 <h1 className="text-center text-main-green-700 font-medium text-4xl px-4 font-source">
                     {data.landing.hero.title}
@@ -57,7 +57,7 @@ export default function HeroSection({view}:ViewProps){
                 </p>
             </div>
         :
-            <div className="bg-main-color-white flex flex-col justify-start items-center px-2">
+            <div className="bg-main-cream flex flex-col justify-start items-center px-2">
                 <Header useCase="default" />
                 <h1 className="text-center text-main-green-700 font-medium text-4xl px-4 font-source">
                     {data.landing.hero.title}
@@ -78,7 +78,7 @@ export default function HeroSection({view}:ViewProps){
                 </form>
                 <img 
                     src={require('../../../assets/landingAssets/main-landing-racers.png')} 
-                    className="w-72 mt-6 mb-5 lg:w-80"
+                    className="w-80 mt-6 mb-5"
                     alt="two runners kneeling down ready to race each other"
                 />
                 <SliderPreview />

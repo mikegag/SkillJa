@@ -1,28 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import data from "../../../data.json";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
-
-// Number of items to show at once
-const windowSize = 5 
+import useWindowSize from '../../../hooks/GetWindowSize';
 
 export default function SliderPreview() {
     const sliderData = data.onboarding.sports
+    // Initialize state to track the starting index of visible items
     const [startIndex, setStartIndex] = useState(0)
+    // Get current window size
+    const windowSize = useWindowSize() 
+    // Number of items to show at once dependent on window size
+    const [itemsToShow, setItemsToShow] = useState(windowSize.width < 1150 ? 4 : 5) 
 
+    // Update the number of items to show based on the current window size
+    useEffect(() => {
+        setItemsToShow(windowSize.width < 1150 ? 4 : 5)
+    }, [windowSize])
+
+    // Handle the "next" button click
     const handleNext = () => {
-        if (startIndex + windowSize < sliderData.length) {
-            setStartIndex(startIndex + windowSize)
+        // Ensure that we don't go out of bounds
+        if (startIndex + itemsToShow < sliderData.length) {
+            setStartIndex(startIndex + itemsToShow)
         }
     }
 
+    // Handle the "previous" button click
     const handlePrev = () => {
-        if (startIndex - windowSize >= 0) {
-            setStartIndex(startIndex - windowSize)
+        // Ensure that we don't go out of bounds
+        if (startIndex - itemsToShow >= 0) {
+            setStartIndex(startIndex - itemsToShow)
         }
     }
 
-    const visibleSports = sliderData.slice(startIndex, startIndex + windowSize)
+    // Get the visible items based on the current startIndex and itemsToShow
+    const visibleSports = sliderData.slice(startIndex, startIndex + itemsToShow)
 
     return (
         <div className="flex w-full px-10 justify-center items-center">
@@ -40,7 +53,7 @@ export default function SliderPreview() {
             </div>
             <FontAwesomeIcon 
                 icon={faChevronRight} 
-                className={`ml-6 ${startIndex + windowSize >= sliderData.length ? 'opacity-50 cursor-not-allowed' : 'hover:text-main-green-500 cursor-pointer'}`} 
+                className={`ml-6 ${startIndex + itemsToShow >= sliderData.length ? 'opacity-50 cursor-not-allowed' : 'hover:text-main-green-500 cursor-pointer'}`} 
                 onClick={handleNext} 
             />
         </div>
