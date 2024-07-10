@@ -17,7 +17,7 @@ export default function Header({useCase}:HeaderProps){
                         className="w-12 lg:w-16"
                     />
                 </Link>
-                <HamburgerMenu />
+                <HamburgerMenu useCase="public" />
             </div>
         :
             <div className="w-full flex items-center px-4 pt-2 pb-4 lg:px-10 mb-10 border-b border-main-grey-100 lg:mb-8">
@@ -27,7 +27,7 @@ export default function Header({useCase}:HeaderProps){
                         className="w-12 lg:w-16"
                     />
                 </Link>
-                <HamburgerMenu />
+                <HamburgerMenu useCase="authorized" />
             </div>
         }
         </> 

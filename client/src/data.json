@@ -236,12 +236,31 @@
             { "question": "question 3", "answer":"answer 3" }
     ],
 
+    "HamburgerMenu": {
+        "public":[
+          {"title":"Login", "link":"/login"},
+          {"title":"Sign Up", "link":"/signup"},
+          {"title":"Become a Coach", "link":"/"},
+          {"title":"How SkillJa Works", "link":"/"},
+          {"title":"Our Mission", "link":"/"},
+          {"title":"Support", "link":"/"}
+        ],
+        "authorized": [
+          {"title":"Home", "link":"/home-feed"},
+          {"title":"Messages", "link":"/auth/chats"},
+          {"title":"Calendar", "link":"/auth/calendar"},
+          {"title":"Profile", "link":"/auth/profile"},
+          {"title":"Support", "link":"/"},
+          {"title":"Logout", "link":"/logout"}
+        ]
+    },
+
     "routes": {
-      "landing": "/", 
-      "login":"login",
-      "signup": "signup",
-      "auth":"auth",
-      "onboarding":"auth/onboarding",
-      "home-feed":"home-feed"
+        "landing": "/", 
+        "login":"login",
+        "signup": "signup",
+        "auth":"auth",
+        "onboarding":"auth/onboarding",
+        "home-feed":"home-feed"
     }
 }

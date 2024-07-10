@@ -2,12 +2,17 @@ import React, { useEffect, useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
+import data from "../../data.json"
 
 interface UserDataStructure {
     picture: string
 }
 
-export default function HamburgerMenu(){
+interface MenuProps {
+    useCase: 'public' | 'authorized'
+}
+
+export default function HamburgerMenu({useCase}:MenuProps){
     const [menuOpen, setMenuOpen] = useState<boolean>(false)
     const [userData, setuserData] = useState<UserDataStructure>({
         picture: ''
@@ -15,6 +20,7 @@ export default function HamburgerMenu(){
     const menuRef = useRef<HTMLDivElement>(null)
     const navigate = useNavigate()
     const csrfToken = GetCSFR({ name: "csrftoken" })
+    const menuData = useCase ==='public'? data.HamburgerMenu.public : data.HamburgerMenu.authorized
     
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -37,10 +43,7 @@ export default function HamburgerMenu(){
         })
             .then(res => {
                 if (res.status === 200) {
-                    const userData = res.data
-                    setTimeout(() => {
-                      navigate("/")
-                    }, 500)
+                    navigate("/")
                 } else {
                     console.error("logout failed")
                 }
@@ -64,7 +67,10 @@ export default function HamburgerMenu(){
     
     return (
         <div ref={menuRef}>
-            <div className={`flex bg-main-white rounded-2xl border border-main-grey-100 p-1 h-12 my-auto hover:cursor-pointer hover:shadow-lg ${menuOpen? "shadow-lg":""}`} onClick={()=>setMenuOpen(!menuOpen)}>
+            <div 
+                className={`flex bg-main-white rounded-2xl border border-main-grey-100 p-1 h-12 my-auto hover:cursor-pointer hover:shadow-lg ${menuOpen? "shadow-lg":""}`} 
+                onClick={()=>setMenuOpen(!menuOpen)}
+            >
                 <div className="flex flex-col mx-2 my-auto">
                     <div className="h-0.5 bg-main-green-900 rounded-full w-4 my-0.5">
                     </div>
@@ -80,19 +86,25 @@ export default function HamburgerMenu(){
                 />
             </div>
             {menuOpen ?
-                <div className="flex flex-col absolute py-2 right-10 mt-2 shadow-sm border border-main-grey-100 bg-main-white rounded-2xl w-52 overflow-hidden">
-                    <Link to="/auth/chat" className="w-full p-2 hover:bg-main-grey-100 cursor-pointer">
-                        <p>Chats</p>
-                    </Link>
-                    <Link to="/auth/calendar" className="w-full p-2 hover:bg-main-grey-100 cursor-pointer">
-                        <p>Calendar</p>
-                    </Link>
-                    <Link to="/auth/profile" className="w-full p-2 hover:bg-main-grey-100 cursor-pointer">
-                        <p>Profile</p>
-                    </Link>
-                    <div className="w-full p-2 hover:bg-main-grey-100 cursor-pointer" onClick={()=>handleLogout()}>
-                        <p>Logout</p>
-                    </div>
+                <div className="flex flex-col absolute py-2 right-10 mt-2 shadow-sm border border-main-grey-100 bg-main-white rounded-2xl w-60 overflow-hidden">
+                    {menuData.map((currSection,index)=>(
+                        currSection.title.includes('logout')?
+                            <div 
+                                className="w-full p-2 hover:bg-main-grey-100 cursor-pointer" 
+                                onClick={()=>handleLogout()}
+                                key={index}
+                            >
+                                <p>{currSection.title}</p>
+                            </div>
+                        :
+                            <Link 
+                                to={currSection.link} 
+                                key={index} 
+                                className="w-full p-2 hover:bg-main-grey-100 cursor-pointer"
+                            >
+                                <p>{currSection.title}</p>
+                            </Link>
+                    ))}
                 </div>
             :
                 <></>

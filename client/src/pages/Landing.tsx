@@ -10,6 +10,7 @@ import HeroSection from "../components/general/landing-preview/HeroSection"
 import SecondSection from "../components/general/landing-preview/SecondSection"
 import ThirdSection from "../components/general/landing-preview/ThirdSection"
 import FourthSection from "../components/general/landing-preview/FourthSection"
+import Footer from "../components/general/Footer"
 
 
 export default function Landing(){
@@ -32,6 +33,9 @@ export default function Landing(){
                     </div>
                     <div className="mt-44">
                         <FourthSection />
+                    </div>
+                    <div className="mt-44 mb-10">
+                        <Footer />
                     </div>
                 </>
             }

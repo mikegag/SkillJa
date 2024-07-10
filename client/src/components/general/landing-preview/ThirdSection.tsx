@@ -29,15 +29,15 @@ export default function ThirdSection(){
             <div className="w-full flex justify-evenly mt-16">
                 <img 
                     src={require('../../../assets/landingAssets/calender-clock.png')}
-                    className="w-32 h-28"
+                    className="w-32 h-32"
                 />
                 <img 
                     src={require('../../../assets/landingAssets/phone-message.png')}
-                    className="w-32 h-28"
+                    className="w-32 h-32"
                 />
                 <img 
                     src={require('../../../assets/landingAssets/payment-process.png')}
-                    className="w-32 h-28"
+                    className="w-32 h-32"
                 />
             </div>
         </div>
