@@ -41,7 +41,7 @@ export default function SliderPreview() {
         <div className="flex w-full px-10 justify-center items-center">
             <FontAwesomeIcon 
                 icon={faChevronLeft} 
-                className={`mr-6 ${startIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:text-main-green-500 cursor-pointer'}`} 
+                className={`mr-6 p-2 ${startIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:text-main-green-500 cursor-pointer'}`} 
                 onClick={handlePrev} 
             />
             <div className="w-7/12 flex justify-between">
@@ -53,7 +53,7 @@ export default function SliderPreview() {
             </div>
             <FontAwesomeIcon 
                 icon={faChevronRight} 
-                className={`ml-6 ${startIndex + itemsToShow >= sliderData.length ? 'opacity-50 cursor-not-allowed' : 'hover:text-main-green-500 cursor-pointer'}`} 
+                className={`ml-6 p-2 ${startIndex + itemsToShow >= sliderData.length ? 'opacity-50 cursor-not-allowed' : 'hover:text-main-green-500 cursor-pointer'}`} 
                 onClick={handleNext} 
             />
         </div>

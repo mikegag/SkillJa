@@ -18,6 +18,10 @@ export default function Landing(){
     const newToken = CreateCSFR({ name: "csrftoken" })
     const currentWindow = GetWindowSize()
 
+    useEffect(() => {
+        document.title = "SkillJa | Find Sport Coaches and Instructors"
+    }, [])
+
     return (
         <>
             {currentWindow.width < 1024 ?

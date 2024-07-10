@@ -1,7 +1,7 @@
 {
     "landing": {
           "hero": {
-            "title":"Find the Perfect Coach for Your Sport, Anytime, Anywhere.",
+            "title":"Find the Perfect Coach for Your Sport.",
             "sports": ["Ice Hockey 🏒", "Basketball 🏀", "Soccer ⚽", "Baseball ⚾", "Football 🏈", "Rugby 🏉", "Lacrosse 🥍", "Cricket 🏏", "Softball 🥎", "Volleyball 🏐", "Curling 🥌", "Field Hockey 🏑", "Water Polo 💧",
             "Running 🏃", "Golf ⛳", "Cycling 🚲", "Swimming 🏊‍♂️", "Snowboarding 🏂", "Skiing 🎿", "Personal Training 🏋️", "Tennis 🎾", "Gymnastics 🤸‍♂️", "Boxing 🥊", "Martial Arts 🥋", "Wrestling 🤼", "Track & Field 👟"]
           },
@@ -246,8 +246,8 @@
           {"title":"Support", "link":"/"}
         ],
         "authorized": [
-          {"title":"Home", "link":"/home-feed"},
-          {"title":"Messages", "link":"/auth/chats"},
+          {"title":"Home", "link":"/auth/home-feed"},
+          {"title":"Messages", "link":"/auth/chat"},
           {"title":"Calendar", "link":"/auth/calendar"},
           {"title":"Profile", "link":"/auth/profile"},
           {"title":"Support", "link":"/"},

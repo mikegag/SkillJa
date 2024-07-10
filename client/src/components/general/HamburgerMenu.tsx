@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
+import GetWindowSize from '../../hooks/GetWindowSize'
 import data from "../../data.json"
 
 interface UserDataStructure {
@@ -86,7 +87,7 @@ export default function HamburgerMenu({useCase}:MenuProps){
                 />
             </div>
             {menuOpen ?
-                <div className="flex flex-col absolute py-2 right-10 mt-2 shadow-sm border border-main-grey-100 bg-main-white rounded-2xl w-60 overflow-hidden">
+                <div className="flex flex-col absolute py-2 right-4 lg:right-12 mt-2 shadow-sm border border-main-grey-100 bg-main-white rounded-2xl w-60 overflow-hidden">
                     {menuData.map((currSection,index)=>(
                         currSection.title.includes('logout')?
                             <div 

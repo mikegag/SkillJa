@@ -36,20 +36,22 @@ export default function HomeFeed(){
     // },[])
 
     return (
-        <div className="p-4">
+        <>
             <Header useCase="protected"/>
-            <div className="flex flex-col items-center justify-center text-main-green-900 mt-10">
-                <h1 className="font-source font-medium text-4xl my-8">
-                    Lets find your Coach.
-                </h1>
-                <SearchBar />
-                <h2 className="font-source font-medium text-2xl mt-14 mb-8">
-                    Because you like running...
-                </h2>
-                <Link to={'/auth/coach'} className="mx-auto lg:w-5/12">
-                    <ProfilePreview />
-                </Link>
+            <div className="px-2">
+                <div className="flex flex-col items-center justify-center text-main-green-900 mt-10">
+                    <h1 className="font-source font-medium text-4xl my-8">
+                        Lets find your Coach.
+                    </h1>
+                    <SearchBar />
+                    <h2 className="font-source font-medium text-2xl mt-14 mb-8">
+                        Because you like running...
+                    </h2>
+                    <Link to={'/auth/coach'} className="mx-auto lg:w-5/12">
+                        <ProfilePreview />
+                    </Link>
+                </div>
             </div>
-        </div>
+        </>
     )
 }
