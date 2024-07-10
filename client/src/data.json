@@ -1,4 +1,30 @@
 {
+    "landing": {
+          "hero": {
+            "title":"Find the Perfect Coach for Your Sport, Anytime, Anywhere.",
+            "sports": ["Ice Hockey 🏒", "Basketball 🏀", "Soccer ⚽", "Baseball ⚾", "Football 🏈", "Rugby 🏉", "Lacrosse 🥍", "Cricket 🏏", "Softball 🥎", "Volleyball 🏐", "Curling 🥌", "Field Hockey 🏑", "Water Polo 💧",
+            "Running 🏃", "Golf ⛳", "Cycling 🚲", "Swimming 🏊‍♂️", "Snowboarding 🏂", "Skiing 🎿", "Personal Training 🏋️", "Tennis 🎾", "Gymnastics 🤸‍♂️", "Boxing 🥊", "Martial Arts 🥋", "Wrestling 🤼", "Track & Field 👟"]
+          },
+          "secondSection":{
+            "title":"Discover Coaches Who Understand Your Goals.",
+            "subtitle":"SkillJa helps you connect with professionals who align with your training ambitions. Explore our coaches and find your ideal match to advance your athletic performance.",
+            "button": {"value":"Explore Coaches","link":"/home-feed"}
+          },
+          "thirdSection":{
+            "title":"Connect with Athletes and Grow Your Coaching Business.",
+            "subtitle":"Connect with motivated athletes. Increase your visibility, streamline your coaching workflow, and expand your business.",
+            "button": {"value":"Become a Coach","link":"/signup"}
+          },
+          "fourthSection":{
+            "title":["Find a Coach","Grow your business"],
+            "subtitle":["Browse detailed profiles, read reviews, and choose the best coach to help you achieve your goals.","Connect with athletes, grow your client base, and manage your business with ease. Share your expertise and help athletes reach their full potential."]
+          },
+          "footer": {
+            "subSections": ["Our Mission","Become a Coach", "How SkillJa Works", "Support"],
+            "links":["/","/","/","/"]
+          }
+    },
+    
     "login":[
         {
             "series": 1,
