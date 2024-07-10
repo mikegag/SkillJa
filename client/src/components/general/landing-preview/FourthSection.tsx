@@ -16,14 +16,14 @@ export default function FourthSection(){
                 </p>
                 <img 
                 src={require('../../../assets/landingAssets/woman-kneeling.png')}
-                className="w-72 mx-auto"
+                className="w-64 mx-auto"
                 alt="woman jogging outside"
                 />
             </div>
             <div className="flex flex-col justify-center items-center ml-8">
                 <img 
                 src={require('../../../assets/landingAssets/sports-equipment.png')}
-                className="w-72 mx-auto"
+                className="w-64 mx-auto"
                 alt="woman jogging outside"
                 />
                 <h3 className="w-fit my-7 text-3xl font-source font-medium text-main-green-700">
