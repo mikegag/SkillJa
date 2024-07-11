@@ -119,7 +119,7 @@ export default function SignUp(){
           console.log(formData)
           console.log(csrfToken)
 
-          axios.post('http://localhost:8000/signup/', formData, {
+          axios.post('/api/signup/', formData, {
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'

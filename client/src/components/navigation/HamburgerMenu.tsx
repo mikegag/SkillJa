@@ -36,7 +36,7 @@ export default function HamburgerMenu({useCase}:MenuProps){
     }, [])
 
     function handleLogout(){
-        axios.post('http://localhost:8000/logout/',{}, {
+        axios.post('/api/logout/',{}, {
             headers: {
                 'X-CSRFToken': csrfToken,
             },

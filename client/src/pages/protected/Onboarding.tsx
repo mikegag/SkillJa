@@ -119,7 +119,7 @@ export default function Onboarding() {
     //submits onboarding responses to api
     function handleSubmit(responses: Record<string, string[] | string>){
         console.log(onboardingResponses)
-        axios.post('http://localhost:8000/auth/onboarding/', responses, {
+        axios.post('/api/auth/onboarding/', responses, {
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'

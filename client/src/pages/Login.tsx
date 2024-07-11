@@ -34,7 +34,7 @@ export default function Login(){
 
     function handleSubmit(e:React.FormEvent<HTMLFormElement>){
         e.preventDefault()
-        axios.post('http://localhost:8000/login/', formData, {
+        axios.post('/api/login/', formData, {
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'

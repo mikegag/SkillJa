@@ -8,7 +8,7 @@ import axios from "axios"
 export default function HomeFeed(){
 
     // useEffect(()=>{
-    //     axios.get('http://localhost:8000/auth/home-feed/', {
+    //     axios.get('/api/auth/home-feed/', {
     //     })
     //         .then(res => {
     //             if (res.status === 200) {
