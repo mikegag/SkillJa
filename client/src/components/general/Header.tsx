@@ -3,7 +3,7 @@ import HamburgerMenu from "./HamburgerMenu"
 import { Link } from "react-router-dom"
 
 interface HeaderProps {
-    useCase: 'default' | 'protected'
+    useCase: 'default' | 'protected' | 'onboarding'
 }
 
 export default function Header({useCase}:HeaderProps){
@@ -20,15 +20,24 @@ export default function Header({useCase}:HeaderProps){
                 <HamburgerMenu useCase="public" />
             </div>
         :
-            <div className="w-full flex items-center px-4 pt-2 pb-4 lg:px-10 mb-10 border-b border-main-grey-100 lg:mb-8">
-                <Link to='/auth/home-feed' className="mr-auto ml-0 my-auto">
+            (useCase === 'protected' ? 
+                <div className="w-full flex items-center px-4 pt-2 pb-4 lg:px-10 mb-10 border-b border-main-grey-100 lg:mb-8">
+                    <Link to='/auth/home-feed' className="mr-auto ml-0 my-auto">
+                        <img 
+                            src={require('../../assets/skillja-logo.png')} 
+                            className="w-12 lg:w-16"
+                        />
+                    </Link>
+                    <HamburgerMenu useCase="authorized" />
+                </div>
+            :
+                <div className="w-full flex items-center px-4 pt-2 pb-4 lg:px-10 mb-10 lg:mb-8">
                     <img 
                         src={require('../../assets/skillja-logo.png')} 
-                        className="w-12 lg:w-16"
+                        className="w-12 mr-auto cursor-not-allowed ml-0 my-auto lg:w-16"
                     />
-                </Link>
-                <HamburgerMenu useCase="authorized" />
-            </div>
+                </div>
+            )
         }
         </> 
     )

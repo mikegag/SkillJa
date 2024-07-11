@@ -5,6 +5,7 @@ import FilterOnboardingData from "../../hooks/FilterOnboardingData"
 import { Link } from "react-router-dom"
 import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
+import Header from "../../components/general/Header"
 
 interface Question {
     id: number,
@@ -149,6 +150,7 @@ export default function Onboarding() {
 
     return (
         <>
+            <Header useCase="onboarding" />
             {userQuestions[state.currentSeries].questions.map((currentQuestion: Question) => (
             <div key={`q-${currentQuestion.id}`}>
                 <div className="flex flex-row justify-center items-center flex-wrap">

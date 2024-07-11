@@ -126,7 +126,7 @@
         {
           "series": 3,
           "questions": [
-            { "id": 3, "title": "What is your current experience level?", "options": ["I'm new to the sport!", "I have some experience", "I compete at a high level"], "multiSelect":false }
+            { "id": 3, "title": "What is your current experience level?", "options": ["Beginner", "Intermediate", "Advanced"], "multiSelect":false }
           ]
         },
         {
