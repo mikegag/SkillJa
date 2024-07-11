@@ -1,7 +1,7 @@
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { useEffect, useState } from "react"
-import Header from "../../components/general/Header"
+import Header from "../../components/navigation/Header"
 import MessageSummary from "../../components/general/chat-preview/MessageSummary"
 import ChatBox from "../../components/general/chat-preview/ChatBox"
 import GetWindowSize from '../../hooks/GetWindowSize'

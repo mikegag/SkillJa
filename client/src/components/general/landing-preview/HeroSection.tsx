@@ -3,7 +3,7 @@ import data from "../../../data.json"
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Link } from "react-router-dom"
-import Header from "../../../components/general/Header"
+import Header from "../../navigation/Header"
 import SliderPreview from "./SliderPreview"
 
 interface ViewProps {

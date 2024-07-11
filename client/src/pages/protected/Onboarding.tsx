@@ -5,7 +5,7 @@ import FilterOnboardingData from "../../hooks/FilterOnboardingData"
 import { Link } from "react-router-dom"
 import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
-import Header from "../../components/general/Header"
+import Header from "../../components/navigation/Header"
 
 interface Question {
     id: number,

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import Header from "../../components/general/Header"
+import Header from "../../components/navigation/Header"
 import SearchBar from "../../components/navigation/SearchBar"
 import ProfilePreview from "../../components/navigation/ProfilePreview"
 import { Link } from "react-router-dom"

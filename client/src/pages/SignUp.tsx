@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from "react"
-import Header from "../components/general/Header"
+import Header from "../components/navigation/Header"
 import SignInPartners from "../components/userAuthentication/SignInPartners"
 import AgreementTerms from "../components/userAuthentication/AgreementTerms"
 import ErrorMessage from "../components/general/ErrorMessage"

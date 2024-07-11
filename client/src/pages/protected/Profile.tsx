@@ -2,7 +2,7 @@ import { faEnvelope, faHouse, faPhone, faSliders, faUser } from "@fortawesome/fr
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
-import Header from "../../components/general/Header"
+import Header from "../../components/navigation/Header"
 
 export default function Profile(){
     const [updateDetails, setUpdateDetails] = useState<boolean>(false)

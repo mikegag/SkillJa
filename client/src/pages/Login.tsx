@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import Header from "../components/general/Header"
+import Header from "../components/navigation/Header"
 import SignInPartners from "../components/userAuthentication/SignInPartners"
 import { Link, useNavigate } from "react-router-dom"
 import { faUser } from "@fortawesome/free-regular-svg-icons"

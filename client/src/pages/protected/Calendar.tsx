@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { useState } from "react"
-import Header from "../../components/general/Header"
+import Header from "../../components/navigation/Header"
 import CalendarDisplay from "../../components/general/calendar-preview/CalendarDisplay"
 import CalendarForm from "../../components/general/calendar-preview/CalendarForm"
 import EventAccordion from "../../components/general/calendar-preview/EventAccordion"

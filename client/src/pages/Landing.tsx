@@ -5,7 +5,7 @@ import HeroSection from "../components/general/landing-preview/HeroSection"
 import SecondSection from "../components/general/landing-preview/SecondSection"
 import ThirdSection from "../components/general/landing-preview/ThirdSection"
 import FourthSection from "../components/general/landing-preview/FourthSection"
-import Footer from "../components/general/Footer"
+import Footer from "../components/navigation/Footer"
 
 
 export default function Landing(){
