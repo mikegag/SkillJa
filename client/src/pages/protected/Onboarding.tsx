@@ -118,7 +118,6 @@ export default function Onboarding() {
     }
     //submits onboarding responses to api
     function handleSubmit(responses: Record<string, string[] | string>){
-        console.log(onboardingResponses)
         axios.post('/api/auth/onboarding/', responses, {
             headers: {
                 'X-CSRFToken': csrfToken,
@@ -155,7 +154,7 @@ export default function Onboarding() {
             <div key={`q-${currentQuestion.id}`}>
                 <div className="flex flex-row justify-center items-center flex-wrap">
                     <h3 className="heading my-14 px-4 w-full">{currentQuestion.title}</h3>
-                    {currentQuestion.subtitle? <p> {currentQuestion.subtitle} </p> : <></>}
+                    {currentQuestion.subtitle? <p className="mb-8"> {currentQuestion.subtitle} </p> : <></>}
                     {state.currentSeries !== 1 ?
                    
                         ( 

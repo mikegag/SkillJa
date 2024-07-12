@@ -72,7 +72,7 @@ export default function Calendar(){
         <div className="flex flex-col">
             <Header useCase="protected" />
             <div className="flex flex-wrap h-dvh">
-                <section className="flex flex-col m-auto my-8 lg:my-auto">
+                <section className="flex flex-col m-auto my-8 lg:my-14">
                     <div className="ml-auto">
                         <button 
                             className="p-1 mx-2 w-fit text-main-green-900 hover:text-main-green-500"
@@ -124,8 +124,8 @@ export default function Calendar(){
                                 className="text-2xl ml-auto text-main-cream hover:text-main-green-300 cursor-pointer" 
                             />
                         </div>
-                        <EventAccordion title="Workout with Fred" time="4:00pm" description="ma buddy fred workout ya" />
-                        <EventAccordion title="active recovery" time="7:00pm" description="sleep on da bed" />
+                        <EventAccordion title="Workout with Fred" time="4:00pm" description="workout with Coach Steph" />
+                        <EventAccordion title="active recovery" time="7:00pm" description="sleep" />
                     </>
                     }
                 </section>

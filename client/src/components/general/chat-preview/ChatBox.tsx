@@ -36,7 +36,7 @@ export default function ChatBox({displayChatBox}:ChatBoxProps){
                     <p className="font-kulim text-center mx-auto">Hi there! Greetings from Jeff</p>
                 </div>
                 <div className="rounded-full bg-main-grey-100 py-2 px-4 ml-auto my-4">
-                    <p className="font-kulim text-center mx-auto">Hey Jeff, its Rass</p>
+                    <p className="font-kulim text-center mx-auto">Hey Jeff, it's Steve</p>
                 </div>
             </div>
             <div className="mt-auto px-4 py-8">

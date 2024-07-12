@@ -251,7 +251,7 @@
           {"title":"Calendar", "link":"/auth/calendar"},
           {"title":"Profile", "link":"/auth/profile"},
           {"title":"Support", "link":"/"},
-          {"title":"Logout", "link":"/logout"}
+          {"title":"Logout", "link":"/"}
         ]
     },
 
