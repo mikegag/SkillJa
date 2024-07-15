@@ -89,7 +89,7 @@ export default function HamburgerMenu({useCase}:MenuProps){
             {menuOpen ?
                 <div className="flex flex-col absolute py-2 right-5 z-10 lg:right-11 mt-2 shadow-sm border border-main-grey-100 bg-main-white rounded-2xl w-60 overflow-hidden">
                     {menuData.map((currSection,index)=>(
-                        currSection.title.includes('logout')?
+                        currSection.title.includes('Logout')?
                             <div 
                                 className="w-full p-2 hover:bg-main-grey-100 cursor-pointer" 
                                 onClick={()=>handleLogout()}

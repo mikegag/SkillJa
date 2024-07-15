@@ -11,6 +11,7 @@ export default function Footer(){
                 {footerData.subSections.map((section,index)=>(
                     <Link 
                         to={footerData.links[index]} 
+                        key={index}
                         className="my-auto mx-6 font-medium font-kulim hover:text-main-green-500 cursor-pointer"
                     >
                         <p>{section}</p>
