@@ -12,7 +12,7 @@ export default function ProfilePreview(){
                 className="w-12 h-12 my-2 mx-auto rounded-full border"
             />
             <div className="flex justify-start flex-wrap my-auto mx-3">
-                <p className="w-full text-lg pb-2">Ma Buddy Fred</p>
+                <p className="w-full text-lg pb-2">Currently Under Construction...</p>
                 <FontAwesomeIcon 
                     icon={faStar} 
                     className="text-amber-300 w-4 my-auto"
