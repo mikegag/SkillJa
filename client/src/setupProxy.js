@@ -4,7 +4,7 @@ module.exports = function (app) {
         '/api',
         createProxyMiddleware({
             // target: 'http://localhost:8000', 
-            target: 'https://www.skillja.ca/', 
+            target: '', 
             changeOrigin: true,
         })
     );
