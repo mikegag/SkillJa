@@ -38,7 +38,7 @@ CORS_ALLOW_HEADERS = [
     'X-Requested-With',
     'If-Modified-Since',
     'withcredentials'
-] 
+]  
 
 CSRF_COOKIE_SECURE = True
 CORS_ALLOW_ALL_ORIGINS = True
