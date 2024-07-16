@@ -3,6 +3,7 @@ import Header from "../components/navigation/Header"
 import SignInPartners from "../components/userAuthentication/SignInPartners"
 import AgreementTerms from "../components/userAuthentication/AgreementTerms"
 import ErrorMessage from "../components/general/ErrorMessage"
+import LoadingAnimation from "../components/general/LoadingAnimation"
 import GetCSFR from '../hooks/GetCSFR'
 import { Link, useNavigate } from "react-router-dom"
 import { faCalendar, faEnvelope, faUser } from "@fortawesome/free-regular-svg-icons"
@@ -81,6 +82,7 @@ interface Input {
   }
 
 export default function SignUp(){
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     const csrfToken = GetCSFR({ name: "csrftoken" })
     const [formData, setFormData] = useState<FormStructure>({
@@ -113,8 +115,12 @@ export default function SignUp(){
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
+        setLoading(true)
         if (state.currentSeries < signupQuestions.length - 1) {
           dispatch({ type: "NEXT_SERIES" })
+          setTimeout(() => {
+            setLoading(false)
+          }, 1000)
         } else {
           console.log(formData)
           console.log(csrfToken)
@@ -161,6 +167,15 @@ export default function SignUp(){
           <Header useCase="default" />
           <h2 className="heading mt-0">{signupQuestions[state.currentSeries].title}</h2>
           <div className="flex flex-col justify-center items-center py-12">
+          {loading && state.currentSeries === signupQuestions.length - 1? 
+              (
+                <div className="mt-20">
+                  <LoadingAnimation />
+                </div>
+              ) 
+            :
+              (
+              <>
               <form className="flex flex-col justify-center w-full mx-auto px-4 md:w-7/12 lg:w-4/12" onSubmit={handleSubmit}>
                   {currentInputs.map((input) => (
                       <div className="relative w-full mb-5" key={input.id}>
@@ -246,6 +261,8 @@ export default function SignUp(){
                       </span>
                   </Link>
               </p>
+              </>
+              )}
           </div>
         </div>
 

@@ -39,7 +39,7 @@ export default function HamburgerMenu({useCase}:MenuProps){
         axios.post('/api/logout/',{}, {
             headers: {
                 'X-CSRFToken': csrfToken,
-            },
+            }, 
             withCredentials: true
         })
             .then(res => {

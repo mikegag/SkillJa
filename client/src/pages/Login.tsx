@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react"
 import Header from "../components/navigation/Header"
 import SignInPartners from "../components/userAuthentication/SignInPartners"
+import LoadingAnimation from "../components/general/LoadingAnimation"
 import { Link, useNavigate } from "react-router-dom"
 import { faUser } from "@fortawesome/free-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faLock } from "@fortawesome/free-solid-svg-icons"
 import axios from "axios"
 import GetCSFR from "../hooks/GetCSFR"
-import CreateCSFR from "../hooks/CreateCSFR"
 
 interface FormStructure {
     email: string,
@@ -15,6 +15,7 @@ interface FormStructure {
 }
 
 export default function Login(){
+    const [loading, setLoading] = useState(false)
     const csrfToken = GetCSFR({ name: "csrftoken" })
     const navigate = useNavigate()
     const [formData, setFormData] = useState<FormStructure>({
@@ -34,6 +35,7 @@ export default function Login(){
 
     function handleSubmit(e:React.FormEvent<HTMLFormElement>){
         e.preventDefault()
+        setLoading(true)
         axios.post('/api/login/', formData, {
             headers: {
                 'X-CSRFToken': csrfToken,
@@ -42,11 +44,9 @@ export default function Login(){
             withCredentials: true
         })
             .then(res => {
+                setLoading(false)
                 if (res.status === 200) {
-                    const userData = res.data
-                    setTimeout(() => {
-                      navigate("/auth/home-feed")
-                    }, 600)
+                    navigate("/auth/home-feed")
                 } else {
                     console.error("login failed")
                 }
@@ -73,6 +73,12 @@ export default function Login(){
             <Header useCase="default" />
             <h2 className="heading mt-10">Welcome Back!</h2>
             <div className="flex flex-col justify-center items-center py-12">
+            {loading ? (
+                <div className="mt-20">
+                    <LoadingAnimation />
+                </div>
+            ) : (
+            <>
                 <form className="flex flex-col justify-center w-full mx-auto px-4 md:w-7/12 lg:w-4/12" onSubmit={handleSubmit}>
                     <div className="relative w-full">
                         <input
@@ -128,6 +134,8 @@ export default function Login(){
                         </span>
                     </Link>
                 </p>
+            </>
+            )}
             </div>
         </div>
     )
