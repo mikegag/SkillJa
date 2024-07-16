@@ -24,6 +24,7 @@ CSRF_TRUSTED_ORIGINS = os.getenv('CSFR_ALLOWED_HOSTS', '').split(',')
 
 CORS_ALLOW_HEADERS = [
     'X-CSRFToken',
+    'csrftoken',
     'Content-Type',
     'Authorization',
     'X-Requested-With',
