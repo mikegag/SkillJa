@@ -7,11 +7,10 @@ interface CsfrProps {
 
 export default function CreateCSFR({ name }: CsfrProps): string | null {
     const [csrfToken, setCsrfToken] = useState<string | null>(null)
-
     useEffect(() => {
         const fetchCsrfToken = async () => {
             try {
-                const res = await axios.get('/api/csrf_token/')
+                const res = await axios.get(`${process.env.REACT_APP_RAILWAY_URL}csrf_token/`)
                 const token = res.data.csrfToken
                 if (token) {
                     setCsrfToken(token)

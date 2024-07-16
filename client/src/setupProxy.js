@@ -4,7 +4,7 @@ module.exports = function (app) {
         '/api',
         createProxyMiddleware({
             // target: 'http://localhost:8000', 
-            target: process.env.REACT_APP_RAILWAY_URL, 
+            target: `${process.env.REACT_APP_RAILWAY_URL}`, 
             changeOrigin: true,
         })
     );
