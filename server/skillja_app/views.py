@@ -12,11 +12,9 @@ from django.shortcuts import redirect
 from urllib.parse import urlparse, parse_qs
 from django.views.decorators.http import require_POST, require_GET
 
-@csrf_exempt
 def csrf_token(request):
     if request.method == 'GET':
         token = get_token(request)
-        logger.info(f'CSRF Token generated: {token}')
         return JsonResponse({'csrfToken': token})
     else:
         logger.error('Bad request method--')
