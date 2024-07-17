@@ -1,5 +1,6 @@
 import json
 from django.shortcuts import redirect, get_object_or_404, render
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login as auth_login, authenticate
 from django.contrib.auth import logout
 from django.http import JsonResponse, HttpResponseRedirect
@@ -11,9 +12,15 @@ from django.shortcuts import redirect
 from urllib.parse import urlparse, parse_qs
 from django.views.decorators.http import require_POST, require_GET
 
-
+@csrf_exempt
 def csrf_token(request):
-    return JsonResponse({'csrfToken': get_token(request)})
+    if request.method == 'GET':
+        token = get_token(request)
+        logger.info(f'CSRF Token generated: {token}')
+        return JsonResponse({'csrfToken': token})
+    else:
+        logger.error('Bad request method--')
+        return JsonResponse({'error': '-Bad request'}, status=400)
     
 @require_POST
 def user_login(request):
