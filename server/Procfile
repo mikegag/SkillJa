@@ -1,2 +1,2 @@
-web: gunicorn --bind 0.0.0.0:$PORT skillja_project.wsgi
+web: gunicorn --bind 0.0.0.0:8080 skillja_project.wsgi
 
