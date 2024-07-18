@@ -1,7 +1,8 @@
+import django_heroku
 import os
-from dotenv import load_dotenv
 from pathlib import Path
 import dj_database_url
+from dotenv import load_dotenv
 
 
 # Load environment variables from .env file
@@ -98,15 +99,9 @@ TEMPLATES = [
 WSGI_APPLICATION = "skillja_project.wsgi.application"
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('PG_DATABASE'),     
-        'USER': os.getenv('PG_USER'),          
-        'PASSWORD': os.getenv('PG_PASSWORD'),      
-        'HOST': os.getenv('PG_HOST'),  
-        'PORT': os.getenv('PG_PORT')
-    }
-} 
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -159,3 +154,5 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+django_heroku.settings(locals())
