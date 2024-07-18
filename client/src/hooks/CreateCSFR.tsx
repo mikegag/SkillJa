@@ -10,7 +10,7 @@ export default function CreateCSFR({ name }: CsfrProps): string | null {
     useEffect(() => {
         const fetchCsrfToken = async () => {
             try {
-                const res = await axios.get(`/csrf_token/`,{
+                const res = await axios.get(`http://localhost:8000/csrf_token/`,{
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
