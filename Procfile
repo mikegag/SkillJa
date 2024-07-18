@@ -1,4 +1,4 @@
 release: python manage.py migrate
-web: gunicorn skillja_project.wsgi
+web: gunicorn skillja_project.wsgi 
 
 
