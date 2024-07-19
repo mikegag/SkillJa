@@ -1,4 +1,5 @@
-web: gunicorn --chdir skillja_project wsgi:app
+web: gunicorn --chdir server/skillja_project wsgi:application
+
 
 
 
