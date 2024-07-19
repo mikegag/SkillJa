@@ -1,4 +1,4 @@
-web: gunicorn server:application
+web: gunicorn server.skillja_project.wsgi:application
 
 
 
