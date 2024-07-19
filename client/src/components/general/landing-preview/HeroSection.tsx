@@ -17,7 +17,7 @@ export default function HeroSection({view}:ViewProps){
             <div className="h-dvh bg-main-cream flex flex-col justify-start items-center px-2">
                 <Header useCase="default" />
                 <h1 className="text-center text-main-green-700 font-medium text-4xl px-4 font-source">
-                    {data.landing.hero.title}
+                    {data.landing.hero.title} (under construction..)
                 </h1>
                 <img 
                     src={require('../../../assets/landingAssets/main-landing-racers.png')} 
