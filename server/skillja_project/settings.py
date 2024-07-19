@@ -97,7 +97,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "server.wsgi.application"
+WSGI_APPLICATION = "skillja_project.wsgi.application"
 
 DATABASES = {
     'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
