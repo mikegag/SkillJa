@@ -1,5 +1,6 @@
-release: python server/manage.py migrate
-web: gunicorn skillja_project.wsgi --log-file -
+web: gunicorn skillja_project_project.wsgi:application --log-file - --log-level debug
+python manage.py collectstatic --noinput
+manage.py migrate
 
 
 
