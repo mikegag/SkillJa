@@ -1,9 +1,11 @@
 import django_heroku
 import os
+import sys
 from pathlib import Path
 import dj_database_url
 from dotenv import load_dotenv
 
+sys.path.append('/app/server/skillja_project')
 
 # Load environment variables from .env file
 env_path = Path('.') / '.env'
