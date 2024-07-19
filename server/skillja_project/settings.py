@@ -1,11 +1,10 @@
 import django_heroku
 import os
-import sys
+
 from pathlib import Path
 import dj_database_url
 from dotenv import load_dotenv
 
-sys.path.append('/app/server/skillja_project')
 
 # Load environment variables from .env file
 env_path = Path('.') / '.env'
@@ -98,7 +97,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "skillja_project.wsgi.application"
+WSGI_APPLICATION = "server.wsgi.application"
 
 DATABASES = {
     'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
