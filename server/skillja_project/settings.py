@@ -148,7 +148,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     BASE_DIR / 'client' / 'build'
 ]
-print('dir',STATICFILES_DIRS)
 
 
 # Default primary key field type
