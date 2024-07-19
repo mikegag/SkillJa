@@ -1,4 +1,4 @@
-web: gunicorn --chdir server wsgi:application
+web: gunicorn server:application
 
 
 
