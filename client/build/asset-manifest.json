@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/static/css/main.eda61251.css",
+    "main.js": "/static/js/main.f0e43b54.js",
+    "static/js/453.419a5d54.chunk.js": "/static/js/453.419a5d54.chunk.js",
+    "static/media/google-logo.png": "/static/media/google-logo.d2ace79a84bc22261966.png",
+    "static/media/main-landing-racers.png": "/static/media/main-landing-racers.2db9e2de9385fbda7f8a.png",
+    "static/media/sports-equipment.png": "/static/media/sports-equipment.708493ac07eeabe38376.png",
+    "static/media/skillja-logo.png": "/static/media/skillja-logo.efc797e6c7b1c7cbd501.png",
+    "static/media/woman-jogging.png": "/static/media/woman-jogging.14c57bafca007b93f5ad.png",
+    "static/media/coach-holding-timer.png": "/static/media/coach-holding-timer.20f1dc9797b5a3b81dec.png",
+    "static/media/coach-profile-3.png": "/static/media/coach-profile-3.45655307962442d1a43e.png",
+    "static/media/woman-kneeling.png": "/static/media/woman-kneeling.3855efeab228882d12e6.png",
+    "static/media/coach-profile-1.png": "/static/media/coach-profile-1.298c73f6c0c0f39f58b7.png",
+    "static/media/calender-clock.png": "/static/media/calender-clock.083d63e438f7da890d9a.png",
+    "static/media/coach-profile-2.png": "/static/media/coach-profile-2.a2cc5286ea80a55981b6.png",
+    "static/media/payment-process.png": "/static/media/payment-process.ba9fe732a3d4b9747acc.png",
+    "static/media/phone-message.png": "/static/media/phone-message.2ab3f54fcf23689d2625.png",
+    "index.html": "/index.html",
+    "main.eda61251.css.map": "/static/css/main.eda61251.css.map",
+    "main.f0e43b54.js.map": "/static/js/main.f0e43b54.js.map",
+    "453.419a5d54.chunk.js.map": "/static/js/453.419a5d54.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.eda61251.css",
+    "static/js/main.f0e43b54.js"
+  ]
+}
