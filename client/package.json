@@ -51,5 +51,6 @@
   "engines": {
     "node": ">= 21.2.0",
     "npm": ">= 10.2.3"
-  }
+  },
+  "proxy": "https://www.skillja.ca/"
 }
