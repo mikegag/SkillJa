@@ -1,5 +1,6 @@
 import React from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
+import NotFound from "./pages/NotFound"
 import Landing from "./pages/Landing"
 import Login from "./pages/Login"
 import SignUp from "./pages/SignUp"
@@ -21,6 +22,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="*" element={<NotFound/>} />
         <Route path="/" element={<Landing />} />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<SignUp />} />
