@@ -144,9 +144,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 
-BASE_DI = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-print(BASE_DIR) 
-
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -154,6 +151,7 @@ STATICFILES_DIRS = [
     # BASE_DIR / 'client' / 'build' / 'static'
     os.path.join(BASE_DIR, 'client/build/static')
 ]
+print(BASE_DIR)
 
 
 # Default primary key field type
