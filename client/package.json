@@ -47,5 +47,9 @@
   },
   "devDependencies": {
     "react-router-dom": "^6.23.1"
+  },
+  "engines": {
+    "node": ">= 21.2.0",
+    "npm": ">= 10.2.3"
   }
 }
