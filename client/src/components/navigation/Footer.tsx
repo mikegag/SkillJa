@@ -17,7 +17,7 @@ export default function Footer(){
                         <p>{section}</p>
                     </Link>
                 ))}
-                <div className="flex ml-5 my-auto">
+                <div className="flex ml-7 my-auto">
                     <img 
                         src={require('../../assets/icons/instagram-icon.png')}
                         className="w-7 h-7 text-main-green-900 mx-1 cursor-pointer" 
@@ -37,10 +37,10 @@ export default function Footer(){
                 </div>
             </div>
             <div className="flex justify-between mt-4 text-main-green-900 font-kulim">
-                    <p className="mx-3 text-sm">@ SkillJa 2024</p>
-                    <p className="mx-3 text-sm">Terms</p>
-                    <p className="mx-3 text-sm">Privacy</p>
-                    <p className="mx-3 text-sm">Cookies</p>
+                <p className="mx-3 text-sm">@SkillJa 2024</p>
+                <p className="mx-3 text-sm">Terms</p>
+                <p className="mx-3 text-sm">Privacy</p>
+                <p className="mx-3 text-sm">Cookies</p>
             </div>
         </div>
     )
