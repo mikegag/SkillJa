@@ -2,6 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://www.skillja.ca",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-brands-svg-icons": "^6.5.2",
@@ -51,6 +52,5 @@
   "engines": {
     "node": ">= 21.2.0",
     "npm": ">= 10.2.3"
-  },
-  "proxy": "https://www.skillja.ca/"
+  }
 }
