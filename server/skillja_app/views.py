@@ -13,7 +13,7 @@ from urllib.parse import urlparse, parse_qs
 from django.views.decorators.http import require_POST, require_GET
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'build/index.html')
     
 def csrf_token(request):
     if request.method == 'GET':

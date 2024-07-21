@@ -86,7 +86,7 @@ TEMPLATES = [
         # "DIRS": [
         #     BASE_DIR / 'client/build'
         # ],
-        'DIRS': [os.path.join(BASE_DIR, 'client/build/static')],
+        'DIRS': [os.path.join(BASE_DIR, 'client/build')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -151,7 +151,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
     # BASE_DIR / 'client/build/'
-    os.path.join(BASE_DIR, 'client/build/'),
+    os.path.join(BASE_DIR, 'client/build'),
 ]
 print(BASE_DIR) 
 
