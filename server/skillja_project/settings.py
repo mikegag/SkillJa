@@ -150,7 +150,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
     # BASE_DIR / 'client/build/'
-    os.path.join(BASE_DIR, 'client/build'),
+    # os.path.join(BASE_DIR, 'client/build'),
+    '../client/build'
 ]
 print(BASE_DIR) 
 
