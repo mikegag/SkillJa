@@ -154,6 +154,7 @@ STATICFILES_DIRS = [
     BASE_DIR / 'client'
 ]
 print(BASE_DIR) 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 
 # Default primary key field type
