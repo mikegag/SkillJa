@@ -83,9 +83,7 @@ ROOT_URLCONF = "skillja_project.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [
-            BASE_DIR / 'client/build/'
-        ],
+        "DIRS": [BASE_DIR / 'client/build'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -149,11 +147,9 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
-    # BASE_DIR / 'client/build/'
-    # os.path.join(BASE_DIR, 'client/build'),
     BASE_DIR / 'client/build/'
 ]
-# print(BASE_DIR) 
+print(BASE_DIR) 
 
 
 
