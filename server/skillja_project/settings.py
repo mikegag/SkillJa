@@ -11,7 +11,8 @@ env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path) 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent.parent
+#BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 # Quick-start development settings - unsuitable for production
@@ -84,7 +85,8 @@ ROOT_URLCONF = "skillja_project.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / 'client/build'],
+        # "DIRS": [BASE_DIR / 'client/build'],
+        "DIRS" : [os.path.join(BASE_DIR, "client/build")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -145,10 +147,12 @@ USE_TZ = True
 
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+# STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'client/build/static'
+    # BASE_DIR / 'client/build/static'
+    os.path.join(BASE_DIR, "client/build/static"),
 ]
 
 
