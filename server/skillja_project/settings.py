@@ -151,7 +151,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     # BASE_DIR / 'client/build/'
     # os.path.join(BASE_DIR, 'client/build'),
-    BASE_DIR / 'client/build/static'
+    BASE_DIR / 'client/build'
 ]
 # print(BASE_DIR) 
 
