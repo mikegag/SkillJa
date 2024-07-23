@@ -30,7 +30,7 @@ export default function Login(){
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>){
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value })
+        setFormData({ ...formData, [name]: value }) 
     }
 
     function handleSubmit(e:React.FormEvent<HTMLFormElement>){
