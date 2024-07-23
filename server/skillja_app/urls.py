@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     # path('', views.index, name='index'),
-    path('', TemplateView.as_view(template_name='index.html')),
+    path('', TemplateView.as_view(template_name='index.html',content_type='application/json')),
     path('manifest.json', TemplateView.as_view(template_name='manifest.json', content_type='application/json'), name='manifest.json'),
     path('csrf_token/', csrf_token, name='csrf_token'),
     path('login/', views.user_login, name='login'),
