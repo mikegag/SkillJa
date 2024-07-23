@@ -125,7 +125,7 @@ export default function SignUp(){
           console.log(formData)
           console.log(csrfToken)
 
-          axios.post('/api/signup/', formData, {
+          axios.post('https://www.skillja.ca/signup/', formData, {
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'

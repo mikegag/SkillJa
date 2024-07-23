@@ -118,7 +118,7 @@ export default function Onboarding() {
     }
     //submits onboarding responses to api
     function handleSubmit(responses: Record<string, string[] | string>){
-        axios.post('/api/auth/onboarding/', responses, {
+        axios.post('https://www.skillja.ca/auth/onboarding/', responses, {
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'
