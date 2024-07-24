@@ -5,6 +5,14 @@ from pathlib import Path
 import dj_database_url
 from dotenv import load_dotenv
 
+import mimetypes
+
+# Add MIME type for CSS files
+mimetypes.add_type("text/css", ".css", True)
+
+# Add MIME type for JS files
+mimetypes.add_type("application/javascript", ".js", True)
+
 
 # Load environment variables from .env file
 env_path = Path('.') / '.env'
