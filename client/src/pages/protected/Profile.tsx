@@ -1,20 +1,107 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Header from "../../components/navigation/Header"
 import GetWindowSize from '../../hooks/GetWindowSize'
 import CurrentGoal from "../../components/general/athlete-preview/CurrentGoal"
 import ReviewRatings from "../../components/general/coach-preview/ReviewRatings"
+import SocialMediaIcons from "../../components/general/coach-preview/SocialMediaIcons"
 import { useNavigate, Link } from 'react-router-dom';
-import { faGear, faLongArrowLeft, faStar } from "@fortawesome/free-solid-svg-icons"
+import { faGear, faLocationDot, faLongArrowLeft, faStar } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import axios from "axios"
+import GetCSFR from "../../hooks/GetCSFR"
+
+
+interface Review {
+    id: number;
+    title: string;
+    description: string;
+    rating: string;
+}
+  
+interface ProfileDetails {
+    name: string;
+    email: string;
+    iscoach: boolean;
+    isathlete: boolean;
+    profile: {
+        location: string;
+        biography: string;
+        picture: string | null;
+        reviews: Review[];
+    };
+    preferences: {
+        experience_level: string;
+        goals: string[];
+        sport_interests?: string;
+        age_groups?: string[];
+        specialization?: string;
+        services?: string[];
+    }
+}
+
+// Default values for profileDetails
+const defaultProfileDetails: ProfileDetails = {
+    name: 'Name',
+    email: 'Email',
+    iscoach: false,
+    isathlete: false,
+    profile: {
+        location: 'Location',
+        biography: 'Bio goes here...',
+        picture: null,
+        reviews: [],
+    },
+    preferences: {
+        experience_level: 'N/A',
+        goals: [],
+        sport_interests: '',
+        age_groups: [],
+        specialization: '',
+        services: [],
+    },
+}
 
 export default function Profile(){
-    const [updateDetails, setUpdateDetails] = useState<boolean>(false)
+    const [profileDetails, setProfileDetails] = useState<ProfileDetails>(defaultProfileDetails)
     const windowSize = GetWindowSize()
     const navigate = useNavigate()
+    const csrfToken = GetCSFR({ name: "csrftoken" })
 
     const handleBack = () => {
         navigate(-1)
     }
+
+    useEffect(()=>{
+        axios.get('https://www.skillja.ca/auth/profile/', { 
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true
+        }) 
+            .then(res => {
+                if (res.status === 200) {
+                    setProfileDetails(res.data)
+                } else {
+                    console.error("Failed to retrieve profile details")
+                }
+            })
+            .catch(error => {
+                if (error.response) {
+                    // the server responded with a status code that falls out of the range of 2xx
+                    console.error('Error response:', error.response.data)
+                    console.error('Status:', error.response.status)
+                    console.error('Headers:', error.response.headers)
+                } else if (error.request) {
+                    // no response was received
+                    console.error('No response received:', error.request)
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.error('Error setting up request:', error.message)
+                }
+                console.error('Error config:', error.config)
+            })
+    },[profileDetails])
 
     return (
         <div className="flex flex-col">
@@ -45,17 +132,45 @@ export default function Profile(){
                             className="w-32 h-32 rounded-2xl lg:mr-10"
                         />
                         <div className="flex flex-col justify-center items-center font-kulim text-main-green-900">
-                            <h2 className="text-2xl font-medium font-source mt-3 lg:mt-0 mx-auto lg:ml-0">Tom Chant</h2>
-                            <h3 className="text-lg my-1 mx-auto font-medium text-main-grey-300 lg:ml-0">Toronto, ON</h3>
-                            <h3 className="text-lg my-1 mx-auto font-medium lg:ml-0">
-                                <FontAwesomeIcon icon={faStar} className="text-amber-400 text-lg mr-2 lg:ml-0" />
-                                4.9 Reviews
+                            <h2 className="text-2xl font-medium font-source mt-3 lg:mt-0 mx-auto lg:ml-0">
+                                {profileDetails.name? profileDetails.name : 'Name' }
+                            </h2>
+                            <h3 className="text-lg my-1 mx-auto font-medium font-source text-main-grey-300 lg:ml-0">
+                                <FontAwesomeIcon icon={faLocationDot} className="text-main-grey-300 text-lg lg:text-base mr-2 lg:ml-0" />
+                                {profileDetails.profile.location? profileDetails.profile.location : 'Location' }
                             </h3>
-                            <h3 className="text-lg mx-auto font-medium">Experience: Intermediate</h3>
+                            <h3 className="text-lg lg:text-base my-1 mx-auto font-medium lg:ml-0">
+                                <FontAwesomeIcon icon={faStar} className="text-amber-400 text-lg lg:text-base mr-2 lg:ml-0" />
+                                Reviews
+                            </h3>
+                            <h3 className="text-lg lg:text-base mx-auto font-medium">
+                                Experience: {profileDetails.preferences.experience_level? profileDetails.preferences.experience_level : 'N/A' }
+                            </h3>
                         </div>
-                        <button className="py-2 px-4 lg:ml-32 bg-main-green-500 text-main-white font-kulim rounded-2xl hover:bg-main-green-700">
-                            Edit Profile
-                        </button>
+                        <div className="flex flex-col">
+                            <button 
+                                className="py-2 px-4 mt-6 w-80 lg:w-fit lg:mt-0 lg:ml-44 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
+                            >
+                                Edit Profile
+                            </button>
+                            <button 
+                                    className="py-2 px-4 mt-3 mb-3 w-full lg:w-fit lg:ml-44 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
+                            >
+                                    Edit Services
+                            </button>
+                            {profileDetails.iscoach? 
+                            <>
+                                <button 
+                                    className="py-2 px-4 mt-3 mb-3 w-full lg:w-fit lg:ml-44 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
+                                >
+                                    Edit Services
+                                </button>
+                                <SocialMediaIcons />
+                            </>
+                            :
+                                <></>
+                            }
+                        </div>
                     </div>
                     <div className="w-full lg:mt-6 lg:px-20">
                         {windowSize.width >=1024 ? 
@@ -64,23 +179,58 @@ export default function Profile(){
                             <></>
                         }
                         <p className="my-6 lg:my-3 text-center lg:text-start">
-                            Hi! I'm Tom and I love running! With over 10+ years of coaching experience I can help you 
-                            out with your next big race. Join me on my journey and let's get better together!
+                            {profileDetails.profile.biography? profileDetails.profile.biography : 'Bio goes here...' }
                         </p>
                     </div>
                 </section>
-                <section className="flex justify-center items-center flex-col lg:flex-row mt-8 mx-auto">
-                    <div className="w-full lg:w-4/12 lg:mx-6 lg:mr-10">
-                        <h2 className="text-2xl font-medium font-source mx-auto mb-4 text-center">
-                            Current Goals
-                        </h2>
-                        <CurrentGoal goal="Run a 4 hour marathon!" />
-                        <CurrentGoal goal="Improve my 5k time as my PB is currently 32 minutes" />
+
+                <section className="flex justify-center items-center flex-col lg:flex-row lg:items-start mt-8 mx-auto">
+                    <div className="flex flex-col justify-center w-full lg:w-5/12 lg:mx-6 lg:mr-10">
+                    {profileDetails.isathlete?
+                        <>
+                            <h2 className="text-2xl font-medium font-source mx-auto mb-4 text-center">
+                                Current Goals
+                            </h2>
+                            {profileDetails.preferences.goals.length ?
+                            <>
+                                {profileDetails.preferences.goals.forEach((currGoal,index) => {
+                                    <CurrentGoal key={index} goal={currGoal} />
+                                })}
+                            </>
+                            :
+                                <p>No goals to display</p>
+                            }
+                        </>
+                    :
+                        <>
+                            <h2 className="text-2xl font-medium font-source mx-auto mb-4 text-center">
+                                Sessions and Packages
+                            </h2>
+                            {profileDetails.preferences.services?.length ?
+                            <>
+                                {profileDetails.preferences.services!.forEach((currService,index) => {
+                                    <p key={index}>hi</p>
+                                })}
+                            </>
+                            :
+                                <p className="mx-auto">No sessions are currently available</p>
+                            }
+                        </>
+                    }
                     </div>
-                    <div className="mt-12 lg:mt-0 w-full lg:w-4/12 lg:mx-6 lg:mr-10">
+                    <div className="flex flex-col justify-center mt-12 lg:mt-0 w-full lg:w-5/12 lg:mx-6 lg:mr-10">
                         <h2 className="text-2xl font-medium font-source mx-auto mb-4 text-center">
                             Reviews and Testimonials
                         </h2>
+                        {profileDetails.profile.reviews?.length ?
+                            <>
+                                {profileDetails.profile.reviews.forEach((currService,index) => {
+                                    <p key={index}>hi</p>
+                                })}
+                            </>
+                            :
+                                <p className="mx-auto">No reviews available</p>
+                            }
                     </div>
                 </section>
             </div>

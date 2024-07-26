@@ -117,12 +117,67 @@ def onboarding_user(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
 
-# @require_GET
-# def get_home_feed(request):
-#     if request.method == 'GET':
-        # returns current user's fullname using email = request.COOKIES.get('user_email')
-        # returns 5 random coach objects containing their fullname, reviews, picture, specializations
+@require_GET
+def get_user_profile(request):
+    try:
+        # Extract the email from the cookie
+        email = request.COOKIES.get('user_email')
+        if not email:
+            return JsonResponse({'error': 'Email not found in cookies'}, status=400)
 
+        user = User.objects.get(email=email)
+        data = {
+            'name': user.fullname,
+            'email': user.email,
+            'iscoach': user.iscoach,
+            'isathlete': user.isathlete,
+        }
+
+        if user.isathlete:
+            athlete_profile = AthleteProfile.objects.get(user=user)
+            athlete_preferences = AthletePreferences.objects.get(user=user)
+
+            data.update({
+                'profile': {
+                    'location': athlete_profile.location,
+                    'biography': athlete_profile.biography,
+                    'picture': athlete_profile.picture.url if athlete_profile.picture else None,
+                    'reviews': [review.id for review in athlete_profile.reviews.all()],
+                },
+                'preferences': {
+                    'experience_level': athlete_preferences.experience_level,
+                    'goals': athlete_preferences.goals.split(',') if athlete_preferences.goals else [],
+                    'sport_interests': athlete_preferences.sport_interests.split(',') if athlete_preferences.sport_interests else [],
+                }
+            })
+        
+        elif user.iscoach:
+            coach_profile = CoachProfile.objects.get(user=user)
+            coach_preferences = CoachPreferences.objects.get(user=user)
+
+            data.update({
+                'profile': {
+                    'location': coach_profile.location,
+                    'biography': coach_profile.biography,
+                    'picture': coach_profile.picture.url if coach_profile.picture else None,
+                    'reviews': [review.id for review in coach_profile.reviews.all()],
+                },
+                'preferences': {
+                    'experience_level': coach_preferences.experience_level,
+                    'age_groups': coach_preferences.age_groups.split(',') if coach_preferences.age_groups else [],
+                    'specialization': coach_preferences.specialization.split(',') if coach_preferences.specialization else [],
+                }
+            })
+        
+        else:
+            return JsonResponse({'error': 'User is neither an athlete nor a coach'}, status=400)
+
+        return JsonResponse({'user_profile': data}, status=200)
+
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)
+    except (AthleteProfile.DoesNotExist, CoachProfile.DoesNotExist, AthletePreferences.DoesNotExist, CoachPreferences.DoesNotExist) as e:
+        return JsonResponse({'error': f'Related profile or preferences not found: {str(e)}'}, status=404)
 
 
 @api_view(['GET'])
@@ -130,24 +185,63 @@ def getRoutes(request):
 
     routes = [
         {
-            'Endpoint': '/login',
+            'Endpoint': '/',
+            'method': 'GET',
+            'description': 'Renders the index page (usually for frontend or landing page).'
+        },
+        {
+            'Endpoint': '/csrf_token/',
+            'method': 'GET',
+            'description': 'Provides a CSRF token for client-side operations.'
+        },
+        {
+            'Endpoint': '/login/',
             'method': 'POST',
             'body': {
                 'email': 'string',
                 'password': 'string'
             },
-            'description': 'Logs in an existing user'
+            'description': 'Authenticates a user and logs them in. Sets a cookie for user email.'
         },
         {
-            'Endpoint': '/signup',
+            'Endpoint': '/logout/',
+            'method': 'POST',
+            'description': 'Logs out the user and deletes the email cookie.'
+        },
+        {
+            'Endpoint': '/signup/',
             'method': 'POST',
             'body': {
                 'fullname': 'string',
                 'email': 'string',
-                'username': 'string',
-                'password': 'string'
+                'password': 'string',
+                'birthdate': 'YYYY-MM-DD',
+                'phonenumber': 'string',
+                'gender': 'string'
             },
-            'description': 'Creates a new user'
+            'description': 'Creates a new user and sets a cookie for user email upon successful registration.'
+        },
+        {
+            'Endpoint': '/auth/onboarding/',
+            'method': 'POST',
+            'body': {
+                'experience_level': 'string',
+                'age_groups': 'string (comma-separated for coaches) or null',
+                'specialization': 'string (comma-separated for coaches) or null',
+                'goals': 'string (comma-separated for athletes) or null',
+                'sport_interests': 'string (comma-separated for athletes) or null'
+            },
+            'description': 'Saves onboarding preferences for the logged-in user, either as a coach or athlete.'
+        },
+        {
+            'Endpoint': '/auth/profile/',
+            'method': 'GET',
+            'description': 'Retrieves the profile details of the logged-in user.'
+        },
+        {
+            'Endpoint': '/api/routes/',
+            'method': 'GET',
+            'description': 'Provides a list of API endpoints and their descriptions. Useful for documentation.'
         }
     ]
     return Response(routes)
