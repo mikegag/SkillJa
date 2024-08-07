@@ -5,9 +5,10 @@ import React, { useState, useEffect, useRef } from "react"
 type AccordionProps = {
   title: string,
   children: React.ReactNode
+  style?: string
 };
 
-export default function Accordion({ title, children }: AccordionProps) {
+export default function Accordion({ title, children, style }: AccordionProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [answerHeight, setAnswerHeight] = useState<number | undefined>(undefined)
   const answerRef = useRef<HTMLDivElement>(null)
@@ -21,7 +22,7 @@ export default function Accordion({ title, children }: AccordionProps) {
   }
 
   return (
-    <div className="rounded-2xl mb-5 mx-auto border border-main-grey-200 bg-white w-72 font-source overflow-hidden">
+    <div className={`rounded-2xl mb-5 mx-auto border bg-white w-72 font-source overflow-hidden ${style? style :'border-main-grey-200'}`}>
       <button
         onClick={toggleAccordion}
         className={`flex justify-between items-center w-full p-3   ${isOpen ? 'rounded-b-none' : ''}`}
@@ -36,7 +37,7 @@ export default function Accordion({ title, children }: AccordionProps) {
         className={` max-h-40 overflow-scroll transition-height duration-300 rounded-lg ${isOpen ? 'rounded-t-none' : ''}`}
         style={{ height: isOpen ? answerHeight : 0 }}
       >
-        <div ref={answerRef} className={`bg-main-color-lightgrey ${isOpen ? 'flex flex-col border-t' : 'hidden'}`}>
+        <div ref={answerRef} className={`bg-main-white ${isOpen ? 'flex flex-col border-t' : 'hidden'}`}>
           {children}
         </div>
       </div>

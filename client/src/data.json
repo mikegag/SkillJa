@@ -262,5 +262,41 @@
         "auth":"auth",
         "onboarding":"auth/onboarding",
         "home-feed":"home-feed"
+    },
+
+    "profileForms": {
+      "athlete": {
+        "personalInformation": [
+          { "id": "fullname", "name": "fullname", "icon": "faUser", "type": "text", "placeholder": "Full Name..." },
+          { "id": "phonenumber", "name": "phonenumber", "icon": "faPhone", "type": "tel", "placeholder": "Phone #" },
+          { "id": "address", "name": "address", "icon": "faLocationDot", "type": "text", "placeholder": "Address..." },
+          { "id": "biography", "name": "biography", "icon": "faNewspaper", "type": "textarea", "placeholder": "Bio..." }
+        ],
+        "goals": [
+          { "id": "goal1", "name": "goals", "icon": "faMedal", "type": "text", "placeholder": "Edit Goal", "index": 0 },
+          { "id": "goal2", "name": "goals", "icon": "faMedal", "type": "text", "placeholder": "Edit Goal", "index": 1 },
+          { "id": "goal3", "name": "goals", "icon": "faMedal", "type": "text", "placeholder": "Edit Goal", "index": 2 }
+        ],
+        "primarySport": [
+          { "id": "primarySport", "name": "primarySport", "icon": "faSport", "type": "text", "placeholder": "Primary Sport" }
+        ],
+        "sportInterests": [
+          { "id": "sportInterest1", "name": "sportInterests", "icon": "faSport", "type": "text", "placeholder": "Edit Sport Interest", "index": 0 },
+          { "id": "sportInterest2", "name": "sportInterests", "icon": "faSport", "type": "text", "placeholder": "Edit Sport Interest", "index": 1 }
+        ],
+        "experienceLevel": [
+          { "id": "beginner", "name": "experienceLevel", "type": "radio", "value": "Beginner", "label": "Beginner" },
+          { "id": "intermediate", "name": "experienceLevel", "type": "radio", "value": "Intermediate", "label": "Intermediate" },
+          { "id": "advanced", "name": "experienceLevel", "type": "radio", "value": "Advanced", "label": "Advanced" }
+        ],
+        "sportOptions":{
+        "team":["Ice Hockey 🏒", "Basketball 🏀", "Soccer ⚽", "Baseball ⚾", "Football 🏈", "Rugby 🏉", "Lacrosse 🥍", "Cricket 🏏", "Softball 🥎", "Volleyball 🏐", "Curling 🥌", "Field Hockey 🏑", "Water Polo 💧"],
+        "individual": ["Running 🏃", "Golf ⛳", "Cycling 🚲", "Swimming 🏊‍♂️", "Snowboarding 🏂", "Skiing 🎿", "Personal Training 🏋️", "Tennis 🎾", "Gymnastics 🤸‍♂️", "Boxing 🥊", "Martial Arts 🥋", "Wrestling 🤼", "Track & Field 👟"]
+        },
+        "warningInfo": "We use your address only to suggest nearby coaches. Your address remains confidential and is never shared with third parties."
+      },
+      "coach": {
+
+      }
     }
 }

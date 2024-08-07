@@ -9,6 +9,7 @@ import { faGear, faLocationDot, faLongArrowLeft, faStar } from "@fortawesome/fre
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
+import EditAthleteProfileForm from "../../components/general/athlete-preview/EditAthleteProfileForm"
 
 
 interface Review {
@@ -66,12 +67,14 @@ export default function Profile(){
     const windowSize = GetWindowSize()
     const navigate = useNavigate()
     const csrfToken = GetCSFR({ name: "csrftoken" })
+    const [readyToDisplayForm, setReadyToDisplayForm] = useState<boolean>(false)
 
     const handleBack = () => {
         navigate(-1)
     }
 
     useEffect(()=>{
+        document.title = "SkillJa - Profile"
         axios.get('https://www.skillja.ca/auth/profile/', { 
             headers: {
                 'X-CSRFToken': csrfToken,
@@ -103,10 +106,12 @@ export default function Profile(){
             })
     },[profileDetails])
 
+
     return (
         <div className="flex flex-col">
             <Header useCase="protected" />
             <div className="pb-4 px-8 lg:px-14">
+            {readyToDisplayForm? <EditAthleteProfileForm displayForm={setReadyToDisplayForm} />:<></>}
                 <div className="flex justify-center text-center mt-10">
                     <FontAwesomeIcon 
                         icon={faLongArrowLeft}
@@ -147,30 +152,31 @@ export default function Profile(){
                                 Experience: {profileDetails.preferences.experience_level? profileDetails.preferences.experience_level : 'N/A' }
                             </h3>
                         </div>
-                        <div className="flex flex-col">
-                            <button 
-                                className="py-2 px-4 mt-6 w-80 lg:w-fit lg:mt-0 lg:ml-44 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
-                            >
-                                Edit Profile
-                            </button>
-                            <button 
-                                    className="py-2 px-4 mt-3 mb-3 w-full lg:w-fit lg:ml-44 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
-                            >
-                                    Edit Services
-                            </button>
-                            {profileDetails.iscoach? 
-                            <>
+                        {windowSize.width >= 1024 ?
+                            <div className="flex flex-col">
                                 <button 
-                                    className="py-2 px-4 mt-3 mb-3 w-full lg:w-fit lg:ml-44 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
+                                    className="py-2 px-4 mt-6 w-80 lg:w-fit lg:mt-0 lg:ml-44 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
+                                    onClick={()=>setReadyToDisplayForm(true)}
+                                  
                                 >
-                                    Edit Services
+                                    Edit Profile
                                 </button>
-                                <SocialMediaIcons />
-                            </>
-                            :
+                                {profileDetails.iscoach? 
+                                <>
+                                    <button 
+                                        className="py-2 px-4 mt-3 mb-3 w-full lg:w-fit lg:ml-44 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
+                                    >
+                                        Edit Services
+                                    </button>
+                                    <SocialMediaIcons />
+                                </>
+                                :
                                 <></>
-                            }
-                        </div>
+                                }
+                            </div>
+                        :
+                            <></>
+                        }
                     </div>
                     <div className="w-full lg:mt-6 lg:px-20">
                         {windowSize.width >=1024 ? 
@@ -182,6 +188,29 @@ export default function Profile(){
                             {profileDetails.profile.biography? profileDetails.profile.biography : 'Bio goes here...' }
                         </p>
                     </div>
+                    {windowSize.width <= 1024 ?
+                        <div className="flex flex-col mb-3">
+                            <button 
+                                className="py-2 px-4 w-80 lg:w-fit lg:mt-0 lg:ml-44 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
+                            >
+                                Edit Profile
+                            </button>
+                            {profileDetails.iscoach? 
+                            <>
+                                <button 
+                                    className="py-2 px-4 mt-3 mb-3 w-full lg:w-fit lg:ml-44 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
+                                >
+                                    Edit Services
+                                </button>
+                                <SocialMediaIcons />
+                            </>
+                            :
+                            <></>
+                            }
+                        </div>
+                    :
+                        <></>
+                    }
                 </section>
 
                 <section className="flex justify-center items-center flex-col lg:flex-row lg:items-start mt-8 mx-auto">
@@ -228,9 +257,9 @@ export default function Profile(){
                                     <p key={index}>hi</p>
                                 })}
                             </>
-                            :
+                        :
                                 <p className="mx-auto">No reviews available</p>
-                            }
+                        }
                     </div>
                 </section>
             </div>
