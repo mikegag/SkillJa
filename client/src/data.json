@@ -296,7 +296,36 @@
         "warningInfo": "We use your address only to suggest nearby coaches. Your address remains confidential and is never shared with third parties."
       },
       "coach": {
-
+        "personalInformation": [
+          { "id": "fullname", "name": "fullname", "icon": "faUser", "type": "text", "placeholder": "Full Name..." },
+          { "id": "phonenumber", "name": "phonenumber", "icon": "faPhone", "type": "tel", "placeholder": "Phone #" },
+          { "id": "address", "name": "address", "icon": "faLocationDot", "type": "text", "placeholder": "Address..." },
+          { "id": "biography", "name": "biography", "icon": "faNewspaper", "type": "textarea", "placeholder": "Bio..." }
+        ],
+        "primarySport": [
+          { "id": "primarySport", "name": "primarySport", "icon": "faSport", "type": "text", "placeholder": "Primary Sport" }
+        ],
+        "sportInterests": [
+          { "id": "sportInterest1", "name": "sportInterests", "icon": "faSport", "type": "text", "placeholder": "Edit Sport Interest", "index": 0 },
+          { "id": "sportInterest2", "name": "sportInterests", "icon": "faSport", "type": "text", "placeholder": "Edit Sport Interest", "index": 1 }
+        ],
+        "experienceLevel": [
+          { "id": "beginner", "name": "experienceLevel", "type": "radio", "value": "I've been coaching for less than 1 year", "label": "I've been coaching for less than 1 year" },
+          { "id": "intermediate", "name": "experienceLevel", "type": "radio", "value": "I've been coaching for 1-3 years", "label": "I've been coaching for 1-3 years" },
+          { "id": "advanced", "name": "experienceLevel", "type": "radio", "value": "I've been coaching for 5+ years", "label": "I've been coaching for 5+ years" }
+        ],
+        "sportOptions":{
+          "team":["Ice Hockey 🏒", "Basketball 🏀", "Soccer ⚽", "Baseball ⚾", "Football 🏈", "Rugby 🏉", "Lacrosse 🥍", "Cricket 🏏", "Softball 🥎", "Volleyball 🏐", "Curling 🥌", "Field Hockey 🏑", "Water Polo 💧"],
+          "individual": ["Running 🏃", "Golf ⛳", "Cycling 🚲", "Swimming 🏊‍♂️", "Snowboarding 🏂", "Skiing 🎿", "Personal Training 🏋️", "Tennis 🎾", "Gymnastics 🤸‍♂️", "Boxing 🥊", "Martial Arts 🥋", "Wrestling 🤼", "Track & Field 👟"]
+        },
+        "ageGroups":[
+          { "id": "children", "type": "button", "placeholder": "Children (Under 12)"},
+          { "id": "teen", "type": "button", "placeholder": "Teens (13-17)"},
+          { "id": "adult", "type": "button", "placeholder": "Adults (18-64)"},
+          { "id": "senior", "type": "button", "placeholder": "Seniors (65+)"}
+        ],
+        "warningInfo": "We use your address only to suggest nearby coaches. Your address remains confidential and is never shared with third parties."
       }
+
     }
 }

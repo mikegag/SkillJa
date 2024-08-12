@@ -11,10 +11,10 @@ interface FormStructure {
     phonenumber: string,
     address: string,
     biography: string,
-    goals: string[],
     primarySport: string,
     sportInterests: string[],
-    experienceLevel: string
+    experienceLevel: string,
+    ageGroups: string[],
 }
 
 interface FormProps {
@@ -22,18 +22,21 @@ interface FormProps {
 }
 
 
-export default function EditAthleteProfileForm({displayForm}:FormProps){
+export default function EditCoachProfileForm({displayForm}:FormProps){
     const [formData, setFormData] = useState<FormStructure>({
         fullname: '',
         phonenumber: '',
         address: '',
         biography: '',
-        goals: [],
         primarySport: '',
         sportInterests: [],
-        experienceLevel: ''
+        experienceLevel: '',
+        ageGroups: [],
     })
     
+    useEffect(()=>{
+        console.log(formData)
+    },[formData])
     const [currentSelectedSports, setCurrentSelectedSports] = useState<string[]>([])
     const [insideForm, setInsideForm] = useState<boolean>(false)
     const windowSize = GetWindowSize()
@@ -47,12 +50,8 @@ export default function EditAthleteProfileForm({displayForm}:FormProps){
             displayForm(value)
         }
     }
-
-    useEffect(()=>{
-        console.log(formData)
-    },[formData])
     
-    function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement>) {
         const { name, value, type, dataset } = e.target
     
         if (type === 'text' && (name === 'goals' || name === 'sportInterests') && dataset.index !== undefined) {
@@ -72,6 +71,17 @@ export default function EditAthleteProfileForm({displayForm}:FormProps){
 
     function handleRadioChange(e: React.ChangeEvent<HTMLInputElement>) {
         setFormData({ ...formData, experienceLevel: e.target.value })
+    }
+
+    function handleButtonChange(e: React.MouseEvent<HTMLButtonElement>) {
+        const duplicateAnswer = formData.ageGroups.includes(e.currentTarget.value)
+        const filteredInput = formData.ageGroups.filter(currInput=>currInput!==e.currentTarget.value)
+        if(!duplicateAnswer){
+            setFormData({ ...formData, ageGroups: [...formData.ageGroups,e.currentTarget.value]})
+        }
+        else{
+            setFormData({ ...formData, ageGroups: filteredInput})
+        }
     }
 
     function handleAccordionChange(e:React.MouseEvent<HTMLButtonElement>){
@@ -114,6 +124,18 @@ export default function EditAthleteProfileForm({displayForm}:FormProps){
                         {input.label}
                     </label>
                 </div>
+            )
+        }
+        else if(input.type === 'button'){
+            return (
+                <button
+                    key={input.id}
+                    value={input.placeholder}
+                    className={`form-input text-main-green-900 font-semibold border-main-grey-100 px-0 my-1 w-full ${formData.ageGroups.includes(input.placeholder)? 'bg-main-green-500 text-main-white':''}`}
+                    onClick={handleButtonChange}
+                >
+                    {input.placeholder}
+                </button>
             )
         }
         return (
@@ -182,15 +204,11 @@ export default function EditAthleteProfileForm({displayForm}:FormProps){
                     </div>
                     <div>
                         <p>Personal Information</p>
-                        {data.profileForms.athlete.personalInformation.map(renderInput)}
+                        {data.profileForms.coach.personalInformation.map(renderInput)}
 
                         <p className="text-xs text-main-grey-200 text-center mb-8 px-6">
-                            {data.profileForms.athlete.warningInfo}
+                            {data.profileForms.coach.warningInfo}
                         </p>
-                        <p className="my-6">
-                            My Current Goals
-                        </p>
-                        {data.profileForms.athlete.goals.map(renderInput)}
 
                         <p className="my-6">
                             Primary Sport
@@ -215,9 +233,9 @@ export default function EditAthleteProfileForm({displayForm}:FormProps){
                             Sports of Interest
                         </p>
                         <Accordion title="Individual Sports" style="border-main-grey-100">
-                            {data.profileForms.athlete.sportOptions.individual.map((option, index) => (
+                            {data.profileForms.coach.sportOptions.individual.map((option, index) => (
                                 <button 
-                                    onClick={(e)=>{handleAccordionChange(e)}}
+                                    onClick={(e)=>handleAccordionChange(e)}
                                     key={`individual-${index}`} 
                                     value={option}
                                     aria-label={`team sports option for ${option}`}
@@ -228,13 +246,19 @@ export default function EditAthleteProfileForm({displayForm}:FormProps){
                             ))}
                         </Accordion>
                         <Accordion title="Team Sports" style="border-main-grey-100">
-                            {data.profileForms.athlete.sportOptions.team.map((option, index) => (
+                            {data.profileForms.coach.sportOptions.team.map((option, index) => (
                                 <button 
-                                    onClick={(e)=>{handleAccordionChange(e)}}
+                                    onClick={(e)=>{
+                                        e.preventDefault();
+                                        setCurrentSelectedSports(prev => 
+                                            prev.includes(option) 
+                                                ? prev.filter(item => item !== option) 
+                                                : [...prev, option])
+                                    }}
                                     key={`individual-${index}`} 
                                     value={option}
                                     aria-label={`team sports option for ${option}`}
-                                    className={`text-left p-3 hover:bg-main-green-700 hover:text-main-color-white ${formData.sportInterests.includes(option)? 'bg-main-green-500 text-main-white':''}`}
+                                    className={`text-left p-3 hover:bg-main-green-700 hover:text-main-color-white ${currentSelectedSports.includes(option)? 'bg-main-green-500 text-main-white':''}`}
                                 >
                                     {option}
                                 </button>
@@ -242,7 +266,10 @@ export default function EditAthleteProfileForm({displayForm}:FormProps){
                         </Accordion>
 
                         <p className="my-6">Experience Level</p>
-                        {data.profileForms.athlete.experienceLevel.map(renderInput)}
+                        {data.profileForms.coach.experienceLevel.map(renderInput)}
+
+                        <p className="my-6">Age Groups Coached</p>
+                        {data.profileForms.coach.ageGroups.map(renderInput)}
                     </div>
                 </form>
             </div>

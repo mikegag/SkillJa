@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
 import EditAthleteProfileForm from "../../components/general/athlete-preview/EditAthleteProfileForm"
+import EditCoachProfileForm from "../../components/general/coach-preview/EditCoachProfileForm"
 
 
 interface Review {
@@ -112,6 +113,7 @@ export default function Profile(){
             <Header useCase="protected" />
             <div className="pb-4 px-8 lg:px-14">
             {readyToDisplayForm? <EditAthleteProfileForm displayForm={setReadyToDisplayForm} />:<></>}
+            {/* {readyToDisplayForm? <EditCoachProfileForm displayForm={setReadyToDisplayForm} />:<></>} */}
                 <div className="flex justify-center text-center mt-10">
                     <FontAwesomeIcon 
                         icon={faLongArrowLeft}
@@ -157,7 +159,6 @@ export default function Profile(){
                                 <button 
                                     className="py-2 px-4 mt-6 w-80 lg:w-fit lg:mt-0 lg:ml-44 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
                                     onClick={()=>setReadyToDisplayForm(true)}
-                                  
                                 >
                                     Edit Profile
                                 </button>
@@ -192,6 +193,7 @@ export default function Profile(){
                         <div className="flex flex-col mb-3">
                             <button 
                                 className="py-2 px-4 w-80 lg:w-fit lg:mt-0 lg:ml-44 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
+                                onClick={()=>setReadyToDisplayForm(true)}
                             >
                                 Edit Profile
                             </button>
