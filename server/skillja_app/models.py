@@ -129,7 +129,13 @@ class AthleteProfile(models.Model):
         return f'{self.user.email} - Athlete Profile'
 
 class Service(models.Model):
+    TYPE_CHOICES = (
+        ('full-program':'full-program'),
+        ('online-program': 'online-program'),
+        ('individual-session':'individual-session')
+    )
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='services')
+    type = models.CharField(max_length=20, choices = TYPE_CHOICES, default='individual-session')
     title = models.CharField(max_length=80)
     description = models.TextField(validators=[MaxLengthValidator(900)])
     duration = models.CharField(max_length=100)

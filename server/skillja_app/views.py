@@ -179,6 +179,30 @@ def get_user_profile(request):
     except (AthleteProfile.DoesNotExist, CoachProfile.DoesNotExist, AthletePreferences.DoesNotExist, CoachPreferences.DoesNotExist) as e:
         return JsonResponse({'error': f'Related profile or preferences not found: {str(e)}'}, status=404)
 
+@require_GET
+def get_coach_services(request):
+     try:
+        # Extract the email from the cookie
+        email = request.COOKIES.get('user_email')
+        if not email:
+            return JsonResponse({'error': 'Email not found in cookies'}, status=400)
+
+        try:
+            coach = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'Coach not found'}, status=404)
+
+        if coach.iscoach:
+            data = {
+                'services': [service.id for service in coach.coach_profile.services.all()]
+            }
+            return JsonResponse(data)
+        else:
+            return JsonResponse({'error': 'User is not a coach'}, status=400)
+
+    except Exception as e:
+        return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
+        
 
 @api_view(['GET'])
 def getRoutes(request):

@@ -5,34 +5,13 @@ import React, { useEffect, useState } from "react";
 import Accordion from "../Accordion";
 import data from '../../../data.json'
 import GetWindowSize from '../../../hooks/GetWindowSize'
-
-interface FormStructure {
-    fullname: string,
-    phonenumber: string,
-    address: string,
-    biography: string,
-    goals: string[],
-    primarySport: string,
-    sportInterests: string[],
-    experienceLevel: string
-}
+import OfferedServices from "./form-components/OfferedServices";
 
 interface FormProps {
     displayForm: (value:boolean) => void
 }
 
 export default function EditCoachServiceForm({displayForm}:FormProps){
-    const [formData, setFormData] = useState<FormStructure>({
-        fullname: '',
-        phonenumber: '',
-        address: '',
-        biography: '',
-        goals: [],
-        primarySport: '',
-        sportInterests: [],
-        experienceLevel: ''
-    })
-    
     const [insideForm, setInsideForm] = useState<boolean>(false)
     const windowSize = GetWindowSize()
 
@@ -41,28 +20,6 @@ export default function EditCoachServiceForm({displayForm}:FormProps){
             displayForm(value)
         }
     }
-
-    useEffect(()=>{
-        console.log(formData)
-    },[formData])
-      
-    function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-        const { name, value, type, dataset } = e.target
-    
-        if (type === 'text' && (name === 'goals' || name === 'sportInterests') && dataset.index !== undefined) {
-            const index = Number(dataset.index);
-    
-            // Safely handle list updates
-            if (Array.isArray(formData[name as keyof typeof formData])) {
-                const updatedList = [...formData[name as keyof typeof formData] as string[]]
-                updatedList[index] = value
-                setFormData(prevState => ({ ...prevState, [name]: updatedList }))
-            }
-        } else {
-            // Handle regular inputs
-            setFormData(prevState => ({ ...prevState, [name]: value }))
-        }
-    }    
 
     return (
         <div className="pop-up-background" 
@@ -89,10 +46,7 @@ export default function EditCoachServiceForm({displayForm}:FormProps){
                         Save
                     </p>
                 </div>
-                <p className="font-kulim mr-auto text-left">
-
-                </p>
-                
+                <OfferedServices />
             </div>
         </div>
     )

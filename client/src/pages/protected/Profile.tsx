@@ -11,6 +11,7 @@ import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
 import EditAthleteProfileForm from "../../components/general/athlete-preview/EditAthleteProfileForm"
 import EditCoachProfileForm from "../../components/general/coach-preview/EditCoachProfileForm"
+import EditCoachServiceForm from "../../components/general/coach-preview/EditCoachServiceForm"
 
 
 interface Review {
@@ -68,12 +69,12 @@ export default function Profile(){
     const windowSize = GetWindowSize()
     const navigate = useNavigate()
     const csrfToken = GetCSFR({ name: "csrftoken" })
-    const [readyToDisplayForm, setReadyToDisplayForm] = useState<boolean>(false)
-
+    const [readyToDisplayProfileForm, setReadyToDisplayProfileForm] = useState<boolean>(false)
+    const [readyToDisplayServicesForm, setReadyToDisplayServicesForm] = useState<boolean>(false)
     const handleBack = () => {
         navigate(-1)
     }
-
+    // API call to get user profile details
     useEffect(()=>{
         document.title = "SkillJa - Profile"
         axios.get('https://www.skillja.ca/auth/profile/', { 
@@ -112,8 +113,9 @@ export default function Profile(){
         <div className="flex flex-col">
             <Header useCase="protected" />
             <div className="pb-4 px-8 lg:px-14">
-            {readyToDisplayForm? <EditAthleteProfileForm displayForm={setReadyToDisplayForm} />:<></>}
-            {/* {readyToDisplayForm? <EditCoachProfileForm displayForm={setReadyToDisplayForm} />:<></>} */}
+            {profileDetails.isathlete && readyToDisplayProfileForm? <EditAthleteProfileForm displayForm={setReadyToDisplayProfileForm} />:<></>}
+            {profileDetails.iscoach && readyToDisplayProfileForm? <EditCoachProfileForm displayForm={setReadyToDisplayProfileForm} />:<></>}
+            {profileDetails.iscoach && readyToDisplayServicesForm? <EditCoachServiceForm displayForm={setReadyToDisplayServicesForm}/>:<></>}
                 <div className="flex justify-center text-center mt-10">
                     <FontAwesomeIcon 
                         icon={faLongArrowLeft}
@@ -155,22 +157,23 @@ export default function Profile(){
                             </h3>
                         </div>
                         {windowSize.width >= 1024 ?
-                            <div className="flex flex-col">
+                            <div className="flex flex-col justify-center items-center w-96 pl-16">
                                 <button 
-                                    className="py-2 px-4 mt-6 w-80 lg:w-fit lg:mt-0 lg:ml-44 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
-                                    onClick={()=>setReadyToDisplayForm(true)}
+                                    className="py-2 px-4 mt-6 w-80 lg:w-fit lg:mt-0 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
+                                    onClick={()=>setReadyToDisplayProfileForm(true)}
                                 >
                                     Edit Profile
                                 </button>
                                 {profileDetails.iscoach? 
-                                <>
+                                <div className="flex flex-col justify-center items-center">
                                     <button 
-                                        className="py-2 px-4 mt-3 mb-3 w-full lg:w-fit lg:ml-44 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
+                                        className="py-2 px-4 mt-3 mb-3 w-full lg:w-fit bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
+                                        onClick={()=>setReadyToDisplayServicesForm(true)}
                                     >
                                         Edit Services
                                     </button>
                                     <SocialMediaIcons />
-                                </>
+                                </div>
                                 :
                                 <></>
                                 }
@@ -193,7 +196,7 @@ export default function Profile(){
                         <div className="flex flex-col mb-3">
                             <button 
                                 className="py-2 px-4 w-80 lg:w-fit lg:mt-0 lg:ml-44 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
-                                onClick={()=>setReadyToDisplayForm(true)}
+                                onClick={()=>setReadyToDisplayProfileForm(true)}
                             >
                                 Edit Profile
                             </button>
@@ -201,6 +204,7 @@ export default function Profile(){
                             <>
                                 <button 
                                     className="py-2 px-4 mt-3 mb-3 w-full lg:w-fit lg:ml-44 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
+                                    onClick={()=>setReadyToDisplayServicesForm(true)}
                                 >
                                     Edit Services
                                 </button>
