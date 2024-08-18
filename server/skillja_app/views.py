@@ -14,7 +14,8 @@ from django.views.decorators.http import require_POST, require_GET
 
 def index(request):
     return render(request, 'index.html')
-    
+
+@require_GET
 def csrf_token(request):
     if request.method == 'GET':
         token = get_token(request)
@@ -202,7 +203,48 @@ def get_coach_services(request):
 
     except Exception as e:
         return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
-        
+
+@require_GET
+def search(request):
+    try:
+        if request.method == 'GET':
+             # Get query parameter 'q' from the URL
+            search_term = request.GET.get('q', '') 
+
+            # Perform the search for coaches based on matching specialization
+            results = User.objects.filter(
+                iscoach=True,
+                coach_preferences__specialization__icontains=search_term
+            ).select_related('coach_profile').values(
+                # Direct field from User model
+                'fullname', 
+                # Direct field from User model
+                'email', 
+                # Field from related CoachProfile model 
+                'coach_profile__location', 
+                # Field from related CoachPreferences model
+                'coach_preferences__specialization' 
+            )
+
+            # Rename fields for cleaner JSON output
+            formatted_results = [
+                {
+                    'fullname': result['fullname'],
+                    'email': result['email'],
+                    'location': result['coach_profile__location'],
+                    'specialization': result['coach_preferences__specialization']
+                }
+                for result in results
+            ]
+
+            data = {
+                'results': formatted_results
+            }
+            return JsonResponse(data)
+    except Exception as e:
+        return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
+
+
 
 @api_view(['GET'])
 def getRoutes(request):
@@ -261,6 +303,11 @@ def getRoutes(request):
             'Endpoint': '/auth/profile/',
             'method': 'GET',
             'description': 'Retrieves the profile details of the logged-in user.'
+        },
+        {
+            'Endpoint': '/auth/profile/services',
+            'method': 'GET',
+            'description': 'Retrieves the services offered by a coach'
         },
         {
             'Endpoint': '/api/routes/',

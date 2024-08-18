@@ -6,35 +6,8 @@ import { Link } from "react-router-dom"
 import axios from "axios"
 
 export default function HomeFeed(){
-
-    // useEffect(()=>{
-    //     axios.get('/api/auth/home-feed/', {
-    //     })
-    //         .then(res => {
-    //             if (res.status === 200) {
-    //                 //set user data
-
-    //             } else {
-    //                 console.error("failed to retrieve user data ")
-    //             }
-    //         })
-    //         .catch(error => {
-    //             if (error.response) {
-    //                 // the server responded with a status code that falls out of the range of 2xx
-    //                 console.error('Error response:', error.response.data)
-    //                 console.error('Status:', error.response.status)
-    //                 console.error('Headers:', error.response.headers)
-    //             } else if (error.request) {
-    //                 // no response was received
-    //                 console.error('No response received:', error.request)
-    //             } else {
-    //                 // Something happened in setting up the request that triggered an Error
-    //                 console.error('Error setting up request:', error.message)
-    //             }
-    //             console.error('Error config:', error.config)
-    //         })
-    // },[])
-
+    //pass search term and results as optional params to HomeFeed
+    //afterwards profilePreview needs to accept props to display specific data
     return (
         <>
             <Header useCase="protected"/>
