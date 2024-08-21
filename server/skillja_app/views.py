@@ -291,6 +291,12 @@ def random_profiles(request):
     except Exception as e:
         return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
 
+@require_GET
+def auth_status(request):
+    if request.user.is_authenticated:
+        return JsonResponse({'is_logged_in': True, 'username': request.user.username})
+    return JsonResponse({'is_logged_in': False})
+
 @api_view(['GET'])
 def getRoutes(request):
 

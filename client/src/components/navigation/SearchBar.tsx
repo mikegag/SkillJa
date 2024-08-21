@@ -19,7 +19,7 @@ export default function SearchBar(){
     }
 
     function performSearch(query: string){
-        axios.get('https://www.skillja.ca/search', { 
+        axios.get('https://www.skillja.ca/search/', { 
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'
