@@ -244,7 +244,52 @@ def search(request):
     except Exception as e:
         return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
 
+@require_GET
+def random_profiles(request):
+    try:
+        if request.method == 'GET':
+            search_terms = request.GET.get('q', '')
+            # Assumes search_terms is a comma-separated string
+            search_terms_list = [term.strip() for term in search_terms.split(',') if term.strip()]
+            # Default to page 1 and 6 items per page if not provided
+            page_number = int(request.GET.get('page', 1))
+            page_size = int(request.GET.get('size', 6))
 
+            # Calculate start and end indices for slicing
+            start = (page_number - 1) * page_size
+            end = start + page_size
+
+            results = User.objects.filter(
+                iscoach=True,
+                coach_preferences__specialization__in=search_terms_list
+            ).select_related('coach_profile').values(
+                # Direct field from User model
+                'fullname', 
+                # Direct field from User model
+                'email', 
+                # Field from related CoachProfile model 
+                'coach_profile__location', 
+                # Field from related CoachPreferences model
+                'coach_preferences__specialization' 
+            )[start:end]
+
+            # Rename fields for cleaner JSON output
+            formatted_results = [
+                {
+                    'fullname': result['fullname'],
+                    'email': result['email'],
+                    'location': result['coach_profile__location'],
+                    'specialization': result['coach_preferences__specialization']
+                }
+                for result in results
+            ]
+
+            data = {
+                'results': formatted_results
+            }
+            return JsonResponse(data)
+    except Exception as e:
+        return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
 
 @api_view(['GET'])
 def getRoutes(request):
@@ -308,6 +353,16 @@ def getRoutes(request):
             'Endpoint': '/auth/profile/services',
             'method': 'GET',
             'description': 'Retrieves the services offered by a coach'
+        },
+        {
+            'Endpoint': '/search',
+            'method': 'GET',
+            'description': 'Retrieves matching coach profiles based on a given query term'
+        },
+        {
+            'Endpoint': '/random_profiles',
+            'method': 'GET',
+            'description': 'Retrieves a set amount of random coach profiles based on given query terms'
         },
         {
             'Endpoint': '/api/routes/',

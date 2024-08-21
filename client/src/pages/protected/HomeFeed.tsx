@@ -4,10 +4,56 @@ import SearchBar from "../../components/navigation/SearchBar"
 import ProfilePreview from "../../components/navigation/ProfilePreview"
 import { Link } from "react-router-dom"
 import axios from "axios"
+import GetCSFR from "../../hooks/GetCSFR"
+
+interface HomeFeedProps {
+    queryTerm: string;
+    queryResults: QueryResultsType[];
+}
+
+interface QueryResultsType {
+    fullname: string;
+    location: string;
+    specializations: string[];
+}
 
 export default function HomeFeed(){
+    const csrfToken = GetCSFR({ name: "csrftoken" })
     //pass search term and results as optional params to HomeFeed
     //afterwards profilePreview needs to accept props to display specific data
+
+    function performSearch(query: string){
+        axios.get('https://www.skillja.ca/search', { 
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true
+        }) 
+            .then(res => {
+                if (res.status === 200) {
+                    
+                } else {
+                    console.error("Failed to retrieve services")
+                }
+            })
+            .catch(error => {
+                if (error.response) {
+                    // the server responded with a status code that falls out of the range of 2xx
+                    console.error('Error response:', error.response.data)
+                    console.error('Status:', error.response.status)
+                    console.error('Headers:', error.response.headers)
+                } else if (error.request) {
+                    // no response was received
+                    console.error('No response received:', error.request)
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.error('Error setting up request:', error.message)
+                }
+                console.error('Error config:', error.config)
+            })
+    }
+
     return (
         <>
             <Header useCase="protected"/>

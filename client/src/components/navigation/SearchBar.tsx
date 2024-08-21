@@ -4,12 +4,13 @@ import React, { useState } from "react"
 import Filter from "./search/Filter"
 import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
+import { useNavigate } from "react-router-dom"
 
 export default function SearchBar(){
     const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
     const csrfToken = GetCSFR({ name: "csrftoken" })
     const [searchTerm, setSearchTerm] = useState<string>('')
-
+    const navigate = useNavigate()
     function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>){
         if (e.key === 'Enter') {
             e.preventDefault()
@@ -27,7 +28,7 @@ export default function SearchBar(){
         }) 
             .then(res => {
                 if (res.status === 200) {
-                    
+                    navigate('/auth/home-feed')
                 } else {
                     console.error("Failed to retrieve services")
                 }
