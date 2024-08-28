@@ -62,7 +62,7 @@ export default function HomeFeed(){
                     <h1 className="font-source font-medium text-4xl my-8">
                         Lets find your Coach.
                     </h1>
-                    <SearchBar />
+                    {/* <SearchBar  /> */}
                     <h2 className="font-source font-medium text-2xl mt-14 mb-8">
                         Because you like running...
                     </h2>

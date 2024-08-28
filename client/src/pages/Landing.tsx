@@ -7,7 +7,6 @@ import ThirdSection from "../components/general/landing-preview/ThirdSection"
 import FourthSection from "../components/general/landing-preview/FourthSection"
 import Footer from "../components/navigation/Footer"
 
-
 export default function Landing(){
     //creates and sets new CSFR Token in cookies
     const newToken = CreateCSFR({ name: "csrftoken" })

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Link } from "react-router-dom"
 import Header from "../../navigation/Header"
 import SliderPreview from "./SliderPreview"
+import SearchBar from "../../navigation/SearchBar"
 
 interface ViewProps {
     view: 'mobile' | 'desktop'
@@ -16,7 +17,7 @@ export default function HeroSection({view}:ViewProps){
         {view === 'mobile' ?
             <div className="h-dvh bg-main-cream flex flex-col justify-start items-center px-2">
                 <Header useCase="default" />
-                <h1 className="text-center text-main-green-700 font-medium text-4xl px-4 font-source">
+                <h1 className="text-center text-main-green-900 font-medium text-4xl px-4 font-source">
                     {data.landing.hero.title}
                 </h1>
                 <img 
@@ -24,7 +25,7 @@ export default function HeroSection({view}:ViewProps){
                     className="w-64 mt-6 mb-5 lg:w-80"
                     alt="two runners kneeling down ready to race each other"
                 />
-                <form className="flex flex-col justify-center w-full mx-auto px-4 md:w-7/12 lg:w-4/12">   
+                {/* <form className="flex flex-col justify-center w-full mx-auto px-4 md:w-7/12 lg:w-4/12">   
                     <div className="relative w-full">
                         <input
                             type="search"
@@ -37,10 +38,11 @@ export default function HeroSection({view}:ViewProps){
                             className="absolute inset-y-4 left-0 flex items-center pl-4 text-main-grey-500"
                         />
                     </div>
-                </form>
+                </form> */}
+                <SearchBar mobileView={true} />
                 <Link 
                     to={'/signup'} 
-                    className="flex flex-col justify-center w-full mx-auto px-4 md:w-7/12 lg:w-4/12 mt-5 mb-9"
+                    className="flex flex-col justify-center mx-auto w-80 md:w-6/12 mt-5 mb-9"
                 >
                     <button 
                         className="form-btn"
@@ -59,10 +61,13 @@ export default function HeroSection({view}:ViewProps){
         :
             <div className="bg-main-cream flex flex-col justify-start items-center px-2">
                 <Header useCase="default" />
-                <h1 className="text-center text-main-green-700 font-medium text-4xl px-4 font-source">
-                    {data.landing.hero.title}
+                <h1 className="text-center text-main-green-900 font-medium text-4xl px-4 font-source mb-1">
+                    {data.landing.hero.title.slice(0,-1)},
                 </h1>
-                <form className="flex flex-col justify-center w-full mx-auto mt-8 px-4 md:w-7/12 lg:w-4/12">   
+                <h1 className="text-center text-main-green-900 font-medium text-4xl px-4 font-source">
+                    Anytime, Anywhere.
+                </h1>
+                {/* <form className="flex flex-col justify-center w-full mx-auto mt-8 px-4 md:w-7/12 lg:w-4/12">   
                     <div className="relative w-full">
                         <input
                             type="search"
@@ -75,7 +80,8 @@ export default function HeroSection({view}:ViewProps){
                             className="absolute inset-y-4 left-0 flex items-center pl-4 text-main-grey-500"
                         />
                     </div>
-                </form>
+                </form> */}
+                <SearchBar mobileView={false} />
                 <img 
                     src={require('../../../assets/landingAssets/main-landing-racers.png')} 
                     className="w-80 mt-6 mb-5"

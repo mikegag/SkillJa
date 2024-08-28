@@ -371,6 +371,11 @@ def getRoutes(request):
             'description': 'Retrieves a set amount of random coach profiles based on given query terms'
         },
         {
+            'Endpoint': '/auth_status',
+            'method': 'GET',
+            'description': 'checks if user has a valid session id and is currently logged in'
+        },
+        {
             'Endpoint': '/api/routes/',
             'method': 'GET',
             'description': 'Provides a list of API endpoints and their descriptions. Useful for documentation.'
