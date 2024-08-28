@@ -42,7 +42,7 @@ export default function Authentication(){
 
     return (
         <>
-            {isAuthenticated ? <Outlet /> : navigate('/') } 
+            {isAuthenticated ? <Outlet /> : navigate('/login') } 
         </>
     )
 }
