@@ -17,7 +17,7 @@ export default function Authentication(){
             withCredentials: true
         }) 
             .then(res => {
-                if (res.data.is_logged_in == true) {
+                if (res.data.is_logged_in === true) {
                     setIsAuthenticated(true)
                 } else {
                     console.error("Failed to retrieve services")

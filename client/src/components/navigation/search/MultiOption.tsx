@@ -1,50 +1,53 @@
-import React, { useEffect, useState } from "react"
-import data from "../../../data.json"
+import React from "react"
+import runnerIcon from '../../../assets/icons/runner.svg';
+import tennisIcon from '../../../assets/icons/tennis.svg';
+import golfIcon from '../../../assets/icons/golf.svg';
+import soccerIcon from '../../../assets/icons/soccer.svg';
 
 interface SliderProps {
-    selectedValues: (value:string[])=> void
+    onSportSelect?: (sport: string) => void;
 }
-export default function MultiOption({selectedValues}:SliderProps){
-    const menuData = data.filterMenu[0]
-    const [answers, setAnswers] = useState<string[]>([])
 
-    //updates array of answers based on new selection
-    function handleAnswer(e:React.MouseEvent<HTMLButtonElement, MouseEvent>){
-        e.preventDefault()
-        const selection = (e.target as HTMLInputElement).value
-        //if selected answer is already within previous array of choices it is not added
-        const updatedAnswers = answers.includes(selection) ? 
-            ( answers.filter((ans: string) => ans !== selection) )
-            : 
-            //removes initial empty selection from array
-            answers.includes('') ? 
-                ( answers.filter((ans: string) => ans !== '') )
-                :
-                [...answers, selection]
-        setAnswers(updatedAnswers)
+export default function MultiOption({onSportSelect}:SliderProps){
+    // General click handler for sport images
+    const handleSportClick = (id: string) => {
+        if (onSportSelect) onSportSelect(id)
     }
-
-    useEffect(()=>{
-        selectedValues(answers)
-    },[answers])
 
     return (
         <>
-            <label htmlFor="location" className="text-main-green-900 text-lg font-semibold font-kulim mt-6 mb-4">
-                {menuData.sport.title}
-            </label>
-            <div className="flex flex-wrap mt-4">
-                {menuData.sport.options.map((option, index) => (
-                    <button
-                        key={`sport=${index}`}
-                        onClick={(e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => handleAnswer(e)}
-                        value={option}
-                        aria-label={`sport filter option for ${option}`}
-                        className={`rounded-full shadow-sm select-btn m-2 border-main-grey-200 ${answers.includes(option) ? 'bg-main-green-500 text-main-white' : 'bg-main-white text-main-black'}`}
-                    >
-                        {option}
-                    </button>
-                ))}
+            <div className="mt-2 flex flex-wrap justify-center items-center py-2 px-0">
+                <p className="my-1 w-full text-sm text-center font-kulim">
+                    Suggested Sports...
+                </p>
+                <img 
+                    id="Golf"
+                    alt="golf icon from https://iconscout.com/contributors/christian-mohr"
+                    className="w-16 m-1.5 rounded-xl p-1 border border-main-grey-100 hover:border-main-green-500 hover:shadow-md"
+                    src={golfIcon}
+                    onClick={() => handleSportClick('Golf')}
+                />
+                <img 
+                    id="Soccer"
+                    alt="soccer icon from https://iconscout.com/contributors/christian-mohr"
+                    className="w-16 m-1.5 rounded-xl p-1 border border-main-grey-100 hover:border-main-green-500 hover:shadow-md"
+                    src={soccerIcon}
+                    onClick={() => handleSportClick('Soccer')}
+                />
+                <img 
+                    id="Running"
+                    alt="running icon from https://iconscout.com/contributors/christian-mohr"
+                    className="w-16 m-1.5 rounded-xl p-1 border border-main-grey-100 hover:border-main-green-500 hover:shadow-md"
+                    src={runnerIcon}
+                    onClick={() => handleSportClick('Running')}
+                />
+                <img 
+                    id="Tennis"
+                    alt="tennis icon from https://iconscout.com/contributors/christian-mohr"
+                    className="w-16 m-1.5 rounded-xl p-1 border border-main-grey-100 hover:border-main-green-500 hover:shadow-md"
+                    src={tennisIcon}
+                    onClick={() => handleSportClick('Tennis')}
+                />
             </div>
         </>
     )

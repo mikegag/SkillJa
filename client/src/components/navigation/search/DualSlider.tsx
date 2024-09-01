@@ -1,13 +1,10 @@
 import React, { ChangeEvent, useEffect, useState } from "react"
-import data from "../../../data.json"
 
 interface SliderProps {
-    minSliderValue: (value:number)=> void, 
-    maxSliderValue: (value:number)=>void,
+    onPriceChange: (min: number, max: number) => void;
 }
 
-export default function DualSlider({minSliderValue, maxSliderValue}:SliderProps){
-    const menuData = data.filterMenu[0]
+export default function DualSlider({onPriceChange}:SliderProps){
     const [minValue, setMinValue] = useState(25)
     const [maxValue, setMaxValue] = useState(75)
     const minGap = 20
@@ -15,8 +12,7 @@ export default function DualSlider({minSliderValue, maxSliderValue}:SliderProps)
     const maxRange = 100
 
     useEffect(()=>{
-        minSliderValue(minValue)
-        maxSliderValue(maxValue)
+        onPriceChange(minValue, maxValue)
     },[minValue,maxValue])
 
     //Handles the change event for the minimum range slider (left positioned slider)
@@ -44,16 +40,13 @@ export default function DualSlider({minSliderValue, maxSliderValue}:SliderProps)
 
     return (
         <>
-            <label htmlFor="location" className="text-main-green-900 text-lg font-semibold font-kulim">
-                {menuData.price.title}
-            </label>
-            <div className="flex justify-center my-3">
-                <p className="mr-auto">$</p>
-                <p className="mx-auto ">$$</p>
-                <p className="mx-auto ">$$$</p>
-                <p className="ml-auto">$$$$</p>
-            </div>
             <div className="range-slider-container">
+                <div className="flex justify-center my-3">
+                    <p className="mr-auto">$</p>
+                    <p className="mx-auto ">$$</p>
+                    <p className="mx-auto ">$$$</p>
+                    <p className="ml-auto">$$$$</p>
+                </div>
                 <div
                     className="range-slider-fill"
                     style={{

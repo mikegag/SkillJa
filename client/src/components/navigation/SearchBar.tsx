@@ -1,29 +1,38 @@
-import { faMagnifyingGlass, faSliders } from "@fortawesome/free-solid-svg-icons"
+import { faMagnifyingGlass, faX } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { useEffect, useState } from "react"
-import Filter from "./search/Filter"
 import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
 import { useNavigate } from "react-router-dom"
 import DropDown from "./search/DropDown"
+import SingleSlider from "./search/SingleSlider"
+import MultiOption from "./search/MultiOption"
+import DualSlider from "./search/DualSlider"
 
 interface SearchBarProps {
     mobileView: boolean
 }
 
+interface SearchTermType {
+    sport: string;
+    location: {place:string, proximity: number};
+    price: {value: string, min:number, max:number};
+}
+
 export default function SearchBar({mobileView}:SearchBarProps){
     const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
     const csrfToken = GetCSFR({ name: "csrftoken" })
-    const [searchTerm, setSearchTerm] = useState<string>('')
+    const [searchTerm, setSearchTerm] = useState<SearchTermType>({
+        sport:'tennis',
+        location: {place:'toronto', proximity: 10},
+        price: {value: '25', min:0, max:50}
+    })
     const [currentlySelected, setCurrentlySelected] = useState<string>('')
     const [insideSearchBar, setInsideSearchBar] = useState<boolean>(false)
-    const [selectedSport, setSelectedSport] = useState<string | null>(null)
-    const [locationValue, setLocationValue] = useState<number>(0)
-    const [priceRange, setPriceRange] = useState<{ min: number; max: number }>({ min: 0, max: 100 })
     const navigate = useNavigate()
 
     // api call to search for matching profile based on query and filters
-    function performSearch(query: string){
+    function performSearch(query: SearchTermType){
         axios.get('https://www.skillja.ca/search/', { 
             headers: {
                 'X-CSRFToken': csrfToken,
@@ -57,17 +66,23 @@ export default function SearchBar({mobileView}:SearchBarProps){
 
     // Callback function for sport selection
     function handleSportSelect(sport: string){
-        setSelectedSport(sport)
+        setSearchTerm(prevTerm => ({ ...prevTerm, sport }))
     }
 
     // Callback function for location change
     function handleLocationChange(value: number){
-        setLocationValue(value)
+        setSearchTerm(prevTerm => ({
+            ...prevTerm,
+            location: { ...prevTerm.location, proximity: value }
+        }))
     }
 
     // Callback function for price range change
     function handlePriceChange(min: number, max: number){
-        setPriceRange({ min, max })
+        setSearchTerm(prevTerm => ({
+            ...prevTerm,
+            price: { ...prevTerm.price, min, max }
+        }))
     }
 
     // Function to handle clicks outside of the search bar
@@ -87,17 +102,89 @@ export default function SearchBar({mobileView}:SearchBarProps){
         return () => {
             document.removeEventListener('click', handleExitSearchBar)
         }
+        
     }, [insideSearchBar])
 
     return (
         <>
         {mobileView === true ?
             (isFilterOpen? 
-                <Filter exitView= {setIsFilterOpen}/> 
+                <div className="pop-up-background" >
+                    <div className="pop-up-container">
+                        <div className="flex justify-center pb-4 text-main-green-900 font-kulim">
+                            <FontAwesomeIcon icon={faX} className="w-6 pr-10 ml-5 mr-auto my-auto hover:text-main-green-500 cursor-pointer" onClick={()=> {setIsFilterOpen(false)}}/>
+                        </div>
+                        <div className="px-6 py-1" onClick={()=>setIsFilterOpen(true)}>
+                            <div className="border-b border-main-grey-100">
+                                <p className="my-3 text-left">
+                                    My Sport
+                                </p>
+                                <input 
+                                    id="sport"
+                                    aria-label="search term" 
+                                    className={`w-full text-main-grey-200 border border-main-grey-100 p-2 mt-1 rounded-2xl hover:cursor-pointer`}
+                                    placeholder="Search Sports"
+                                    onChange={(e) => setSearchTerm({ ...searchTerm, sport: e.target.value })}
+                                    onClick={()=>setCurrentlySelected('sport')}
+                                    value={searchTerm.sport}
+                                    autoComplete="off"
+                                />
+                                <MultiOption onSportSelect={handleSportSelect} />
+                            </div>
+                            <div className="border-b border-main-grey-100 pb-3">
+                                <p className="my-3 text-left">
+                                    Where
+                                </p>
+                                <input 
+                                    id="location"
+                                    aria-label="search term" 
+                                    className={` w-full text-main-grey-200 border border-main-grey-100 p-2 mt-1 mb-6 rounded-2xl hover:cursor-pointer`}
+                                    placeholder="My location"
+                                    onChange={(e) => setSearchTerm({ ...searchTerm, location: {...searchTerm.location, place:e.target.value} })}
+                                    onClick={()=>setCurrentlySelected('location')}
+                                    value={searchTerm.location.place}
+                                    autoComplete="off"
+                                />
+                                <SingleSlider sliderValue={handleLocationChange} />
+                            </div>
+                            <div className="border-b border-main-grey-100">
+                                <p className="my-3 text-left">
+                                    Price
+                                </p>
+                                <input 
+                                    id="price"
+                                    aria-label="search term" 
+                                    className={` text-main-grey-200 w-full border border-main-grey-100 p-2 mt-1 mb-3 rounded-2xl hover:cursor-pointer`}
+                                    placeholder="$$$"
+                                    onChange={(e) => setSearchTerm({...searchTerm, price: {...searchTerm.price, value: e.target.value} })}
+                                    onClick={()=>setCurrentlySelected('price')}
+                                    value={searchTerm.price.value}
+                                    autoComplete="off"
+                                />
+                                <DualSlider onPriceChange={handlePriceChange} />
+                            </div>
+                            <button
+                                className="flex justify-center items-center ml-auto mt-12 p-2.5 rounded-xl bg-main-green-500 hover:bg-main-green-900"
+                                aria-label="magnifying glass icon within search bar"
+                                onClick={()=>performSearch(searchTerm)}
+                            >
+                                <FontAwesomeIcon 
+                                    icon={faMagnifyingGlass} 
+                                    className="text-lg text-main-white"
+                                />
+                                <p className="pl-2 text-lg text-main-white">
+                                    Search
+                                </p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 :  
                 <div 
                     role="search" 
-                    className="flex bg-main-white rounded-2xl border-2 border-main-grey-100 w-80 md:w-6/12 p-2.5 hover:border-main-green-500 hover:cursor-pointer"
+                    className="flex bg-main-white rounded-2xl border-2 border-main-grey-100 w-80 md:w-6/12 p-3 hover:border-main-green-500 hover:cursor-pointer"
+                    onMouseEnter={()=>setInsideSearchBar(true)}
+                    onMouseLeave={()=>setInsideSearchBar(false)}
                 >
                     <FontAwesomeIcon 
                         icon={faMagnifyingGlass} 
@@ -109,19 +196,12 @@ export default function SearchBar({mobileView}:SearchBarProps){
                         aria-label="search term" 
                         className="w-full mx-2 focus:outline-none"
                         placeholder="Find coaches near me..."
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        value={searchTerm}
+                        onClick={()=>{setIsFilterOpen(true)}}
                     />
                     <button
                         className="flex justify-center items-center ml-auto mr-auto p-2 rounded-2xl cursor-pointer"
                         aria-label="magnifying glass icon within search bar"
-                        onClick={()=>performSearch(searchTerm)}
-                    >
-                        <FontAwesomeIcon 
-                            icon={faSliders} 
-                            className="text-lg hover:text-main-green-500"
-                        />
-                    </button>
+                    />
                 </div>
             )
             :
@@ -143,12 +223,9 @@ export default function SearchBar({mobileView}:SearchBarProps){
                         aria-label="search term" 
                         className={`${currentlySelected === 'sport'? 'bg-main-white': (currentlySelected===''? 'bg-main-white' :'bg-main-grey-100')} w-full text-main-grey-200 focus:outline-none ml-0 hover:cursor-pointer`}
                         placeholder="Search Sports"
-                        onChange={(e) => {const value = e.target.value;
-                            setSearchTerm(value);
-                            setSelectedSport(value);}
-                        }
+                        onChange={(e) => setSearchTerm({ ...searchTerm, sport: e.target.value })}
                         onClick={()=>setCurrentlySelected('sport')}
-                        value={searchTerm}
+                        value={searchTerm.sport}
                         autoComplete="off"
                     />
                     {currentlySelected === 'sport' ? <DropDown useCase="sport" onSportSelect={handleSportSelect} /> : <></>}
@@ -166,19 +243,21 @@ export default function SearchBar({mobileView}:SearchBarProps){
                         aria-label="search term" 
                         className={`${currentlySelected === 'location'? 'bg-main-white': (currentlySelected===''? 'bg-main-white' :'bg-main-grey-100')} w-full text-main-grey-200 focus:outline-none ml-0 hover:cursor-pointer`}
                         placeholder="My location"
-                        onChange={(e) => setSearchTerm(e.target.value)}
+                        onChange={(e) => {const value = e.target.value;
+                            setSearchTerm({ ...searchTerm, location: {...searchTerm.location, place:e.target.value} })
+                        }}
                         onClick={()=>setCurrentlySelected('location')}
-                        value={searchTerm}
+                        value={searchTerm.location.place}
                         autoComplete="off"
                     />
-                    {currentlySelected === 'location' ? <DropDown useCase="location" onSportSelect={handleSportSelect} /> : <></>}
+                    {currentlySelected === 'location' ? <DropDown useCase="location" onLocationChange={handleLocationChange} /> : <></>}
                 </div>
                 <div role="presentation" className="h-11 w-0.5 bg-main-grey-100 rounded-full py-0.5 m-auto"></div>
                 <div
                     className={`${currentlySelected === 'price'? 'bg-main-white rounded-2xl': (currentlySelected===''? 'bg-main-white' :'bg-main-grey-100')} flex justify-center items-center text-left w-56 rounded-2xl py-1.5 px-3.5`}
                     onClick={()=>setCurrentlySelected('price')}
                 >
-                    {currentlySelected === 'price' ? <DropDown useCase="price" onSportSelect={handleSportSelect} /> : <></>}
+                    {currentlySelected === 'price' ? <DropDown useCase="price" onPriceChange={handlePriceChange} /> : <></>}
                     <div className={`${currentlySelected === 'price'? 'bg-main-white rounded-2xl': (currentlySelected === ''? 'bg-main-white' :'bg-main-grey-100 rounded-none')} flex flex-col justify-center items-start`}>
                         <p className="text-main-black mb-1">
                             Price
@@ -188,9 +267,9 @@ export default function SearchBar({mobileView}:SearchBarProps){
                             aria-label="search term" 
                             className={`${currentlySelected === 'price'? 'bg-main-white rounded-3xl': (currentlySelected === ''? 'bg-main-white':'bg-main-grey-100 rounded-none')} text-main-grey-200 w-full mx-2 focus:outline-none ml-0 hover:cursor-pointer`}
                             placeholder="$$$"
-                            onChange={(e) => setSearchTerm(e.target.value)}
+                            onChange={(e) => setSearchTerm({...searchTerm, price: {...searchTerm.price, value: e.target.value} })}
                             onClick={()=>setCurrentlySelected('price')}
-                            value={searchTerm}
+                            value={searchTerm.price.value}
                             autoComplete="off"
                         />
                     </div>

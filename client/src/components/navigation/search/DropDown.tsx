@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import runnerIcon from '../../../assets/icons/runner.svg';
 import tennisIcon from '../../../assets/icons/tennis.svg';
 import golfIcon from '../../../assets/icons/golf.svg';
@@ -19,7 +19,6 @@ export default function DropDown({useCase, onSportSelect, onLocationChange, onPr
     const minGap = 20
     const minRange = 0
     const maxRange = 100
-    const photo = require('../../../assets/icons/runner.svg');
 
     //Handles the change event for the minimum range slider (left positioned slider)
     function handleMinChange(e: React.ChangeEvent<HTMLInputElement>){
@@ -55,7 +54,8 @@ export default function DropDown({useCase, onSportSelect, onLocationChange, onPr
     const getLeftPosition = () => {
         return ((minValue - minRange) / (maxRange - minRange)) * 100;
     }
-     //returns right position of slider to update background color
+
+    //returns right position of slider to update background color
     const getRightPosition = () => {
         return ((maxValue - minRange) / (maxRange - minRange)) * 100;
     }
@@ -123,26 +123,26 @@ export default function DropDown({useCase, onSportSelect, onLocationChange, onPr
                     </div>
                 :
                     <div className="absolute rounded-2xl bg-main-white border mt-12 -ml-4 border-main-grey-100 shadow-lg flex flex-col w-56 justify-center items-center p-3">
-                        <div className="flex justify-center items-center text-main-grey-200 text-sm w-full mb-4">
+                        <div className="flex justify-center items-center text-main-green-900 text-sm w-full mb-4">
                             <p className="mr-auto">
                                 $
-                                <span className="text-main-green-900"> 
+                                <span className="text-main-grey-200"> 
                                     $$$
                                 </span>
                             </p>
                             <p className="mx-auto ">
                                 $$
-                                <span className="text-main-green-900"> 
+                                <span className="text-main-grey-200"> 
                                     $$
                                 </span>
                             </p>
                             <p className="mx-auto ">
-                                $
-                                <span className="text-main-green-900"> 
-                                    $$$
+                                $$$
+                                <span className="text-main-grey-200"> 
+                                    $
                                 </span>
                             </p>
-                            <p className="ml-auto text-main-green-900">
+                            <p className="ml-auto">
                                 $$$$
                             </p>
                         </div>
