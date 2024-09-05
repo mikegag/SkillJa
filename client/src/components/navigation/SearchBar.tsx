@@ -23,9 +23,9 @@ export default function SearchBar({mobileView}:SearchBarProps){
     const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
     const csrfToken = GetCSFR({ name: "csrftoken" })
     const [searchTerm, setSearchTerm] = useState<SearchTermType>({
-        sport:'tennis',
-        location: {place:'toronto', proximity: 10},
-        price: {value: '25', min:0, max:50}
+        sport:'',
+        location: {place:'', proximity: 10},
+        price: {value: '', min:0, max:50}
     })
     const [currentlySelected, setCurrentlySelected] = useState<string>('')
     const [insideSearchBar, setInsideSearchBar] = useState<boolean>(false)
