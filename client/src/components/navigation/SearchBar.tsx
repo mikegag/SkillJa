@@ -105,6 +105,10 @@ export default function SearchBar({mobileView}:SearchBarProps){
         
     }, [insideSearchBar])
 
+    useEffect(()=>{
+        console.log(searchTerm)
+    },[searchTerm])
+
     return (
         <>
         {mobileView === true ?
@@ -115,7 +119,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                             <FontAwesomeIcon icon={faX} className="w-6 pr-10 ml-5 mr-auto my-auto hover:text-main-green-500 cursor-pointer" onClick={()=> {setIsFilterOpen(false)}}/>
                         </div>
                         <div className="px-6 py-1" onClick={()=>setIsFilterOpen(true)}>
-                            <div className="border-b border-main-grey-100">
+                            <div className="border-b border-main-grey-100 font-kulim">
                                 <p className="my-3 text-left">
                                     My Sport
                                 </p>
@@ -131,7 +135,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                                 />
                                 <MultiOption onSportSelect={handleSportSelect} />
                             </div>
-                            <div className="border-b border-main-grey-100 pb-3">
+                            <div className="border-b border-main-grey-100 pb-3 font-kulim">
                                 <p className="my-3 text-left">
                                     Where
                                 </p>
@@ -147,7 +151,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                                 />
                                 <SingleSlider sliderValue={handleLocationChange} />
                             </div>
-                            <div className="border-b border-main-grey-100">
+                            <div className="border-b border-main-grey-100 font-kulim">
                                 <p className="my-3 text-left">
                                     Price
                                 </p>
@@ -159,6 +163,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                                     onChange={(e) => setSearchTerm({...searchTerm, price: {...searchTerm.price, value: e.target.value} })}
                                     onClick={()=>setCurrentlySelected('price')}
                                     value={searchTerm.price.value}
+                                    type="number"
                                     autoComplete="off"
                                 />
                                 <DualSlider onPriceChange={handlePriceChange} />
@@ -182,7 +187,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                 :  
                 <div 
                     role="search" 
-                    className="flex bg-main-white rounded-2xl border-2 border-main-grey-100 w-80 md:w-6/12 p-3 hover:border-main-green-500 hover:cursor-pointer"
+                    className="flex bg-main-white rounded-2xl border-2 border-main-grey-100 w-80 md:w-6/12 p-3 hover:border-main-green-500 hover:cursor-pointer font-kulim"
                     onMouseEnter={()=>setInsideSearchBar(true)}
                     onMouseLeave={()=>setInsideSearchBar(false)}
                 >
@@ -207,7 +212,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
             :
             <div
                 role="search" 
-                className={`${currentlySelected? 'bg-main-grey-100' :'bg-main-white'} flex rounded-2xl border-2 border-main-grey-100 w-max mx-auto mt-8 hover:border-main-green-500 hover:cursor-pointer`}
+                className={`${currentlySelected? 'bg-main-grey-100' :'bg-main-white'} flex rounded-2xl border-2 border-main-grey-100 w-max mx-auto mt-8 hover:border-main-green-500 hover:cursor-pointer font-kulim`}
                 onMouseEnter={()=>setInsideSearchBar(true)}
                 onMouseLeave={()=>setInsideSearchBar(false)}
             >
@@ -232,7 +237,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                 </div>
                 <div role="presentation" className={`h-11 w-0.5 bg-main-grey-100 rounded-full py-0.5 m-auto`}></div>
                 <div
-                    className={`${currentlySelected === 'location'? 'bg-main-white rounded-2xl': (currentlySelected==''? 'bg-main-white' :'bg-main-grey-100')} flex flex-col justify-center items-start text-left rounded-2xl py-1.5 px-3.5 w-60`}
+                    className={`${currentlySelected === 'location'? 'bg-main-white rounded-2xl': (currentlySelected==''? 'bg-main-white' :'bg-main-grey-100')} flex flex-col justify-center items-start text-left rounded-2xl py-1.5 px-3.5 w-60 font-kulim`}
                     onClick={()=>setCurrentlySelected('location')}
                 >
                     <p className="text-main-black mb-1">
@@ -270,6 +275,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                             onChange={(e) => setSearchTerm({...searchTerm, price: {...searchTerm.price, value: e.target.value} })}
                             onClick={()=>setCurrentlySelected('price')}
                             value={searchTerm.price.value}
+                            type="number"
                             autoComplete="off"
                         />
                     </div>
