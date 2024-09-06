@@ -11,6 +11,7 @@ from django.middleware.csrf import get_token, rotate_token
 from django.shortcuts import redirect
 from urllib.parse import urlparse, parse_qs
 from django.views.decorators.http import require_POST, require_GET
+from .utils import calculate_price_bounds
 
 def index(request):
     return render(request, 'index.html')
@@ -208,25 +209,31 @@ def get_coach_services(request):
 def search(request):
     try:
         if request.method == 'GET':
-             # Get query parameter 'q' from the URL
-            search_term = request.GET.get('q', '') 
-
-            # Perform the search for coaches based on matching specialization
+            # Get query parameters or set default values
+            sport = request.GET.get('sport', 'tennis')  # Default to 'tennis'
+            location = request.GET.get('location', 'toronto')  # Default to 'toronto'
+            original_price = float(request.GET.get('price', 30))  # Default to '30'
+            min_deviation = float(request.GET.get('min_deviation', 0))  # Default to 0%
+            max_deviation = float(request.GET.get('max_deviation', 50))  # Default to 50%
+            
+            # Calculate price bounds
+            price_min, price_max = calculate_price_bounds(original_price, min_deviation, max_deviation)
+            
+            # Perform the search for coaches based on specialization, location, and price range. Return unique results
             results = User.objects.filter(
                 iscoach=True,
-                coach_preferences__specialization__icontains=search_term
+                coach_preferences__specialization__icontains=sport,
+                coach_profile__location__icontains=location,
+                services__price__gte=price_min,
+                services__price__lte=price_max
             ).select_related('coach_profile').values(
-                # Direct field from User model
                 'fullname', 
-                # Direct field from User model
                 'email', 
-                # Field from related CoachProfile model 
                 'coach_profile__location', 
-                # Field from related CoachPreferences model
-                'coach_preferences__specialization' 
-            )
+                'coach_preferences__specialization'
+            ).distinct()
 
-            # Rename fields for cleaner JSON output
+            # Format results for cleaner JSON output
             formatted_results = [
                 {
                     'fullname': result['fullname'],
