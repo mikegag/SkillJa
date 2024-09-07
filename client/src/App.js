@@ -17,6 +17,7 @@ import Notifications from "./pages/protected/settings/Notifications"
 import Faqs from "./pages/protected/settings/Faqs"
 import ReportIssue from "./pages/protected/settings/ReportIssue"
 import Payments from './pages/protected/settings/Payments'
+import ComingSoon from "./pages/ComingSoon"
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
       <Routes>
         <Route path="*" element={<NotFound/>} />
         <Route path="/" element={<Landing />} />
+        <Route path="coming-soon" element={<ComingSoon />} />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<SignUp />} />
         <Route path="auth"element={<Authentication />}>

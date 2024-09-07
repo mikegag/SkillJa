@@ -21,7 +21,7 @@
           },
           "footer": {
             "subSections": ["Our Mission","Become a Coach", "How SkillJa Works", "Support"],
-            "links":["/","/","/","/"]
+            "links":["/coming-soon","/coming-soon","/coming-soon","/coming-soon"]
           }
     },
     
@@ -240,10 +240,10 @@
         "public":[
           {"title":"Login", "link":"/login"},
           {"title":"Sign Up", "link":"/signup"},
-          {"title":"Become a Coach", "link":"/"},
-          {"title":"How SkillJa Works", "link":"/"},
-          {"title":"Our Mission", "link":"/"},
-          {"title":"Support", "link":"/"}
+          {"title":"Become a Coach", "link":"/coming-soon"},
+          {"title":"How SkillJa Works", "link":"/coming-soon"},
+          {"title":"Our Mission", "link":"/coming-soon"},
+          {"title":"Support", "link":"/coming-soon"}
         ],
         "authorized": [
           {"title":"Home", "link":"/auth/home-feed"},
