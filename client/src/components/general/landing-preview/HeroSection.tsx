@@ -25,20 +25,6 @@ export default function HeroSection({view}:ViewProps){
                     className="w-64 mt-6 mb-5 lg:w-80"
                     alt="two runners kneeling down ready to race each other"
                 />
-                {/* <form className="flex flex-col justify-center w-full mx-auto px-4 md:w-7/12 lg:w-4/12">   
-                    <div className="relative w-full">
-                        <input
-                            type="search"
-                            id="default-search"
-                            className="form-input before:outline-none active:outline-none"
-                            placeholder="Find coaches near me..."
-                        />
-                        <FontAwesomeIcon
-                            icon={faMagnifyingGlass}
-                            className="absolute inset-y-4 left-0 flex items-center pl-4 text-main-grey-500"
-                        />
-                    </div>
-                </form> */}
                 <SearchBar mobileView={true} />
                 <Link 
                     to={'/signup'} 
@@ -67,20 +53,6 @@ export default function HeroSection({view}:ViewProps){
                 <h1 className="text-center text-main-green-900 font-medium text-4xl px-4 font-source">
                     Anytime, Anywhere.
                 </h1>
-                {/* <form className="flex flex-col justify-center w-full mx-auto mt-8 px-4 md:w-7/12 lg:w-4/12">   
-                    <div className="relative w-full">
-                        <input
-                            type="search"
-                            id="default-search"
-                            className="form-input before:outline-none active:outline-none"
-                            placeholder="Find coaches near me..."
-                        />
-                        <FontAwesomeIcon
-                            icon={faMagnifyingGlass}
-                            className="absolute inset-y-4 left-0 flex items-center pl-4 text-main-grey-500"
-                        />
-                    </div>
-                </form> */}
                 <SearchBar mobileView={false} />
                 <img 
                     src={require('../../../assets/landingAssets/main-landing-racers.png')} 

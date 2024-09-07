@@ -1,13 +1,24 @@
 import React from "react"
+import { motion } from "framer-motion"
 import data from '../../../data.json'
 import { Link } from "react-router-dom"
 
 export default function ThirdSection(){
     const landingInfo = data.landing.thirdSection
+    const motionVariants = {
+        hidden: { opacity: 0, y: -40 },
+        visible: { opacity: 1, y: 0 }
+    }
 
     return (
         <div className="bg-main-cream flex flex-wrap justify-center items-center px-2">
-            <div className="flex flex-col justify-start items-start w-fit">
+            <motion.div 
+                className="flex flex-col justify-start items-start w-fit"
+                initial="hidden"
+                whileInView="visible"
+                variants={motionVariants}
+                transition={{ duration: 0.9 }}
+            >
                 <h3 className="w-fit text-3xl font-source font-medium text-main-green-700">
                     {landingInfo.title}
                 </h3>
@@ -20,7 +31,7 @@ export default function ThirdSection(){
                 >
                     <p>{landingInfo.button.value}</p>
                 </Link>
-            </div>
+            </motion.div>
             <img 
                 src={require('../../../assets/landingAssets/coach-holding-timer.png')}
                 className="w-72 ml-12 mr-0"

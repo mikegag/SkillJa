@@ -8,7 +8,7 @@ export default function ProfilePreview(){
     return (
         <div className="flex mx-auto w-full lg:w-10/12 justify-center rounded-2xl bg-main-white border-2 border-main-grey-100 p-3 hover:border-main-green-500 hover:cursor-pointer">
             <img 
-                src={require('../../assets/google-logo.png')} 
+                src={require('../../assets/default-avatar.jpg')} 
                 className="w-12 h-12 my-2 mx-auto rounded-full border"
             />
             <div className="flex justify-start flex-wrap my-auto mx-3">
