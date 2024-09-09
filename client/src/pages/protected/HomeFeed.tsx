@@ -6,22 +6,14 @@ import { Link } from "react-router-dom"
 import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
 
-interface HomeFeedProps {
-    queryTerm: string;
-    queryResults: QueryResultsType[];
-}
-
-interface QueryResultsType {
-    fullname: string;
-    location: string;
-    specializations: string[];
-}
-
 export default function HomeFeed(){
     const csrfToken = GetCSFR({ name: "csrftoken" })
-    //pass search term and results as optional params to HomeFeed
     //afterwards profilePreview needs to accept props to display specific data
 
+    useEffect(()=>{
+        //perform search upon initial load if query params exist in url
+        // also perform api call to check if user logged in to send correct props to header
+    })
     function performSearch(query: string){
         axios.get('https://www.skillja.ca/search', { 
             headers: {

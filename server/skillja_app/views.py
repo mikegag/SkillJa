@@ -183,7 +183,7 @@ def get_user_profile(request):
 
 @require_GET
 def get_coach_services(request):
-     try:
+    try:
         # Extract the email from the cookie
         email = request.COOKIES.get('user_email')
         if not email:
