@@ -11,7 +11,7 @@ from django.middleware.csrf import get_token, rotate_token
 from django.shortcuts import redirect
 from urllib.parse import urlparse, parse_qs
 from django.views.decorators.http import require_POST, require_GET
-from .utils import calculate_price_bounds
+from .utils import calculate_price_deviance
 
 def index(request):
     return render(request, 'index.html')
