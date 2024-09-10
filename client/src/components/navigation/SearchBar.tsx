@@ -21,7 +21,6 @@ interface SearchTermType {
 
 export default function SearchBar({mobileView}:SearchBarProps){
     const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
-    const csrfToken = GetCSFR({ name: "csrftoken" })
     const [searchTerm, setSearchTerm] = useState<SearchTermType>({
         sport:'',
         location: {place:'', proximity: 10},
@@ -31,37 +30,18 @@ export default function SearchBar({mobileView}:SearchBarProps){
     const [insideSearchBar, setInsideSearchBar] = useState<boolean>(false)
     const navigate = useNavigate()
 
-    // api call to search for matching profile based on query and filters
-    function performSearch(query: SearchTermType){
-        axios.get('https://www.skillja.ca/search/', { 
-            headers: {
-                'X-CSRFToken': csrfToken,
-                'Content-Type': 'application/json'
-            },
-            withCredentials: true
-        }) 
-            .then(res => {
-                if (res.status === 200) {
-                    navigate('/auth/home-feed')
-                } else {
-                    console.error("Failed to retrieve services")
-                }
-            })
-            .catch(error => {
-                if (error.response) {
-                    // the server responded with a status code that falls out of the range of 2xx
-                    console.error('Error response:', error.response.data)
-                    console.error('Status:', error.response.status)
-                    console.error('Headers:', error.response.headers)
-                } else if (error.request) {
-                    // no response was received
-                    console.error('No response received:', error.request)
-                } else {
-                    // Something happened in setting up the request that triggered an Error
-                    console.error('Error setting up request:', error.message)
-                }
-                console.error('Error config:', error.config)
-            })
+    // redirects use to home feed page with desired query parameters
+    function performSearch() {
+        const queryParams = new URLSearchParams({
+            sport: searchTerm.sport,
+            location: searchTerm.location.place,
+            proximity: searchTerm.location.proximity.toString(),
+            priceValue: searchTerm.price.value,
+            priceMin: searchTerm.price.min.toString(),
+            priceMax: searchTerm.price.max.toString()
+        })
+
+        navigate(`/auth/home-feed?${queryParams.toString()}`)
     }
 
     // Callback function for sport selection
@@ -104,10 +84,6 @@ export default function SearchBar({mobileView}:SearchBarProps){
         }
         
     }, [insideSearchBar])
-
-    useEffect(()=>{
-        console.log(searchTerm)
-    },[searchTerm])
 
     return (
         <>
@@ -171,7 +147,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                             <button
                                 className="flex justify-center items-center ml-auto mt-12 p-2.5 rounded-xl bg-main-green-500 hover:bg-main-green-900"
                                 aria-label="magnifying glass icon within search bar"
-                                onClick={()=>performSearch(searchTerm)}
+                                onClick={()=>performSearch()}
                             >
                                 <FontAwesomeIcon 
                                     icon={faMagnifyingGlass} 
@@ -283,7 +259,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                         <button
                             className="flex justify-center items-center ml-auto my-auto p-3 rounded-xl bg-main-green-500 hover:bg-main-green-900"
                             aria-label="magnifying glass icon within search bar"
-                            onClick={()=>performSearch(searchTerm)}
+                            onClick={()=>performSearch()}
                         >
                             <FontAwesomeIcon 
                                 icon={faMagnifyingGlass} 
