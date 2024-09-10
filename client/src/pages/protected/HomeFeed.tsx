@@ -14,11 +14,10 @@ export default function HomeFeed(){
     const location = useLocation()
     const query = new URLSearchParams(location.search)
     const searchQuery = query.get('search') || ""
-    const [data, setData] = useState(null)
+    const [data, setData] = useState({})
     //afterwards profilePreview needs to accept props to display specific data
 
     useEffect(() => {
-        console.log(location.search)
         console.log(data)
         // Perform a search if the query parameter exists, search was performed from landing page in this case
         if (location.search) {
@@ -94,6 +93,7 @@ export default function HomeFeed(){
                     </div>
                     <div role="presentation" className="h-0.5 bg-main-grey-100 rounded-full w-20 lg:w-32 mb-8">
                     </div>
+                    {/* if data is empty display text else display coach profiles, if logged in link to /auth/coach else /login */}
                     <Link to={'/auth/coach'} className="mx-auto lg:w-9/12">
                         <ProfilePreview />
                     </Link>
