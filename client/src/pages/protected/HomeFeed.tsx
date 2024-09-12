@@ -7,18 +7,28 @@ import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
 import GetWindowSize from "../../hooks/GetWindowSize"
 
+interface resultsType{
+    name: string;
+    specializations: string[];
+    location: string;
+    rating: number;
+    biography: string;
+    experience: string;
+    price: number;
+}
+interface dataResultsType {
+    results: resultsType[]
+}
+
 export default function HomeFeed(){
     const csrfToken = GetCSFR({ name: "csrftoken" })
     const currentWindow = GetWindowSize()
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
     const location = useLocation()
-    const query = new URLSearchParams(location.search)
-    const searchQuery = query.get('search') || ""
-    const [data, setData] = useState({})
-    //afterwards profilePreview needs to accept props to display specific data
+    const [data, setData] = useState<dataResultsType>({results:[]} || null)
+    const protectedRoute = isLoggedIn ?'auth/coach' : '/login'
 
     useEffect(() => {
-        console.log(data)
         // Perform a search if the query parameter exists, search was performed from landing page in this case
         if (location.search) {
             performSearch()
@@ -93,10 +103,23 @@ export default function HomeFeed(){
                     </div>
                     <div role="presentation" className="h-0.5 bg-main-grey-100 rounded-full w-20 lg:w-32 mb-8">
                     </div>
-                    {/* if data is empty display text else display coach profiles, if logged in link to /auth/coach else /login */}
-                    <Link to={'/auth/coach'} className="mx-auto lg:w-9/12">
-                        <ProfilePreview />
-                    </Link>
+                    {data.results.length != 0 ?
+                        data.results.map(coach=>(
+                        <Link to={protectedRoute} className="mx-auto my-2 lg:w-9/12">
+                            <ProfilePreview 
+                                name={coach.name}
+                                location={coach.location}
+                                specializations={coach.specializations}
+                                rating={coach.rating}
+                                biography={coach.biography}
+                                price={coach.price}
+                                experience={coach.experience}
+                            />
+                        </Link>
+                        ))
+                        :
+                        <p className="text-center mx-auto text-lg font-kulim">No coaches match your search criteria. Try again.</p>
+                    }           
                 </div>
             </div>
         </>

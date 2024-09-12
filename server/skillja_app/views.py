@@ -239,7 +239,10 @@ def search(request):
                     'fullname': result['fullname'],
                     'email': result['email'],
                     'location': result['coach_profile__location'],
-                    'specialization': result['coach_preferences__specialization']
+                    'specialization': result['coach_preferences__specialization'],
+                    'experience': result['coach_preferences__experience_level'],
+                    'biography': result['coach_profile__biography']
+                    #need to add average price cost and average review rating
                 }
                 for result in results
             ]
