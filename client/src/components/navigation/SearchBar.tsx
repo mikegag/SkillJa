@@ -39,7 +39,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
             priceMax: searchTerm.price.max.toString()
         })
 
-        navigate(`/auth/home-feed?${queryParams.toString()}`)
+        navigate(`/home-feed?${queryParams.toString()}`)
     }
 
     // Callback function for sport selection

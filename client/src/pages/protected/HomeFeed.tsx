@@ -9,7 +9,7 @@ import GetWindowSize from "../../hooks/GetWindowSize"
 
 interface resultsType{
     name: string;
-    email: string;
+    id: string;
     specializations: string[];
     location: string;
     rating: number;
@@ -106,7 +106,7 @@ export default function HomeFeed(){
                     </div>
                     {data.results.length !== 0 ?
                         data.results.map(coach=>(
-                        <Link to={`${protectedRoute}?name=${coach.name}&key=${coach.email}&location=${coach.location}`} 
+                        <Link to={`${protectedRoute}?name=${coach.name}&id=${coach.id}&location=${coach.location}`} 
                             className="mx-auto my-2 lg:w-9/12"
                         >
                             <ProfilePreview 

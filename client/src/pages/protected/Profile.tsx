@@ -71,9 +71,7 @@ export default function Profile(){
     const csrfToken = GetCSFR({ name: "csrftoken" })
     const [readyToDisplayProfileForm, setReadyToDisplayProfileForm] = useState<boolean>(false)
     const [readyToDisplayServicesForm, setReadyToDisplayServicesForm] = useState<boolean>(false)
-    const handleBack = () => {
-        navigate(-1)
-    }
+    
     // API call to get user profile details
     useEffect(()=>{
         document.title = "SkillJa - Profile"
@@ -119,7 +117,7 @@ export default function Profile(){
                 <div className="flex justify-center text-center mt-10">
                     <FontAwesomeIcon 
                         icon={faLongArrowLeft}
-                        onClick={()=>handleBack()} 
+                        onClick={()=>navigate(-1)} 
                         className="text-2xl my-auto mr-auto hover:text-main-green-500 cursor-pointer" 
                     />
                     <h1 className="font-source text-3xl pl-2 m-auto text-main-green-900">

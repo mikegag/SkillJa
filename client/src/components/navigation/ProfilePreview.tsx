@@ -30,7 +30,9 @@ export default function ProfilePreview(props:ProfilePreviewProps){
                     <p className="text-main-grey-300 mx-3">|</p>
                     <p className="text-main-grey-300">{props.experience}</p>
                 </div>
-                <p className="w-full text-sm font-kulim my-2.5">{props.biography}</p>
+                <p className="w-full text-sm font-kulim my-2.5 overflow-hidden text-ellipsis whitespace-nowrap">
+                    {props.biography.length > 85 ? `${props.biography.substring(0, 85)}...` : props.biography}
+                </p>
                 <FontAwesomeIcon 
                     icon={faStar} 
                     className="text-amber-300 w-4 my-auto"
