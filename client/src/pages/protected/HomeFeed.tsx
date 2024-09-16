@@ -104,7 +104,7 @@ export default function HomeFeed(){
                     </div>
                     <div role="presentation" className="h-0.5 bg-main-grey-100 rounded-full w-20 lg:w-32 mb-8">
                     </div>
-                    {data.results.length != 0 ?
+                    {data.results.length !== 0 ?
                         data.results.map(coach=>(
                         <Link to={`${protectedRoute}?name=${coach.name}&key=${coach.email}&location=${coach.location}`} 
                             className="mx-auto my-2 lg:w-9/12"

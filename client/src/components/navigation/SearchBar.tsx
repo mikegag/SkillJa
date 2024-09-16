@@ -1,8 +1,6 @@
 import { faMagnifyingGlass, faX } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { useEffect, useState } from "react"
-import axios from "axios"
-import GetCSFR from "../../hooks/GetCSFR"
 import { useNavigate } from "react-router-dom"
 import DropDown from "./search/DropDown"
 import SingleSlider from "./search/SingleSlider"
@@ -193,7 +191,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                 onMouseLeave={()=>setInsideSearchBar(false)}
             >
                 <div
-                    className={`${currentlySelected === 'sport'? 'bg-main-white': (currentlySelected===''? 'bg-main-white' :'bg-main-grey-100')} flex flex-col justify-center items-start text-left w-60 rounded-2xl py-1.5 px-3.5`}
+                    className={`${currentlySelected === 'sport'? 'bg-main-white': (currentlySelected ===''? 'bg-main-white' :'bg-main-grey-100')} flex flex-col justify-center items-start text-left w-60 rounded-2xl py-1.5 px-3.5`}
                     onClick={()=>setCurrentlySelected('sport')}
                 >
                     <p className="text-main-black mb-1">
@@ -202,7 +200,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                     <input 
                         id="sport"
                         aria-label="search term" 
-                        className={`${currentlySelected === 'sport'? 'bg-main-white': (currentlySelected===''? 'bg-main-white' :'bg-main-grey-100')} w-full text-main-grey-200 focus:outline-none ml-0 hover:cursor-pointer`}
+                        className={`${currentlySelected === 'sport'? 'bg-main-white': (currentlySelected ===''? 'bg-main-white' :'bg-main-grey-100')} w-full text-main-grey-200 focus:outline-none ml-0 hover:cursor-pointer`}
                         placeholder="Search Sports"
                         onChange={(e) => setSearchTerm({ ...searchTerm, sport: e.target.value })}
                         onClick={()=>setCurrentlySelected('sport')}
@@ -213,7 +211,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                 </div>
                 <div role="presentation" className={`h-11 w-0.5 bg-main-grey-100 rounded-full py-0.5 m-auto`}></div>
                 <div
-                    className={`${currentlySelected === 'location'? 'bg-main-white rounded-2xl': (currentlySelected==''? 'bg-main-white' :'bg-main-grey-100')} flex flex-col justify-center items-start text-left rounded-2xl py-1.5 px-3.5 w-60 font-kulim`}
+                    className={`${currentlySelected === 'location'? 'bg-main-white rounded-2xl': (currentlySelected === ''? 'bg-main-white' :'bg-main-grey-100')} flex flex-col justify-center items-start text-left rounded-2xl py-1.5 px-3.5 w-60 font-kulim`}
                     onClick={()=>setCurrentlySelected('location')}
                 >
                     <p className="text-main-black mb-1">
@@ -222,7 +220,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                     <input 
                         id="location"
                         aria-label="search term" 
-                        className={`${currentlySelected === 'location'? 'bg-main-white': (currentlySelected===''? 'bg-main-white' :'bg-main-grey-100')} w-full text-main-grey-200 focus:outline-none ml-0 hover:cursor-pointer`}
+                        className={`${currentlySelected === 'location'? 'bg-main-white': (currentlySelected ===''? 'bg-main-white' :'bg-main-grey-100')} w-full text-main-grey-200 focus:outline-none ml-0 hover:cursor-pointer`}
                         placeholder="My location"
                         onChange={(e) => {const value = e.target.value;
                             setSearchTerm({ ...searchTerm, location: {...searchTerm.location, place:e.target.value} })
@@ -235,7 +233,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                 </div>
                 <div role="presentation" className="h-11 w-0.5 bg-main-grey-100 rounded-full py-0.5 m-auto"></div>
                 <div
-                    className={`${currentlySelected === 'price'? 'bg-main-white rounded-2xl': (currentlySelected===''? 'bg-main-white' :'bg-main-grey-100')} flex justify-center items-center text-left w-56 rounded-2xl py-1.5 px-3.5`}
+                    className={`${currentlySelected === 'price'? 'bg-main-white rounded-2xl': (currentlySelected ===''? 'bg-main-white' :'bg-main-grey-100')} flex justify-center items-center text-left w-56 rounded-2xl py-1.5 px-3.5`}
                     onClick={()=>setCurrentlySelected('price')}
                 >
                     {currentlySelected === 'price' ? <DropDown useCase="price" onPriceChange={handlePriceChange} /> : <></>}

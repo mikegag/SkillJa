@@ -40,10 +40,9 @@ export default function Authentication(){
             })
     },[csrfToken])
 
-    //set to true for testing      <-----------------------------------------------
     return (
         <>
-            {true ? <Outlet /> : navigate('/login') } 
+            {isAuthenticated ? <Outlet /> : navigate('/login') } 
         </>
     )
 }

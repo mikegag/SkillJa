@@ -28,9 +28,9 @@ export default function App() {
         <Route path="coming-soon" element={<ComingSoon />} />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<SignUp />} />
+        <Route path="home-feed" element={<HomeFeed />} />
         <Route path="auth"element={<Authentication />}>
           <Route path="onboarding" element={<Onboarding/>}/>
-          <Route path="home-feed" element={<HomeFeed />} />
           <Route path="coach" element={<Coach />} />
           <Route path="calendar" element={<Calendar />} />
           <Route path="chat" element={<Chat />} />

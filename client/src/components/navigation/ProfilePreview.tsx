@@ -13,26 +13,9 @@ interface ProfilePreviewProps {
 }
 
 export default function ProfilePreview(props:ProfilePreviewProps){
-    {/* <FontAwesomeIcon 
-            icon={faDollarSign} 
-            className="text-main-green-900 w-2 ml-1 my-auto"
-            aria-label="star icon associated with the reviews for this profile"
-        />
-        <FontAwesomeIcon 
-            icon={faDollarSign} 
-            className="text-main-green-900 w-2 my-auto"
-            aria-label="star icon associated with the reviews for this profile"
-        />
-        <FontAwesomeIcon 
-            icon={faDollarSign} 
-            className="text-main-grey-200 w-2 my-auto"
-            aria-label="star icon associated with the reviews for this profile"
-        />
-        <FontAwesomeIcon 
-            icon={faDollarSign} 
-            className="text-main-grey-200 w-2 mr-1 my-auto"
-            aria-label="star icon associated with the reviews for this profile"
-        /> */}
+    const greenPriceSymbols = props.price
+    const greyPriceSymbols = 4 - props.price
+
     return (
         <div className="flex mx-auto w-full lg:w-10/12 justify-center items-center rounded-2xl bg-main-white border-2 border-main-grey-100 px-2 py-4 hover:border-main-green-500 cursor-pointer">
             <img 
@@ -54,6 +37,24 @@ export default function ProfilePreview(props:ProfilePreviewProps){
                     aria-label="star icon associated with the reviews for this profile"
                 />
                 <p className="mx-1">{props.rating}</p>
+                <div className="mx-1 flex">
+                    {Array.from({ length: greenPriceSymbols }, (_, i) => (
+                        <FontAwesomeIcon
+                        key={`green-${i}`}
+                        icon={faDollarSign}
+                        className="text-main-green-900 w-2 my-auto"
+                        aria-label="dollar icon indicating price"
+                        />
+                    ))}
+                    {Array.from({ length: greyPriceSymbols }, (_, i) => (
+                        <FontAwesomeIcon
+                        key={`grey-${i}`}
+                        icon={faDollarSign}
+                        className="text-main-grey-200 w-2 my-auto"
+                        aria-label="dollar icon indicating price"
+                        />
+                    ))}
+                </div>
                 {props.specializations.map((currSport:string, index:number)=>(
                     <div key={index} className="bg-main-green-500 px-2 my-auto rounded-full mx-1">
                         <p className="text-sm text-main-white">{currSport}</p>
