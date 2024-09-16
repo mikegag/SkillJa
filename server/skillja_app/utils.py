@@ -22,33 +22,31 @@ def calculate_coach_cost(coach_email):
 
             if prices:
                 # Calculate the average price
-                ''' Scale for prices ranging from $-$$$$: 
-                        $: 0-50
-                        $$: 51-100
-                        $$$: 101 - 150
-                        $$$$: > 151
-                '''
-                scale = 1
                 average_price = sum(prices) / len(prices)
 
+                ''' Price scale based on average cost:
+                        $: 0-50
+                        $$: 51-100
+                        $$$: 101-150
+                        $$$$: > 151
+                '''
                 if average_price <= 50:
-                    scale = 1
-                elif average_price > 50 and average_price <= 100:
-                    scale = 2
-                elif average_price > 100 and average_price <= 150:
-                    scale = 3
-                elif average_price > 150:
-                    scale = 4   
-                return scale 
+                    return 1
+                elif average_price <= 100:
+                    return 2
+                elif average_price <= 150:
+                    return 3
+                else:
+                    return 4   
             else:
-                # Handle the case where no services have prices
-                return None
+                # Return 1 as a default if no services have prices
+                return 1
         else:
-             # If the user is not a coach, return None or handle accordingly
-            return None 
+             # If the user is not a coach, return 1 as default value
+            return 1 
     except User.DoesNotExist:
-        # If the coach does not exist, return None or handle accordingly
-        return None  
+        # If the coach does not exist, return 1 as default value
+        return 1
 
 
 #calculate average review rating for a coach, used for ranking coaches based on reviews
