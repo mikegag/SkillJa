@@ -11,7 +11,7 @@ from django.middleware.csrf import get_token, rotate_token
 from django.shortcuts import redirect
 from urllib.parse import urlparse, parse_qs
 from django.views.decorators.http import require_POST, require_GET
-from .utils import calculate_price_deviance
+from .utils import calculate_price_deviance, calculate_coach_cost, calculate_coach_review
 
 def index(request):
     return render(request, 'index.html')
@@ -215,11 +215,11 @@ def search(request):
             original_price = float(request.GET.get('priceValue', 30))  # Default to '30'
             min_deviation = float(request.GET.get('priceMin', 0))  # Default to 0%
             max_deviation = float(request.GET.get('priceMax', 50))  # Default to 50%
-            
+
             # Calculate price bounds
             price_min, price_max = calculate_price_deviance(original_price, min_deviation, max_deviation)
             
-            # Perform the search for coaches based on specialization, location, and price range. Return unique results
+            # Perform the search for coaches based on specialization, location, and price range.
             results = User.objects.filter(
                 iscoach=True,
                 coach_preferences__specialization__icontains=sport,
@@ -230,27 +230,33 @@ def search(request):
                 'fullname', 
                 'email', 
                 'coach_profile__location', 
-                'coach_preferences__specialization'
+                'coach_preferences__specialization',
+                'coach_preferences__experience_level',
+                'coach_profile__biography'
             ).distinct()
 
             # Format results for cleaner JSON output
-            formatted_results = [
-                {
+            formatted_results = []
+            for result in results:
+                average_cost = calculate_coach_cost(result['email']) or 1
+                average_rating = calculate_coach_review(result['email']) or 0
+
+                formatted_results.append({
                     'fullname': result['fullname'],
                     'email': result['email'],
                     'location': result['coach_profile__location'],
                     'specialization': result['coach_preferences__specialization'],
                     'experience': result['coach_preferences__experience_level'],
-                    'biography': result['coach_profile__biography']
-                    #need to add average price cost and average review rating
-                }
-                for result in results
-            ]
+                    'biography': result['coach_profile__biography'],
+                    'cost': average_cost,
+                    'rating': average_rating
+                })
 
             data = {
                 'results': formatted_results
             }
             return JsonResponse(data)
+
     except Exception as e:
         return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
 

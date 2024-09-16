@@ -9,6 +9,7 @@ import GetWindowSize from "../../hooks/GetWindowSize"
 
 interface resultsType{
     name: string;
+    email: string;
     specializations: string[];
     location: string;
     rating: number;
@@ -26,7 +27,7 @@ export default function HomeFeed(){
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
     const location = useLocation()
     const [data, setData] = useState<dataResultsType>({results:[]} || null)
-    const protectedRoute = isLoggedIn ?'auth/coach' : '/login'
+    const protectedRoute = isLoggedIn ? 'auth/coach' : '/login'
 
     useEffect(() => {
         // Perform a search if the query parameter exists, search was performed from landing page in this case
@@ -105,7 +106,9 @@ export default function HomeFeed(){
                     </div>
                     {data.results.length != 0 ?
                         data.results.map(coach=>(
-                        <Link to={protectedRoute} className="mx-auto my-2 lg:w-9/12">
+                        <Link to={`${protectedRoute}?name=${coach.name}&key=${coach.email}&location=${coach.location}`} 
+                            className="mx-auto my-2 lg:w-9/12"
+                        >
                             <ProfilePreview 
                                 name={coach.name}
                                 location={coach.location}

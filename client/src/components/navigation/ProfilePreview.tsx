@@ -14,25 +14,25 @@ interface ProfilePreviewProps {
 
 export default function ProfilePreview(props:ProfilePreviewProps){
     {/* <FontAwesomeIcon 
-                    icon={faDollarSign} 
-                    className="text-main-green-900 w-2 ml-1 my-auto"
-                    aria-label="star icon associated with the reviews for this profile"
-                />
-                <FontAwesomeIcon 
-                    icon={faDollarSign} 
-                    className="text-main-green-900 w-2 my-auto"
-                    aria-label="star icon associated with the reviews for this profile"
-                />
-                <FontAwesomeIcon 
-                    icon={faDollarSign} 
-                    className="text-main-grey-200 w-2 my-auto"
-                    aria-label="star icon associated with the reviews for this profile"
-                />
-                <FontAwesomeIcon 
-                    icon={faDollarSign} 
-                    className="text-main-grey-200 w-2 mr-1 my-auto"
-                    aria-label="star icon associated with the reviews for this profile"
-                /> */}
+            icon={faDollarSign} 
+            className="text-main-green-900 w-2 ml-1 my-auto"
+            aria-label="star icon associated with the reviews for this profile"
+        />
+        <FontAwesomeIcon 
+            icon={faDollarSign} 
+            className="text-main-green-900 w-2 my-auto"
+            aria-label="star icon associated with the reviews for this profile"
+        />
+        <FontAwesomeIcon 
+            icon={faDollarSign} 
+            className="text-main-grey-200 w-2 my-auto"
+            aria-label="star icon associated with the reviews for this profile"
+        />
+        <FontAwesomeIcon 
+            icon={faDollarSign} 
+            className="text-main-grey-200 w-2 mr-1 my-auto"
+            aria-label="star icon associated with the reviews for this profile"
+        /> */}
     return (
         <div className="flex mx-auto w-full lg:w-10/12 justify-center items-center rounded-2xl bg-main-white border-2 border-main-grey-100 px-2 py-4 hover:border-main-green-500 cursor-pointer">
             <img 
