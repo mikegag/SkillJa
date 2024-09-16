@@ -7,10 +7,10 @@ def calculate_price_deviance(original_input, lower_percentage, upper_percentage)
     return lower_bound, upper_bound
 
 #calculates the average price for a coach based on their services, used for ranking coaches based on cost
-def calculate_coach_cost(coach_email):
+def calculate_coach_cost(coach_id):
     try:
-        # Get the coach by their email
-        coach = User.objects.get(email=coach_email)
+        # Get the coach by their id
+        coach = User.objects.get(id=coach_id)
 
         # Check if the user is a coach
         if coach.iscoach:
@@ -48,12 +48,11 @@ def calculate_coach_cost(coach_email):
         # If the coach does not exist, return 1 as default value
         return 1
 
-
 #calculate average review rating for a coach, used for ranking coaches based on reviews
-def calculate_coach_review(coach_email):
+def calculate_coach_review(coach_id):
     try:
-        # Get the coach by their email
-        coach = User.objects.get(email=coach_email)
+        # Get the coach by their id
+        coach = User.objects.get(id=coach_id)
 
         # Check if the user is a coach
         if coach.iscoach:
@@ -64,7 +63,7 @@ def calculate_coach_review(coach_email):
             ratings = [review.rating for review in reviews if review.rating]
 
             if ratings:
-                # Calculate the average rating and round to the nearest whole number
+                # Calculate the average rating
                 average_rating = sum(ratings) / len(ratings)
                 return average_rating
             else:

@@ -227,8 +227,8 @@ def search(request):
                 services__price__gte=price_min,
                 services__price__lte=price_max
             ).select_related('coach_profile').values(
-                'fullname', 
-                'email', 
+                'id',
+                'fullname',  
                 'coach_profile__location', 
                 'coach_preferences__specialization',
                 'coach_preferences__experience_level',
@@ -238,12 +238,13 @@ def search(request):
             # Format results for cleaner JSON output
             formatted_results = []
             for result in results:
-                average_cost = calculate_coach_cost(result['email']) or 1
-                average_rating = calculate_coach_review(result['email']) or 0
+                # Use the coach's 'id' instead of 'email' for the cost and rating calculations
+                average_cost = calculate_coach_cost(result['id']) or 1
+                average_rating = calculate_coach_review(result['id']) or 0
 
                 formatted_results.append({
+                    'id': result['id'],
                     'fullname': result['fullname'],
-                    'email': result['email'],
                     'location': result['coach_profile__location'],
                     'specialization': result['coach_preferences__specialization'],
                     'experience': result['coach_preferences__experience_level'],
