@@ -13,6 +13,7 @@ urlpatterns = [
     path('auth_status/', views.auth_status, name='auth_status'),
     path('auth/onboarding/', views.onboarding_user, name='onboarding'),
     path('auth/profile/', views.get_user_profile, name='profile'),
+    path('auth/coach/', views.get_user_profile, name='coach'),
     path('auth/profile/services', views.get_user_profile, name='services'),
     path('random_profiles/', views.get_user_profile, name='random_profiles')
 ]   

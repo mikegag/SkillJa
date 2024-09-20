@@ -130,6 +130,7 @@ def get_user_profile(request):
         user = User.objects.get(email=email)
         data = {
             'name': user.fullname,
+            'id': user.id
             'email': user.email,
             'iscoach': user.iscoach,
             'isathlete': user.isathlete,
@@ -138,6 +139,7 @@ def get_user_profile(request):
         if user.isathlete:
             athlete_profile = AthleteProfile.objects.get(user=user)
             athlete_preferences = AthletePreferences.objects.get(user=user)
+            average_rating = calculate_coach_review(data.id) or 0
 
             data.update({
                 'profile': {
@@ -145,6 +147,7 @@ def get_user_profile(request):
                     'biography': athlete_profile.biography,
                     'picture': athlete_profile.picture.url if athlete_profile.picture else None,
                     'reviews': [review.id for review in athlete_profile.reviews.all()],
+                    'rating': average_rating,
                 },
                 'preferences': {
                     'experience_level': athlete_preferences.experience_level,
@@ -156,13 +159,15 @@ def get_user_profile(request):
         elif user.iscoach:
             coach_profile = CoachProfile.objects.get(user=user)
             coach_preferences = CoachPreferences.objects.get(user=user)
-
+            average_rating = calculate_coach_review(data.id) or 0
+            
             data.update({
                 'profile': {
                     'location': coach_profile.location,
                     'biography': coach_profile.biography,
                     'picture': coach_profile.picture.url if coach_profile.picture else None,
                     'reviews': [review.id for review in coach_profile.reviews.all()],
+                    'rating': average_rating,
                 },
                 'preferences': {
                     'experience_level': coach_preferences.experience_level,
@@ -180,6 +185,30 @@ def get_user_profile(request):
         return JsonResponse({'error': 'User not found'}, status=404)
     except (AthleteProfile.DoesNotExist, CoachProfile.DoesNotExist, AthletePreferences.DoesNotExist, CoachPreferences.DoesNotExist) as e:
         return JsonResponse({'error': f'Related profile or preferences not found: {str(e)}'}, status=404)
+
+@require_GET
+def get_coach_profile(request):
+    try:
+        if request.method == 'GET':
+            id = request.GET.get('id')
+            # Retrieve coach instance safely
+            coach = get_object_or_404(user, id=id)
+            # Retrieve average review rating for coach
+            average_rating = calculate_coach_review(id) or 0
+            # Format the data
+            data = {
+                'fullname': coach.fullname,
+                'location': coach.coach_profile.location,
+                'specialization': coach.coach_preferences.specialization,
+                'experience': coach.coach_preferences.experience_level,
+                'biography': coach.coach_profile.biography,
+                'services': [service.id for service in coach.coach_profile.services.all()],
+                'reviews': [review.id for review in coach.coach_profile.reviews.all()]
+                'rating': average_rating
+            }
+            return JsonResponse(data)
+    except Exception as e:
+        return JsonResponse({'error': f'An error occurred: {str(e)}'}, status = 500)
 
 @require_GET
 def get_coach_services(request):
@@ -238,7 +267,6 @@ def search(request):
             # Format results for cleaner JSON output
             formatted_results = []
             for result in results:
-                # Use the coach's 'id' instead of 'email' for the cost and rating calculations
                 average_cost = calculate_coach_cost(result['id']) or 1
                 average_rating = calculate_coach_review(result['id']) or 0
 
@@ -366,6 +394,11 @@ def getRoutes(request):
                 'sport_interests': 'string (comma-separated for athletes) or null'
             },
             'description': 'Saves onboarding preferences for the logged-in user, either as a coach or athlete.'
+        },
+        {
+            'Endpoint': '/auth/coach/',
+            'method': 'GET',
+            'description': 'Retrieves the coach profile details based on passed "id" query parameter'
         },
         {
             'Endpoint': '/auth/profile/',

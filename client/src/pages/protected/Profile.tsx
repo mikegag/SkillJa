@@ -13,7 +13,6 @@ import EditAthleteProfileForm from "../../components/general/athlete-preview/Edi
 import EditCoachProfileForm from "../../components/general/coach-preview/EditCoachProfileForm"
 import EditCoachServiceForm from "../../components/general/coach-preview/EditCoachServiceForm"
 
-
 interface Review {
     id: number;
     title: string;
@@ -31,6 +30,7 @@ interface ProfileDetails {
         biography: string;
         picture: string | null;
         reviews: Review[];
+        rating: number;
     };
     preferences: {
         experience_level: string;
@@ -53,6 +53,7 @@ const defaultProfileDetails: ProfileDetails = {
         biography: 'Bio goes here...',
         picture: null,
         reviews: [],
+        rating: 0
     },
     preferences: {
         experience_level: 'N/A',
@@ -71,7 +72,7 @@ export default function Profile(){
     const csrfToken = GetCSFR({ name: "csrftoken" })
     const [readyToDisplayProfileForm, setReadyToDisplayProfileForm] = useState<boolean>(false)
     const [readyToDisplayServicesForm, setReadyToDisplayServicesForm] = useState<boolean>(false)
-    
+
     // API call to get user profile details
     useEffect(()=>{
         document.title = "SkillJa - Profile"
@@ -135,7 +136,7 @@ export default function Profile(){
                 <section className="flex flex-col justify-center items-center border-b-2 mt-8 lg:mt-14 border-main-grey-300 lg:pb-4">
                     <div className="flex flex-col justify-center items-center lg:flex-row">
                         <img 
-                            src={require('../../assets/google-logo.png')} 
+                            src={require('../../assets/default-avatar.jpg')} 
                             className="w-32 h-32 rounded-2xl lg:mr-10"
                         />
                         <div className="flex flex-col justify-center items-center font-kulim text-main-green-900">
@@ -148,7 +149,7 @@ export default function Profile(){
                             </h3>
                             <h3 className="text-lg lg:text-base my-1 mx-auto font-medium lg:ml-0">
                                 <FontAwesomeIcon icon={faStar} className="text-amber-400 text-lg lg:text-base mr-2 lg:ml-0" />
-                                Reviews
+                                {profileDetails.profile.rating ? profileDetails.profile.rating : 0 }
                             </h3>
                             <h3 className="text-lg lg:text-base mx-auto font-medium">
                                 Experience: {profileDetails.preferences.experience_level? profileDetails.preferences.experience_level : 'N/A' }

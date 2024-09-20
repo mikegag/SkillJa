@@ -1,144 +1,188 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import CoachService from "../../components/general/coach-preview/CoachService"
-import ReviewRatings from "../../components/general/coach-preview/ReviewRatings"
-import { Link } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import {faHeart as hollowfaHeart} from "@fortawesome/free-regular-svg-icons"
-import { faArrowLeftLong, faCirclePlus, faHeart, faStar } from "@fortawesome/free-solid-svg-icons"
+import { faChevronRight, faGear, faLocationDot, faLongArrowLeft, faStar } from "@fortawesome/free-solid-svg-icons"
+import Header from "../../components/navigation/Header"
+import GetWindowSize from "../../hooks/GetWindowSize"
+import axios from "axios"
+import GetCSFR from "../../hooks/GetCSFR"
+import ReviewSlider from "../../components/general/coach-preview/ReviewSlider"
+
+interface Review {
+    id: number;
+    title: string;
+    description: string;
+    rating: string;
+    date: string;
+}
+
+interface Service {
+    type: string;
+    title: string;
+    description: string;
+    duration: string;
+    frequency?: string;
+    target_audience?: string;
+    location?: string;
+    deliverable?: string;
+    price: number;
+}
+  
+interface ProfileDetails {
+    fullname: string;
+    location: string;
+    biography: string;
+    reviews: Review[];
+    experience_level: string;
+    specialization?: string;
+    services: Service[];
+    rating: number;
+}
+
+// Default values for profileDetails
+const defaultProfileDetails: ProfileDetails = {
+    fullname: '',
+    location: '',
+    biography: '',
+    reviews: [],
+    experience_level: '',
+    specialization: '',
+    services: [],
+    rating: 0
+}
 
 export default function Coach(){
-    const [isFavourite, setIsFavourite] = useState<boolean>(false)
-    const [viewRatings, setViewRatings] = useState<boolean>(false)
-    const dummyData = [{
-        rating: 4.2,
-        title: "good coach",
-        description: "this is great stuff!"
-    },
-    {
-        rating: 1.0,
-        title: "good coach",
-        description: "this is great stuff!"
-    },
-    {
-        rating: 2.0,
-        title: "good coach",
-        description: "this is great stuff!"
-    },
-    {
-        rating: 3.8,
-        title: "good coach",
-        description: "this is great stuff!"
-    },
-    {
-        rating: 3.2,
-        title: "good coach",
-        description: "this is great stuff!"
-    },
-    {
-        rating: 5.0,
-        title: "good coach",
-        description: "this is great stuff!"
-    },
-    {
-        rating: 4.0,
-        title: "good coach",
-        description: "this is great stuff!"
-    },
-    {
-        rating: 4.4,
-        title: "good coach",
-        description: "this is great stuff!"
-    },
-    {
-        rating: 4.4,
-        title: "good coach",
-        description: "this is great stuff!"
-    },
-    {
-         
-        rating: 4.4,
-        title: "good coach",
-        description: "this is great stuff!"
-    },
-    
-    {
-        rating: 5.0,
-        title: "good coach",
-        description: "this is great stuff!"
-    },
-    
-    ]
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+    const [profileDetails, setProfileDetails] = useState<ProfileDetails>(defaultProfileDetails)
+    const windowSize = GetWindowSize()
+    const navigate = useNavigate()
+    const csrfToken = GetCSFR({ name: "csrftoken" })
+    const [queryParameters] = useSearchParams()
+
+    // API call to get coach details
+    useEffect(()=>{
+        document.title = "SkillJa - Coach Profile"
+        axios.get(`https://www.skillja.ca/auth/coach?id=${queryParameters.get("id")}`, { 
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true
+        }) 
+            .then(res => {
+                if (res.status === 200) {
+                    setProfileDetails(res.data)
+                } else {
+                    console.error("Failed to retrieve coach details")
+                }
+            })
+            .catch(error => {
+                if (error.response) {
+                    // the server responded with a status code that falls out of the range of 2xx
+                    console.error('Error response:', error.response.data)
+                    console.error('Status:', error.response.status)
+                    console.error('Headers:', error.response.headers)
+                } else if (error.request) {
+                    // no response was received
+                    console.error('No response received:', error.request)
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.error('Error setting up request:', error.message)
+                }
+                console.error('Error config:', error.config)
+            })
+    },[profileDetails])
 
     return (
-        <div className="py-2 px-5 lg:px-20 text-main-green-900">
-            <div className="flex justify-center mt-16">
-                <Link to={'/auth/home-feed'} className="text-2xl mr-auto my-auto pl-2 hover:text-main-green-500">
-                    <FontAwesomeIcon icon={faArrowLeftLong}/>
-                </Link>
-                <h1 className="font-source text-main-green-900 text-3xl m-auto">Tom Chant</h1>
-                <FontAwesomeIcon 
-                    icon={faArrowLeftLong} 
-                    role="presentation" 
-                    className="opacity-0 text-2xl ml-auto pr-2" 
-                />
-            </div>
-            <div className="flex justify-center flex-wrap mt-14"> 
-                <div className="relative">
-                    <img src={require('../../assets/FB-logo.png')} className="w-32 lg:w-44 rounded-2xl"/>
-                    {isFavourite ? 
-                        <FontAwesomeIcon 
-                            icon={faHeart} 
-                            className="text-red-600 absolute top-3 right-4 text-2xl hover:cursor-pointer" 
-                            onClick={()=>setIsFavourite(!isFavourite)} 
+        <div className="flex flex-col">
+            <Header useCase="protected" />
+            <div className="pb-4 px-8 lg:px-14">
+                <div className="flex justify-center items-center text-center mt-10">
+                    <FontAwesomeIcon 
+                        icon={faLongArrowLeft}
+                        onClick={()=>navigate(-1)} 
+                        className="text-2xl my-auto mr-auto ml-0 hover:text-main-green-500 cursor-pointer" 
+                    />
+                    <h1 className="font-source text-center text-3xl pr-4 my-auto mr-auto text-main-green-900">
+                        Profile
+                    </h1>
+                </div>
+                <section className="flex flex-col justify-center items-center border-b-2 mt-8 lg:mt-14 border-main-grey-300 lg:pb-4">
+                    <div className="flex flex-col justify-center items-center lg:flex-row">
+                        <img 
+                            src={require('../../assets/default-avatar.jpg')} 
+                            className="w-32 h-32 rounded-2xl lg:mr-10"
                         />
-                    :
-                        <FontAwesomeIcon 
-                            icon={hollowfaHeart} 
-                            className="text-white absolute top-3 right-4 text-2xl hover:cursor-pointer" 
-                            onClick={()=>setIsFavourite(!isFavourite)} 
-                        />
-                    }
-                </div>
-                <div className="flex flex-col ml-8 font-kulim max-w-44 font-semibold truncate overflow-ellipsis leading-tight">
-                    <p className="mt-0 mb-auto lg:mb-4 mr-auto text-lg max-w-44 font-semibold truncate overflow-ellipsis">Toronto, ON</p>
-                    <p className="my-auto mr-auto text-lg max-w-44 font-semibold truncate overflow-ellipsis">5K, 10K, Running Programs</p>
-                    <div 
-                        className="flex justify-center mt-auto lg:mb-3 mb-0 mr-auto px-3 py-1 bg-main-green-500 rounded-full text-main-white w-fit hover:bg-main-green-800 hover:cursor-pointer"
-                        onClick={()=>setViewRatings(!viewRatings)}
-                    >
-                        {viewRatings ?
-                            <p>View Services</p>
-                        :
-                            <>
-                                <FontAwesomeIcon icon={faStar} className="text-amber-300 text-base my-auto mr-2" />
-                                <p>4.8 Ratings</p>
-                            </>
-                        }  
-                    </div>
-                    
-                </div>
-                <div className="border-b-4 border-main-green-900 text-lg pb-7 mt-10">
-                    <p>Hi! I'm Tom and I love running! With over 10+ years of coaching experience I can help you 
-                        out with your next big race.
-                    </p>
-                </div>
-                <div className="w-full mt-10">
-                    {viewRatings ?
-                        <ReviewRatings reviews={dummyData} />
-                    :
-                    <>
-                        <h2 className="underline text-2xl font-source mx-auto text-center font-medium mb-6">Services</h2>
-                        <div className="flex py-4 px-6 bg-main-white shadow-lg border border-main-green-900 w-full rounded-xl hover:border-main-green-500 hover:cursor-pointer" onClick={()=>setIsModalOpen(true)}>
-                            <div className="w-52 my-auto">
-                                <h3 className="truncate overflow-ellipsis text-lg font-medium">Training Plan (5K, 10K, Marathons)</h3>
-                                <p>See Price and More</p>
-                            </div>
-                            <FontAwesomeIcon icon={faCirclePlus} className="my-auto ml-auto text-main-green-500 text-2xl"/>
+                        <div className="flex flex-col justify-center items-center font-kulim text-main-green-900">
+                            <h2 className="text-2xl font-medium font-source mt-3 lg:mt-0 mx-auto lg:ml-0">
+                                {profileDetails.fullname? profileDetails.fullname : 'Name' }
+                            </h2>
+                            <h3 className="text-lg my-1 mx-auto font-medium font-source text-main-grey-300 lg:ml-0">
+                                <FontAwesomeIcon icon={faLocationDot} className="text-main-grey-300 text-lg lg:text-base mr-2 lg:ml-0" />
+                                {profileDetails.location? profileDetails.location : 'Location' }
+                            </h3>
+                            <h3 className="text-lg lg:text-base my-1 mx-auto font-medium lg:ml-0">
+                                <FontAwesomeIcon icon={faStar} className="text-amber-400 text-lg lg:text-base mr-2 lg:ml-0" />
+                                {profileDetails.rating ? profileDetails.rating : 0 }
+                            </h3>
+                            <h3 className="text-lg lg:text-base mx-auto font-medium">
+                                Experience: {profileDetails.experience_level? profileDetails.experience_level : 'N/A' }
+                            </h3>
                         </div>
-                    </>
-                    }
-                </div>
+                    </div>
+                    <div className="w-full lg:mt-6 lg:px-20">
+                        {windowSize.width >=1024 ? 
+                            <h3 className="text-lg my-1 mr-auto font-medium">About Me</h3>
+                        :
+                            <></>
+                        }
+                        <p className="my-6 lg:my-3 text-center lg:text-start">
+                            {profileDetails.biography? profileDetails.biography : 'Bio goes here...' }
+                        </p>
+                    </div>
+                </section>
+
+                <section className="flex justify-center items-center flex-col lg:flex-row lg:items-start mt-8 mb-12 mx-auto">
+                    <div className="flex flex-col justify-center w-full lg:w-5/12 lg:mx-6 lg:mr-10">
+                        <h2 className="text-2xl font-medium font-source mx-auto mb-6 text-center">
+                            Sessions and Packages
+                        </h2>
+                        {profileDetails.services.length > 0 ?
+                        <>
+                            {profileDetails.services.forEach((currService, index) => {
+                            <div
+                                className="flex rounded-2xl py-2 px-5 bg-main-white border border-main-grey-100 cursor-pointer hover:border-main-green-500 hover:shadow-md"
+                                onClick={()=>setIsModalOpen(true)}
+                                key={index}
+                            >
+                                <div className="flex flex-col justify-start items-start font-kulim">
+                                    <h3 className="my-1 mr-auto">
+                                        {currService.title}
+                                    </h3>
+                                    <p className="text-sm my-1 mr-auto">
+                                        See Price and Details
+                                    </p>
+                                </div>
+                                <FontAwesomeIcon icon={faChevronRight} className="text-main-grey-300 ml-auto my-auto" />
+                            </div>
+                            })}
+                        </>
+                        :
+                            <p className="mx-auto">No sessions are currently available</p>
+                        }
+                    </div>
+                    <div className="flex flex-col justify-center mt-12 lg:mt-0 w-full lg:w-5/12 lg:mx-6 lg:mr-10">
+                        <h2 className="text-2xl font-medium font-source mx-auto mb-6 text-center">
+                            Reviews and Testimonials
+                        </h2>
+                        {profileDetails.reviews?.length > 0 ?
+                            <ReviewSlider data={profileDetails.reviews}/>   
+                        :
+                            <p className="mx-auto">No reviews available</p>    
+                        }
+                    </div>
+                </section>
             </div>
             {isModalOpen? <CoachService exitView={setIsModalOpen}/> : <></>}
         </div>
