@@ -2,22 +2,36 @@ import React, { useEffect, useState } from "react"
 import Header from "../../components/navigation/Header"
 import GetWindowSize from '../../hooks/GetWindowSize'
 import CurrentGoal from "../../components/general/athlete-preview/CurrentGoal"
-import ReviewRatings from "../../components/general/coach-preview/ReviewRatings"
 import SocialMediaIcons from "../../components/general/coach-preview/SocialMediaIcons"
-import { useNavigate, Link } from 'react-router-dom';
-import { faGear, faLocationDot, faLongArrowLeft, faStar } from "@fortawesome/free-solid-svg-icons"
+import { useNavigate, Link } from 'react-router-dom'
+import { faChevronRight, faGear, faLocationDot, faLongArrowLeft, faStar } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
 import EditAthleteProfileForm from "../../components/general/athlete-preview/EditAthleteProfileForm"
 import EditCoachProfileForm from "../../components/general/coach-preview/EditCoachProfileForm"
 import EditCoachServiceForm from "../../components/general/coach-preview/EditCoachServiceForm"
+import ReviewSlider from "../../components/general/coach-preview/ReviewSlider"
+import CoachService from "../../components/general/coach-preview/CoachService"
 
 interface Review {
     id: number;
     title: string;
     description: string;
     rating: string;
+    date: string;
+}
+
+interface Service {
+    type: string;
+    title: string;
+    description: string;
+    duration: string;
+    frequency?: string;
+    target_audience?: string;
+    location?: string;
+    deliverable?: string;
+    price: number;
 }
   
 interface ProfileDetails {
@@ -38,8 +52,21 @@ interface ProfileDetails {
         sport_interests?: string;
         age_groups?: string[];
         specialization?: string;
-        services?: string[];
+        services?: Service[];
     }
+}
+
+// Default values for Service
+const defaultService: Service = {
+    type: '',
+    title: '',
+    description: '',
+    duration: '',
+    frequency: '',
+    target_audience: '',
+    location: '',
+    deliverable: '',
+    price: 0
 }
 
 // Default values for profileDetails
@@ -61,11 +88,13 @@ const defaultProfileDetails: ProfileDetails = {
         sport_interests: '',
         age_groups: [],
         specialization: '',
-        services: [],
+        services:[],
     },
 }
 
 export default function Profile(){
+    const [selectedService, setSelectedService] = useState<Service>(defaultService)
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const [profileDetails, setProfileDetails] = useState<ProfileDetails>(defaultProfileDetails)
     const windowSize = GetWindowSize()
     const navigate = useNavigate()
@@ -107,7 +136,6 @@ export default function Profile(){
             })
     },[profileDetails])
 
-
     return (
         <div className="flex flex-col">
             <Header useCase="protected" />
@@ -138,6 +166,7 @@ export default function Profile(){
                         <img 
                             src={require('../../assets/default-avatar.jpg')} 
                             className="w-32 h-32 rounded-2xl lg:mr-10"
+                            alt="headshot of user demonstrating what they look like"
                         />
                         <div className="flex flex-col justify-center items-center font-kulim text-main-green-900">
                             <h2 className="text-2xl font-medium font-source mt-3 lg:mt-0 mx-auto lg:ml-0">
@@ -200,17 +229,17 @@ export default function Profile(){
                                 Edit Profile
                             </button>
                             {profileDetails.iscoach? 
-                            <>
-                                <button 
-                                    className="py-2 px-4 mt-3 mb-3 w-full lg:w-fit lg:ml-44 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
-                                    onClick={()=>setReadyToDisplayServicesForm(true)}
-                                >
-                                    Edit Services
-                                </button>
-                                <SocialMediaIcons />
-                            </>
+                                <>
+                                    <button 
+                                        className="py-2 px-4 mt-3 mb-3 w-full lg:w-fit lg:ml-44 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
+                                        onClick={()=>setReadyToDisplayServicesForm(true)}
+                                    >
+                                        Edit Services
+                                    </button>
+                                    <SocialMediaIcons />
+                                </>
                             :
-                            <></>
+                                <></>
                             }
                         </div>
                     :
@@ -226,26 +255,43 @@ export default function Profile(){
                                 Current Goals
                             </h2>
                             {profileDetails.preferences.goals.length ?
-                            <>
-                                {profileDetails.preferences.goals.forEach((currGoal,index) => {
-                                    <CurrentGoal key={index} goal={currGoal} />
-                                })}
-                            </>
+                                <>
+                                    {profileDetails.preferences.goals.forEach((currGoal,index) => {
+                                        <CurrentGoal key={index} goal={currGoal} />
+                                    })}
+                                </>
                             :
                                 <p>No goals to display</p>
                             }
                         </>
                     :
                         <>
-                            <h2 className="text-2xl font-medium font-source mx-auto mb-4 text-center">
+                            <h2 className="text-2xl font-medium font-source mx-auto mb-6 text-center">
                                 Sessions and Packages
                             </h2>
-                            {profileDetails.preferences.services?.length ?
-                            <>
-                                {profileDetails.preferences.services!.forEach((currService,index) => {
-                                    <p key={index}>hi</p>
-                                })}
-                            </>
+                            {profileDetails.preferences.services!.length > 0 ?
+                                <>
+                                    {profileDetails.preferences.services!.map((currService, index) => (
+                                    <div
+                                        className="flex rounded-2xl py-2 px-5 mb-4 bg-main-white border border-main-grey-100 cursor-pointer hover:border-main-green-500 hover:shadow-md"
+                                        onClick={()=>{
+                                            setIsModalOpen(true)
+                                            setSelectedService(currService)
+                                        }}
+                                        key={index}
+                                    >
+                                        <div className="flex flex-col justify-start items-start font-kulim">
+                                            <h3 className="my-1 mr-auto">
+                                                {currService.title}
+                                            </h3>
+                                            <p className="text-sm my-1 mr-auto">
+                                                See Price and Details
+                                            </p>
+                                        </div>
+                                        <FontAwesomeIcon icon={faChevronRight} className="text-main-grey-300 ml-auto my-auto" />
+                                    </div>
+                                    ))}
+                                </>
                             :
                                 <p className="mx-auto">No sessions are currently available</p>
                             }
@@ -253,21 +299,18 @@ export default function Profile(){
                     }
                     </div>
                     <div className="flex flex-col justify-center mt-12 lg:mt-0 w-full lg:w-5/12 lg:mx-6 lg:mr-10">
-                        <h2 className="text-2xl font-medium font-source mx-auto mb-4 text-center">
+                        <h2 className="text-2xl font-medium font-source mx-auto mb-6 text-center">
                             Reviews and Testimonials
                         </h2>
-                        {profileDetails.profile.reviews?.length ?
-                            <>
-                                {profileDetails.profile.reviews.forEach((currService,index) => {
-                                    <p key={index}>hi</p>
-                                })}
-                            </>
+                        {profileDetails.profile.reviews?.length > 0 ?
+                            <ReviewSlider data={profileDetails.profile.reviews}/>   
                         :
-                                <p className="mx-auto">No reviews available</p>
+                            <p className="mx-auto">No reviews available</p>    
                         }
                     </div>
                 </section>
             </div>
+            {isModalOpen? <CoachService data={selectedService} exitView={setIsModalOpen}/> : <></>}
         </div>
     )
 }

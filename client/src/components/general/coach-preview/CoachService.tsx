@@ -1,12 +1,25 @@
-import { faCircleXmark, faX } from "@fortawesome/free-solid-svg-icons"
+import { faX } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { useState } from "react"
 
-interface ServiceProps {
-    exitView: (value:boolean) => void
+interface Service {
+    type: string;
+    title: string;
+    description: string;
+    duration: string;
+    frequency?: string;
+    target_audience?: string;
+    location?: string;
+    deliverable?: string;
+    price: number;
 }
 
-export default function CoachService({exitView}:ServiceProps){
+interface ServiceProps {
+    exitView: (value:boolean) => void;
+    data: Service;
+}
+
+export default function CoachService({exitView, data}:ServiceProps){
     const [insideModal, setInsideModal] = useState<boolean>(false)
 
     function handleExit(value:boolean){
@@ -18,32 +31,58 @@ export default function CoachService({exitView}:ServiceProps){
     return (
         <div className="pop-up-background" onClick={()=>handleExit(false)}>
             <div className="pop-up-container p-4 lg:p-6 text-main-green-900" onMouseEnter={()=>setInsideModal(true)} onMouseLeave={()=>setInsideModal(false)}>
-                <FontAwesomeIcon 
-                    icon={faX} 
-                    className="text-main-green-900 hover:text-main-green-500 text-lg ml-auto cursor-pointer" 
-                    onClick={()=> {handleExit(false)}} onMouseEnter={()=>setInsideModal(false)}
-                />
-                <h3 className="text-2xl font-source font-medium mx-auto text-center mt-4">
-                    Training Plan (5K, 10K, & Half Marathon)
+                <div className="flex">
+                    <h1 className="font-medium font-source text-xl">
+                        Sessions & Packages
+                    </h1>
+                    <FontAwesomeIcon 
+                        icon={faX} 
+                        className="text-main-green-900 hover:text-main-green-500 text-lg ml-auto cursor-pointer" 
+                        onClick={()=> {handleExit(false)}} onMouseEnter={()=>setInsideModal(false)}
+                    />
+                </div>
+                <h3 className="font-kulim font-semibold mr-auto text-center mt-6 mb-2">
+                    {data.title}
                 </h3>
-                <div className="h-1 w-28 lg:w-52 mx-auto my-2 bg-main-green-500 rounded-full" role="presentation"> </div>
-                <h4 className="text-xl text-main-green-500 mr-auto my-5 font-semibold font-kulim">
-                    $49 
-                    <span className="ml-2 text-base font-medium">/ Per Plan</span>
-                </h4>
-                <p className="font-kulim">
-                    I will work with you to build a customized training plan based on your goals. 
-                    The plan will consist of weekly goals and tips to help you succeed. The final 
-                    plan will be sent in PDF format.
+                <p className="font-kulim text-sm">
+                    {data.description}
                 </p>
-                <h4 className="text-xl mr-auto mt-6 mb-3 font-medium font-source">
-                    Includes:
-                </h4>
-                <ul className="ml-6">
-                    <li className="font-kulim list-disc font-light">Training plan</li> 
-                    <li className="font-kulim list-disc font-light">Weekly Contact (Available in Chat)</li>
-                </ul>
-                <button className="form-btn mt-8 lg:mt-auto">Buy Now</button>
+                <p className="font-kulim mt-3">
+                    <span className="font-semibold">Duration:</span> {data.duration}
+                </p>
+                {data.frequency ?
+                    <p className="font-kulim mt-3">
+                        <span className="font-semibold">Frequency:</span> {data.frequency}
+                    </p>
+                :
+                    <></>
+                }
+                {data.deliverable ? 
+                    <>
+                    <p className="mr-auto my-3 font-semibold font-kulim">
+                        Includes:
+                    </p>
+                    <ul className="ml-10">
+                        <li className="font-kulim list-disc font-light">{data.deliverable}</li> 
+                    </ul>
+                    </>
+                :
+                    <></>
+                }
+                {data.location ? 
+                    <p className="font-kulim mt-3">
+                        <span className="font-semibold">Location: </span>{data.location}
+                    </p> 
+                : 
+                    <></>
+                }
+                <p className="font-kulim font-semibold mt-3">
+                    Price: ${data.price}
+                    <span className="ml-2">
+                        / {data.type.includes('program')? 'Program': 'Session'}
+                    </span>
+                </p>
+                <button className="form-btn mt-8 py-2">Purchase Now</button>
             </div>
         </div>
     )

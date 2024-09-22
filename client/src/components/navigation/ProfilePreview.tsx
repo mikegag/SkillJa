@@ -21,6 +21,7 @@ export default function ProfilePreview(props:ProfilePreviewProps){
             <img 
                 src={require('../../assets/default-avatar.jpg')} 
                 className="w-28 h-28 my-2 mx-5 rounded-full border"
+                alt="headshot of user demonstrating what they look like"
             />
             <div className="flex justify-start flex-wrap my-auto ml-2 mr-auto">
                 <h3 className="w-full text-2xl pb-2 font-source">{props.name}</h3>

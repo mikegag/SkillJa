@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import CoachService from "../../components/general/coach-preview/CoachService"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faChevronRight, faGear, faLocationDot, faLongArrowLeft, faStar } from "@fortawesome/free-solid-svg-icons"
+import { faChevronRight, faLocationDot, faLongArrowLeft, faStar } from "@fortawesome/free-solid-svg-icons"
 import Header from "../../components/navigation/Header"
 import GetWindowSize from "../../hooks/GetWindowSize"
 import axios from "axios"
@@ -40,6 +40,19 @@ interface ProfileDetails {
     rating: number;
 }
 
+// Default values for Service
+const defaultService: Service = {
+    type: '',
+    title: '',
+    description: '',
+    duration: '',
+    frequency: '',
+    target_audience: '',
+    location: '',
+    deliverable: '',
+    price: 0
+}
+
 // Default values for profileDetails
 const defaultProfileDetails: ProfileDetails = {
     fullname: '',
@@ -55,6 +68,7 @@ const defaultProfileDetails: ProfileDetails = {
 export default function Coach(){
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const [profileDetails, setProfileDetails] = useState<ProfileDetails>(defaultProfileDetails)
+    const [selectedService, setSelectedService] = useState<Service>(defaultService)
     const windowSize = GetWindowSize()
     const navigate = useNavigate()
     const csrfToken = GetCSFR({ name: "csrftoken" })
@@ -113,6 +127,7 @@ export default function Coach(){
                         <img 
                             src={require('../../assets/default-avatar.jpg')} 
                             className="w-32 h-32 rounded-2xl lg:mr-10"
+                            alt="headshot of user demonstrating what they look like"
                         />
                         <div className="flex flex-col justify-center items-center font-kulim text-main-green-900">
                             <h2 className="text-2xl font-medium font-source mt-3 lg:mt-0 mx-auto lg:ml-0">
@@ -149,25 +164,28 @@ export default function Coach(){
                             Sessions and Packages
                         </h2>
                         {profileDetails.services.length > 0 ?
-                        <>
-                            {profileDetails.services.forEach((currService, index) => {
-                            <div
-                                className="flex rounded-2xl py-2 px-5 bg-main-white border border-main-grey-100 cursor-pointer hover:border-main-green-500 hover:shadow-md"
-                                onClick={()=>setIsModalOpen(true)}
-                                key={index}
-                            >
-                                <div className="flex flex-col justify-start items-start font-kulim">
-                                    <h3 className="my-1 mr-auto">
-                                        {currService.title}
-                                    </h3>
-                                    <p className="text-sm my-1 mr-auto">
-                                        See Price and Details
-                                    </p>
+                            <>
+                                {profileDetails.services.map((currService, index) => (
+                                <div
+                                    className="flex rounded-2xl py-2 px-5 mb-4 bg-main-white border border-main-grey-100 cursor-pointer hover:border-main-green-500 hover:shadow-md"
+                                    onClick={()=>{
+                                        setIsModalOpen(true)
+                                        setSelectedService(currService)
+                                    }}
+                                    key={index}
+                                >
+                                    <div className="flex flex-col justify-start items-start font-kulim">
+                                        <h3 className="my-1 mr-auto">
+                                            {currService.title}
+                                        </h3>
+                                        <p className="text-sm my-1 mr-auto">
+                                            See Price and Details
+                                        </p>
+                                    </div>
+                                    <FontAwesomeIcon icon={faChevronRight} className="text-main-grey-300 ml-auto my-auto" />
                                 </div>
-                                <FontAwesomeIcon icon={faChevronRight} className="text-main-grey-300 ml-auto my-auto" />
-                            </div>
-                            })}
-                        </>
+                                ))}
+                            </>
                         :
                             <p className="mx-auto">No sessions are currently available</p>
                         }
@@ -184,7 +202,7 @@ export default function Coach(){
                     </div>
                 </section>
             </div>
-            {isModalOpen? <CoachService exitView={setIsModalOpen}/> : <></>}
+            {isModalOpen? <CoachService data={selectedService} exitView={setIsModalOpen}/> : <></>}
         </div>
     )
 }

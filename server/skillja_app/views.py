@@ -130,7 +130,7 @@ def get_user_profile(request):
         user = User.objects.get(email=email)
         data = {
             'name': user.fullname,
-            'id': user.id
+            'id': user.id,
             'email': user.email,
             'iscoach': user.iscoach,
             'isathlete': user.isathlete,
