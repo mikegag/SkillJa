@@ -187,7 +187,7 @@ def get_user_profile(request):
         return JsonResponse({'error': f'Related profile or preferences not found: {str(e)}'}, status=404)
 
 @require_POST
-def update_athlete_profile:
+def update_athlete_profile(request):
     try:
         # Extract the email from the cookie set when user logs in
         email = request.COOKIES.get('user_email')
@@ -245,7 +245,7 @@ def update_athlete_profile:
         return JsonResponse({'error': str(e)}, status=400)
 
 @require_POST
-def update_coach_profile:
+def update_coach_profile(request):
     try:
         # Extract the email from the cookie set when user logs in
         email = request.COOKIES.get('user_email')
