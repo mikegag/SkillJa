@@ -159,6 +159,7 @@ def get_user_profile(request):
         elif user.iscoach:
             coach_profile = CoachProfile.objects.get(user=user)
             coach_preferences = CoachPreferences.objects.get(user=user)
+            coach_socialMedia = SocialMedia.objects.get(user=user)
             average_rating = calculate_coach_review(data.id) or 0
             
             data.update({
@@ -168,6 +169,10 @@ def get_user_profile(request):
                     'picture': coach_profile.picture.url if coach_profile.picture else None,
                     'reviews': [review.id for review in coach_profile.reviews.all()],
                     'rating': average_rating,
+                    'instagram': coach_socialMedia.instagram,
+                    'facebook': coach_socialMedia.facebook,
+                    'twitter': coach_socialMedia.twitter,
+                    'tiktok': coach_socialMedia.tiktok
                 },
                 'preferences': {
                     'experience_level': coach_preferences.experience_level,
@@ -258,12 +263,12 @@ def update_coach_profile(request):
         user = User.objects.get(email=email)
         coach_preferences, created = CoachPreferences.objects.get_or_create(user=user)
         coach_profile, created = CoachProfile.objects.get_or_create(user=user)
+        coach_social_media, created = SocialMedia.objects.get_or_create(user=user)
 
         # Check if the request method is POST
         if request.method == 'POST':
             data = json.loads(request.body)
 
-            # rest of these need to be updated according to editcoachprofile, that component needs axios post
             # Update only fields that are not empty
             if 'fullname' in data and data['fullname']:
                 user.fullname = data['fullname']
@@ -273,9 +278,6 @@ def update_coach_profile(request):
 
             if 'address' in data and data['address']:
                 user.address = data['address']
-
-            if 'primarySport' in data and data['primarySport']:
-                coach_profile.primary_sport = data['primarySport']
 
             if 'ageGroups' in data and data['ageGroups']:
                 coach_preferences.age_groups = data['ageGroups']
@@ -288,11 +290,24 @@ def update_coach_profile(request):
 
             if 'experienceLevel' in data and data['experienceLevel']:
                 coach_preferences.experience_level = data['experienceLevel']
+            
+            if 'instagram' in data and data['instagram']:
+                coach_social_media.instagram = data['instagram']
+
+            if 'facebook' in data and data['facebook']:
+                coach_social_media.facebook = data['facebook']
+
+            if 'twitter' in data and data['twitter']:
+                coach_social_media.twitter = data['twitter']
+
+            if 'tiktok' in data and data['tiktok']:
+                coach_social_media.tiktok = data['tiktok']
 
             # Save the updated preferences
             user.save()
             coach_preferences.save()
             coach_profile.save()
+            coach_social_media.save()
 
             return JsonResponse({'message': 'Coach preferences updated successfully'}, status=201)
 
@@ -321,7 +336,11 @@ def get_coach_profile(request):
                 'biography': coach.coach_profile.biography,
                 'services': [service.id for service in coach.coach_profile.services.all()],
                 'reviews': [review.id for review in coach.coach_profile.reviews.all()],
-                'rating': average_rating
+                'rating': average_rating,
+                'instagram': coach.coach_profile.social_media.instagram,
+                'facebook': coach.coach_profile.social_media.facebook,
+                'twitter': coach.coach_profile.social_media.twitter,
+                'tiktok': coach.coach_profile.social_media.tiktok
             }
             return JsonResponse(data)
     except Exception as e:

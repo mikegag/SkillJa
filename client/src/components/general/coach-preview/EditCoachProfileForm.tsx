@@ -17,6 +17,10 @@ interface FormStructure {
     sportInterests: string[],
     experienceLevel: string,
     ageGroups: string[],
+    instagram: '',
+    facebook: '',
+    twitter: '',
+    tiktok: ''
 }
 
 interface FormProps {
@@ -33,6 +37,10 @@ export default function EditCoachProfileForm({displayForm}:FormProps){
         sportInterests: [],
         experienceLevel: '',
         ageGroups: [],
+        instagram: '',
+        facebook: '',
+        twitter: '',
+        tiktok: ''
     })
     const [currentSelectedSports, setCurrentSelectedSports] = useState<string[]>([])
     const [insideForm, setInsideForm] = useState<boolean>(false)
@@ -237,7 +245,8 @@ export default function EditCoachProfileForm({displayForm}:FormProps){
                         <p className="text-xs text-main-grey-200 text-center mb-8 px-6">
                             {data.profileForms.coach.warningInfo}
                         </p>
-
+                        <p className="my-6">Social Media Links</p>
+                            {data.profileForms.coach.socialMedia.map(renderInput)}
                         <p className="my-6">
                             Primary Sport
                         </p>

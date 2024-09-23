@@ -115,7 +115,7 @@ class CoachProfile(models.Model):
     picture = models.ImageField(upload_to='coach_pictures/', blank=True, null=True)
     services = models.ManyToManyField('Service', related_name='coach_profiles', blank=True)
     reviews = models.ManyToManyField('Review', related_name='coach_profiles', blank=True)
-    social_media = models.ManyToManyField('SocialMedia', related_name='coach_profiles', blank=True)
+    social_media = models.OneToOneField('SocialMedia', related_name='coach_profiles', blank=True)
 
     def __str__(self):
         return f'{self.user.email} - Coach Profile'
@@ -164,7 +164,7 @@ class Review(models.Model):
         return f'{self.title} - {self.user.email}'
 
 class SocialMedia(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='SocialMedia')
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     facebook = models.CharField(max_length=255, blank=True, null=True)
     twitter = models.CharField(max_length=255, blank=True, null=True)
     instagram = models.CharField(max_length=255, blank=True, null=True)

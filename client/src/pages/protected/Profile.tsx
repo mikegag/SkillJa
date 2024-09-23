@@ -45,10 +45,14 @@ interface ProfileDetails {
         picture: string | null;
         reviews: Review[];
         rating: number;
+        instagram?: string,
+        facebook?: string,
+        twitter?: string,
+        tiktok?: string
     };
     preferences: {
-        experience_level: string;
-        goals: string[];
+        experience_level?: string;
+        goals?: string[];
         sport_interests?: string;
         age_groups?: string[];
         specialization?: string;
@@ -80,7 +84,11 @@ const defaultProfileDetails: ProfileDetails = {
         biography: 'Bio goes here...',
         picture: null,
         reviews: [],
-        rating: 0
+        rating: 0,
+        instagram: '',
+        facebook: '',
+        twitter: '',
+        tiktok: ''
     },
     preferences: {
         experience_level: 'N/A',
@@ -254,9 +262,9 @@ export default function Profile(){
                             <h2 className="text-2xl font-medium font-source mx-auto mb-4 text-center">
                                 Current Goals
                             </h2>
-                            {profileDetails.preferences.goals.length ?
+                            {profileDetails.preferences.goals!.length ?
                                 <>
-                                    {profileDetails.preferences.goals.forEach((currGoal,index) => {
+                                    {profileDetails.preferences.goals!.forEach((currGoal,index) => {
                                         <CurrentGoal key={index} goal={currGoal} />
                                     })}
                                 </>

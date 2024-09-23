@@ -38,6 +38,10 @@ interface ProfileDetails {
     specialization?: string;
     services: Service[];
     rating: number;
+    instagram: string,
+    facebook: string,
+    twitter: string,
+    tiktok: string
 }
 
 // Default values for Service
@@ -62,7 +66,11 @@ const defaultProfileDetails: ProfileDetails = {
     experience_level: '',
     specialization: '',
     services: [],
-    rating: 0
+    rating: 0,
+    instagram: '',
+    facebook: '',
+    twitter: '',
+    tiktok: ''
 }
 
 export default function Coach(){
