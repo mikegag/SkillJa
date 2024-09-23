@@ -109,6 +109,7 @@ class AthletePreferences(models.Model):
 
 class CoachProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='coach_profile')
+    primary_sport = models.CharField(max_length=100, blank= True, null = True)
     location = models.CharField(max_length=100)
     biography = models.CharField(max_length=255)
     picture = models.ImageField(upload_to='coach_pictures/', blank=True, null=True)
@@ -120,6 +121,7 @@ class CoachProfile(models.Model):
 
 class AthleteProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='athlete_profile')
+    primary_sport = models.CharField(max_length=100, blank= True, null = True)
     location = models.CharField(max_length=100)
     biography = models.CharField(max_length=255)
     picture = models.ImageField(upload_to='athlete_pictures/', blank=True, null=True)

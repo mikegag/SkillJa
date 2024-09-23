@@ -186,6 +186,123 @@ def get_user_profile(request):
     except (AthleteProfile.DoesNotExist, CoachProfile.DoesNotExist, AthletePreferences.DoesNotExist, CoachPreferences.DoesNotExist) as e:
         return JsonResponse({'error': f'Related profile or preferences not found: {str(e)}'}, status=404)
 
+@require_POST
+def update_athlete_profile:
+    try:
+        # Extract the email from the cookie set when user logs in
+        email = request.COOKIES.get('user_email')
+
+        if not email:
+            # If email is not found in cookies, return error
+            return JsonResponse({'error': 'Email not found in cookies'}, status=400)
+
+        # Get the user object
+        user = User.objects.get(email=email)
+        athlete_preferences, created = AthletePreferences.objects.get_or_create(user=user)
+        athlete_profile, created = AthleteProfile.objects.get_or_create(user=user)
+
+        # Check if the request method is POST
+        if request.method == 'POST':
+            data = json.loads(request.body)
+
+            # Update only fields that are not empty
+            if 'fullname' in data and data['fullname']:
+                user.fullname = data['fullname']
+
+            if 'phonenumber' in data and data['phonenumber']:
+                user.phonenumber = data['phonenumber']
+
+            if 'address' in data and data['address']:
+                user.address = data['address']
+
+            if 'biography' in data and data['biography']:
+                athlete_profile.biography = data['biography']
+
+            if 'goals' in data and data['goals']:
+                athlete_preferences.goals = data['goals']
+
+            if 'primarySport' in data and data['primarySport']:
+                athlete_profile.primary_sport = data['primarySport']
+
+            if 'sportInterests' in data and data['sportInterests']:
+                athlete_preferences.sport_interests = data['sportInterests']
+
+            if 'experienceLevel' in data and data['experienceLevel']:
+                athlete_preferences.experience_level = data['experienceLevel']
+
+            # Save the updated preferences
+            user.save()
+            athlete_preferences.save()
+            athlete_profile.save()
+
+            return JsonResponse({'message': 'Athlete preferences updated successfully'}, status=201)
+
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON format'}, status=400)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+
+@require_POST
+def update_coach_profile:
+    try:
+        # Extract the email from the cookie set when user logs in
+        email = request.COOKIES.get('user_email')
+
+        if not email:
+            # If email is not found in cookies, return error
+            return JsonResponse({'error': 'Email not found in cookies'}, status=400)
+
+        # Get the user object
+        user = User.objects.get(email=email)
+        coach_preferences, created = CoachPreferences.objects.get_or_create(user=user)
+        coach_profile, created = CoachProfile.objects.get_or_create(user=user)
+
+        # Check if the request method is POST
+        if request.method == 'POST':
+            data = json.loads(request.body)
+
+            # rest of these need to be updated according to editcoachprofile, that component needs axios post
+            # Update only fields that are not empty
+            if 'fullname' in data and data['fullname']:
+                user.fullname = data['fullname']
+
+            if 'phonenumber' in data and data['phonenumber']:
+                user.phonenumber = data['phonenumber']
+
+            if 'address' in data and data['address']:
+                user.address = data['address']
+
+            if 'primarySport' in data and data['primarySport']:
+                coach_profile.primary_sport = data['primarySport']
+
+            if 'ageGroups' in data and data['ageGroups']:
+                coach_preferences.age_groups = data['ageGroups']
+
+            if 'primarySport' in data and data['primarySport']:
+                coach_profile.primary_sport = data['primarySport']
+
+            if 'sportInterests' in data and data['sportInterests']:
+                coach_preferences.sport_interests = data['sportInterests']
+
+            if 'experienceLevel' in data and data['experienceLevel']:
+                coach_preferences.experience_level = data['experienceLevel']
+
+            # Save the updated preferences
+            user.save()
+            coach_preferences.save()
+            coach_profile.save()
+
+            return JsonResponse({'message': 'Coach preferences updated successfully'}, status=201)
+
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON format'}, status=400)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+
 @require_GET
 def get_coach_profile(request):
     try:

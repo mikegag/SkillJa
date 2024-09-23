@@ -15,5 +15,7 @@ urlpatterns = [
     path('auth/profile/', views.get_user_profile, name='profile'),
     path('auth/coach/', views.get_coach_profile, name='coach'),
     path('auth/profile/services', views.get_coach_services, name='services'),
-    path('random_profiles/', views.random_profiles, name='random_profiles')
+    path('random_profiles/', views.random_profiles, name='random_profiles'),
+    path('update_athlete_profile/', views.update_athlete_profile, name='update_athlete_profile'),
+    path('update_coach_profile/', views.update_coach_profile, name='update_coach_profile')
 ]   

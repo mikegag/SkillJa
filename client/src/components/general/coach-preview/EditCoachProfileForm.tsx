@@ -5,6 +5,8 @@ import React, { useEffect, useState } from "react";
 import Accordion from "../Accordion";
 import data from '../../../data.json'
 import GetWindowSize from '../../../hooks/GetWindowSize'
+import axios from "axios";
+import GetCSFR from "../../../hooks/GetCSFR";
 
 interface FormStructure {
     fullname: string,
@@ -21,7 +23,6 @@ interface FormProps {
     displayForm: (value:boolean) => void
 }
 
-
 export default function EditCoachProfileForm({displayForm}:FormProps){
     const [formData, setFormData] = useState<FormStructure>({
         fullname: '',
@@ -33,28 +34,55 @@ export default function EditCoachProfileForm({displayForm}:FormProps){
         experienceLevel: '',
         ageGroups: [],
     })
-    
-    useEffect(()=>{
-        console.log(formData)
-    },[formData])
     const [currentSelectedSports, setCurrentSelectedSports] = useState<string[]>([])
     const [insideForm, setInsideForm] = useState<boolean>(false)
     const windowSize = GetWindowSize()
+    const csrfToken = GetCSFR({ name: "csrftoken" })
 
     function handleSubmit(e:React.FormEvent){
         e.preventDefault()
+        axios.post('https://www.skillja.ca/update_coach_profile/', formData, {
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true
+            })
+            .then(res => {
+                // Reload page to update profile information with new changes
+                if (res.status === 201) {
+                    window.location.reload()
+                } else {
+                    console.error("signup failed")
+                }
+            })
+            .catch(error => {
+                if (error.response) {
+                    // the server responded with a status code that falls out of the range of 2xx
+                    console.error('Error response:', error.response.data)
+                    console.error('Status:', error.response.status)
+                    console.error('Headers:', error.response.headers)
+                } else if (error.request) {
+                    // no response was received
+                    console.error('No response received:', error.request)
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.error('Error setting up request:', error.message)
+                }
+                console.error('Error config:', error.config)
+            })
     }
-
+    // Close the form if user clicks outside of it
     function handleExit(value:boolean){
         if(!insideForm){
             displayForm(value)
         }
     }
-    
+    // Handle input changes for text, text area, and button fields
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLButtonElement>) {
         const { name, value, type, dataset } = e.target
     
-        if (type === 'text' && (name === 'goals' || name === 'sportInterests') && dataset.index !== undefined) {
+        if (type === 'text' && (name === 'ageGroups' || name === 'sportInterests') && dataset.index !== undefined) {
             const index = Number(dataset.index);
     
             // Safely handle list updates
@@ -64,15 +92,15 @@ export default function EditCoachProfileForm({displayForm}:FormProps){
                 setFormData(prevState => ({ ...prevState, [name]: updatedList }))
             }
         } else {
-            // Handle regular inputs
+            // Handle all other input types
             setFormData(prevState => ({ ...prevState, [name]: value }))
         }
     }    
-
+    // Update form state when radio buttons are selected
     function handleRadioChange(e: React.ChangeEvent<HTMLInputElement>) {
         setFormData({ ...formData, experienceLevel: e.target.value })
     }
-
+    // Toggle age group selection when buttons are clicked
     function handleButtonChange(e: React.MouseEvent<HTMLButtonElement>) {
         const duplicateAnswer = formData.ageGroups.includes(e.currentTarget.value)
         const filteredInput = formData.ageGroups.filter(currInput=>currInput!==e.currentTarget.value)
@@ -83,7 +111,7 @@ export default function EditCoachProfileForm({displayForm}:FormProps){
             setFormData({ ...formData, ageGroups: filteredInput})
         }
     }
-
+    // Toggle sports of interest when accordion options are clicked
     function handleAccordionChange(e:React.MouseEvent<HTMLButtonElement>){
         const duplicateAnswer = formData.sportInterests.includes(e.currentTarget.value)
         const filteredInput = formData.sportInterests.filter(currInput=>currInput!==e.currentTarget.value)
@@ -94,7 +122,7 @@ export default function EditCoachProfileForm({displayForm}:FormProps){
             setFormData({ ...formData, sportInterests: filteredInput})
         }
     }
-
+    // Define icons used across the form
     const icons: Record<string, any> = {
         faUser,
         faPhone,
@@ -102,7 +130,7 @@ export default function EditCoachProfileForm({displayForm}:FormProps){
         faNewspaper,
         faMedal
     }
-
+    // Render form inputs dynamically based on their type
     function renderInput(input: any) {
         const IconComponent = icons[input.icon]
         if (input.type === 'radio') {
@@ -230,7 +258,7 @@ export default function EditCoachProfileForm({displayForm}:FormProps){
                         }
 
                         <p className="my-6">
-                            Sports of Interest
+                            Sports You Coach
                         </p>
                         <Accordion title="Individual Sports" style="border-main-grey-100">
                             {data.profileForms.coach.sportOptions.individual.map((option, index) => (
