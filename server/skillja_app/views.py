@@ -320,7 +320,7 @@ def get_coach_profile(request):
                 'experience': coach.coach_preferences.experience_level,
                 'biography': coach.coach_profile.biography,
                 'services': [service.id for service in coach.coach_profile.services.all()],
-                'reviews': [review.id for review in coach.coach_profile.reviews.all()]
+                'reviews': [review.id for review in coach.coach_profile.reviews.all()],
                 'rating': average_rating
             }
             return JsonResponse(data)
