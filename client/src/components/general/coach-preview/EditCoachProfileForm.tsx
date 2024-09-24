@@ -42,7 +42,6 @@ export default function EditCoachProfileForm({displayForm}:FormProps){
         twitter: '',
         tiktok: ''
     })
-    const [currentSelectedSports, setCurrentSelectedSports] = useState<string[]>([])
     const [insideForm, setInsideForm] = useState<boolean>(false)
     const windowSize = GetWindowSize()
     const csrfToken = GetCSFR({ name: "csrftoken" })
@@ -285,17 +284,11 @@ export default function EditCoachProfileForm({displayForm}:FormProps){
                         <Accordion title="Team Sports" style="border-main-grey-100">
                             {data.profileForms.coach.sportOptions.team.map((option, index) => (
                                 <button 
-                                    onClick={(e)=>{
-                                        e.preventDefault();
-                                        setCurrentSelectedSports(prev => 
-                                            prev.includes(option) 
-                                                ? prev.filter(item => item !== option) 
-                                                : [...prev, option])
-                                    }}
+                                    onClick={(e)=>handleAccordionChange(e)}
                                     key={`individual-${index}`} 
                                     value={option}
                                     aria-label={`team sports option for ${option}`}
-                                    className={`text-left p-3 hover:bg-main-green-700 hover:text-main-color-white ${currentSelectedSports.includes(option)? 'bg-main-green-500 text-main-white':''}`}
+                                    className={`text-left p-3 hover:bg-main-green-700 hover:text-main-color-white ${formData.sportInterests.includes(option)? 'bg-main-green-500 text-main-white':''}`}
                                 >
                                     {option}
                                 </button>

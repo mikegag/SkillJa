@@ -8,6 +8,7 @@ import GetWindowSize from "../../hooks/GetWindowSize"
 import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
 import ReviewSlider from "../../components/general/coach-preview/ReviewSlider"
+import SocialMediaIcons from "../../components/general/coach-preview/SocialMediaIcons"
 
 interface Review {
     id: number;
@@ -152,6 +153,12 @@ export default function Coach(){
                             <h3 className="text-lg lg:text-base mx-auto font-medium">
                                 Experience: {profileDetails.experience_level? profileDetails.experience_level : 'N/A' }
                             </h3>
+                            <SocialMediaIcons 
+                                instagram={profileDetails.instagram!}
+                                facebook={profileDetails.facebook!}
+                                twitter={profileDetails.twitter!}
+                                tiktok={profileDetails.tiktok!}
+                            />
                         </div>
                     </div>
                     <div className="w-full lg:mt-6 lg:px-20">

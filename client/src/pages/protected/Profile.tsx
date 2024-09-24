@@ -208,7 +208,12 @@ export default function Profile(){
                                     >
                                         Edit Services
                                     </button>
-                                    <SocialMediaIcons />
+                                    <SocialMediaIcons 
+                                        instagram={profileDetails.profile.instagram!}
+                                        facebook={profileDetails.profile.facebook!}
+                                        twitter={profileDetails.profile.twitter!}
+                                        tiktok={profileDetails.profile.tiktok!}
+                                    />
                                 </div>
                                 :
                                 <></>
@@ -244,7 +249,12 @@ export default function Profile(){
                                     >
                                         Edit Services
                                     </button>
-                                    <SocialMediaIcons />
+                                    <SocialMediaIcons 
+                                        instagram={profileDetails.profile.instagram!}
+                                        facebook={profileDetails.profile.facebook!}
+                                        twitter={profileDetails.profile.twitter!}
+                                        tiktok={profileDetails.profile.tiktok!}
+                                    />
                                 </>
                             :
                                 <></>
