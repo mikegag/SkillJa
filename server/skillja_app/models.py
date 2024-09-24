@@ -164,7 +164,7 @@ class Review(models.Model):
         return f'{self.title} - {self.user.email}'
 
 class SocialMedia(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='socialMedia')
     facebook = models.CharField(max_length=255, blank=True, null=True)
     twitter = models.CharField(max_length=255, blank=True, null=True)
     instagram = models.CharField(max_length=255, blank=True, null=True)
