@@ -115,7 +115,7 @@ class CoachProfile(models.Model):
     picture = models.ImageField(upload_to='coach_pictures/', blank=True, null=True)
     services = models.ManyToManyField('Service', related_name='coach_profiles', blank=True)
     reviews = models.ManyToManyField('Review', related_name='coach_profiles', blank=True)
-    social_media = models.OneToOneField('SocialMedia', related_name='coach_profiles', blank=True)
+    social_media = models.OneToOneField('SocialMedia', on_delete=models.CASCADE, related_name='coach_profiles', blank=True)
 
     def __str__(self):
         return f'{self.user.email} - Coach Profile'
