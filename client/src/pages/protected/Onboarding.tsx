@@ -229,7 +229,7 @@ export default function Onboarding() {
                             className="w-72 mb-5"
                             alt="two runners kneeling down ready to race each other"
                         />
-                        <Link to={'../home-feed'}>
+                        <Link to={'../../home-feed'}>
                             <button 
                                 className="w-72 select-btn bg-main-green-500 text-main-cream hover:bg-main-green-700">
                                     {currentQuestion.buttonValue? currentQuestion.buttonValue : "Explore"}

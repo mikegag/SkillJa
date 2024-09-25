@@ -80,15 +80,14 @@ export default function SearchBar({mobileView}:SearchBarProps){
         return () => {
             document.removeEventListener('click', handleExitSearchBar)
         }
-        
     }, [insideSearchBar])
 
     return (
         <>
         {mobileView === true ?
             (isFilterOpen? 
-                <div className="pop-up-background" >
-                    <div className="pop-up-container">
+                <div className="pop-up-background">
+                    <div className="pop-up-container h-5/6">
                         <div className="flex justify-center pb-4 text-main-green-900 font-kulim">
                             <FontAwesomeIcon icon={faX} className="w-6 pr-10 ml-5 mr-auto my-auto hover:text-main-green-500 cursor-pointer" onClick={()=> {setIsFilterOpen(false)}}/>
                         </div>
@@ -161,7 +160,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                 :  
                 <div 
                     role="search" 
-                    className="flex bg-main-white rounded-2xl border-2 border-main-grey-100 w-80 md:w-6/12 p-3 hover:border-main-green-500 hover:cursor-pointer font-kulim"
+                    className="flex bg-main-white rounded-2xl border-2 border-main-grey-100 w-80 md:w-6/12 p-3 mx-auto hover:border-main-green-500 hover:cursor-pointer font-kulim"
                     onMouseEnter={()=>setInsideSearchBar(true)}
                     onMouseLeave={()=>setInsideSearchBar(false)}
                 >
@@ -183,7 +182,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                     />
                 </div>
             )
-            :
+        :
             <div
                 role="search" 
                 className={`${currentlySelected? 'bg-main-grey-100' :'bg-main-white'} flex rounded-2xl border-2 border-main-grey-100 w-max mx-auto mt-8 hover:border-main-green-500 hover:cursor-pointer font-kulim`}

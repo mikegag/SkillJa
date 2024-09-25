@@ -46,7 +46,7 @@ export default function Login(){
             .then(res => {
                 setLoading(false)
                 if (res.status === 200) {
-                    navigate("/auth/home-feed")
+                    navigate("/home-feed")
                 } else {
                     console.error("login failed")
                 }
