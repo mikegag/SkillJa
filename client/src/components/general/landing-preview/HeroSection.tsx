@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react"
 import data from "../../../data.json"
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Link } from "react-router-dom"
 import Header from "../../navigation/Header"
 import SliderPreview from "./SliderPreview"
@@ -12,10 +10,21 @@ interface ViewProps {
 }
 
 export default function HeroSection({view}:ViewProps){
+    const [isPageLoaded, setIsPageLoaded] = useState<boolean>(false)
+
+    useEffect(()=>{
+        const timer = setTimeout(() => {
+            if(document.readyState === "complete"){
+                setIsPageLoaded(true)
+            }
+        }, 700)
+        return () => clearTimeout(timer)
+    },[])
+
     return (
         <>
         {view === 'mobile' ?
-            <div className="h-dvh bg-main-cream flex flex-col justify-start items-center px-2">
+            <div className={`h-dvh bg-main-cream flex flex-col justify-start items-center px-2 transition-opacity duration-1000 ${isPageLoaded ? 'opacity-100' : 'opacity-0'}`}>
                 <Header useCase="default" />
                 <h1 className="text-center text-main-green-900 font-medium text-4xl px-4 font-source">
                     {data.landing.hero.title}
@@ -45,7 +54,7 @@ export default function HeroSection({view}:ViewProps){
                 </p>
             </div>
         :
-            <div className="bg-main-cream flex flex-col justify-start items-center px-2">
+            <div className={`bg-main-cream flex flex-col justify-start items-center px-2 transition-opacity duration-1000 ${isPageLoaded ? 'opacity-100' : 'opacity-0'}`}>
                 <Header useCase="default" />
                 <h1 className="text-center text-main-green-900 font-medium text-4xl px-4 font-source mb-1">
                     {data.landing.hero.title.slice(0,-1)},
