@@ -7,6 +7,7 @@ import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
 import Header from "../../components/navigation/Header"
 
+// Interface for a single question
 interface Question {
     id: number,
     title: string,
@@ -17,30 +18,32 @@ interface Question {
     buttonValue?: string,
     image?: string
 }
+// Interface for options related to team and individual sports
 interface Options {
     team: string[],
     individual: string[]
 }
+// Interface for a series of questions
 interface Series {
     series: number,
     questions: Question[]
 }
-
+// Interface for the component state
 interface State {
     currentSeries: number,
     answers: { questionId: number; answer: string[] }[]
 }
-
+// Interface for actions dispatched to the reducer
 interface Action {
     type: 'ANSWER_QUESTION' | 'NEXT_SERIES',
     payload?: { questionId: number; answer: string[] }
 }
-
+// Initial state for the reducer
 const initialState: State = {
     currentSeries: 0,
     answers: [],
 }
-
+// Reducer function to manage state transitions between question sets
 const reducer = (state: State, action: Action): State => {
     switch (action.type) {
         case 'ANSWER_QUESTION':
@@ -61,12 +64,13 @@ const reducer = (state: State, action: Action): State => {
 export default function Onboarding() {
     const csrfToken = GetCSFR({ name: "csrftoken" })
     const [state, dispatch] = useReducer(reducer, initialState)
+    // Track if option selection is valid
     const [optionsOverloaded, setOptionsOverloaded] = useState(false)
-    //keeps track of completed questions (user progress)
+    // Keeps track of completed questions (user progress)
     const [progress, setProgress] = useState(1)
-    //holds final onboarding responses
+    // Holds final onboarding responses
     const [onboardingResponses, setOnboardingResponses] = useState<Record<string, string[] | string>>({})
-    //default set to athlete question set
+    // Default dataset to athlete question set
     const userData: Series[] = data.athleteQuestions
     const questionSetRef = useRef(userData)
     const userQuestions = questionSetRef.current
@@ -81,7 +85,7 @@ export default function Onboarding() {
         } else {
             setOptionsOverloaded(false)
         }
-        //changes question set from default "athlete" to "coach" based on user selection
+        // Changes question set from default "athlete" to "coach" based on user selection
         if(state.currentSeries > 0){
             state.answers[0]?.answer?.forEach((curr)=>{
                 if(curr.toLocaleLowerCase().includes("coach")){
@@ -89,22 +93,20 @@ export default function Onboarding() {
                 }
             })
         } 
-        //end of onboarding process, prepares answers to be submitted
+        // End of onboarding process, prepares answers to be submitted
         if (state.currentSeries === userQuestions.length - 1) {
-            const formattedResponses = FilterOnboardingData(state.answers);
-            setOnboardingResponses(formattedResponses);
+            const formattedResponses = FilterOnboardingData(state.answers)
+            setOnboardingResponses(formattedResponses)
             handleSubmit(formattedResponses)
         }
     }, [state, userQuestions, questionSetRef])
-
+    // Function to handle user answer selection
     const handleAnswer = (questionId: number, option: string) => {
         const currentAnswers = state.answers.find(ans => ans.questionId === questionId)?.answer || []
-        const updatedAnswers = currentAnswers.includes(option)
-            ? currentAnswers.filter(ans => ans !== option)
-            : [...currentAnswers, option]
+        const updatedAnswers = currentAnswers.includes(option) ? currentAnswers.filter(ans => ans !== option) : [...currentAnswers, option]
         dispatch({ type: 'ANSWER_QUESTION', payload: { questionId, answer: updatedAnswers } })
     }
-
+    // Function to determine if the continue button should be enabled
     const isContinueButtonEnabled = () => {
         const currentQuestion = userQuestions[state.currentSeries].questions[0];
         const selectedOptions = state.answers.find((ans) => ans.questionId === currentQuestion.id)?.answer || []
@@ -116,7 +118,7 @@ export default function Onboarding() {
         }
         return false
     }
-    //submits onboarding responses to api
+    // Submits onboarding responses to database
     function handleSubmit(responses: Record<string, string[] | string>){
         axios.post('https://www.skillja.ca/auth/onboarding/', responses, {
             headers: {
@@ -156,12 +158,14 @@ export default function Onboarding() {
                     <h3 className="heading my-14 px-4 w-full">{currentQuestion.title}</h3>
                     {currentQuestion.subtitle? <p className="mb-8"> {currentQuestion.subtitle} </p> : <></>}
                     {state.currentSeries !== 1 ?
-                   
                         ( 
                             <div className="flex flex-col">
                             {currentQuestion.options?.map((option, index) => (
-                            
-                                <button onClick={() => handleAnswer(currentQuestion.id, option)} key={index}>
+                                <button 
+                                    onClick={() => handleAnswer(currentQuestion.id, option)} 
+                                    key={index}
+                                    aria-label="answer option for current question"
+                                >
                                     <div className={`select-btn w-72 m-2 ${state.answers.find(ans => ans.questionId === currentQuestion.id)?.answer.includes(option) ? 'bg-main-green-500 text-main-white' : 'bg-main-white text-main-black'}`}>
                                         {option}
                                     </div>
@@ -207,12 +211,13 @@ export default function Onboarding() {
                     <div className="mt-36 w-full mx-auto flex flex-col items-center">
                         <button 
                             className={`w-72 select-btn bg-main-green-500 text-main-cream hover:bg-main-green-700 ${isContinueButtonEnabled() && !optionsOverloaded ? '' : 'opacity-70 cursor-not-allowed'}`} 
+                            aria-label="submit current answers"
                             disabled={!isContinueButtonEnabled() || optionsOverloaded}
                             onClick={()=>{
                                 setProgress(progress+1) 
                                 dispatch({ type: 'NEXT_SERIES' })
                             }}
-                            >
+                        >
                             {currentQuestion.buttonValue ? currentQuestion.buttonValue : "Continue" }
                         </button>
                         <div className="flex my-5">
@@ -231,8 +236,10 @@ export default function Onboarding() {
                         />
                         <Link to={'../../home-feed'}>
                             <button 
-                                className="w-72 select-btn bg-main-green-500 text-main-cream hover:bg-main-green-700">
-                                    {currentQuestion.buttonValue? currentQuestion.buttonValue : "Explore"}
+                                className="w-72 select-btn bg-main-green-500 text-main-cream hover:bg-main-green-700"
+                                aria-label="navigate to home feed page"
+                            >
+                                {currentQuestion.buttonValue? currentQuestion.buttonValue : "Explore"}
                             </button>
                         </Link>
                     </div>  
