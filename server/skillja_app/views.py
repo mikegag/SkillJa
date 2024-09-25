@@ -11,6 +11,7 @@ from django.middleware.csrf import get_token, rotate_token
 from django.shortcuts import redirect
 from urllib.parse import urlparse, parse_qs
 from django.views.decorators.http import require_POST, require_GET
+from django.contrib.auth.decorators import login_required
 from .utils import calculate_price_deviance, calculate_coach_cost, calculate_coach_review
 
 def index(request):
@@ -472,11 +473,12 @@ def random_profiles(request):
     except Exception as e:
         return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
 
-@require_GET
+@login_required
 def auth_status(request):
-    if user.is_authenticated:
-        return JsonResponse({'is_logged_in': True, 'username': request.user.username})
-    return JsonResponse({'is_logged_in': False})
+    return JsonResponse({
+        'is_logged_in': True,
+        'username': request.user.username
+    })
 
 @api_view(['GET'])
 def getRoutes(request):
