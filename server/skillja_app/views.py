@@ -1,4 +1,5 @@
 import json
+from venv import logger
 from django.shortcuts import redirect, get_object_or_404, render
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login as auth_login, authenticate
@@ -6,7 +7,7 @@ from django.contrib.auth import logout
 from django.http import JsonResponse, HttpResponseRedirect
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import User, CoachPreferences, AthletePreferences, CoachProfile, AthleteProfile, Service, Review
+from .models import User, CoachPreferences, AthletePreferences, CoachProfile, AthleteProfile, Service, Review, SocialMedia
 from django.middleware.csrf import get_token, rotate_token
 from django.shortcuts import redirect
 from urllib.parse import urlparse, parse_qs
@@ -325,7 +326,7 @@ def get_coach_profile(request):
         if request.method == 'GET':
             id = request.GET.get('id')
             # Retrieve coach instance safely
-            coach = get_object_or_404(user, id=id)
+            coach = get_object_or_404(User, id=id)
             # Retrieve average review rating for coach
             average_rating = calculate_coach_review(id) or 0
             # Format the data
@@ -473,12 +474,18 @@ def random_profiles(request):
     except Exception as e:
         return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
 
-@login_required
+@require_GET
 def auth_status(request):
-    return JsonResponse({
-        'is_logged_in': True,
-        'username': request.user.username
-    })
+    if request.user.is_authenticated:
+        return JsonResponse({
+            'is_logged_in': True,
+            'username': request.user.username
+        })
+    else:
+        return JsonResponse({
+            'is_logged_in': False,
+            'username': None
+        })
 
 @api_view(['GET'])
 def getRoutes(request):

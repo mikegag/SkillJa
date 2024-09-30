@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     "skillja_app",
     "corsheaders",
     "rest_framework",
+    "rest_framework.authtoken"
 ]
 
 MIDDLEWARE = [
