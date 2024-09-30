@@ -1,7 +1,7 @@
 #function that utilizes geocoding api to apply results to search proximity
 
 #calculates lower and upper bound from a given input, used for search results for finding a price range from single input
-from server.skillja_app.models import User
+from .models import User
 
 
 def calculate_price_deviance(original_input, lower_percentage, upper_percentage):
