@@ -17,6 +17,7 @@ interface resultsType{
     experience: string;
     price: number;
 }
+
 interface dataResultsType {
     results: resultsType[]
 }
@@ -28,6 +29,10 @@ export default function HomeFeed(){
     const location = useLocation()
     const [data, setData] = useState<dataResultsType>({results:[]} || null)
     const protectedRoute = isLoggedIn ? 'auth/coach' : '/login'
+
+    useEffect(() => {
+        document.title = "SkillJa - Home Feed"
+    }, [])
 
     useEffect(() => {
         // Perform a search if the query parameter exists, search was performed from landing page in this case
@@ -96,7 +101,7 @@ export default function HomeFeed(){
                         Let's Find Your Coach
                     </h1>
                     <div className="mt-7 lg:mt-1 mb-12 lg:mb-24">
-                        {currentWindow.width < 1024 ?
+                        {currentWindow.width < 765 ?
                             <SearchBar mobileView={true} />
                             :
                             <SearchBar mobileView={false} />
