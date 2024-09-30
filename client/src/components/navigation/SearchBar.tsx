@@ -14,7 +14,7 @@ interface SearchBarProps {
 interface SearchTermType {
     sport: string;
     location: {place:string, proximity: number};
-    price: {value: string, min:number, max:number};
+    price: {value: number, min:number, max:number};
 }
 
 export default function SearchBar({mobileView}:SearchBarProps){
@@ -22,7 +22,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
     const [searchTerm, setSearchTerm] = useState<SearchTermType>({
         sport:'',
         location: {place:'', proximity: 10},
-        price: {value: '', min:0, max:50}
+        price: {value: 30, min:0, max:50}
     })
     const [currentlySelected, setCurrentlySelected] = useState<string>('')
     const [insideSearchBar, setInsideSearchBar] = useState<boolean>(false)
@@ -34,9 +34,9 @@ export default function SearchBar({mobileView}:SearchBarProps){
             sport: searchTerm.sport,
             location: searchTerm.location.place,
             proximity: searchTerm.location.proximity.toString(),
-            priceValue: searchTerm.price.value,
-            priceMin: searchTerm.price.min.toString(),
-            priceMax: searchTerm.price.max.toString()
+            priceValue: Math.floor(searchTerm.price.value).toString(),
+            priceMin: Math.floor(searchTerm.price.min).toString(),
+            priceMax: Math.floor(searchTerm.price.max).toString()
         })
 
         navigate(`/home-feed?${queryParams.toString()}`)
@@ -133,7 +133,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                                     aria-label="search term" 
                                     className={` text-main-grey-200 w-full border border-main-grey-100 p-2 mt-1 mb-3 rounded-2xl hover:cursor-pointer`}
                                     placeholder="$$$"
-                                    onChange={(e) => setSearchTerm({...searchTerm, price: {...searchTerm.price, value: e.target.value} })}
+                                    onChange={(e) => setSearchTerm({...searchTerm, price: {...searchTerm.price, value: parseInt(e.target.value)} })}
                                     onClick={()=>setCurrentlySelected('price')}
                                     value={searchTerm.price.value}
                                     type="number"
@@ -245,7 +245,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                             aria-label="search term" 
                             className={`${currentlySelected === 'price'? 'bg-main-white rounded-3xl': (currentlySelected === ''? 'bg-main-white':'bg-main-grey-100 rounded-none')} text-main-grey-200 w-full mx-2 focus:outline-none ml-0 hover:cursor-pointer`}
                             placeholder="$$$"
-                            onChange={(e) => setSearchTerm({...searchTerm, price: {...searchTerm.price, value: e.target.value} })}
+                            onChange={(e) => setSearchTerm({...searchTerm, price: {...searchTerm.price, value: parseInt(e.target.value)} })}
                             onClick={()=>setCurrentlySelected('price')}
                             value={searchTerm.price.value}
                             type="number"

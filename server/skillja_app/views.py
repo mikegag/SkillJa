@@ -479,7 +479,7 @@ def auth_status(request):
     if request.user.is_authenticated:
         return JsonResponse({
             'is_logged_in': True,
-            'username': request.user.username
+            'email': request.user.email
         })
     else:
         return JsonResponse({
