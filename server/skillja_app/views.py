@@ -379,9 +379,14 @@ def search(request):
             # Get query parameters or set default values
             sport = request.GET.get('sport', 'tennis')  # Default to 'tennis'
             location = request.GET.get('location', 'toronto')  # Default to 'toronto'
-            original_price = int(request.GET.get('priceValue', 30))  # Default to '30'
-            min_deviation = int(request.GET.get('priceMin', 0))  # Default to 0%
-            max_deviation = int(request.GET.get('priceMax', 50))  # Default to 50%
+            original_price = request.GET.get('priceValue', 30)  # Default to '30'
+            min_deviation = request.GET.get('priceMin', 0)  # Default to 0%
+            max_deviation = request.GET.get('priceMax', 50) # Default to 50%
+
+            # Convert to integers, handling empty strings
+            original_price = int(original_price) if original_price else 30
+            min_deviation = int(min_deviation) if min_deviation else 0
+            max_deviation = int(max_deviation) if max_deviation else 50
 
             # Calculate price bounds
             price_min, price_max = calculate_price_deviance(original_price, min_deviation, max_deviation)
