@@ -246,7 +246,7 @@
           {"title":"Support", "link":"/coming-soon"}
         ],
         "authorized": [
-          {"title":"Home", "link":"/auth/home-feed"},
+          {"title":"Home", "link":"/home-feed"},
           {"title":"Messages", "link":"/auth/chat"},
           {"title":"Calendar", "link":"/auth/calendar"},
           {"title":"Profile", "link":"/auth/profile"},

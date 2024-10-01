@@ -122,8 +122,6 @@ export default function SignUp(){
             setLoading(false)
           }, 1000)
         } else {
-          console.log(formData)
-          console.log(csrfToken)
 
           axios.post('https://www.skillja.ca/signup/', formData, {
             headers: {
