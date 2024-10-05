@@ -43,26 +43,26 @@ interface Input {
   }
   
   interface Series {
-    series: number;
-    inputs: Input[];
-    title: string;
-    button: string;
+    series: number,
+    inputs: Input[],
+    title: string,
+    button: string
   }
   
   interface State {
-    currentSeries: number;
-    answers: { inputId: string; answer: string[] }[];
+    currentSeries: number,
+    answers: { inputId: string; answer: string[] }[]
   }
   
   interface Action {
-    type: "ANSWER_QUESTION" | "NEXT_SERIES";
-    payload?: { inputId: string; answer: string[] };
+    type: "ANSWER_QUESTION" | "NEXT_SERIES",
+    payload?: { inputId: string; answer: string[] }
   }
   
   const initialState: State = {
     currentSeries: 0,
     answers: [],
-  };
+  }
   
   const reducer = (state: State, action: Action): State => {
     switch (action.type) {
@@ -70,14 +70,14 @@ interface Input {
         return {
           ...state,
           answers: [...state.answers, action.payload!],
-        };
+        }
       case "NEXT_SERIES":
         return {
           ...state,
           currentSeries: state.currentSeries + 1,
         };
       default:
-        return state;
+        return state
     }
   }
 
@@ -132,10 +132,13 @@ export default function SignUp(){
         })
             .then(res => {
                 if (res.status === 201) {
-                    const userData = res.data
-                    setTimeout(() => {
-                      navigate("/auth/onboarding")
-                    }, 600)
+                    // const userData = res.data
+                    // setTimeout(() => {
+                    //   navigate("/auth/onboarding")
+                    // }, 600)
+                    
+                    navigate("/auth/onboarding")
+                    
                 } else {
                     console.error("signup failed")
                 }
