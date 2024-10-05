@@ -32,7 +32,7 @@ export default function Authentication(){
                 // Set loading to false regardless of success or failure
                 setLoading(false)
             })
-    }, [csrfToken])
+    }, [])
 
     // Handle loading state and redirect if not authenticated
     if (loading) {

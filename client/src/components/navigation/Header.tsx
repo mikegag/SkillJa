@@ -22,7 +22,7 @@ export default function Header({useCase}:HeaderProps){
         :
             (useCase === 'protected' ? 
                 <div className="w-full flex items-center px-4 pt-2 pb-4 lg:px-10 border-b border-main-grey-100">
-                    <Link to='/auth/home-feed' className="mr-auto ml-0 my-auto">
+                    <Link to='/home-feed' className="mr-auto ml-0 my-auto">
                         <img 
                             src={require('../../assets/skillja-logo.png')} 
                             className="w-12 lg:w-16"
