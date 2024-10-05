@@ -4,6 +4,8 @@ import { Link } from "react-router-dom"
 import Header from "../../navigation/Header"
 import SliderPreview from "./SliderPreview"
 import SearchBar from "../../navigation/SearchBar"
+import axios from "axios"
+import GetCSFR from "../../../hooks/GetCSFR"
 
 interface ViewProps {
     view: 'mobile' | 'desktop'
@@ -11,13 +13,34 @@ interface ViewProps {
 
 export default function HeroSection({view}:ViewProps){
     const [isPageLoaded, setIsPageLoaded] = useState<boolean>(false)
-
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
+    const csrfToken = GetCSFR({ name: "csrftoken" })
+    
     useEffect(()=>{
         const timer = setTimeout(() => {
             if(document.readyState === "complete"){
                 setIsPageLoaded(true)
             }
         }, 700)
+
+        // checks if user is currently logged in, determines if viewing coach profiles is allowed or not
+        axios.get('https://www.skillja.ca/auth_status/', {
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true
+        })
+        .then(res => {
+            if (res.status === 200) {
+                setIsLoggedIn(res.data.is_logged_in)
+            } else {
+                console.error("Failed to verify authentication")
+            }
+        })
+        .catch(error => {
+            console.error("Error checking authentication", error)
+        })
         return () => clearTimeout(timer)
     },[])
 
@@ -25,7 +48,7 @@ export default function HeroSection({view}:ViewProps){
         <>
         {view === 'mobile' ?
             <div className={`h-dvh bg-main-cream flex flex-col justify-start items-center px-2 transition-opacity duration-1000 ${isPageLoaded ? 'opacity-100' : 'opacity-0'}`}>
-                <Header useCase="default" />
+                {isLoggedIn === false ? <Header useCase="default"/> : <Header useCase="protected"/>}
                 <h1 className="text-center text-main-green-900 font-medium text-4xl px-4 font-source">
                     {data.landing.hero.title}
                 </h1>
@@ -55,7 +78,7 @@ export default function HeroSection({view}:ViewProps){
             </div>
         :
             <div className={`bg-main-cream flex flex-col justify-start items-center px-2 transition-opacity duration-1000 ${isPageLoaded ? 'opacity-100' : 'opacity-0'}`}>
-                <Header useCase="default" />
+                {isLoggedIn === false ? <Header useCase="default"/> : <Header useCase="protected"/>}
                 <h1 className="text-center text-main-green-900 font-medium text-4xl px-4 font-source mb-1">
                     {data.landing.hero.title.slice(0,-1)},
                 </h1>
