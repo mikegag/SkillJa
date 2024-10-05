@@ -132,13 +132,9 @@ export default function SignUp(){
         })
             .then(res => {
                 if (res.status === 201) {
-                    // const userData = res.data
-                    // setTimeout(() => {
-                    //   navigate("/auth/onboarding")
-                    // }, 600)
-                    
-                    navigate("/auth/onboarding")
-                    
+                    setTimeout(() => {
+                      navigate("/auth/onboarding")
+                    }, 600)   
                 } else {
                     console.error("signup failed")
                 }

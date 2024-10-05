@@ -1,5 +1,6 @@
 import json
 from venv import logger
+from django.db import IntegrityError
 from django.shortcuts import redirect, get_object_or_404, render
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login as auth_login, authenticate
@@ -67,13 +68,23 @@ def sign_up(request):
                 phonenumber = data['phonenumber'],
                 gender = data['gender']
             )
-            response = JsonResponse({'message': 'User created successfully'}, status=201)
-            # signup is followed by onboarding process which needs user email
-            response.set_cookie ('user_email', user.email, httponly=True, secure = False)
-            return response
 
+            # Authenticate the user using the raw password
+            user = authenticate(request, username=data['email'], password=data['password'])
+            if user is not None:
+                auth_login(request,user)
+                response = JsonResponse({'message': 'User created successfully'}, status=201)
+                # signup is followed by onboarding process which needs user email
+                response.set_cookie ('user_email', user.email, httponly=True, secure = True)
+                return response
+
+        except IntegrityError:
+            return JsonResponse({'error': 'User with this email already exists.'}, status=400)
+        except KeyError as e:
+            return JsonResponse({'error': f'Missing field: {str(e)}'}, status=400)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
+
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
 @require_POST

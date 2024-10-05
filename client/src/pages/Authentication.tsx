@@ -20,7 +20,7 @@ export default function Authentication(){
         }) 
             .then(res => {
                 if (res.data.is_logged_in) {
-                    setIsAuthenticated(true);
+                    setIsAuthenticated(true)
                 } else {
                     console.error("User is not logged in")
                 }
