@@ -109,9 +109,9 @@ class AthletePreferences(models.Model):
 
 class CoachProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='coach_profile')
-    primary_sport = models.CharField(max_length=100, blank= True, null = True)
-    location = models.CharField(max_length=100)
-    biography = models.CharField(max_length=255)
+    primary_sport = models.CharField(max_length=100, blank= True, null = True, default='Not Specified')
+    location = models.CharField(max_length=100, default='Not Specified')
+    biography = models.CharField(max_length=255, default='Not Specified')
     picture = models.ImageField(upload_to='coach_pictures/', blank=True, null=True)
     services = models.ManyToManyField('Service', related_name='coach_profiles', blank=True)
     reviews = models.ManyToManyField('Review', related_name='coach_profiles', blank=True)
@@ -122,9 +122,9 @@ class CoachProfile(models.Model):
 
 class AthleteProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='athlete_profile')
-    primary_sport = models.CharField(max_length=100, blank= True, null = True)
-    location = models.CharField(max_length=100)
-    biography = models.CharField(max_length=255)
+    primary_sport = models.CharField(max_length=100, blank= True, null = True, default='Not Specified')
+    location = models.CharField(max_length=100, default='Not Specified')
+    biography = models.CharField(max_length=255, default='Not Specified')
     picture = models.ImageField(upload_to='athlete_pictures/', blank=True, null=True)
     reviews = models.ManyToManyField('Review', related_name='athlete_profiles', blank=True)
 
@@ -165,10 +165,10 @@ class Review(models.Model):
 
 class SocialMedia(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='socialMedia')
-    facebook = models.CharField(max_length=255, blank=True, null=True)
-    twitter = models.CharField(max_length=255, blank=True, null=True)
-    instagram = models.CharField(max_length=255, blank=True, null=True)
-    tiktok = models.CharField(max_length=255, blank=True, null=True)
+    facebook = models.CharField(max_length=255, blank=True, null=True, default='/')
+    twitter = models.CharField(max_length=255, blank=True, null=True, default='/')
+    instagram = models.CharField(max_length=255, blank=True, null=True, default='/')
+    tiktok = models.CharField(max_length=255, blank=True, null=True, default='/')
 
     def __str__(self):
         return f'Social Media - {self.user.email}'
