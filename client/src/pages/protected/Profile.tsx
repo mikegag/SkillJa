@@ -189,7 +189,7 @@ export default function Profile(){
                                 {profileDetails.profile.rating ? profileDetails.profile.rating : 0 }
                             </h3>
                             <h3 className="text-lg lg:text-base mx-auto font-medium">
-                                Experience: {profileDetails.preferences.experience_level? profileDetails.preferences.experience_level : 'N/A' }
+                                Experience: {profileDetails.preferences.experience_level? profileDetails.preferences.experience_level[0] : 'N/A' }
                             </h3>
                         </div>
                         {windowSize.width >= 1024 ?
