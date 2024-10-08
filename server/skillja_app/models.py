@@ -110,8 +110,8 @@ class AthletePreferences(models.Model):
 class CoachProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='coach_profile')
     primary_sport = models.CharField(max_length=100, blank= True, null = True, default='Not Specified')
-    location = models.CharField(max_length=100, default='Not Specified')
-    biography = models.CharField(max_length=255, default='Not Specified')
+    location = models.CharField(max_length=100, default='No Location Specified')
+    biography = models.CharField(max_length=255, default='No Biography Specified')
     picture = models.ImageField(upload_to='coach_pictures/', blank=True, null=True)
     services = models.ManyToManyField('Service', related_name='coach_profiles', blank=True)
     reviews = models.ManyToManyField('Review', related_name='coach_profiles', blank=True)
@@ -123,8 +123,8 @@ class CoachProfile(models.Model):
 class AthleteProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='athlete_profile')
     primary_sport = models.CharField(max_length=100, blank= True, null = True, default='Not Specified')
-    location = models.CharField(max_length=100, default='Not Specified')
-    biography = models.CharField(max_length=255, default='Not Specified')
+    location = models.CharField(max_length=100, default='No Location Specified')
+    biography = models.CharField(max_length=255, default='No Biography Specified')
     picture = models.ImageField(upload_to='athlete_pictures/', blank=True, null=True)
     reviews = models.ManyToManyField('Review', related_name='athlete_profiles', blank=True)
 

@@ -272,7 +272,7 @@ export default function Profile(){
                             <h2 className="text-2xl font-medium font-source mx-auto mb-4 text-center">
                                 Current Goals
                             </h2>
-                            {profileDetails.preferences.goals!.length ?
+                            {profileDetails.preferences.goals!.length !== 0 ?
                                 <>
                                     {profileDetails.preferences.goals!.forEach((currGoal,index) => {
                                         <CurrentGoal key={index} goal={currGoal} />
