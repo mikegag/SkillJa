@@ -142,7 +142,7 @@ export default function Profile(){
                 }
                 console.error('Error config:', error.config)
             })
-    },[profileDetails])
+    },[])
 
     return (
         <div className="flex flex-col">
