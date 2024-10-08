@@ -122,9 +122,7 @@ export default function Profile(){
         }) 
             .then(res => {
                 if (res.status === 200) {
-                    setProfileDetails(res.data)
-                    console.log(res.data)
-                    console.log(res.data.user_profile)
+                    setProfileDetails(res.data.user_profile)
                 } else {
                     console.error("Failed to retrieve profile details")
                 }
