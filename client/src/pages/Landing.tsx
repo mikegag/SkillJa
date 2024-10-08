@@ -19,7 +19,12 @@ export default function Landing(){
     return (
         <>
             {currentWindow.width < 1024 ?
-                <HeroSection view="mobile" />
+                <>
+                    <HeroSection view="mobile" />
+                    <div className="mt-16 mb-12">
+                        <Footer />
+                    </div>
+                </>
             :
                 <>
                     <HeroSection view="desktop" />
