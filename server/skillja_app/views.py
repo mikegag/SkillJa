@@ -152,7 +152,7 @@ def get_user_profile(request):
         if user.isathlete:
             athlete_profile, created_profile = AthleteProfile.objects.get_or_create(user=user)
             athlete_preferences, created_preferences = AthletePreferences.objects.get_or_create(user=user)  
-            average_rating = calculate_coach_review(data.id) or 0
+            average_rating = calculate_coach_review(data['id']) or 0
 
             data.update({
                 'profile': {
@@ -173,7 +173,7 @@ def get_user_profile(request):
             coach_profile, created_profile = CoachProfile.objects.get_or_create(user=user)
             coach_preferences, created_preferences = CoachPreferences.objects.get_or_create(user=user)
             coach_socialMedia, created_socialMedia = SocialMedia.objects.get_or_create(user=user)
-            average_rating = calculate_coach_review(data.id) or 0
+            average_rating = calculate_coach_review(data['id']) or 0
             
             data.update({
                 'profile': {
