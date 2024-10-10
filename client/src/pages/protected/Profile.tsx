@@ -188,8 +188,8 @@ export default function Profile(){
                                 <FontAwesomeIcon icon={faStar} className="text-amber-400 text-lg lg:text-base mr-2 lg:ml-0" />
                                 {profileDetails.profile.rating ? profileDetails.profile.rating : 0 }
                             </h3>
-                            <h3 className="text-lg lg:text-base mx-auto font-medium">
-                                Experience: {profileDetails.preferences.experience_level? profileDetails.preferences.experience_level[0] : 'N/A' }
+                            <h3 className="text-lg lg:text-base mx-auto lg:ml-0 font-medium">
+                                Experience: {profileDetails.preferences.experience_level? profileDetails.preferences.experience_level.replace(/[\[\]\"\'']/g,'') : 'N/A' }
                             </h3>
                         </div>
                         {windowSize.width >= 1024 ?
@@ -272,7 +272,7 @@ export default function Profile(){
                             <h2 className="text-2xl font-medium font-source mx-auto mb-4 text-center">
                                 Current Goals
                             </h2>
-                            {profileDetails.preferences.goals!.length !== 0 ?
+                            {profileDetails.preferences.goals!.length > 0 ?
                                 <>
                                     {profileDetails.preferences.goals!.forEach((currGoal,index) => {
                                         <CurrentGoal key={index} goal={currGoal} />
