@@ -144,7 +144,10 @@ export default function SearchBar({mobileView}:SearchBarProps){
                             <button
                                 className="flex justify-center items-center ml-auto mt-12 p-2.5 rounded-xl bg-main-green-500 hover:bg-main-green-900"
                                 aria-label="magnifying glass icon within search bar"
-                                onClick={()=>performSearch()}
+                                onClick={()=>{
+                                    performSearch(); 
+                                    setIsFilterOpen(prev =>!prev)
+                                }}
                             >
                                 <FontAwesomeIcon 
                                     icon={faMagnifyingGlass} 
