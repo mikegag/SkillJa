@@ -51,7 +51,7 @@
         {
             "series": 2,
             "inputs": [
-              { "id":"birthdate", "name":"birthdate", "icon": "faCalendar", "type": "date", "placeholder": "Date of birth (DD-MM-YYYY)"}, 
+              { "id":"date", "name":"date", "icon": "faCalendar", "type": "date", "placeholder": "Date of birth (DD-MM-YYYY)"}, 
               { "id":"phonenumber", "name":"phonenumber", "icon": "faPhone", "type": "tel", "placeholder": "Phone Number (ex. 123-456-7890)", "pattern": "[0-9]{3}-[0-9]{3}-[0-9]{4}"},
               { "id":"gender", "name":"gender", "icon": "faChevronDown", "type": "select", 
                     "options":[
