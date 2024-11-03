@@ -1,10 +1,9 @@
 import django_heroku
 import os
-
+import sys
 from pathlib import Path
 import dj_database_url
 from dotenv import load_dotenv
-
 import mimetypes
 
 # Add MIME type for CSS files
@@ -160,8 +159,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'client/build/'
 ]
-
-
 
 
 # Default primary key field type
