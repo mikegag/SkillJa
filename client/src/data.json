@@ -8,7 +8,7 @@
           "secondSection":{
             "title":"Discover Coaches Who Understand Your Goals.",
             "subtitle":"SkillJa helps you connect with professionals who align with your training ambitions. Explore our coaches and find your ideal match to advance your athletic performance.",
-            "button": {"value":"Explore Coaches","link":"/auth/home-feed"}
+            "button": {"value":"Explore Coaches","link":"/home-feed"}
           },
           "thirdSection":{
             "title":"Connect with Athletes and Grow Your Coaching Business.",
