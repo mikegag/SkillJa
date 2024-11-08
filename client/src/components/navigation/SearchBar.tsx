@@ -7,6 +7,7 @@ import SingleSlider from "./search/SingleSlider"
 import MultiOption from "./search/MultiOption"
 import DualSlider from "./search/DualSlider"
 
+// Define types for the component props and the search term structure
 interface SearchBarProps {
     mobileView: boolean
 }
@@ -18,6 +19,7 @@ interface SearchTermType {
 }
 
 export default function SearchBar({mobileView}:SearchBarProps){
+    // State for managing filter visibility, search term data, selected filter, and inside status
     const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
     const [searchTerm, setSearchTerm] = useState<SearchTermType>({
         sport:'',
@@ -28,7 +30,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
     const [insideSearchBar, setInsideSearchBar] = useState<boolean>(false)
     const navigate = useNavigate()
 
-    // redirects use to home feed page with desired query parameters
+    // Function to execute search and navigate to home feed page with query parameters
     function performSearch() {
         const queryParams = new URLSearchParams({
             sport: searchTerm.sport,
@@ -42,12 +44,12 @@ export default function SearchBar({mobileView}:SearchBarProps){
         navigate(`/home-feed?${queryParams.toString()}`)
     }
 
-    // Callback function for sport selection
+    // Updates selected sport in the search term
     function handleSportSelect(sport: string){
         setSearchTerm(prevTerm => ({ ...prevTerm, sport }))
     }
 
-    // Callback function for location change
+    // Updates location proximity in the search term
     function handleLocationChange(value: number){
         setSearchTerm(prevTerm => ({
             ...prevTerm,
@@ -55,7 +57,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
         }))
     }
 
-    // Callback function for price range change
+    // Updates price range in the search term
     function handlePriceChange(min: number, max: number){
         setSearchTerm(prevTerm => ({
             ...prevTerm,
@@ -63,7 +65,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
         }))
     }
 
-    // Function to handle clicks outside of the search bar
+    // Checks if user clicks outside of the search bar to close it if necessary
     function handleExitSearchBar(event: MouseEvent) {
         const target = event.target as HTMLElement
         if (!target.closest('.search-bar-container')) {

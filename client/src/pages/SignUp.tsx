@@ -12,6 +12,7 @@ import { IconDefinition, faChevronDown, faLock, faPhone } from "@fortawesome/fre
 import data from "../data.json"
 import axios from "axios"
 
+// Define structure for the form data
 interface FormStructure {
   fullname: string,
   email: string,
@@ -21,7 +22,7 @@ interface FormStructure {
   phonenumber: string,
   gender: string
 }
-
+// Define structure for individual form inputs
 interface Input {
     id: string;
     name: string;
@@ -31,55 +32,55 @@ interface Input {
     placeholder?: string;
     pattern?: string;
     options?: { value: string; selected: boolean; placeholder: string }[]
+}
+// Map icons to FontAwesome icons for ease of access
+const iconMap: Record<string, IconDefinition> = {
+  faEnvelope,
+  faChevronDown,
+  faLock,
+  faCalendar,
+  faPhone,
+  faUser
+}
+// Define structure for each question series in the form  
+interface Series {
+  series: number,
+  inputs: Input[],
+  title: string,
+  button: string
+}
+// Define the state for the form reducer  
+interface State {
+  currentSeries: number,
+  answers: { inputId: string; answer: string[] }[]
+}
+// Define actions to update form state
+interface Action {
+  type: "ANSWER_QUESTION" | "NEXT_SERIES",
+  payload?: { inputId: string; answer: string[] }
+}
+// Initial state for the form
+const initialState: State = {
+  currentSeries: 0,
+  answers: [],
+}
+// Reducer function to handle form progress and answers 
+const reducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case "ANSWER_QUESTION":
+      return {
+        ...state,
+        answers: [...state.answers, action.payload!],
+      }
+    case "NEXT_SERIES":
+      return {
+        ...state,
+        currentSeries: state.currentSeries + 1,
+      };
+    default:
+      return state
   }
-  
-  const iconMap: Record<string, IconDefinition> = {
-    faEnvelope,
-    faChevronDown,
-    faLock,
-    faCalendar,
-    faPhone,
-    faUser
-  }
-  
-  interface Series {
-    series: number,
-    inputs: Input[],
-    title: string,
-    button: string
-  }
-  
-  interface State {
-    currentSeries: number,
-    answers: { inputId: string; answer: string[] }[]
-  }
-  
-  interface Action {
-    type: "ANSWER_QUESTION" | "NEXT_SERIES",
-    payload?: { inputId: string; answer: string[] }
-  }
-  
-  const initialState: State = {
-    currentSeries: 0,
-    answers: [],
-  }
-  
-  const reducer = (state: State, action: Action): State => {
-    switch (action.type) {
-      case "ANSWER_QUESTION":
-        return {
-          ...state,
-          answers: [...state.answers, action.payload!],
-        }
-      case "NEXT_SERIES":
-        return {
-          ...state,
-          currentSeries: state.currentSeries + 1,
-        };
-      default:
-        return state
-    }
-  }
+}
 
 export default function SignUp(){
     const [loading, setLoading] = useState(false)
@@ -95,10 +96,13 @@ export default function SignUp(){
       gender: ''
     })
     const [passwordMismatch, setPasswordMismatch] = useState<boolean>(false)
+    // Reducer to manage form series progression
     const [state, dispatch] = useReducer(reducer, initialState)
     const [agreeToTerms, setAgreeToTerms] = useState<boolean>(false)
+    // Load signup questions from JSON
     const signupQuestions: Series[] = data.signup
 
+    // Effect to set document title and check for password mismatch
     useEffect(() => {
         document.title = "SkillJa - Sign Up"
         if((formData.password !== formData.confirmpassword) && (formData.password !== "") && (formData.confirmpassword !== "") ){
@@ -108,16 +112,21 @@ export default function SignUp(){
         }
     }, [formData])
 
+    // Handle form input changes
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>){
       const { name, value } = e.target;
       setFormData({ ...formData, [name]: value })
     }
 
+    // Handle form submission
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
         setLoading(true)
+        // Check if there are more question series to display
         if (state.currentSeries < signupQuestions.length - 1) {
+          // Move to next series
           dispatch({ type: "NEXT_SERIES" })
+          // Simulate delay for loading
           setTimeout(() => {
             setLoading(false)
           }, 1000)
@@ -156,7 +165,7 @@ export default function SignUp(){
             })
         }
     }
-    
+    // Get inputs for the current series of questions
     const currentInputs = signupQuestions[state.currentSeries].inputs
 
     return (
@@ -242,6 +251,7 @@ export default function SignUp(){
                       {signupQuestions[state.currentSeries].button}
                   </button>
               </form>
+
               <div className="flex justify-center items-center my-7">
                   <div className="bg-main-grey-300 h-0.5 w-28 lg:w-36"></div>
                   <p className="mx-3 lg:mx-4 text-main-grey-200">Or Sign Up With</p>
@@ -259,9 +269,9 @@ export default function SignUp(){
                   </Link>
               </p>
               </>
-              )}
+              )
+          }
           </div>
         </div>
-
     )
 } 
