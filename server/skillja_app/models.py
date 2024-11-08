@@ -50,6 +50,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField('email address', unique=True)
     birthdate = models.DateField()
     phonenumber = models.CharField(max_length=20)
+    address = models.CharField(max_length=100, blank= True, null = True, default='Not Specified')
     gender = models.CharField(max_length=20)
     iscoach = models.BooleanField(default=False)
     isathlete = models.BooleanField(default=False)
@@ -80,8 +81,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 class CoachPreferences(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='coach_preferences')
     experience_level = models.CharField(max_length=255)
-    age_groups = models.CharField(max_length=255)
-    specialization = models.CharField(max_length=255)
+    age_groups = models.JSONField(default=list, blank=True, null=True)
+    specialization = models.JSONField(default=list, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         # Set iscoach flag to True when saving coach preferences
@@ -95,8 +96,8 @@ class CoachPreferences(models.Model):
 class AthletePreferences(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='athlete_preferences')
     experience_level = models.CharField(max_length=255)
-    goals = models.CharField(max_length=255)
-    sport_interests = models.CharField(max_length=255)
+    goals = models.JSONField(default=list, blank=True, null=True)
+    sport_interests = models.JSONField(default=list, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         # Set isathlete flag to True when saving athlete preferences

@@ -298,8 +298,8 @@ def update_coach_profile(request):
             if 'primarySport' in data and data['primarySport']:
                 coach_profile.primary_sport = data['primarySport']
 
-            if 'sportInterests' in data and data['sportInterests']:
-                coach_preferences.sport_interests = data['sportInterests']
+            if 'sportInterests' in data and data['specialization']:
+                coach_preferences.specialization = data['specialization']
 
             if 'experienceLevel' in data and data['experienceLevel']:
                 coach_preferences.experience_level = data['experienceLevel']
@@ -333,6 +333,7 @@ def update_coach_profile(request):
 
 @require_GET
 def get_coach_profile(request):
+    #need to follow structure in get_user_profile--------
     try:
         if request.method == 'GET':
             id = request.GET.get('id')
@@ -585,6 +586,16 @@ def getRoutes(request):
             'Endpoint': '/auth_status',
             'method': 'GET',
             'description': 'checks if user has a valid session id and is currently logged in'
+        },
+        {
+            'Endpoint': '/update_athlete_profile',
+            'method': 'POST',
+            'description': 'updates an athletes profile'
+        },
+        {
+            'Endpoint': '/update_coach_profile',
+            'method': 'POST',
+            'description': 'updates a coaches profile'
         },
         {
             'Endpoint': '/api/routes/',

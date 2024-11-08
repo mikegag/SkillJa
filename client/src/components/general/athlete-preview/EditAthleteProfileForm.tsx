@@ -175,10 +175,14 @@ export default function EditAthleteProfileForm({displayForm}:FormProps){
 
     return (
         <div className="pop-up-background" 
-            onClick={windowSize.width >=1024? ()=>handleExit(false): ()=>{}}
-        >
+            onClick={windowSize.width >=1024 ? 
+                ()=>handleExit(false) 
+            : 
+                undefined
+            }
+        > 
             <div 
-                className="pop-up-container" 
+                className="pop-up-container h-4/6" 
                 onMouseEnter={()=>setInsideForm(true)} 
                 onMouseLeave={()=>setInsideForm(false)}
             >
@@ -194,6 +198,7 @@ export default function EditAthleteProfileForm({displayForm}:FormProps){
                     </h3>
                     <p 
                         className="text-main-green-900 hover:text-main-green-500 ml-auto cursor-pointer"
+                        onClick={handleSubmit}
                     >
                         Save
                     </p>
@@ -204,7 +209,10 @@ export default function EditAthleteProfileForm({displayForm}:FormProps){
                             src={require('../../../assets/default-avatar.jpg')} 
                             className="w-28 rounded-xl"
                         />
-                        <button className="mt-8 mx-auto py-2 px-4 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700">
+                        <button 
+                            onClick={(e)=>e.preventDefault() }
+                            className="mt-8 mx-auto py-2 px-4 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
+                        >
                             Edit Photo
                         </button>
                     </div>
@@ -245,7 +253,7 @@ export default function EditAthleteProfileForm({displayForm}:FormProps){
                         <Accordion title="Individual Sports" style="border-main-grey-100">
                             {data.profileForms.athlete.sportOptions.individual.map((option, index) => (
                                 <button 
-                                    onClick={(e)=>{handleAccordionChange(e)}}
+                                    onClick={(e)=>{e.preventDefault(); handleAccordionChange(e)}}
                                     key={`individual-${index}`} 
                                     value={option}
                                     aria-label={`team sports option for ${option}`}
@@ -258,7 +266,7 @@ export default function EditAthleteProfileForm({displayForm}:FormProps){
                         <Accordion title="Team Sports" style="border-main-grey-100">
                             {data.profileForms.athlete.sportOptions.team.map((option, index) => (
                                 <button 
-                                    onClick={(e)=>{handleAccordionChange(e)}}
+                                    onClick={(e)=>{e.preventDefault(); handleAccordionChange(e)}}
                                     key={`individual-${index}`} 
                                     value={option}
                                     aria-label={`team sports option for ${option}`}
