@@ -230,8 +230,8 @@ def update_athlete_profile(request):
             if 'phonenumber' in data and data['phonenumber']:
                 user.phonenumber = data['phonenumber']
 
-            if 'address' in data and data['address']:
-                user.address = data['address']
+            if 'address' in data and data['location']:
+                athlete_profile.location = data['location']
 
             if 'biography' in data and data['biography']:
                 athlete_profile.biography = data['biography']
@@ -289,8 +289,8 @@ def update_coach_profile(request):
             if 'phonenumber' in data and data['phonenumber']:
                 user.phonenumber = data['phonenumber']
 
-            if 'address' in data and data['address']:
-                user.address = data['address']
+            if 'address' in data and data['location']:
+                coach_profile.location = data['location']
 
             if 'ageGroups' in data and data['ageGroups']:
                 coach_preferences.age_groups = data['ageGroups']

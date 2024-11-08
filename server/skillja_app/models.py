@@ -50,7 +50,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField('email address', unique=True)
     birthdate = models.DateField()
     phonenumber = models.CharField(max_length=20)
-    address = models.CharField(max_length=100, blank= True, null = True, default='Not Specified')
     gender = models.CharField(max_length=20)
     iscoach = models.BooleanField(default=False)
     isathlete = models.BooleanField(default=False)

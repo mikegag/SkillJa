@@ -11,7 +11,7 @@ import GetCSFR from "../../../hooks/GetCSFR"
 interface FormStructure {
     fullname: string,
     phonenumber: string,
-    address: string,
+    location: string,
     biography: string,
     goals: string[],
     primarySport: string,
@@ -27,7 +27,7 @@ export default function EditAthleteProfileForm({displayForm}:FormProps){
     const [formData, setFormData] = useState<FormStructure>({
         fullname: '',
         phonenumber: '',
-        address: '',
+        location: '',
         biography: '',
         goals: [],
         primarySport: '',

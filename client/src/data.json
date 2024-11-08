@@ -269,7 +269,7 @@
         "personalInformation": [
           { "id": "fullname", "name": "fullname", "icon": "faUser", "type": "text", "placeholder": "Full Name..." },
           { "id": "phonenumber", "name": "phonenumber", "icon": "faPhone", "type": "tel", "placeholder": "Phone #" },
-          { "id": "address", "name": "address", "icon": "faLocationDot", "type": "text", "placeholder": "Address..." },
+          { "id": "location", "name": "location", "icon": "faLocationDot", "type": "text", "placeholder": "Address..." },
           { "id": "biography", "name": "biography", "icon": "faNewspaper", "type": "textarea", "placeholder": "Bio..." }
         ],
         "goals": [
@@ -299,7 +299,7 @@
         "personalInformation": [
           { "id": "fullname", "name": "fullname", "icon": "faUser", "type": "text", "placeholder": "Full Name..." },
           { "id": "phonenumber", "name": "phonenumber", "icon": "faPhone", "type": "tel", "placeholder": "Phone #" },
-          { "id": "address", "name": "address", "icon": "faLocationDot", "type": "text", "placeholder": "Address..." },
+          { "id": "location","icon": "faLocationDot", "type": "text", "placeholder": "Address..." },
           { "id": "biography", "name": "biography", "icon": "faNewspaper", "type": "textarea", "placeholder": "Bio..." }
         ],
         "socialMedia": [
