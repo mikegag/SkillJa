@@ -18,7 +18,7 @@ interface FormStructure {
   email: string,
   password: string,
   confirmpassword: string,
-  date: string,
+  birthdate: string,
   phonenumber: string,
   gender: string
 }
@@ -91,7 +91,7 @@ export default function SignUp(){
       email: '',
       password: '',
       confirmpassword: '',
-      date: '',
+      birthdate: '',
       phonenumber: '',
       gender: ''
     })

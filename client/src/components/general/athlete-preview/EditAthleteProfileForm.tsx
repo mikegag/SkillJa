@@ -25,14 +25,14 @@ interface FormProps {
 
 export default function EditAthleteProfileForm({displayForm}:FormProps){
     const [formData, setFormData] = useState<FormStructure>({
-        fullname: '',
-        phonenumber: '',
-        location: '',
-        biography: '',
+        fullname: "",
+        phonenumber: "",
+        location: "",
+        biography: "",
         goals: [],
-        primarySport: '',
+        primarySport: "",
         sportInterests: [],
-        experienceLevel: ''
+        experienceLevel: ""
     })
     const [currentSelectedSports, setCurrentSelectedSports] = useState<string[]>([])
     const [insideForm, setInsideForm] = useState<boolean>(false)
@@ -41,7 +41,7 @@ export default function EditAthleteProfileForm({displayForm}:FormProps){
 
     // Handles form submission/saving
     function handleSubmit(e:React.FormEvent){
-        e.preventDefault()
+        //e.preventDefault()
         axios.post('https://www.skillja.ca/update_athlete_profile/', formData, {
             headers: {
                 'X-CSRFToken': csrfToken,
