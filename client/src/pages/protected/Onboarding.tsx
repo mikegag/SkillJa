@@ -96,9 +96,11 @@ export default function Onboarding() {
         // End of onboarding process, prepares answers to be submitted
         if (state.currentSeries === userQuestions.length - 1) {
             const formattedResponses = FilterOnboardingData(state.answers)
+            console.log(formattedResponses)
             setOnboardingResponses(formattedResponses)
             handleSubmit(formattedResponses)
         }
+        
     }, [state, userQuestions, questionSetRef])
     // Function to handle user answer selection
     const handleAnswer = (questionId: number, option: string) => {
