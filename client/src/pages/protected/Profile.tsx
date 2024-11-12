@@ -274,9 +274,9 @@ export default function Profile(){
                             </h2>
                             {profileDetails.preferences.goals!.length > 0 ?
                                 <>
-                                    {profileDetails.preferences.goals!.forEach((currGoal,index) => {
+                                    {profileDetails.preferences.goals!.map((currGoal, index) => (
                                         <CurrentGoal key={index} goal={currGoal} />
-                                    })}
+                                    ))}
                                 </>
                             :
                                 <p>No goals to display</p>

@@ -23,19 +23,19 @@ export default function AgreementTerms({isClicked}:formProps){
             {
             formToDisplay === "terms"?
                 <div className="w-dvw h-dvh flex justify-center items-center bg-black bg-opacity-60 absolute top-0 left-0">
-                    <div className="flex flex-col bg-white rounded-2xl border border-main-black w-80 h-96 overflow-scroll p-4">
+                    <div className="flex flex-col bg-white rounded-2xl border border-main-black w-80 h-96 lg:w-6/12 lg:h-4/6 overflow-scroll p-4">
                         <button className="ml-auto mr-0 hover:text-main-green-500" onClick={()=>setFormToDisplay("")}>
                             <FontAwesomeIcon icon={faX}/>
                         </button>
                         {data.terms.terms_conditions.map((info,index)=>(
-                            <>
-                                    <h3 key={index + "title"} className={`font-bold w-full ${index===0? "text-center underline mb-2 text-lg":"mb-2"}`}>
+                            <div key={index}>
+                                <h3 key={index + "title"} className={`font-bold w-full ${index===0? "text-center underline mb-2 text-lg":"mb-2"}`}>
                                     { info.title}
                                 </h3>
                                 <p key={index + "body"} className="mb-6">
                                     {info.body}
                                 </p>
-                            </>
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -43,19 +43,19 @@ export default function AgreementTerms({isClicked}:formProps){
             (
             formToDisplay === "privacy"?
             <div className="w-dvw h-dvh flex justify-center items-center bg-black bg-opacity-60 absolute top-0 left-0">
-                <div className="flex flex-col bg-white rounded-2xl border border-main-black w-80 h-96 overflow-scroll p-4">
+                <div className="flex flex-col bg-white rounded-2xl border border-main-black w-80 h-96 lg:w-6/12 lg:h-4/6 overflow-scroll p-4">
                     <button className="ml-auto mr-0 hover:text-main-green-500" onClick={()=>setFormToDisplay("")}>
                         <FontAwesomeIcon icon={faX}/>
                     </button>
                     {data.terms.privacy_policy.map((info,index)=>(
-                        <>
+                        <div key={index}>
                             <h3 key={index + "title"} className={`font-bold w-full ${index===0? "text-center underline mb-2 text-lg":"mb-2"}`}>
                                 { info.title}
                             </h3>
                             <p key={index + "body"} className="mb-6">
                                 {info.body}
                             </p>
-                        </>
+                        </div>
                     ))}
                 </div>
             </div>

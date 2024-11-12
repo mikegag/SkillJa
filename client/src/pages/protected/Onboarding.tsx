@@ -68,8 +68,6 @@ export default function Onboarding() {
     const [optionsOverloaded, setOptionsOverloaded] = useState(false)
     // Keeps track of completed questions (user progress)
     const [progress, setProgress] = useState(1)
-    // Holds final onboarding responses
-    const [onboardingResponses, setOnboardingResponses] = useState<Record<string, string[] | string>>({})
     // Default dataset to athlete question set
     const userData: Series[] = data.athleteQuestions
     const questionSetRef = useRef(userData)
@@ -96,8 +94,6 @@ export default function Onboarding() {
         // End of onboarding process, prepares answers to be submitted
         if (state.currentSeries === userQuestions.length - 1) {
             const formattedResponses = FilterOnboardingData(state.answers)
-            
-            setOnboardingResponses(formattedResponses)
             handleSubmit(formattedResponses)
         }
     }, [state, userQuestions, questionSetRef])
@@ -121,7 +117,6 @@ export default function Onboarding() {
     }
     // Submits onboarding responses to database
     function handleSubmit(responses: Record<string, string[] | string>){
-        console.log(responses)
         axios.post('https://www.skillja.ca/auth/onboarding/', responses, {
             headers: {
                 'X-CSRFToken': csrfToken,

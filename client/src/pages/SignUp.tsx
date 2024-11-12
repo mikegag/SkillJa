@@ -116,7 +116,6 @@ export default function SignUp(){
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>){
       const { name, value } = e.target;
       setFormData({ ...formData, [name]: value })
-      console.log(formData)
     }
 
     // Handle form submission
