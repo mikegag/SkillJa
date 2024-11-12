@@ -164,8 +164,8 @@ def get_user_profile(request):
                 },
                 'preferences': {
                     'experience_level': athlete_preferences.experience_level,
-                    'goals': athlete_preferences.goals.split(',') if athlete_preferences.goals else [],
-                    'sport_interests': athlete_preferences.sport_interests.split(',') if athlete_preferences.sport_interests else [],
+                    'goals': athlete_preferences.goals if athlete_preferences.goals else [],
+                    'sport_interests': athlete_preferences.sport_interests if athlete_preferences.sport_interests else [],
                 }
             })
         
@@ -189,8 +189,8 @@ def get_user_profile(request):
                 },
                 'preferences': {
                     'experience_level': coach_preferences.experience_level,
-                    'age_groups': coach_preferences.age_groups.split(',') if coach_preferences.age_groups else [],
-                    'specialization': coach_preferences.specialization.split(',') if coach_preferences.specialization else [],
+                    'age_groups': coach_preferences.age_groups if coach_preferences.age_groups else [],
+                    'specialization': coach_preferences.specialization if coach_preferences.specialization else [],
                 }
             })
         
