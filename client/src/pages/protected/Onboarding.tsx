@@ -100,7 +100,6 @@ export default function Onboarding() {
             setOnboardingResponses(formattedResponses)
             handleSubmit(formattedResponses)
         }
-        console.log(state)
     }, [state, userQuestions, questionSetRef])
     // Function to handle user answer selection
     const handleAnswer = (questionId: number, option: string) => {
@@ -122,6 +121,7 @@ export default function Onboarding() {
     }
     // Submits onboarding responses to database
     function handleSubmit(responses: Record<string, string[] | string>){
+        console.log(responses)
         axios.post('https://www.skillja.ca/auth/onboarding/', responses, {
             headers: {
                 'X-CSRFToken': csrfToken,
