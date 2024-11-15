@@ -146,7 +146,7 @@ export default function Profile(){
     },[])
 
     return (
-        <div className="flex flex-col mb-10">
+        <div className="flex flex-col">
             <Header useCase="protected" />
             <div className="pb-4 px-8 lg:px-14">
             {profileDetails.isathlete && readyToDisplayProfileForm? <EditAthleteProfileForm displayForm={setReadyToDisplayProfileForm} />:<></>}
@@ -266,7 +266,7 @@ export default function Profile(){
                     }
                 </section>
 
-                <section className="flex justify-center items-center flex-col lg:flex-row lg:items-start mt-8 mx-auto">
+                <section className="flex justify-center items-center flex-col lg:flex-row lg:items-start my-8 mx-auto">
                     <div className="flex flex-col justify-center w-full lg:w-5/12 lg:mx-6 lg:mr-10">
                     {profileDetails.isathlete?
                         <>
