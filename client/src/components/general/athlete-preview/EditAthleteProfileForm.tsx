@@ -80,23 +80,42 @@ export default function EditAthleteProfileForm({displayForm}:FormProps){
         }
     }
     // Handle input changes for text, text area, and button fields
-    function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-        const { name, value, type, dataset } = e.target
+    // function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    //     const { name, value, type, dataset } = e.target
     
-        if (type === 'text' && (name === 'goals' || name === 'sportInterests') && dataset.index !== undefined) {
+    //     if (type === 'text' && (name === 'goals' || name === 'sportInterests') && dataset.index !== undefined) {
+    //         const index = Number(dataset.index);
+    
+    //         // Safely handle list updates
+    //         if (Array.isArray(formData[name as keyof typeof formData])) {
+    //             const updatedList = [...formData[name as keyof typeof formData] as string[]]
+    //             updatedList[index] = value
+    //             setFormData(prevState => ({ ...prevState, [name]: updatedList }))
+    //         }
+    //     } else {
+    //         // Handle regular inputs
+    //         setFormData(prevState => ({ ...prevState, [name]: value }))
+    //     }
+    // } 
+
+    function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+        const { name, value, type, dataset } = e.target;
+    
+        if (name === 'goals' && dataset.index !== undefined) {
             const index = Number(dataset.index);
     
-            // Safely handle list updates
-            if (Array.isArray(formData[name as keyof typeof formData])) {
-                const updatedList = [...formData[name as keyof typeof formData] as string[]]
-                updatedList[index] = value
-                setFormData(prevState => ({ ...prevState, [name]: updatedList }))
-            }
+            // Safely handle list updates to update a specific goal
+            const updatedGoals = [...formData.goals];
+            updatedGoals[index] = value;
+    
+            setFormData(prevState => ({ ...prevState, goals: updatedGoals }));
         } else {
-            // Handle regular inputs
-            setFormData(prevState => ({ ...prevState, [name]: value }))
+            // Handle other fields normally
+            setFormData(prevState => ({ ...prevState, [name]: value }));
         }
-    }    
+    }
+    
+    
     // Update form state when radio buttons are selected
     function handleRadioChange(e: React.ChangeEvent<HTMLInputElement>) {
         setFormData({ ...formData, experienceLevel: e.target.value })

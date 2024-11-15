@@ -145,7 +145,7 @@ export default function Profile(){
     },[])
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col mb-10">
             <Header useCase="protected" />
             <div className="pb-4 px-8 lg:px-14">
             {profileDetails.isathlete && readyToDisplayProfileForm? <EditAthleteProfileForm displayForm={setReadyToDisplayProfileForm} />:<></>}
