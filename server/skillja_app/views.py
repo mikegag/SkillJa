@@ -230,7 +230,7 @@ def update_athlete_profile(request):
             if 'phonenumber' in data and data['phonenumber']:
                 user.phonenumber = data['phonenumber']
 
-            if 'address' in data and data['location']:
+            if 'location' in data and data['location']:
                 athlete_profile.location = data['location']
 
             if 'biography' in data and data['biography']:

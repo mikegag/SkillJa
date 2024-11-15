@@ -13,6 +13,7 @@ import EditCoachProfileForm from "../../components/general/coach-preview/EditCoa
 import EditCoachServiceForm from "../../components/general/coach-preview/EditCoachServiceForm"
 import ReviewSlider from "../../components/general/coach-preview/ReviewSlider"
 import CoachService from "../../components/general/coach-preview/CoachService"
+import Footer from "../../components/navigation/Footer"
 
 interface Review {
     id: number;
@@ -329,6 +330,7 @@ export default function Profile(){
                 </section>
             </div>
             {isModalOpen? <CoachService data={selectedService} exitView={setIsModalOpen}/> : <></>}
+            <Footer />
         </div>
     )
 }

@@ -123,6 +123,7 @@ export default function EditAthleteProfileForm({displayForm}:FormProps){
     }
     // Toggle sports of interest when accordion options are clicked
     function handleAccordionChange(e:React.MouseEvent<HTMLButtonElement>){
+        e.preventDefault()
         const duplicateAnswer = formData.sportInterests.includes(e.currentTarget.value)
         const filteredInput = formData.sportInterests.filter(currInput=>currInput!==e.currentTarget.value)
         if(!duplicateAnswer){
