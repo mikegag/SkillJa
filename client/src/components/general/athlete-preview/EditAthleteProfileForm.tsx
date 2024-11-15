@@ -100,21 +100,22 @@ export default function EditAthleteProfileForm({displayForm}:FormProps){
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
         const { name, value, type, dataset } = e.target;
-    
+
         if (name === 'goals' && dataset.index !== undefined) {
             const index = Number(dataset.index);
-    
-            // Safely handle list updates to update a specific goal
             const updatedGoals = [...formData.goals];
             updatedGoals[index] = value;
-    
             setFormData(prevState => ({ ...prevState, goals: updatedGoals }));
+        } else if (name === 'sportInterests' && dataset.index !== undefined) {
+            const index = Number(dataset.index);
+            const updatedSports = [...formData.sportInterests];
+            updatedSports[index] = value;
+            setFormData(prevState => ({ ...prevState, sportInterests: updatedSports }));
         } else {
-            // Handle other fields normally
             setFormData(prevState => ({ ...prevState, [name]: value }));
         }
     }
-    
+
     
     // Update form state when radio buttons are selected
     function handleRadioChange(e: React.ChangeEvent<HTMLInputElement>) {

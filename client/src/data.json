@@ -273,9 +273,9 @@
           { "id": "biography", "name": "biography", "icon": "faNewspaper", "type": "textarea", "placeholder": "Bio..." }
         ],
         "goals": [
-          { "id": "goal1", "name": "goals", "icon": "faMedal", "type": "text", "placeholder": "Edit Goal", "index": 0 },
-          { "id": "goal2", "name": "goals", "icon": "faMedal", "type": "text", "placeholder": "Edit Goal", "index": 1 },
-          { "id": "goal3", "name": "goals", "icon": "faMedal", "type": "text", "placeholder": "Edit Goal", "index": 2 }
+          { "id": "goal1", "name": "goal1", "icon": "faMedal", "type": "text", "placeholder": "Edit Goal", "index": 0 },
+          { "id": "goal2", "name": "goal1", "icon": "faMedal", "type": "text", "placeholder": "Edit Goal", "index": 1 },
+          { "id": "goal3", "name": "goal1", "icon": "faMedal", "type": "text", "placeholder": "Edit Goal", "index": 2 }
         ],
         "primarySport": [
           { "id": "primarySport", "name": "primarySport", "icon": "faSport", "type": "text", "placeholder": "Primary Sport" }
