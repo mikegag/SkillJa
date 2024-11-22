@@ -57,8 +57,12 @@ body {
     @apply bg-main-white font-source font-medium text-main-black text-base border border-main-grey-200 
             rounded-2xl px-4 py-2 hover:bg-main-green-700 hover:text-main-white;
   }
-  .pop-up-background {
+  /* .pop-up-background {
     @apply w-dvw h-dvh flex justify-center items-center bg-black bg-opacity-60 absolute pb-10 top-0 left-0;
+  } */
+
+  .pop-up-background {
+    @apply w-full h-full flex justify-center items-center bg-black bg-opacity-60 fixed top-0 left-0 z-50;
   }
   .pop-up-container {
     @apply relative flex flex-col bg-white rounded-2xl border-t lg:border border-main-black w-11/12 h-fit 
