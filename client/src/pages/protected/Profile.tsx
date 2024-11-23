@@ -176,7 +176,7 @@ export default function Profile(){
                     <div className="flex flex-col justify-center items-center lg:flex-row">
                         <img 
                             src={require('../../assets/default-avatar.jpg')} 
-                            className="w-32 h-32 lg:w-40 lg:h-40 rounded-2xl lg:mr-10"
+                            className="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-10"
                             alt="headshot of user demonstrating what they look like"
                         />
                         <div className="flex flex-col justify-center items-center font-kulim text-main-green-900">

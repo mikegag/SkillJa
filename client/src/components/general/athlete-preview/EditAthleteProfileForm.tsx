@@ -35,7 +35,7 @@ export default function EditAthleteProfileForm({displayForm,prevPrimarySport}:Fo
         sportInterests: [],
         experienceLevel: ""
     })
-    const [currentSelectedSports, setCurrentSelectedSports] = useState<string[]>([])
+    const [currentPrimarySport, setCurrentPrimarySport] = useState<string>(prevPrimarySport || "")
     const [insideForm, setInsideForm] = useState<boolean>(false)
     const windowSize = GetWindowSize()
     const csrfToken = GetCSFR({ name: "csrftoken" })
@@ -233,13 +233,17 @@ export default function EditAthleteProfileForm({displayForm,prevPrimarySport}:Fo
                         <p className="my-6">
                             Primary Sport
                         </p>
-                        {formData.sportInterests.length !== 0 ?
+                        {formData.sportInterests.length !== 0 || prevPrimarySport ?
                             <>
                             {formData.sportInterests.map((currSport,index)=>(
                                 <button 
-                                    onClick={(e)=>{e.preventDefault(); setFormData({...formData, primarySport: currSport})}}
+                                    onClick={(e)=>{
+                                        e.preventDefault(); 
+                                        setFormData({...formData, primarySport: currSport});
+                                        setCurrentPrimarySport(currSport);
+                                    }}
                                     key={index}
-                                    className={`${formData.primarySport === currSport? "bg-main-color-darkgreen":""} 
+                                    className={`${currentPrimarySport === currSport? "bg-main-color-darkgreen":"bg-main-color-white"} 
                                         py-2 px-4 rounded-xl mr-2 bg-main-white border border-main-grey-100 hover:bg-main-color-lightgreen cursor-pointer`}
                                 >
                                     {currSport}
@@ -247,8 +251,12 @@ export default function EditAthleteProfileForm({displayForm,prevPrimarySport}:Fo
                             ))}
                             {prevPrimarySport ? 
                                 <button 
-                                    onClick={(e)=>{e.preventDefault(); setFormData({...formData, primarySport: prevPrimarySport})}}
-                                    className={`${formData.primarySport === prevPrimarySport? "bg-main-color-darkgreen":""} 
+                                    onClick={(e)=>{
+                                        e.preventDefault(); 
+                                        setFormData({...formData, primarySport: prevPrimarySport});
+                                        setCurrentPrimarySport(prevPrimarySport);
+                                    }}
+                                    className={`${currentPrimarySport === prevPrimarySport? "bg-main-color-darkgreen":"bg-main-color-white"} 
                                         py-2 px-4 rounded-xl mr-2 bg-main-white border border-main-grey-100 hover:bg-main-color-lightgreen cursor-pointer`}
                                     value={formData.primarySport}
                                 >

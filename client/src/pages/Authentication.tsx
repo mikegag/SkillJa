@@ -36,7 +36,9 @@ export default function Authentication(){
 
     // Handle loading state and redirect if not authenticated
     if (loading) {
-        return <LoadingAnimation />
+        return <div className="mt-40">
+                <LoadingAnimation />
+            </div>
     }
 
     if (!isAuthenticated) {
