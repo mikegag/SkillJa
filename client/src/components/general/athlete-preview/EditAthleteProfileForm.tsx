@@ -20,10 +20,11 @@ interface FormStructure {
 }
 
 interface FormProps {
-    displayForm: (value:boolean) => void
+    displayForm: (value:boolean) => void;
+    prevPrimarySport?: string;
 }
 
-export default function EditAthleteProfileForm({displayForm}:FormProps){
+export default function EditAthleteProfileForm({displayForm,prevPrimarySport}:FormProps){
     const [formData, setFormData] = useState<FormStructure>({
         fullname: "",
         phonenumber: "",
@@ -232,17 +233,32 @@ export default function EditAthleteProfileForm({displayForm}:FormProps){
                         <p className="my-6">
                             Primary Sport
                         </p>
-                        {formData.sportInterests[0] !== '' ?
-                            formData.sportInterests.map((currSport,index)=>(
+                        {formData.sportInterests.length !== 0 ?
+                            <>
+                            {formData.sportInterests.map((currSport,index)=>(
                                 <button 
                                     onClick={(e)=>{e.preventDefault(); setFormData({...formData, primarySport: currSport})}}
                                     key={index}
-                                    className={`${formData.primarySport == currSport? "bg-main-color-darkgreen":""} 
+                                    className={`${formData.primarySport === currSport? "bg-main-color-darkgreen":""} 
                                         py-2 px-4 rounded-xl mr-2 bg-main-white border border-main-grey-100 hover:bg-main-color-lightgreen cursor-pointer`}
                                 >
                                     {currSport}
                                 </button>
-                            ))
+                            ))}
+                            {prevPrimarySport ? 
+                                <button 
+                                    onClick={(e)=>{e.preventDefault(); setFormData({...formData, primarySport: prevPrimarySport})}}
+                                    className={`${formData.primarySport === prevPrimarySport? "bg-main-color-darkgreen":""} 
+                                        py-2 px-4 rounded-xl mr-2 bg-main-white border border-main-grey-100 hover:bg-main-color-lightgreen cursor-pointer`}
+                                    value={formData.primarySport}
+                                >
+                                    {prevPrimarySport}
+                                </button>
+                                :
+                                <></>
+                            }
+                            </>
+
                         :
                             <p className="text-sm text-main-grey-200 text-center my-4">
                                 No Primary Sport Available

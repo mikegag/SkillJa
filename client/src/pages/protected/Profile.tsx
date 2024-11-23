@@ -151,7 +151,7 @@ export default function Profile(){
         <div className="flex flex-col">
             <Header useCase="protected" />
             <div className="pb-4 px-8 lg:px-14">
-            {profileDetails.isathlete && readyToDisplayProfileForm? <EditAthleteProfileForm displayForm={setReadyToDisplayProfileForm} />:<></>}
+            {profileDetails.isathlete && readyToDisplayProfileForm? <EditAthleteProfileForm displayForm={setReadyToDisplayProfileForm} prevPrimarySport={profileDetails.profile.primary_sport} />:<></>}
             {profileDetails.iscoach && readyToDisplayProfileForm? <EditCoachProfileForm displayForm={setReadyToDisplayProfileForm} />:<></>}
             {profileDetails.iscoach && readyToDisplayServicesForm? <EditCoachServiceForm displayForm={setReadyToDisplayServicesForm}/>:<></>}
                 <div className="flex justify-center text-center mt-10">
@@ -176,7 +176,7 @@ export default function Profile(){
                     <div className="flex flex-col justify-center items-center lg:flex-row">
                         <img 
                             src={require('../../assets/default-avatar.jpg')} 
-                            className="w-32 h-32 rounded-2xl lg:mr-10"
+                            className="w-32 h-32 lg:w-40 lg:h-40 rounded-2xl lg:mr-10"
                             alt="headshot of user demonstrating what they look like"
                         />
                         <div className="flex flex-col justify-center items-center font-kulim text-main-green-900">
@@ -194,7 +194,7 @@ export default function Profile(){
                             <h3 className="text-lg lg:text-base my-1 lg:ml-0 font-medium">
                                 Experience: {profileDetails.preferences.experience_level? profileDetails.preferences.experience_level.replace(/[\[\]\"\'']/g,'') : 'N/A' }
                             </h3>
-                            <h3 className="py-2 px-4 rounded-xl my-auto mx-auto bg-main-white border border-main-grey-100 cursor-pointer lg:ml-0">
+                            <h3 className="py-2 px-4 rounded-xl mt-2 mx-auto bg-main-white border border-main-grey-100 cursor-pointer lg:ml-0">
                                 {profileDetails.profile.primary_sport}
                             </h3>
                         </div>
