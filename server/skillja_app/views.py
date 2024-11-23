@@ -158,6 +158,7 @@ def get_user_profile(request):
                 'profile': {
                     'location': athlete_profile.location,
                     'biography': athlete_profile.biography,
+                    'primary_sport': athlete_profile.primary_sport,
                     'picture': athlete_profile.picture.url if athlete_profile.picture else None,
                     'reviews': [review.id for review in athlete_profile.reviews.all()],
                     'rating': average_rating,
@@ -179,6 +180,7 @@ def get_user_profile(request):
                 'profile': {
                     'location': coach_profile.location,
                     'biography': coach_profile.biography,
+                    'primary_sport': coach_profile.primary_sport,
                     'picture': coach_profile.picture.url if coach_profile.picture else None,
                     'reviews': [review.id for review in coach_profile.reviews.all()],
                     'rating': average_rating,

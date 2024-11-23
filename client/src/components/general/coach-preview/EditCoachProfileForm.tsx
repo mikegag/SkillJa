@@ -254,7 +254,8 @@ export default function EditCoachProfileForm({displayForm}:FormProps){
                                 <button 
                                     onClick={(e)=>{e.preventDefault(); setFormData({...formData, primarySport: currSport})}}
                                     key={index}
-                                    className="py-2 px-4 bg-main-white border border-main-grey-100 cursor-pointer"
+                                    className={`${formData.primarySport == currSport? "bg-main-color-darkgreen":""} 
+                                        py-2 px-4 rounded-xl mr-2 bg-main-white border border-main-grey-100 hover:bg-main-color-lightgreen cursor-pointer`}
                                 >
                                     {currSport}
                                 </button>

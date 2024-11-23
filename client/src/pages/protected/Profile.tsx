@@ -43,6 +43,7 @@ interface ProfileDetails {
     profile: {
         location: string;
         biography: string;
+        primary_sport: string;
         picture: string | null;
         reviews: Review[];
         rating: number;
@@ -52,7 +53,7 @@ interface ProfileDetails {
         tiktok?: string
     };
     preferences: {
-        experience_level?: string;
+        experience_level: string;
         goals?: string[];
         sport_interests?: string;
         age_groups?: string[];
@@ -83,6 +84,7 @@ const defaultProfileDetails: ProfileDetails = {
     profile: {
         location: 'Location',
         biography: 'Bio goes here...',
+        primary_sport:'',
         picture: null,
         reviews: [],
         rating: 0,
@@ -189,8 +191,11 @@ export default function Profile(){
                                 <FontAwesomeIcon icon={faStar} className="text-amber-400 text-lg lg:text-base mr-2 lg:ml-0" />
                                 {profileDetails.profile.rating ? profileDetails.profile.rating : 0 }
                             </h3>
-                            <h3 className="text-lg lg:text-base mx-auto lg:ml-0 font-medium">
+                            <h3 className="text-lg lg:text-base my-1 lg:ml-0 font-medium">
                                 Experience: {profileDetails.preferences.experience_level? profileDetails.preferences.experience_level.replace(/[\[\]\"\'']/g,'') : 'N/A' }
+                            </h3>
+                            <h3 className="py-2 px-4 rounded-xl my-auto mx-auto bg-main-white border border-main-grey-100 cursor-pointer lg:ml-0">
+                                {profileDetails.profile.primary_sport}
                             </h3>
                         </div>
                         {windowSize.width >= 1024 ?

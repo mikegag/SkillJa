@@ -62,11 +62,12 @@ body {
   } */
 
   .pop-up-background {
-    @apply w-full h-full flex justify-center items-center bg-black bg-opacity-60 fixed top-0 left-0 z-50;
+    @apply w-full h-full flex justify-center items-center bg-black bg-opacity-60 top-0 left-0 z-50 pb-10;
+    position: fixed !important;
   }
   .pop-up-container {
     @apply relative flex flex-col bg-white rounded-2xl border-t lg:border border-main-black w-11/12 h-fit 
-            top-5 lg:top-16 bottom-0 lg:w-6/12  lg:my-auto overflow-scroll py-5;
+            top-5 lg:top-10 bottom-0 lg:w-6/12  lg:my-auto overflow-scroll py-5;
   }
 }
 

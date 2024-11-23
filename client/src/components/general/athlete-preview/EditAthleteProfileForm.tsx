@@ -1,7 +1,7 @@
 import { faNewspaper } from "@fortawesome/free-regular-svg-icons"
 import { faLocationDot, faMedal, faPhone, faUser, faX } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import Accordion from "../Accordion"
 import data from '../../../data.json'
 import GetWindowSize from '../../../hooks/GetWindowSize'
@@ -237,7 +237,8 @@ export default function EditAthleteProfileForm({displayForm}:FormProps){
                                 <button 
                                     onClick={(e)=>{e.preventDefault(); setFormData({...formData, primarySport: currSport})}}
                                     key={index}
-                                    className="py-2 px-4 bg-main-white border border-main-grey-100 cursor-pointer"
+                                    className={`${formData.primarySport == currSport? "bg-main-color-darkgreen":""} 
+                                        py-2 px-4 rounded-xl mr-2 bg-main-white border border-main-grey-100 hover:bg-main-color-lightgreen cursor-pointer`}
                                 >
                                     {currSport}
                                 </button>
