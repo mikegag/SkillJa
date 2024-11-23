@@ -229,7 +229,7 @@ export default function Profile(){
                             <></>
                         }
                     </div>
-                    <div className="w-full lg:mt-6 lg:px-20">
+                    <div className="w-full lg:mt-8 lg:px-20">
                         {windowSize.width >=1024 ? 
                             <h3 className="text-lg my-1 mr-auto font-medium">About Me</h3>
                         :
