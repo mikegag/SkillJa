@@ -86,20 +86,25 @@ export default function EditAthleteProfileForm({displayForm,prevPrimarySport}:Fo
     }
     // Handle input changes for text, text area, and button fields
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-        const { name, value, type, dataset } = e.target;
+        const { name, value, type, dataset } = e.target
 
         if (name === 'goals' && dataset.index !== undefined) {
-            const index = Number(dataset.index);
-            const updatedGoals = [...formData.goals];
-            updatedGoals[index] = value;
-            setFormData(prevState => ({ ...prevState, goals: updatedGoals }));
+            const index = Number(dataset.index)
+            let updatedGoals = [...formData.goals]
+            if (!formData.goals[index]){
+                updatedGoals.push(value)
+            }
+            else {
+                updatedGoals[index] = value;
+                setFormData(prevState => ({ ...prevState, goals: updatedGoals }))
+            }
         } else if (name === 'sportInterests' && dataset.index !== undefined) {
-            const index = Number(dataset.index);
-            const updatedSports = [...formData.sportInterests];
-            updatedSports[index] = value;
-            setFormData(prevState => ({ ...prevState, sportInterests: updatedSports }));
+            const index = Number(dataset.index)
+            const updatedSports = [...formData.sportInterests]
+            updatedSports[index] = value
+            setFormData(prevState => ({ ...prevState, sportInterests: updatedSports }))
         } else {
-            setFormData(prevState => ({ ...prevState, [name]: value }));
+            setFormData(prevState => ({ ...prevState, [name]: value }))
         }
     }
     // Update form state when radio buttons are selected
