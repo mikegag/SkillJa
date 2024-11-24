@@ -14,6 +14,10 @@ interface FormStructure {
     location: string,
     biography: string,
     goals: string[],
+    //work on phasing goals and replace with individual -------------------------------
+    // firstGoal?: string,
+    // secondGoal?: string,
+    // thirdGoal?: string,
     primarySport: string,
     sportInterests: string[],
     experienceLevel: string
@@ -150,20 +154,24 @@ export default function EditAthleteProfileForm({displayForm,prevPrimarySport}:Fo
             <div key={input.id} className="relative w-full mb-5 mt-5">
                 {input.type === 'textarea' ? (
                     <textarea
+                        id={input.id}
                         name={input.name}
                         className="form-input w-full border-main-grey-100 max-h-24 min-h-24"
                         placeholder={input.placeholder}
                         value={formData[input.name as keyof FormStructure] as string}
                         onChange={handleChange}
+                        maxLength={220}
                     />
                 ) : (
                     <input
+                        id={input.id}
                         type={input.type}
                         name={input.name}
                         className="form-input w-full border-main-grey-100"
                         placeholder={input.placeholder}
                         value={formData[input.name as keyof FormStructure] as string}
                         onChange={handleChange}
+                        maxLength={110}
                         data-index={input.index || ''}
                     />
                 )}
