@@ -88,8 +88,8 @@ export default function EditAthleteProfileForm({displayForm,prevPrimarySport}:Fo
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
         const { name, value, type, dataset } = e.target
 
-        if (name === 'goals' && dataset.index !== undefined) {
-            const index = Number(dataset.index)-1
+        if (name.includes('goal') && dataset.index !== undefined) {
+            const index = Number(dataset.index)
             let updatedGoals = [...formData.goals]
             if (!formData.goals[index]){
                 updatedGoals.push(value)
