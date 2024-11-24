@@ -89,7 +89,7 @@ export default function EditAthleteProfileForm({displayForm,prevPrimarySport}:Fo
         const { name, value, type, dataset } = e.target
 
         if (name === 'goals' && dataset.index !== undefined) {
-            const index = Number(dataset.index)
+            const index = Number(dataset.index)-1
             let updatedGoals = [...formData.goals]
             if (!formData.goals[index]){
                 updatedGoals.push(value)
