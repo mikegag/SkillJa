@@ -151,7 +151,7 @@ export default function Profile(){
         <div className="flex flex-col">
             <Header useCase="protected" />
             <div className="pb-4 px-8 lg:px-14 lg:mb-32">
-            {profileDetails.isathlete && readyToDisplayProfileForm? <EditAthleteProfileForm displayForm={setReadyToDisplayProfileForm} prevPrimarySport={profileDetails.profile.primary_sport} />:<></>}
+            {profileDetails.isathlete && readyToDisplayProfileForm? <EditAthleteProfileForm displayForm={setReadyToDisplayProfileForm} prevSavedData={profileDetails} />:<></>}
             {profileDetails.iscoach && readyToDisplayProfileForm? <EditCoachProfileForm displayForm={setReadyToDisplayProfileForm} />:<></>}
             {profileDetails.iscoach && readyToDisplayServicesForm? <EditCoachServiceForm displayForm={setReadyToDisplayServicesForm}/>:<></>}
                 <div className="flex justify-center text-center mt-10">

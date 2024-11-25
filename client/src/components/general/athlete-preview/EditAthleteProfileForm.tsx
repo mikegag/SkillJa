@@ -14,10 +14,6 @@ interface FormStructure {
     location: string,
     biography: string,
     goals: string[],
-    //work on phasing goals and replace with individual -------------------------------
-    // firstGoal?: string,
-    // secondGoal?: string,
-    // thirdGoal?: string,
     primarySport: string,
     sportInterests: string[],
     experienceLevel: string
@@ -25,21 +21,68 @@ interface FormStructure {
 
 interface FormProps {
     displayForm: (value:boolean) => void;
-    prevPrimarySport?: string;
+    prevSavedData?: ProfileDetails;
 }
 
-export default function EditAthleteProfileForm({displayForm,prevPrimarySport}:FormProps){
+interface Review {
+    id: number;
+    title: string;
+    description: string;
+    rating: string;
+    date: string;
+}
+
+interface Service {
+    type: string;
+    title: string;
+    description: string;
+    duration: string;
+    frequency?: string;
+    target_audience?: string;
+    location?: string;
+    deliverable?: string;
+    price: number;
+}
+  
+interface ProfileDetails {
+    name: string;
+    email: string;
+    iscoach: boolean;
+    isathlete: boolean;
+    profile: {
+        location: string;
+        biography: string;
+        primary_sport: string;
+        picture: string | null;
+        reviews: Review[];
+        rating: number;
+        instagram?: string,
+        facebook?: string,
+        twitter?: string,
+        tiktok?: string
+    };
+    preferences: {
+        experience_level: string;
+        goals?: string[];
+        sport_interests?: string;
+        age_groups?: string[];
+        specialization?: string;
+        services?: Service[];
+    }
+}
+
+export default function EditAthleteProfileForm({displayForm, prevSavedData}:FormProps){
     const [formData, setFormData] = useState<FormStructure>({
-        fullname: "",
+        fullname: prevSavedData?.name || "",
         phonenumber: "",
-        location: "",
-        biography: "",
-        goals: [],
+        location: prevSavedData?.profile.location || "",
+        biography: prevSavedData?.profile.biography || "",
+        goals: prevSavedData?.preferences.goals || [],
         primarySport: "",
         sportInterests: [],
-        experienceLevel: ""
+        experienceLevel: prevSavedData?.preferences.experience_level || ""
     })
-    const [currentPrimarySport, setCurrentPrimarySport] = useState<string>(prevPrimarySport || "")
+    const [currentPrimarySport, setCurrentPrimarySport] = useState<string>(prevSavedData?.profile.primary_sport || "")
     const [insideForm, setInsideForm] = useState<boolean>(false)
     const windowSize = GetWindowSize()
     const csrfToken = GetCSFR({ name: "csrftoken" })
@@ -86,7 +129,7 @@ export default function EditAthleteProfileForm({displayForm,prevPrimarySport}:Fo
     }
     // Handle input changes for text, text area, and button fields
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-        const { name, value, type, dataset } = e.target
+        const { name, value, dataset } = e.target
 
         if (name.toLowerCase().includes('goal') && dataset.index !== undefined) {
             const index = Number(dataset.index)
@@ -246,7 +289,7 @@ export default function EditAthleteProfileForm({displayForm,prevPrimarySport}:Fo
                         <p className="my-6">
                             Primary Sport
                         </p>
-                        {formData.sportInterests.length !== 0 || prevPrimarySport ?
+                        {formData.sportInterests.length !== 0 || prevSavedData?.profile.primary_sport ?
                             <>
                             {formData.sportInterests.map((currSport,index)=>(
                                 <button 
@@ -262,18 +305,18 @@ export default function EditAthleteProfileForm({displayForm,prevPrimarySport}:Fo
                                     {currSport}
                                 </button>
                             ))}
-                            {prevPrimarySport ? 
+                            {prevSavedData?.profile.primary_sport ? 
                                 <button 
                                     onClick={(e)=>{
                                         e.preventDefault(); 
-                                        setFormData({...formData, primarySport: prevPrimarySport});
-                                        setCurrentPrimarySport(prevPrimarySport);
+                                        setFormData({...formData, primarySport: prevSavedData?.profile.primary_sport});
+                                        setCurrentPrimarySport(prevSavedData?.profile.primary_sport);
                                     }}
-                                    className={`${currentPrimarySport === prevPrimarySport? "bg-main-color-darkgreen":"bg-main-color-white"} 
+                                    className={`${currentPrimarySport === prevSavedData?.profile.primary_sport? "bg-main-color-darkgreen":"bg-main-color-white"} 
                                         py-2 px-4 rounded-xl mr-2 bg-main-white border border-main-grey-100 hover:bg-main-color-lightgreen cursor-pointer`}
                                     value={formData.primarySport}
                                 >
-                                    {prevPrimarySport}
+                                    {prevSavedData?.profile.primary_sport}
                                 </button>
                                 :
                                 <></>
