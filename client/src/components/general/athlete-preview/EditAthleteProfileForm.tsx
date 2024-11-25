@@ -64,7 +64,7 @@ interface ProfileDetails {
     preferences: {
         experience_level: string;
         goals?: string[];
-        sport_interests?: string;
+        sport_interests?: string[];
         age_groups?: string[];
         specialization?: string;
         services?: Service[];
@@ -79,7 +79,7 @@ export default function EditAthleteProfileForm({displayForm, prevSavedData}:Form
         biography: prevSavedData?.profile.biography || "",
         goals: prevSavedData?.preferences.goals || [],
         primarySport: prevSavedData?.profile.primary_sport || "",
-        sportInterests: prevSavedData?.preferences.sport_interests?.split(',') || [],
+        sportInterests: prevSavedData?.preferences.sport_interests || [],
         experienceLevel: prevSavedData?.preferences.experience_level || ""
     })
     const [currentPrimarySport, setCurrentPrimarySport] = useState<string>(prevSavedData?.profile.primary_sport || "")

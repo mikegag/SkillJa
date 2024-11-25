@@ -55,7 +55,7 @@ interface ProfileDetails {
     preferences: {
         experience_level: string;
         goals?: string[];
-        sport_interests?: string;
+        sport_interests?: string[];
         age_groups?: string[];
         specialization?: string;
         services?: Service[];
@@ -96,7 +96,7 @@ const defaultProfileDetails: ProfileDetails = {
     preferences: {
         experience_level: 'N/A',
         goals: [],
-        sport_interests: '',
+        sport_interests: [],
         age_groups: [],
         specialization: '',
         services:[],
