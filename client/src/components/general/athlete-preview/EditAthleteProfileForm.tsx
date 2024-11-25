@@ -78,8 +78,8 @@ export default function EditAthleteProfileForm({displayForm, prevSavedData}:Form
         location: prevSavedData?.profile.location || "",
         biography: prevSavedData?.profile.biography || "",
         goals: prevSavedData?.preferences.goals || [],
-        primarySport: "",
-        sportInterests: [],
+        primarySport: prevSavedData?.profile.primary_sport || "",
+        sportInterests: prevSavedData?.preferences.sport_interests?.split(',') || [],
         experienceLevel: prevSavedData?.preferences.experience_level || ""
     })
     const [currentPrimarySport, setCurrentPrimarySport] = useState<string>(prevSavedData?.profile.primary_sport || "")
@@ -299,8 +299,9 @@ export default function EditAthleteProfileForm({displayForm, prevSavedData}:Form
                                         setCurrentPrimarySport(currSport);
                                     }}
                                     key={index}
-                                    className={`${currentPrimarySport === currSport? "bg-main-color-darkgreen":"bg-main-color-white"} 
-                                        py-2 px-4 rounded-xl mr-2 bg-main-white border border-main-grey-100 hover:bg-main-color-lightgreen cursor-pointer`}
+                                    className={`py-2 px-4 rounded-xl mr-2 border border-main-grey-100 cursor-pointer
+                                        ${currentPrimarySport === currSport ? "bg-main-color-darkgreen text-white" : "bg-main-color-white text-black"}
+                                        hover:bg-main-color-lightgreen`}
                                 >
                                     {currSport}
                                 </button>
