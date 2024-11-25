@@ -46,7 +46,7 @@ export default function EditAthleteProfileForm({displayForm,prevPrimarySport}:Fo
 
     // Handles form submission/saving
     function handleSubmit(e:React.FormEvent){
-        //e.preventDefault()
+        e.preventDefault()
         axios.post('https://www.skillja.ca/update_athlete_profile/', formData, {
             headers: {
                 'X-CSRFToken': csrfToken,
@@ -88,16 +88,16 @@ export default function EditAthleteProfileForm({displayForm,prevPrimarySport}:Fo
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
         const { name, value, type, dataset } = e.target
 
-        if (name.toLowerCase().includes('goals') && dataset.index !== undefined) {
+        if (name.toLowerCase().includes('goal') && dataset.index !== undefined) {
             const index = Number(dataset.index)
             let updatedGoals = [...formData.goals]
-            if (!formData.goals[index]){
+            if (!formData.goals[index]) {
                 updatedGoals.push(value)
+            } else {
+                updatedGoals[index] = value
             }
-            else {
-                updatedGoals[index] = value;
-                setFormData(prevState => ({ ...prevState, goals: updatedGoals }))
-            }
+            setFormData(prevState => ({ ...prevState, goals: updatedGoals }))
+        
         } else if (name === 'sportInterests' && dataset.index !== undefined) {
             const index = Number(dataset.index)
             const updatedSports = [...formData.sportInterests]
