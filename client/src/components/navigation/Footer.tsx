@@ -12,7 +12,7 @@ export default function Footer(){
     
     return (
         <motion.div 
-            className="flex flex-col justify-center items-center px-4 my-5"
+            className="flex flex-col justify-center items-center px-4 my-6"
             initial="hidden"
             whileInView="visible"
             variants={motionVariants}

@@ -147,6 +147,7 @@ def get_user_profile(request):
             'email': user.email,
             'iscoach': user.iscoach,
             'isathlete': user.isathlete,
+            'phonenumber': user.phonenumber
         }
 
         if user.isathlete:

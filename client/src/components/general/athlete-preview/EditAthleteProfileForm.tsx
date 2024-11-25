@@ -49,6 +49,7 @@ interface ProfileDetails {
     email: string;
     iscoach: boolean;
     isathlete: boolean;
+    phonenumber: string;
     profile: {
         location: string;
         biography: string;
@@ -300,13 +301,13 @@ export default function EditAthleteProfileForm({displayForm, prevSavedData}:Form
                                     }}
                                     key={index}
                                     className={`py-2 px-4 rounded-xl mr-2 border border-main-grey-100 cursor-pointer
-                                        ${currentPrimarySport === currSport ? "bg-main-color-darkgreen text-white" : "bg-main-color-white text-black"}
+                                        ${currentPrimarySport === currSport ? "bg-main-color-darkgreen text-white" : "bg-white text-black"}
                                         hover:bg-main-color-lightgreen`}
                                 >
                                     {currSport}
                                 </button>
                             ))}
-                            {prevSavedData?.profile.primary_sport ? 
+                            {/* {prevSavedData?.profile.primary_sport ? 
                                 <button 
                                     onClick={(e)=>{
                                         e.preventDefault(); 
@@ -321,7 +322,7 @@ export default function EditAthleteProfileForm({displayForm, prevSavedData}:Form
                                 </button>
                                 :
                                 <></>
-                            }
+                            } */}
                             </>
 
                         :

@@ -40,6 +40,7 @@ interface ProfileDetails {
     email: string;
     iscoach: boolean;
     isathlete: boolean;
+    phonenumber: string;
     profile: {
         location: string;
         biography: string;
@@ -81,6 +82,7 @@ const defaultProfileDetails: ProfileDetails = {
     email: 'Email',
     iscoach: false,
     isathlete: false,
+    phonenumber: 'Phone Number #',
     profile: {
         location: 'Location',
         biography: 'Bio goes here...',
