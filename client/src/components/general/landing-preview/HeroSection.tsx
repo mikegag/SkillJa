@@ -24,7 +24,7 @@ export default function HeroSection({view}:ViewProps){
         }, 700)
 
         // checks if user is currently logged in, determines if viewing coach profiles is allowed or not
-        axios.get('https://www.skillja.ca/auth_status/', {
+        axios.get('/api/auth_status/', {
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'
