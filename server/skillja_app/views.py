@@ -133,6 +133,7 @@ def onboarding_user(request):
         return JsonResponse({'error': str(e)}, status=400)
 
 @require_GET
+@login_required
 def get_user_profile(request):
     try:
         # Extract the email from the cookie
@@ -184,6 +185,7 @@ def get_user_profile(request):
                     'primary_sport': coach_profile.primary_sport,
                     'picture': coach_profile.picture.url if coach_profile.picture else None,
                     'reviews': [review.id for review in coach_profile.reviews.all()],
+                    'services': [service.id for service in coach_profile.services.all()],
                     'rating': average_rating,
                     'instagram': coach_socialMedia.instagram,
                     'facebook': coach_socialMedia.facebook,
