@@ -75,7 +75,7 @@ interface ProfileDetails {
 export default function EditAthleteProfileForm({displayForm, prevSavedData}:FormProps){
     const [formData, setFormData] = useState<FormStructure>({
         fullname: prevSavedData?.name || "",
-        phonenumber: "",
+        phonenumber: prevSavedData?.phonenumber || "",
         location: prevSavedData?.profile.location || "",
         biography: prevSavedData?.profile.biography || "",
         goals: prevSavedData?.preferences.goals || [],
@@ -307,22 +307,6 @@ export default function EditAthleteProfileForm({displayForm, prevSavedData}:Form
                                     {currSport}
                                 </button>
                             ))}
-                            {/* {prevSavedData?.profile.primary_sport ? 
-                                <button 
-                                    onClick={(e)=>{
-                                        e.preventDefault(); 
-                                        setFormData({...formData, primarySport: prevSavedData?.profile.primary_sport});
-                                        setCurrentPrimarySport(prevSavedData?.profile.primary_sport);
-                                    }}
-                                    className={`${currentPrimarySport === prevSavedData?.profile.primary_sport? "bg-main-color-darkgreen":"bg-main-color-white"} 
-                                        py-2 px-4 rounded-xl mr-2 bg-main-white border border-main-grey-100 hover:bg-main-color-lightgreen cursor-pointer`}
-                                    value={formData.primarySport}
-                                >
-                                    {prevSavedData?.profile.primary_sport}
-                                </button>
-                                :
-                                <></>
-                            } */}
                             </>
 
                         :

@@ -11,37 +11,87 @@ import GetCSFR from "../../../hooks/GetCSFR";
 interface FormStructure {
     fullname: string,
     phonenumber: string,
-    address: string,
+    location: string,
     biography: string,
     primarySport: string,
     sportInterests: string[],
     experienceLevel: string,
     ageGroups: string[],
-    instagram: '',
-    facebook: '',
-    twitter: '',
-    tiktok: ''
+    instagram: string,
+    facebook: string,
+    twitter: string,
+    tiktok: string
 }
 
 interface FormProps {
-    displayForm: (value:boolean) => void
+    displayForm: (value:boolean) => void;
+    prevSavedData?: ProfileDetails;
 }
 
-export default function EditCoachProfileForm({displayForm}:FormProps){
+interface Review {
+    id: number;
+    title: string;
+    description: string;
+    rating: string;
+    date: string;
+}
+
+interface Service {
+    type: string;
+    title: string;
+    description: string;
+    duration: string;
+    frequency?: string;
+    target_audience?: string;
+    location?: string;
+    deliverable?: string;
+    price: number;
+}
+  
+interface ProfileDetails {
+    name: string;
+    email: string;
+    iscoach: boolean;
+    isathlete: boolean;
+    phonenumber: string;
+    profile: {
+        location: string;
+        biography: string;
+        primary_sport: string;
+        picture: string | null;
+        reviews: Review[];
+        rating: number;
+        instagram?: string,
+        facebook?: string,
+        twitter?: string,
+        tiktok?: string
+    };
+    preferences: {
+        experience_level: string;
+        goals?: string[];
+        sport_interests?: string[];
+        age_groups?: string[];
+        specialization?: string;
+        services?: Service[];
+    }
+}
+
+export default function EditCoachProfileForm({displayForm, prevSavedData}:FormProps){
     const [formData, setFormData] = useState<FormStructure>({
-        fullname: '',
-        phonenumber: '',
-        address: '',
-        biography: '',
-        primarySport: '',
-        sportInterests: [],
-        experienceLevel: '',
-        ageGroups: [],
-        instagram: '',
-        facebook: '',
-        twitter: '',
-        tiktok: ''
+        fullname: prevSavedData?.name || '',
+        phonenumber: prevSavedData?.phonenumber || '',
+        location: prevSavedData?.profile.location || '',
+        biography: prevSavedData?.profile.biography || '',
+        primarySport: prevSavedData?.profile.primary_sport ||'',
+        sportInterests: prevSavedData?.preferences.sport_interests || [],
+        experienceLevel: prevSavedData?.preferences.experience_level || '',
+        ageGroups: prevSavedData?.preferences.age_groups || [],
+        instagram: prevSavedData?.profile.instagram || '',
+        facebook: prevSavedData?.profile.facebook || '',
+        twitter: prevSavedData?.profile.twitter || '',
+        tiktok: prevSavedData?.profile.tiktok || ''
     })
+    const [currentPrimarySport, setCurrentPrimarySport] = useState<string>(prevSavedData?.profile.primary_sport || "")
     const [insideForm, setInsideForm] = useState<boolean>(false)
     const windowSize = GetWindowSize()
     const csrfToken = GetCSFR({ name: "csrftoken" })
@@ -177,6 +227,7 @@ export default function EditCoachProfileForm({displayForm}:FormProps){
             <div key={input.id} className="relative w-full mb-5 mt-5">
                 {input.type === 'textarea' ? (
                     <textarea
+                        id={input.id}
                         name={input.name}
                         className="form-input w-full border-main-grey-100 max-h-24 min-h-24"
                         placeholder={input.placeholder}
@@ -185,6 +236,7 @@ export default function EditCoachProfileForm({displayForm}:FormProps){
                     />
                 ) : (
                     <input
+                        id={input.id}
                         type={input.type}
                         name={input.name}
                         className="form-input w-full border-main-grey-100"
@@ -249,7 +301,7 @@ export default function EditCoachProfileForm({displayForm}:FormProps){
                         <p className="my-6">
                             Primary Sport
                         </p>
-                        {formData.sportInterests[0] !== '' ?
+                        {/* {formData.sportInterests[0] !== '' ?
                             formData.sportInterests.map((currSport,index)=>(
                                 <button 
                                     onClick={(e)=>{e.preventDefault(); setFormData({...formData, primarySport: currSport})}}
@@ -260,6 +312,30 @@ export default function EditCoachProfileForm({displayForm}:FormProps){
                                     {currSport}
                                 </button>
                             ))
+                        :
+                            <p className="text-sm text-main-grey-200 text-center my-4">
+                                No Primary Sport Available
+                            </p>
+                        } */}
+                        {formData.sportInterests.length !== 0 || prevSavedData?.profile.primary_sport ?
+                            <>
+                            {formData.sportInterests.map((currSport,index)=>(
+                                <button 
+                                    onClick={(e)=>{
+                                        e.preventDefault(); 
+                                        setFormData({...formData, primarySport: currSport});
+                                        setCurrentPrimarySport(currSport);
+                                    }}
+                                    key={index}
+                                    className={`py-2 px-4 rounded-xl mr-2 border border-main-grey-100 cursor-pointer
+                                        ${currentPrimarySport === currSport ? "bg-main-color-darkgreen text-white" : "bg-white text-black"}
+                                        hover:bg-main-color-lightgreen`}
+                                >
+                                    {currSport}
+                                </button>
+                            ))}
+                            </>
+
                         :
                             <p className="text-sm text-main-grey-200 text-center my-4">
                                 No Primary Sport Available

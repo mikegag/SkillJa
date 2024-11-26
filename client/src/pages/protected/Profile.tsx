@@ -101,7 +101,7 @@ const defaultProfileDetails: ProfileDetails = {
         sport_interests: [],
         age_groups: [],
         specialization: '',
-        services:[],
+        services: [],
     },
 }
 
@@ -154,7 +154,7 @@ export default function Profile(){
             <Header useCase="protected" />
             <div className="pb-4 px-8 lg:px-14 lg:mb-32">
             {profileDetails.isathlete && readyToDisplayProfileForm? <EditAthleteProfileForm displayForm={setReadyToDisplayProfileForm} prevSavedData={profileDetails} />:<></>}
-            {profileDetails.iscoach && readyToDisplayProfileForm? <EditCoachProfileForm displayForm={setReadyToDisplayProfileForm} />:<></>}
+            {profileDetails.iscoach && readyToDisplayProfileForm? <EditCoachProfileForm displayForm={setReadyToDisplayProfileForm} prevSavedData={profileDetails}/>:<></>}
             {profileDetails.iscoach && readyToDisplayServicesForm? <EditCoachServiceForm displayForm={setReadyToDisplayServicesForm}/>:<></>}
                 <div className="flex justify-center text-center mt-10">
                     <FontAwesomeIcon 
@@ -295,9 +295,9 @@ export default function Profile(){
                             <h2 className="text-2xl font-medium font-source mx-auto mb-6 text-center">
                                 Sessions and Packages
                             </h2>
-                            {profileDetails.preferences.services!.length > 0 ?
+                            {(profileDetails.preferences.services || []).length > 0 ?
                                 <>
-                                    {profileDetails.preferences.services!.map((currService, index) => (
+                                    {(profileDetails.preferences.services || []).map((currService, index) => (
                                     <div
                                         className="flex rounded-2xl py-2 px-5 mb-4 bg-main-white border border-main-grey-100 cursor-pointer hover:border-main-green-500 hover:shadow-md"
                                         onClick={()=>{
