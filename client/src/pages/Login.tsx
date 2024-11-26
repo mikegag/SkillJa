@@ -36,7 +36,7 @@ export default function Login(){
     function handleSubmit(e:React.FormEvent<HTMLFormElement>){
         e.preventDefault()
         setLoading(true)
-        axios.post('api/login/', formData, { 
+        axios.post('https://www.skillja.ca/login/', formData, { 
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'

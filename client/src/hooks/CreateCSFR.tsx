@@ -10,7 +10,7 @@ export default function CreateCSFR({ name }: CsfrProps): string | null {
     useEffect(() => {
         const fetchCsrfToken = async () => {
             try {
-                const res = await axios.get('api/csrf_token/',{ 
+                const res = await axios.get('https://www.skillja.ca/csrf_token/',{ 
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
