@@ -339,7 +339,7 @@
       "fullProgram": [
         {"label":"Full Training Program", "input":"title"},
         {"id":"title", "label":"Title", "input":"text", "placeholder":"Eg. Full Marathon Training Plan: 18 Weeks"},
-        {"id":"description", "label":"Description", "input":"textarea", "placeholder":"Eg. My Marathon Training Plan is designed for runners looking to improve their endurance and performance..."},
+        {"id":"description", "label":"Description", "input":"textarea", "placeholder":"Eg. This Training Plan is designed for runners looking to improve their endurance..."},
         {"id":"duration", "label":"Duration", "input":"text", "placeholder":"Eg. 18 Weeks..."},
         {"id":"frequency", "label":"Frequency", "input":"text", "placeholder":"Eg. 3-5 Sessions Per Week"},
         {"id":"targetAudience", "label":"Target Audience", "input":"text", "placeholder":"Eg. Intermediate to Advanced Runners"},
@@ -349,7 +349,7 @@
       "onlineProgram": [
         {"label":"Online Training Program", "input":"title"},
         {"id":"title", "label":"Title", "input":"text", "placeholder":"Eg. Couch to 10k Online Training Program"},
-        {"id":"description", "label":"Description", "input":"textarea", "placeholder":"Eg. My Marathon Training Plan is designed for runners looking to improve their endurance and performance..."},
+        {"id":"description", "label":"Description", "input":"textarea", "placeholder":"Eg. This Training Plan is designed for runners looking to improve their endurance..."},
         {"id":"duration", "label":"Duration", "input":"text", "placeholder":"Eg. 18 Weeks..."},
         {"id":"frequency", "label":"Frequency", "input":"text", "placeholder":"Eg. 3-5 Sessions Per Week"},
         {"id":"targetAudience", "label":"Target Audience", "input":"text", "placeholder":"Eg. Intermediate to Advanced Runners"},
@@ -359,7 +359,7 @@
       "individualSession": [
         {"label":"Individual Session", "input":"title"},
         {"id":"title", "label":"Title", "input":"text", "placeholder":"Eg. Couch to 10k Online Training Program"},
-        {"id":"description", "label":"Description", "input":"textarea", "placeholder":"Eg. My Marathon Training Plan is designed for runners looking to improve their endurance and performance..."},
+        {"id":"description", "label":"Description", "input":"textarea", "placeholder":"Eg. This Training Plan is designed for runners looking to improve their endurance..."},
         {"id":"duration", "label":"Duration", "input":"text", "placeholder":"Eg. 18 Weeks..."},
         {"id":"location", "label":"Location", "input":"text", "placeholder":"Where will you host this session?"},
         {"id":"price", "label":"Price", "input":"text", "placeholder":"Eg. $200"}

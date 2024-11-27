@@ -267,6 +267,7 @@ export default function EditAthleteProfileForm({displayForm, prevSavedData}:Form
                         <img 
                             src={require('../../../assets/default-avatar.jpg')} 
                             className="w-28 rounded-xl"
+                            alt={`profile picture of ${prevSavedData?.name}`}
                         />
                         <button 
                             onClick={(e)=>e.preventDefault() }

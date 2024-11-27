@@ -1,6 +1,5 @@
 import React from "react";
 import data from "../../../../data.json"
-import { formToJSON } from "axios";
 
 interface TemplateProps {
     useCase: 'full-program' | 'online-program' | 'individual-session';
@@ -44,14 +43,11 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
 
     return (
         <div className="p-3">
-            <p className="font-kulim mr-auto text-left mb-4">
-                Sessions & Packages
-            </p>
             <form 
                 onSubmit={handleSubmit} 
                 className="flex flex-col border border-main-grey-100 rounded-xl p-3"
             >
-                <h3 className="font-semibold mb-4">
+                <h3 className="font-semibold mb-4 font-kulim">
                     {formData[0].input === 'title'? formData[0].label : 'Title'}
                 </h3>
                 {formData.map((currInput, index)=>(
@@ -66,16 +62,17 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
                                 {currInput.label}
                             </label>
                             <input
+                                id={currInput.id}
                                 type={currInput.input}
                                 placeholder={savedInformation ? String(savedInformation[currInput.id as keyof SavedInformationType]) : currInput.placeholder}
-                                className="border border-main-grey-100 rounded-xl p-2 mb-2"
+                                className="form-input w-full border-main-grey-100"
                             />
                         </div>
                     :
                     <></>
                 ))}
                 <button 
-                    className="bg-main-green-500 rounded-xl py-2 px-4 my-4 mx-auto lg:w-72 text-main-white hover:bg-main-green-700"
+                    className="bg-main-green-500 rounded-xl p-3 my-4 mx-auto lg:w-72 text-main-white hover:bg-main-green-700"
                 >
                     Save
                 </button>

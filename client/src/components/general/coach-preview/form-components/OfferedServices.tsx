@@ -1,6 +1,6 @@
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect} from "react";
 import ServiceTemplate from "./ServiceTemplate";
 import data from "../../../../data.json"
 import axios from "axios";
@@ -70,7 +70,7 @@ export default function OfferedServices() {
             {createService ? (
                 !viewCreateService ? (
                     <>
-                        <p className="font-kulim mr-auto text-left mt-2 mb-4">
+                        <p className="font-kulim mr-auto text-left mt-2 mb-8">
                             What would you like to create?
                         </p>
                         {createServiceData.map((currentService, index)=>(
@@ -116,17 +116,17 @@ export default function OfferedServices() {
                                         <FontAwesomeIcon icon={faChevronRight} className="ml-auto my-auto" />
                                     </div>
                                 ))}
-                                <div role="presentation" className="h-1 bg-main-grey-200 rounded-full my-4"></div>
+                                <div role="presentation" className="h-0.5 bg-main-grey-200 rounded-full my-4"></div>
                             </>
                         ) : (
                             <>
                                 <p className="font-kulim mr-auto text-left mt-2 mb-4">
                                     Sessions & Packages
                                 </p>
-                                <p>
-                                    No Services Saved/Available
+                                <p className="text-sm font-kulim">
+                                    No Services Saved/Available.
                                 </p>
-                                <div role="presentation" className="h-1 bg-main-grey-200 rounded-full my-4"></div>
+                                <div role="presentation" className="h-1 bg-main-grey-200 rounded-full my-6"></div>
                             </>
                         )
                     ) : (

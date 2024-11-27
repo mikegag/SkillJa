@@ -40,11 +40,7 @@ export default function EditCoachServiceForm({displayForm}:FormProps){
                     <h3 className="text-lg font-medium font-source mx-auto text-center pl-6">
                         Edit Services
                     </h3>
-                    <p 
-                        className="text-main-grey-400 hover:text-main-green-500 ml-auto cursor-pointer"
-                    >
-                        Save
-                    </p>
+                    <p className="mx-auto"> </p>
                 </div>
                 <OfferedServices />
             </div>
