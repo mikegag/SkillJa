@@ -103,7 +103,7 @@ export default function EditAthleteProfileForm({displayForm, prevSavedData}:Form
                 if (res.status === 201) {
                     window.location.reload()
                 } else {
-                    console.error("signup failed")
+                    console.error("submission failed")
                 }
             })
             .catch(error => {

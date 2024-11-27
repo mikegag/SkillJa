@@ -252,7 +252,7 @@ export default function Profile(){
                             {profileDetails.iscoach? 
                                 <>
                                     <button 
-                                        className="py-2 px-4 mt-3 mb-3 w-full lg:w-fit lg:ml-44 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
+                                        className="py-2 px-4 mt-3 mb-4 w-full lg:w-fit lg:ml-44 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
                                         onClick={()=>setReadyToDisplayServicesForm(true)}
                                     >
                                         Edit Services

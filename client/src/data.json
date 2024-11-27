@@ -183,9 +183,9 @@
     "onboarding": {
           "coach":  [
             {"id":1, "property": "account_type"},
-            {"id":2, "property": "experience_level"},
-            {"id":3, "property": "age_groups"},
-            {"id":4, "property": "specialization"}
+            {"id":2, "property": "specialization"},
+            {"id":3, "property": "experience_level"},
+            {"id":4, "property": "age_groups"}
           ],
           "athlete": [
             {"id":1, "property": "account_type"},

@@ -210,6 +210,7 @@ def get_user_profile(request):
         return JsonResponse({'error': f'Related profile or preferences not found: {str(e)}'}, status=404)
 
 @require_POST
+@login_required
 def update_athlete_profile(request):
     try:
         # Extract the email from the cookie set when user logs in
@@ -268,6 +269,7 @@ def update_athlete_profile(request):
         return JsonResponse({'error': str(e)}, status=400)
 
 @require_POST
+@login_required
 def update_coach_profile(request):
     try:
         # Extract the email from the cookie set when user logs in
@@ -337,6 +339,7 @@ def update_coach_profile(request):
         return JsonResponse({'error': str(e)}, status=400)
 
 @require_GET
+@login_required
 def get_coach_profile(request):
     #need to follow structure in get_user_profile--------
     try:
@@ -366,6 +369,7 @@ def get_coach_profile(request):
         return JsonResponse({'error': f'An error occurred: {str(e)}'}, status = 500)
 
 @require_GET
+@login_required
 def get_coach_services(request):
     try:
         # Extract the email from the cookie

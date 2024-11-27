@@ -96,6 +96,7 @@ export default function EditCoachProfileForm({displayForm, prevSavedData}:FormPr
     const windowSize = GetWindowSize()
     const csrfToken = GetCSFR({ name: "csrftoken" })
 
+    // Handles form submission/saving
     function handleSubmit(e:React.FormEvent){
         e.preventDefault()
         axios.post('https://www.skillja.ca/update_coach_profile/', formData, {
@@ -110,7 +111,7 @@ export default function EditCoachProfileForm({displayForm, prevSavedData}:FormPr
                 if (res.status === 201) {
                     window.location.reload()
                 } else {
-                    console.error("signup failed")
+                    console.error("submission failed")
                 }
             })
             .catch(error => {
@@ -256,7 +257,11 @@ export default function EditCoachProfileForm({displayForm, prevSavedData}:FormPr
 
     return (
         <div className="pop-up-background" 
-            onClick={windowSize.width >=1024? ()=>handleExit(false): ()=>{}}
+            onClick={windowSize.width >=1024 ? 
+                ()=>handleExit(false) 
+            : 
+                undefined
+            }
         >
             <div 
                 className="pop-up-container h-4/6" 
@@ -275,6 +280,7 @@ export default function EditCoachProfileForm({displayForm, prevSavedData}:FormPr
                     </h3>
                     <p 
                         className="text-main-green-900 hover:text-main-green-500 ml-auto cursor-pointer"
+                        onClick={handleSubmit}
                     >
                         Save
                     </p>
