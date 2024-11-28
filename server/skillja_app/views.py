@@ -305,8 +305,8 @@ def update_coach_profile(request):
             if 'primarySport' in data and data['primarySport']:
                 coach_profile.primary_sport = data['primarySport']
 
-            if 'sportInterests' in data and data['specialization']:
-                coach_preferences.specialization = data['specialization']
+            if 'sportInterests' in data and data['sportInterests']:
+                coach_preferences.specialization = data['sportInterests']
 
             if 'experienceLevel' in data and data['experienceLevel']:
                 coach_preferences.experience_level = data['experienceLevel']

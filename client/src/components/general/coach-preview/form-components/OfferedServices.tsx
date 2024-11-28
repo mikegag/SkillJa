@@ -58,7 +58,7 @@ export default function OfferedServices() {
                 }
                 console.error('Error config:', error.config)
             })
-    },[services])
+    },[])
 
     function handleServiceClick(selectedService: SavedInformationType) {
         setServiceInformation(selectedService)
