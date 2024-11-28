@@ -234,6 +234,7 @@ export default function EditCoachProfileForm({displayForm, prevSavedData}:FormPr
                         placeholder={input.placeholder}
                         value={formData[input.name as keyof FormStructure] as string}
                         onChange={handleChange}
+                        maxLength={220}
                     />
                 ) : (
                     <input
@@ -244,6 +245,7 @@ export default function EditCoachProfileForm({displayForm, prevSavedData}:FormPr
                         placeholder={input.placeholder}
                         value={formData[input.name as keyof FormStructure] as string}
                         onChange={handleChange}
+                        maxLength={110}
                         data-index={input.index || ''}
                     />
                 )}

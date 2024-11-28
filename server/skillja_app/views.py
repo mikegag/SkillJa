@@ -341,32 +341,50 @@ def update_coach_profile(request):
 @require_GET
 @login_required
 def get_coach_profile(request):
-    #need to follow structure in get_user_profile--------
     try:
-        if request.method == 'GET':
-            id = request.GET.get('id')
-            # Retrieve coach instance safely
-            coach = get_object_or_404(User, id=id)
-            # Retrieve average review rating for coach
-            average_rating = calculate_coach_review(id) or 0
-            # Format the data
-            data = {
-                'fullname': coach.fullname,
-                'location': coach.coach_profile.location,
-                'specialization': coach.coach_preferences.specialization,
-                'experience': coach.coach_preferences.experience_level,
-                'biography': coach.coach_profile.biography,
-                'services': [service.id for service in coach.coach_profile.services.all()],
-                'reviews': [review.id for review in coach.coach_profile.reviews.all()],
+        # Retrieve coach instance and related models safely
+        coach_id = request.GET.get('id')
+        if not coach_id:
+            return JsonResponse({'error': 'Coach ID is required'}, status=400)
+
+        coach = get_object_or_404(User, id=coach_id)
+        coach_profile = coach.coachprofile
+        coach_preferences = coach.coachpreferences
+        coach_socialMedia = coach.socialmedia
+        
+        # Retrieve average review rating for coach
+        average_rating = calculate_coach_review(coach_id) or 0
+        
+        # Format the data
+        data = {
+            'profile': {
+                'location': coach_profile.location,
+                'biography': coach_profile.biography,
+                'primary_sport': coach_profile.primary_sport,
+                'picture': coach_profile.picture.url if coach_profile.picture else None,
+                'reviews': [review.id for review in coach_profile.reviews.all()],
+                'services': [service.id for service in coach_profile.services.all()],
                 'rating': average_rating,
-                'instagram': coach.coach_profile.social_media.instagram,
-                'facebook': coach.coach_profile.social_media.facebook,
-                'twitter': coach.coach_profile.social_media.twitter,
-                'tiktok': coach.coach_profile.social_media.tiktok
+                'social_media': {
+                    'instagram': coach_socialMedia.instagram,
+                    'facebook': coach_socialMedia.facebook,
+                    'twitter': coach_socialMedia.twitter,
+                    'tiktok': coach_socialMedia.tiktok
+                }
+            },
+            'preferences': {
+                'experience_level': coach_preferences.experience_level,
+                'age_groups': coach_preferences.age_groups or [],
+                'specialization': coach_preferences.specialization or [],
             }
-            return JsonResponse(data)
+        }
+
+        return JsonResponse(data)
+
     except Exception as e:
-        return JsonResponse({'error': f'An error occurred: {str(e)}'}, status = 500)
+        # Logging the error for easier debugging
+        logger.error(f"Error retrieving coach profile: {str(e)}")
+        return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
 
 @require_GET
 @login_required
@@ -391,6 +409,45 @@ def get_coach_services(request):
             return JsonResponse({'error': 'User is not a coach'}, status=400)
 
     except Exception as e:
+        return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
+
+@require_POST
+@login_required
+def create_coach_servce(request):
+    try:
+        # Extract the email from the cookie
+        email = request.COOKIES.get('user_email')
+        if not email:
+            return JsonResponse({'error': 'Email not found in cookies'}, status=400)
+
+        try:
+            # Retrieve the user using the email from the cookie
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'User not found with the provided email'}, status=404)
+
+        # Parse incoming JSON data
+        data = json.loads(request.body)
+
+        # Create a new Service entry
+        new_service = Service.objects.create(
+            user=user,
+            type=data['type'],
+            title=data['title'],
+            description=data['description'],
+            duration=data['duration'],
+            frequency=data.get('frequency', ''),
+            target_audience=data.get('targetAudience', ''),
+            location=data.get('location', ''),
+            deliverable=data.get('deliverable', ''), 
+            price=data['price']
+        )
+
+        # Return success response with new service data
+        return JsonResponse({'message': 'Service created successfully', 'service_id': new_service.id}, status=201)
+
+    except Exception as e:
+        # Log the error if needed for debugging
         return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
 
 @require_GET
