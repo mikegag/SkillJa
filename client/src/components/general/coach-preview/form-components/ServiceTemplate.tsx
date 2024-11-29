@@ -47,7 +47,7 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
                 onSubmit={handleSubmit} 
                 className="flex flex-col border border-main-grey-100 rounded-xl p-3"
             >
-                <h3 className="font-semibold mb-4 font-kulim">
+                <h3 className="font-semibold mb-4 font-kulim underline">
                     {formData[0].input === 'title'? formData[0].label : 'Title'}
                 </h3>
                 {formData.map((currInput, index)=>(
@@ -57,7 +57,7 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
                             className="flex flex-col"
                         >
                             <label
-                                className="my-2"
+                                className="my-2 font-kulim"
                             >
                                 {currInput.label}
                             </label>
@@ -65,7 +65,7 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
                                 id={currInput.id}
                                 type={currInput.input}
                                 placeholder={savedInformation ? String(savedInformation[currInput.id as keyof SavedInformationType]) : currInput.placeholder}
-                                className="form-input w-full border-main-grey-100"
+                                className="form-input w-full border-main-grey-100 px-2 mb-3"
                             />
                         </div>
                     :
