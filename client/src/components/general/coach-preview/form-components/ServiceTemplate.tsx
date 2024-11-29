@@ -72,7 +72,7 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
                     <></>
                 ))}
                 <button 
-                    className="bg-main-green-500 rounded-xl p-3 my-4 mx-auto lg:w-72 text-main-white hover:bg-main-green-700"
+                    className="bg-main-green-500 rounded-xl p-3 mb-3 mt-6 mx-auto lg:w-72 text-main-white hover:bg-main-green-700"
                 >
                     Save
                 </button>

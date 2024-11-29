@@ -296,7 +296,7 @@ def update_coach_profile(request):
             if 'phonenumber' in data and data['phonenumber']:
                 user.phonenumber = data['phonenumber']
 
-            if 'address' in data and data['location']:
+            if 'location' in data and data['location']:
                 coach_profile.location = data['location']
 
             if 'ageGroups' in data and data['ageGroups']:
