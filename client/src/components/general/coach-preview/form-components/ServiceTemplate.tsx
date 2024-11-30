@@ -103,6 +103,7 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
                         >
                             <label
                                 className="my-2 font-kulim"
+                                htmlFor={currInput.id}
                             >
                                 {currInput.label}
                             </label>

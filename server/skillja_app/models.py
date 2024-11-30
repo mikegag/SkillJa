@@ -140,7 +140,7 @@ class Service(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='services')
     type = models.CharField(max_length=22, choices = TYPE_CHOICES, default='individual-session')
     title = models.CharField(max_length=90)
-    description = models.TextField(validators=[MaxLengthValidator(300)])
+    description = models.CharField(max_length=230)
     duration = models.CharField(max_length=90, default='')
     frequency = models.CharField(max_length=90, blank=True, null=True)
     target_audience = models.CharField(max_length=90, blank=True, null=True)
