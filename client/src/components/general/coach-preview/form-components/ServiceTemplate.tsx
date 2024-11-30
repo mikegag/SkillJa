@@ -1,5 +1,7 @@
-import React from "react";
+import React from "react"
 import data from "../../../../data.json"
+import axios from "axios"
+import GetCSFR from "../../../../hooks/GetCSFR"
 
 interface TemplateProps {
     useCase: 'full-program' | 'online-program' | 'individual-session';
@@ -26,6 +28,7 @@ type SavedInformationType = {
 }
 
 export default function ServiceTemplate({useCase, savedInformation}:TemplateProps){
+    const csrfToken = GetCSFR({ name: "csrftoken" })
     let formData = data.CoachServiceForm.fullProgram as CoachServiceFormType
     if(useCase === 'full-program'){
         formData = data.CoachServiceForm.fullProgram as CoachServiceFormType
@@ -37,8 +40,38 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
         formData = data.CoachServiceForm.individualSession as CoachServiceFormType
     }
 
-    function handleSubmit(){
-        //api call
+    function handleSubmit(e:React.FormEvent){
+        e.preventDefault()
+        axios.post('https://www.skillja.ca/auth/profile/create-service/', formData, {
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true
+            })
+            .then(res => {
+                // Reload page to update profile information with new changes
+                if (res.status === 201) {
+                    window.location.reload()
+                } else {
+                    console.error("submission failed")
+                }
+            })
+            .catch(error => {
+                if (error.response) {
+                    // the server responded with a status code that falls out of the range of 2xx
+                    console.error('Error response:', error.response.data)
+                    console.error('Status:', error.response.status)
+                    console.error('Headers:', error.response.headers)
+                } else if (error.request) {
+                    // no response was received
+                    console.error('No response received:', error.request)
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.error('Error setting up request:', error.message)
+                }
+                console.error('Error config:', error.config)
+            })
     }
 
     return (

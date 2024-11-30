@@ -1,9 +1,6 @@
-import { faNewspaper } from "@fortawesome/free-regular-svg-icons";
-import { faLocationDot, faMedal, faPhone, faUser, faX } from "@fortawesome/free-solid-svg-icons";
+import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
-import Accordion from "../Accordion";
-import data from '../../../data.json'
+import React, { useState } from "react";
 import GetWindowSize from '../../../hooks/GetWindowSize'
 import OfferedServices from "./form-components/OfferedServices";
 

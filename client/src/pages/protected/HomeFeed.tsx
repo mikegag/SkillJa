@@ -27,7 +27,7 @@ export default function HomeFeed(){
     const currentWindow = GetWindowSize()
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
     const location = useLocation()
-    const [data, setData] = useState<dataResultsType>({results:[]} || null)
+    const [data, setData] = useState<dataResultsType>({ results: [] })
     const protectedRoute = isLoggedIn ? 'auth/coach' : '/login'
 
     useEffect(() => {
