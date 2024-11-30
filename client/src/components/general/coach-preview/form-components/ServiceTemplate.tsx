@@ -44,7 +44,7 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
     // submits newly created service
     function handleSubmit(e:React.FormEvent){
         e.preventDefault()
-        axios.post('https://www.skillja.ca/auth/profile/create-service/', serviceData, {
+        axios.post('https://www.skillja.ca/auth/profile/create_service/', serviceData, {
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'

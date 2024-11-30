@@ -160,6 +160,7 @@ export default function EditCoachProfileForm({displayForm, prevSavedData}:FormPr
     }
     // Toggle age group selection when buttons are clicked
     function handleButtonChange(e: React.MouseEvent<HTMLButtonElement>) {
+        e.preventDefault()
         const duplicateAnswer = formData.ageGroups.includes(e.currentTarget.value)
         const filteredInput = formData.ageGroups.filter(currInput=>currInput!==e.currentTarget.value)
         if(!duplicateAnswer){
@@ -341,7 +342,10 @@ export default function EditCoachProfileForm({displayForm, prevSavedData}:FormPr
                         <Accordion title="Individual Sports" style="border-main-grey-100">
                             {data.profileForms.coach.sportOptions.individual.map((option, index) => (
                                 <button 
-                                    onClick={(e)=>handleAccordionChange(e)}
+                                    onClick={(e)=>{
+                                        e.preventDefault()
+                                        handleAccordionChange(e);
+                                    }}
                                     key={`individual-${index}`} 
                                     value={option}
                                     aria-label={`team sports option for ${option}`}
@@ -354,7 +358,10 @@ export default function EditCoachProfileForm({displayForm, prevSavedData}:FormPr
                         <Accordion title="Team Sports" style="border-main-grey-100">
                             {data.profileForms.coach.sportOptions.team.map((option, index) => (
                                 <button 
-                                    onClick={(e)=>handleAccordionChange(e)}
+                                    onClick={(e)=>{
+                                        e.preventDefault()
+                                        handleAccordionChange(e)
+                                    }}
                                     key={`individual-${index}`} 
                                     value={option}
                                     aria-label={`team sports option for ${option}`}
