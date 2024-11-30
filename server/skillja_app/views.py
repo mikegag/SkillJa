@@ -412,6 +412,7 @@ def get_coach_services(request):
         return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
 
 @require_POST
+@login_required
 def create_coach_service(request):
     try:
         # Extract the email from the cookie
