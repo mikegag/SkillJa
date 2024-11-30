@@ -146,7 +146,7 @@ class Service(models.Model):
     target_audience = models.CharField(max_length=90, blank=True, null=True)
     location = models.CharField(max_length=90, blank=True, null=True)
     deliverable = models.CharField(max_length=210, blank=True, null=True)
-    price = models.DecimalField(max_digits=8, decimal_places=2)  
+    price = models.PositiveIntegerField(blank=True, null=True)  
 
     #tbd - deliverable = models.FileField(upload_to='service_files/', blank=True, null=True)
 
