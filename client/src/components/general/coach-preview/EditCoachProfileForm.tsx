@@ -99,7 +99,7 @@ export default function EditCoachProfileForm({displayForm, prevSavedData}:FormPr
     // Handles form submission/saving
     function handleSubmit(e:React.FormEvent){
         e.preventDefault()
-        axios.post('https://www.skillja.ca/auth/profileupdate_coach_profile/', formData, {
+        axios.post('https://www.skillja.ca/auth/profile/update_coach_profile/', formData, {
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'
