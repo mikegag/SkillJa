@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import data from "../../../../data.json"
 import axios from "axios"
 import GetCSFR from "../../../../hooks/GetCSFR"
@@ -13,6 +13,7 @@ type CoachServiceFormType = {
     label: string; 
     input: string; 
     placeholder?: string;
+    maxLength: number;
 }[]
 
 type SavedInformationType = {
@@ -28,6 +29,7 @@ type SavedInformationType = {
 }
 
 export default function ServiceTemplate({useCase, savedInformation}:TemplateProps){
+    const [serviceData, setServiceData] = useState({})
     const csrfToken = GetCSFR({ name: "csrftoken" })
     let formData = data.CoachServiceForm.fullProgram as CoachServiceFormType
     if(useCase === 'full-program'){
@@ -39,10 +41,10 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
     else if(useCase === 'individual-session'){
         formData = data.CoachServiceForm.individualSession as CoachServiceFormType
     }
-
+    // submits newly created service
     function handleSubmit(e:React.FormEvent){
         e.preventDefault()
-        axios.post('https://www.skillja.ca/auth/profile/create-service/', formData, {
+        axios.post('https://www.skillja.ca/auth/profile/create-service/', serviceData, {
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'
@@ -74,6 +76,12 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
             })
     }
 
+    // Handle input changes for text, text area, and button fields
+    function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+        const { name, value } = e.target
+        setServiceData(prevState => ({ ...prevState, [name]: value }))
+    }    
+
     return (
         <div className="p-3">
             <form 
@@ -98,7 +106,9 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
                                 id={currInput.id}
                                 type={currInput.input}
                                 placeholder={savedInformation ? String(savedInformation[currInput.id as keyof SavedInformationType]) : currInput.placeholder}
+                                maxLength={currInput.maxLength}
                                 className="form-input w-full border-main-grey-100 px-2 mb-3"
+                                onChange={handleChange}
                             />
                         </div>
                     :

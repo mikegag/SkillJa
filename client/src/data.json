@@ -338,31 +338,31 @@
     "CoachServiceForm": {
       "fullProgram": [
         {"label":"Full Training Program", "input":"title"},
-        {"id":"title", "label":"Title", "input":"text", "placeholder":"Eg. Full Marathon Training Plan: 18 Weeks"},
-        {"id":"description", "label":"Description", "input":"textarea", "placeholder":"Eg. This Training Plan is designed for runners looking to improve their endurance..."},
-        {"id":"duration", "label":"Duration", "input":"text", "placeholder":"Eg. 18 Weeks..."},
-        {"id":"frequency", "label":"Frequency", "input":"text", "placeholder":"Eg. 3-5 Sessions Per Week"},
-        {"id":"targetAudience", "label":"Target Audience", "input":"text", "placeholder":"Eg. Intermediate to Advanced Runners"},
-        {"id":"deliverable", "label":"What's Included", "input":"text", "placeholder":"Specify number of in-person sessions, and other deliverables"},
-        {"id":"price", "label":"Price", "input":"text", "placeholder":"Eg. $200"}
+        {"id":"title", "label":"Title", "input":"text", "placeholder":"Eg. Full Marathon Training Plan: 18 Weeks", "maxLength":70},
+        {"id":"description", "label":"Description", "input":"textarea", "placeholder":"Eg. This Training Plan is designed for runners looking to improve their endurance...", "maxLength":220},
+        {"id":"duration", "label":"Duration", "input":"text", "placeholder":"Eg. 18 Weeks...", "maxLength":80},
+        {"id":"frequency", "label":"Frequency", "input":"text", "placeholder":"Eg. 3-5 Sessions Per Week", "maxLength":80},
+        {"id":"targetAudience", "label":"Target Audience", "input":"text", "placeholder":"Eg. Intermediate to Advanced Runners", "maxLength":80},
+        {"id":"deliverable", "label":"What's Included", "input":"text", "placeholder":"Specify number of in-person sessions, and other deliverables", "maxLength":200},
+        {"id":"price", "label":"Price", "input":"number", "placeholder":"Eg. $200", "maxLength": 7}
       ],
       "onlineProgram": [
         {"label":"Online Training Program", "input":"title"},
-        {"id":"title", "label":"Title", "input":"text", "placeholder":"Eg. Couch to 10k Online Training Program"},
-        {"id":"description", "label":"Description", "input":"textarea", "placeholder":"Eg. This Training Plan is designed for runners looking to improve their endurance..."},
-        {"id":"duration", "label":"Duration", "input":"text", "placeholder":"Eg. 18 Weeks..."},
-        {"id":"frequency", "label":"Frequency", "input":"text", "placeholder":"Eg. 3-5 Sessions Per Week"},
-        {"id":"targetAudience", "label":"Target Audience", "input":"text", "placeholder":"Eg. Intermediate to Advanced Runners"},
-        {"id":"deliverable", "label":"What's Included", "input":"text", "placeholder":"Specify number of in-person sessions, and other deliverables"},
-        {"id":"price", "label":"Price", "input":"text", "placeholder":"Eg. $200"}
+        {"id":"title", "label":"Title", "input":"text", "placeholder":"Eg. Couch to 10k Online Training Program", "maxLength":70},
+        {"id":"description", "label":"Description", "input":"textarea", "placeholder":"Eg. This Training Plan is designed for runners looking to improve their endurance...", "maxLength":220},
+        {"id":"duration", "label":"Duration", "input":"text", "placeholder":"Eg. 18 Weeks...", "maxLength":80},
+        {"id":"frequency", "label":"Frequency", "input":"text", "placeholder":"Eg. 3-5 Sessions Per Week", "maxLength":80},
+        {"id":"targetAudience", "label":"Target Audience", "input":"text", "placeholder":"Eg. Intermediate to Advanced Runners", "maxLength":80},
+        {"id":"deliverable", "label":"What's Included", "input":"text", "placeholder":"Specify number of in-person sessions, and other deliverables", "maxLength":200},
+        {"id":"price", "label":"Price", "input":"number", "placeholder":"Eg. $200", "maxLength": 7}
       ],
       "individualSession": [
         {"label":"Individual Session", "input":"title"},
         {"id":"title", "label":"Title", "input":"text", "placeholder":"Eg. Couch to 10k Online Training Program"},
-        {"id":"description", "label":"Description", "input":"textarea", "placeholder":"Eg. This Training Plan is designed for runners looking to improve their endurance..."},
-        {"id":"duration", "label":"Duration", "input":"text", "placeholder":"Eg. 18 Weeks..."},
-        {"id":"location", "label":"Location", "input":"text", "placeholder":"Where will you host this session?"},
-        {"id":"price", "label":"Price", "input":"text", "placeholder":"Eg. $200"}
+        {"id":"description", "label":"Description", "input":"textarea", "placeholder":"Eg. This Training Plan is designed for runners looking to improve their endurance...", "maxLength":200},
+        {"id":"duration", "label":"Duration", "input":"text", "placeholder":"Eg. 18 Weeks...", "maxLength":80},
+        {"id":"location", "label":"Location", "input":"text", "placeholder":"Where will you host this session?", "maxLength":80},
+        {"id":"price", "label":"Price", "input":"number", "placeholder":"Eg. $200", "maxLength": 7}
       ],
       "serviceOptions": [
         {"type":"full-program","title":"Create Full Training Program", "subtitle":"Long term program focused on larger events"},

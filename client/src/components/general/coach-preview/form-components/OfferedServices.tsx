@@ -103,7 +103,7 @@ export default function OfferedServices() {
                                 <p className="font-kulim mr-auto text-left mt-2 mb-4">
                                     Sessions & Packages
                                 </p>
-                                {services.map((currService, index) => (
+                                {services && services.length > 0 && services.map((currService, index) => (
                                     <div 
                                         className="flex border border-main-grey-100 text-main-green-900 rounded-xl py-2 px-4 my-2 font-kulim cursor-pointer hover:bg-main-green-500 hover:text-main-white"
                                         key={index}
