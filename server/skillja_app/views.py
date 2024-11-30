@@ -413,7 +413,7 @@ def get_coach_services(request):
 
 @require_POST
 @login_required
-def create_coach_servce(request):
+def create_coach_service(request):
     try:
         # Extract the email from the cookie
         email = request.COOKIES.get('user_email')
