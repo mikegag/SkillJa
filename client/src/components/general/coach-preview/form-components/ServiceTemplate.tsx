@@ -29,18 +29,21 @@ type SavedInformationType = {
 }
 
 export default function ServiceTemplate({useCase, savedInformation}:TemplateProps){
-    const [serviceData, setServiceData] = useState({})
     const csrfToken = GetCSFR({ name: "csrftoken" })
-    let formData = data.CoachServiceForm.fullProgram as CoachServiceFormType
-    if(useCase === 'full-program'){
-        formData = data.CoachServiceForm.fullProgram as CoachServiceFormType
-    }
-    else if(useCase === 'online-program'){
-        formData = data.CoachServiceForm.onlineProgram as CoachServiceFormType
-    }
-    else if(useCase === 'individual-session'){
-        formData = data.CoachServiceForm.individualSession as CoachServiceFormType
-    }
+    let formData = data.CoachServiceForm[useCase] as CoachServiceFormType
+
+    const [serviceData, setServiceData] = useState<SavedInformationType>({
+        type: useCase || "",
+        title: formData[0]?.label || "",
+        description: "",
+        duration: "",
+        frequency: "",
+        targetAudience: "",
+        location: "",
+        deliverable: "",
+        price: 0,
+    })
+
     // submits newly created service
     function handleSubmit(e:React.FormEvent){
         e.preventDefault()
