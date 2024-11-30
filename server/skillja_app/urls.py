@@ -18,5 +18,5 @@ urlpatterns = [
     path('auth/profile/services/', views.get_coach_services, name='coach_services'),
     path('auth/profile/update_athlete_profile/', views.update_athlete_profile, name='update_athlete_profile'),
     path('auth/profile/update_coach_profile/', views.update_coach_profile, name='update_coach_profile'),
-    path('auth/profile/create_service/', views.create_coach_servce, name='create_coach_service')
+    path('auth/profile/create_service/', views.create_coach_service, name='create_coach_service')
 ]   
