@@ -86,7 +86,7 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
         <div className="p-3">
             <form 
                 onSubmit={handleSubmit} 
-                className="flex flex-col border border-main-grey-100 rounded-xl p-3"
+                className="flex flex-col border border-main-grey-100 rounded-xl p-4"
             >
                 <h3 className="font-semibold mb-4 font-kulim underline">
                     {formData[0].input === 'title'? formData[0].label : 'Title'}
@@ -105,10 +105,12 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
                             <input
                                 id={currInput.id}
                                 type={currInput.input}
+                                name={currInput.id}
                                 placeholder={savedInformation ? String(savedInformation[currInput.id as keyof SavedInformationType]) : currInput.placeholder}
                                 maxLength={currInput.maxLength}
-                                className="form-input w-full border-main-grey-100 px-2 mb-3"
+                                className="form-input w-full border-main-grey-100 px-3 mb-3"
                                 onChange={handleChange}
+                                required
                             />
                         </div>
                     :

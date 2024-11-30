@@ -447,7 +447,6 @@ def create_coach_servce(request):
         return JsonResponse({'message': 'Service created successfully', 'service_id': new_service.id}, status=201)
 
     except Exception as e:
-        # Log the error if needed for debugging
         return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
 
 @require_GET
