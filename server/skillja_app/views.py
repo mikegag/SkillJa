@@ -422,7 +422,7 @@ def create_coach_service(request):
 
         try:
             # Retrieve the user using the email from the cookie
-            user = User.objects.get(email=email)
+            coach = User.objects.get(email=email)
         except User.DoesNotExist:
             return JsonResponse({'error': 'User not found with the provided email'}, status=404)
 
@@ -431,7 +431,7 @@ def create_coach_service(request):
 
         # Create a new Service entry
         new_service = Service.objects.create(
-            user=user,
+            user=coach,
             type=data['type'],
             title=data['title'],
             description=data['description'],
@@ -442,7 +442,8 @@ def create_coach_service(request):
             deliverable=data.get('deliverable', ''), 
             price=data['price']
         )
-
+        coach.save()
+        new_service.save()
         # Return success response with new service data
         return JsonResponse({'message': 'Service created successfully', 'service_id': new_service.id}, status=201)
 
