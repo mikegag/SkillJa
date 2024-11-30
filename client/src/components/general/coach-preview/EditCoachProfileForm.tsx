@@ -71,7 +71,7 @@ interface ProfileDetails {
         goals?: string[];
         sport_interests?: string[];
         age_groups?: string[];
-        specialization?: string;
+        specialization?: string[];
         services?: Service[];
     }
 }
@@ -82,8 +82,8 @@ export default function EditCoachProfileForm({displayForm, prevSavedData}:FormPr
         phonenumber: prevSavedData?.phonenumber || '',
         location: prevSavedData?.profile.location || '',
         biography: prevSavedData?.profile.biography || '',
-        primarySport: prevSavedData?.profile.primary_sport ||'',
-        sportInterests: prevSavedData?.preferences.sport_interests || [],
+        primarySport: prevSavedData?.profile.primary_sport || '',
+        sportInterests: prevSavedData?.preferences.specialization || [],
         experienceLevel: prevSavedData?.preferences.experience_level || '',
         ageGroups: prevSavedData?.preferences.age_groups || [],
         instagram: prevSavedData?.profile.instagram || '',
@@ -327,7 +327,7 @@ export default function EditCoachProfileForm({displayForm, prevSavedData}:FormPr
                                 >
                                     {currSport}
                                 </button>
-                            ))}
+                            ))} 
                             </>
 
                         :

@@ -58,7 +58,7 @@ interface ProfileDetails {
         goals?: string[];
         sport_interests?: string[];
         age_groups?: string[];
-        specialization?: string;
+        specialization?: string[];
         services?: Service[];
     }
 }
@@ -100,7 +100,7 @@ const defaultProfileDetails: ProfileDetails = {
         goals: [],
         sport_interests: [],
         age_groups: [],
-        specialization: '',
+        specialization: [],
         services: [],
     },
 }

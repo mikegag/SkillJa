@@ -67,7 +67,7 @@ interface ProfileDetails {
         goals?: string[];
         sport_interests?: string[];
         age_groups?: string[];
-        specialization?: string;
+        specialization?: string[];
         services?: Service[];
     }
 }
