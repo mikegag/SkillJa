@@ -113,6 +113,7 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
                                 maxLength={currInput.maxLength}
                                 className="form-input w-full border-main-grey-100 px-3 mb-3"
                                 onChange={handleChange}
+                                autoComplete="on"
                                 required
                             />
                         </div>
