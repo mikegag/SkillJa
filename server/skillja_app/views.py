@@ -16,6 +16,7 @@ from django.views.decorators.http import require_POST, require_GET
 from django.contrib.auth.decorators import login_required
 from .utils import calculate_price_deviance, calculate_coach_cost, calculate_coach_review
 
+# Authentication methods ----------------------------------------
 def index(request):
     return render(request, 'index.html')
 
@@ -87,6 +88,19 @@ def sign_up(request):
 
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
+@require_GET
+def auth_status(request):
+    if request.user.is_authenticated:
+        return JsonResponse({
+            'is_logged_in': True,
+            'email': request.user.email
+        })
+    else:
+        return JsonResponse({
+            'is_logged_in': False,
+            'username': None
+        })
+
 @require_POST
 def onboarding_user(request):
     try:
@@ -132,6 +146,8 @@ def onboarding_user(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
 
+
+# Profile (Athlete & Coach) methods -----------------------------
 @require_GET
 @login_required
 def get_user_profile(request):
@@ -466,6 +482,8 @@ def create_coach_service(request):
     except Exception as e:
         return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
 
+
+# Search methods ------------------------------------------------
 @require_GET
 def search(request):
     try:
@@ -573,19 +591,6 @@ def random_profiles(request):
     except Exception as e:
         return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
 
-@require_GET
-def auth_status(request):
-    if request.user.is_authenticated:
-        return JsonResponse({
-            'is_logged_in': True,
-            'email': request.user.email
-        })
-    else:
-        return JsonResponse({
-            'is_logged_in': False,
-            'username': None
-        })
-
 
 # Stripe methods ------------------------------------------------
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
@@ -641,8 +646,8 @@ def create_stripe_checkout(request):
             service = coach.services.get(id=service_id)
 
             checkout_session = stripe.checkout.Session.create(
-                success_url='https://skillja.ca/' + 'success?session_id={CHECKOUT_SESSION_ID}&coach_id={coach_id}',
-                cancel_url='https://skillja.ca/' + 'cancelled/',
+                success_url='https://skillja.ca/' + 'order/success?session_id={CHECKOUT_SESSION_ID}&coach_id={coach_id}',
+                cancel_url='https://skillja.ca/' + 'order/cancelled',
                 payment_method_types=['card'],
                 mode='payment',
                 line_items=[
@@ -713,14 +718,12 @@ def getRoutes(request):
         {
             'Endpoint': '/auth/onboarding/',
             'method': 'POST',
-            'body': {
-                'experience_level': 'string',
-                'age_groups': 'string (comma-separated for coaches) or null',
-                'specialization': 'string (comma-separated for coaches) or null',
-                'goals': 'string (comma-separated for athletes) or null',
-                'sport_interests': 'string (comma-separated for athletes) or null'
-            },
             'description': 'Saves onboarding preferences for the logged-in user, either as a coach or athlete.'
+        },
+        {
+            'Endpoint': '/auth_status',
+            'method': 'GET',
+            'description': 'checks if user has a valid session id and is currently logged in'
         },
         {
             'Endpoint': '/auth/coach/',
@@ -730,12 +733,27 @@ def getRoutes(request):
         {
             'Endpoint': '/auth/profile/',
             'method': 'GET',
-            'description': 'Retrieves the profile details of the logged-in user.'
+            'description': 'Retrieves the profile details of the logged-in user (Either athlete or coach).'
         },
         {
             'Endpoint': '/auth/profile/services',
             'method': 'GET',
             'description': 'Retrieves the services offered by a coach'
+        },
+        {
+            'Endpoint': '/update_athlete_profile',
+            'method': 'POST',
+            'description': 'updates an athletes profile'
+        },
+        {
+            'Endpoint': '/update_coach_profile',
+            'method': 'POST',
+            'description': 'updates a coaches profile'
+        },
+        {
+            'Endpoint': '/create_coach_service',
+            'method': 'POST',
+            'description': 'creates a new service for a coach'
         },
         {
             'Endpoint': '/search',
@@ -748,19 +766,24 @@ def getRoutes(request):
             'description': 'Retrieves a set amount of random coach profiles based on given query terms'
         },
         {
-            'Endpoint': '/auth_status',
+            "Endpoint": "/stripe/config/",
+            "method": "GET",
+            "description": "Returns the public Stripe API key from environment variables. Required for initializing Stripe on the frontend."
+        },
+        {
+            "Endpoint": "/stripe/get_order_details/",
+            "method": "GET",
+            "description": "Retrieves the details of a Stripe checkout session using the session ID. Returns the session's customer email, payment status, total amount, and purchased items."
+        },
+        {
+            "Endpoint": "/stripe/create_stripe_checkout/",
+            "method": "GET",
+            "description": "Creates a Stripe checkout session for a specific service and coach. Returns the session ID for initiating the checkout process."
+        },
+        {
+            'Endpoint': '/custom_500',
             'method': 'GET',
-            'description': 'checks if user has a valid session id and is currently logged in'
-        },
-        {
-            'Endpoint': '/update_athlete_profile',
-            'method': 'POST',
-            'description': 'updates an athletes profile'
-        },
-        {
-            'Endpoint': '/update_coach_profile',
-            'method': 'POST',
-            'description': 'updates a coaches profile'
+            'description': 'returns a custom template when error=500 occurs'
         },
         {
             'Endpoint': '/api/routes/',
