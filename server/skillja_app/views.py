@@ -1,4 +1,4 @@
-import json
+import json, os, stripe
 from venv import logger
 from django.db import IntegrityError
 from django.shortcuts import redirect, get_object_or_404, render
@@ -401,10 +401,26 @@ def get_coach_services(request):
             return JsonResponse({'error': 'Coach not found'}, status=404)
 
         if coach.iscoach:
+            # Access related services through the `services` related name
+            services = coach.services.all()
             data = {
-                'services': [service.id for service in coach.coach_profile.services.all()]
+                'services': [
+                    {
+                        'id': service.id,
+                        'type': service.type,
+                        'title': service.title,
+                        'description': service.description,
+                        'duration': service.duration,
+                        'price': service.price,
+                        'location': service.location,
+                        'deliverable': service.deliverable,
+                        'frequency': service.frequency,
+                        'targetAudience': service.target_audience
+                    }
+                    for service in services
+                ]
             }
-            return JsonResponse(data)
+            return JsonResponse(data, safe=False)
         else:
             return JsonResponse({'error': 'User is not a coach'}, status=400)
 
@@ -570,6 +586,86 @@ def auth_status(request):
             'username': None
         })
 
+
+# Stripe methods ------------------------------------------------
+stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
+
+@require_GET
+@login_required
+def stripe_config(request):
+    stripe_config = {'publicKey': os.getenv('STRIPE_PUBLIC_kEY')}
+    return JsonResponse(stripe_config, safe=False)
+
+@require_GET
+@login_required
+def get_order_details(request):
+    try:
+        # Extract the session ID from the request
+        session_id = request.GET.get('session_id')
+
+        if not session_id:
+            return JsonResponse({'error': 'session_id is required'}, status=400)
+
+        # Retrieve the session details using the session ID
+        session = stripe.checkout.Session.retrieve(session_id)
+
+        # Extract order details from the session
+        order_details = {
+            'session_id': session.id,
+            'customer_email': session.customer_email,
+            'payment_status': session.payment_status,
+            'amount_total': session.amount_total,
+            'line_items': session.line_items.data,  # List of items purchased
+        }
+        return JsonResponse(order_details)
+
+    except stripe.error.StripeError as e:
+        return JsonResponse({'error': str(e)}, status=500)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+    
+@require_GET
+@login_required
+def create_stripe_checkout(request):
+        try:
+            # Extract query parameters
+            service_id = request.GET.get('service_id')
+            coach_id = request.GET.get('coach_id')
+
+            # Validate the input
+            if not service_id or not coach_id:
+                return JsonResponse({'error': 'service_id and coach_id are required'}, status=400)
+
+            # Validate the coach and service
+            coach = User.objects.get(id=coach_id, iscoach=True)
+            service = coach.services.get(id=service_id)
+
+            checkout_session = stripe.checkout.Session.create(
+                success_url='https://skillja.ca/' + 'success?session_id={CHECKOUT_SESSION_ID}&coach_id={coach_id}',
+                cancel_url='https://skillja.ca/' + 'cancelled/',
+                payment_method_types=['card'],
+                mode='payment',
+                line_items=[
+                    {
+                        'name': service.title,
+                        'quantity': 1,
+                        'currency': 'cad',
+                        'amount': service.price,
+                    }
+                ],
+                automatic_tax={'enabled': False}
+            )
+            return JsonResponse({'sessionId': checkout_session['id']})
+        
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'Coach not found'}, status=404)
+        except Service.DoesNotExist:
+            return JsonResponse({'error': 'Service not found for this coach'}, status=404)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+
+# Custom HTTP response methods ----------------------------------
 def custom_500(request):
     return render(request, '500.html', status=500)
 
