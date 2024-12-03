@@ -113,8 +113,8 @@ class CoachProfile(models.Model):
     location = models.CharField(max_length=100, default='No Location Specified')
     biography = models.CharField(max_length=255, default='No Biography Specified')
     picture = models.ImageField(upload_to='coach_pictures/', blank=True, null=True)
-    services = models.ManyToManyField('Service', related_name='coach_profile', blank=True)
-    reviews = models.ManyToManyField('Review', related_name='coach_profile', blank=True)
+    services = models.ManyToManyField('Service', related_name='coach_profiles', blank=True)
+    reviews = models.ManyToManyField('Review', related_name='coach_profiles', blank=True) 
     social_media = models.OneToOneField('SocialMedia', on_delete=models.CASCADE, related_name='coach_profile', null=True, blank=True)
 
     def __str__(self):
