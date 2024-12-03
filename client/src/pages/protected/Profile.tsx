@@ -319,7 +319,7 @@ export default function Profile(){
                                     ))}
                                 </>
                             :
-                                <p className="mx-auto">No sessions are currently available</p>
+                                <p className="mx-auto">No services are currently available</p>
                             }
                         </>
                     }

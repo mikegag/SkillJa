@@ -38,7 +38,7 @@ export default function OfferedServices() {
         }) 
             .then(res => {
                 if (res.status === 200) {
-                    setServices(res.data)
+                    setServices(res.data.services)
                 } else {
                     console.error("Failed to retrieve services")
                 }
