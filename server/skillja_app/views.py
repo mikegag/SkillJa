@@ -456,7 +456,7 @@ def create_coach_service(request):
 
         # Create a new Service entry
         new_service = Service.objects.create(
-            coach_profile=coach,
+            coach_profile=coach_profile,
             type=data['type'],
             title=data['title'],
             description=data['description'],
