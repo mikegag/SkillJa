@@ -422,7 +422,7 @@ def get_coach_services(request):
             # Access related services through the `coach_profile` related name
             coach_profile = coach.coach_profile
             services = coach_profile.services.all()
-            
+
             # Generate response data with model_to_dict to include all fields of the service
             service_data = [model_to_dict(service) for service in services]
 
@@ -456,7 +456,7 @@ def create_coach_service(request):
 
         # Create a new Service entry
         new_service = Service.objects.create(
-            user=coach,
+            coach_profile=coach,
             type=data['type'],
             title=data['title'],
             description=data['description'],
