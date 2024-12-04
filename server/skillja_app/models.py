@@ -137,7 +137,7 @@ class Service(models.Model):
         ('online-program', 'online-program'),
         ('individual-session','individual-session')
     )
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='services')
+    coach_profile = models.ForeignKey('CoachProfile', on_delete=models.CASCADE, related_name='services')
     type = models.CharField(max_length=25, choices = TYPE_CHOICES, default='individual-session')
     title = models.CharField(max_length=110)
     description = models.CharField(max_length=240)

@@ -417,8 +417,9 @@ def get_coach_services(request):
             return JsonResponse({'error': 'Coach not found'}, status=404)
 
         if coach.iscoach:
-            # Access related services through the `services` related name
-            services = coach.services.all()
+            # Access related services through the `coach_profile` related name
+            coach_profile = coach.coach_profile
+            services = coach_profile.services.all()
             data = {
                 'services': [
                     {
@@ -458,6 +459,9 @@ def create_coach_service(request):
         except User.DoesNotExist:
             return JsonResponse({'error': 'User not found with the provided email'}, status=404)
 
+        # Retrieve the CoachProfile for this user
+        coach_profile = coach.coach_profile
+
         # Parse incoming JSON data
         data = json.loads(request.body)
 
@@ -474,8 +478,12 @@ def create_coach_service(request):
             deliverable=data.get('deliverable', ''), 
             price=data['price']
         )
+
+        # Add the service to the CoachProfile's services
+        coach_profile.services.add(new_service)
         coach.save()
         new_service.save()
+        
         # Return success response with new service data
         return JsonResponse({'message': 'Service created successfully', 'service_id': new_service.id}, status=201)
 
