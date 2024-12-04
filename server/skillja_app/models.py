@@ -113,7 +113,7 @@ class CoachProfile(models.Model):
     location = models.CharField(max_length=100, default='No Location Specified')
     biography = models.CharField(max_length=255, default='No Biography Specified')
     picture = models.ImageField(upload_to='coach_pictures/', blank=True, null=True)
-    services = models.ManyToManyField('Service', related_name='coach_profiles', blank=True)
+    services = models.ManyToManyField('Service', related_name='coach_services', blank=True)
     reviews = models.ManyToManyField('Review', related_name='coach_profiles', blank=True) 
     social_media = models.OneToOneField('SocialMedia', on_delete=models.CASCADE, related_name='coach_profile', null=True, blank=True)
 
@@ -137,7 +137,7 @@ class Service(models.Model):
         ('online-program', 'online-program'),
         ('individual-session','individual-session')
     )
-    coach_profile = models.ForeignKey('CoachProfile', on_delete=models.CASCADE, related_name='services')
+    coach_profile = models.ForeignKey('CoachProfile', on_delete=models.CASCADE, related_name='services_offered',null=True, blank=True )
     type = models.CharField(max_length=25, choices = TYPE_CHOICES, default='individual-session')
     title = models.CharField(max_length=110)
     description = models.CharField(max_length=240)

@@ -1,3 +1,4 @@
+from django.forms import model_to_dict
 import json, os, stripe
 from venv import logger
 from django.db import IntegrityError
@@ -200,8 +201,8 @@ def get_user_profile(request):
                     'biography': coach_profile.biography,
                     'primary_sport': coach_profile.primary_sport,
                     'picture': coach_profile.picture.url if coach_profile.picture else None,
-                    'reviews': [review.id for review in coach_profile.reviews.all()],
-                    'services': [service.id for service in coach_profile.services.all()],
+                    'reviews': [model_to_dict(review) for review in coach_profile.reviews.all()],
+                    'services': [model_to_dict(service) for service in coach_profile.services.all()],
                     'rating': average_rating,
                     'instagram': coach_socialMedia.instagram,
                     'facebook': coach_socialMedia.facebook,
@@ -363,10 +364,11 @@ def get_coach_profile(request):
         if not coach_id:
             return JsonResponse({'error': 'Coach ID is required'}, status=400)
 
-        coach = get_object_or_404(User, id=coach_id)
-        coach_profile = coach.coachprofile
-        coach_preferences = coach.coachpreferences
-        coach_socialMedia = coach.socialmedia
+        # Get the user object
+        user = User.objects.get(id=coach_id)
+        coach_preferences, created = CoachPreferences.objects.get_or_create(user=user)
+        coach_profile, created = CoachProfile.objects.get_or_create(user=user)
+        coach_social_media, created = SocialMedia.objects.get_or_create(user=user)
         
         # Retrieve average review rating for coach
         average_rating = calculate_coach_review(coach_id) or 0
@@ -378,14 +380,14 @@ def get_coach_profile(request):
                 'biography': coach_profile.biography,
                 'primary_sport': coach_profile.primary_sport,
                 'picture': coach_profile.picture.url if coach_profile.picture else None,
-                'reviews': [review.id for review in coach_profile.reviews.all()],
-                'services': [service.id for service in coach_profile.services.all()],
+                'reviews': [model_to_dict(review) for review in coach_profile.reviews.all()],
+                'services': [model_to_dict(service) for service in coach_profile.services.all()],
                 'rating': average_rating,
                 'social_media': {
-                    'instagram': coach_socialMedia.instagram,
-                    'facebook': coach_socialMedia.facebook,
-                    'twitter': coach_socialMedia.twitter,
-                    'tiktok': coach_socialMedia.tiktok
+                    'instagram': coach_social_media.instagram,
+                    'facebook': coach_social_media.facebook,
+                    'twitter': coach_social_media.twitter,
+                    'tiktok': coach_social_media.tiktok
                 }
             },
             'preferences': {
@@ -420,24 +422,11 @@ def get_coach_services(request):
             # Access related services through the `coach_profile` related name
             coach_profile = coach.coach_profile
             services = coach_profile.services.all()
-            data = {
-                'services': [
-                    {
-                        'id': service.id,
-                        'type': service.type,
-                        'title': service.title,
-                        'description': service.description,
-                        'duration': service.duration,
-                        'price': service.price,
-                        'location': service.location,
-                        'deliverable': service.deliverable,
-                        'frequency': service.frequency,
-                        'targetAudience': service.target_audience
-                    }
-                    for service in services
-                ]
-            }
-            return JsonResponse(data, safe=False)
+            
+            # Generate response data with model_to_dict to include all fields of the service
+            service_data = [model_to_dict(service) for service in services]
+
+            return JsonResponse({'services': service_data}, safe=False)
         else:
             return JsonResponse({'error': 'User is not a coach'}, status=400)
 
@@ -483,7 +472,7 @@ def create_coach_service(request):
         coach_profile.services.add(new_service)
         coach.save()
         new_service.save()
-        
+
         # Return success response with new service data
         return JsonResponse({'message': 'Service created successfully', 'service_id': new_service.id}, status=201)
 
