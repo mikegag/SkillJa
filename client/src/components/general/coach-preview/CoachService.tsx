@@ -1,6 +1,8 @@
 import { faX } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import axios from "axios";
 import React, { useState } from "react"
+import GetCSFR from "../../../hooks/GetCSFR";
 
 interface Service {
     type: string;
@@ -21,11 +23,45 @@ interface ServiceProps {
 
 export default function CoachService({exitView, data}:ServiceProps){
     const [insideModal, setInsideModal] = useState<boolean>(false)
+    const csrfToken = GetCSFR({ name: "csrftoken" })
 
     function handleExit(value:boolean){
         if(insideModal === false){
             exitView(value)
         }
+    }
+
+    function handleSubmit(e:React.FormEvent){
+        e.preventDefault()
+        axios.post('https://www.skillja.ca/stripe/create_stripe_checkout/', data, {
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true
+            })
+            .then(res => {
+                if (res.status === 200) {
+                    window.location.reload()
+                } else {
+                    console.error("transaction failed")
+                }
+            })
+            .catch(error => {
+                if (error.response) {
+                    // the server responded with a status code that falls out of the range of 2xx
+                    console.error('Error response:', error.response.data)
+                    console.error('Status:', error.response.status)
+                    console.error('Headers:', error.response.headers)
+                } else if (error.request) {
+                    // no response was received
+                    console.error('No response received:', error.request)
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.error('Error setting up request:', error.message)
+                }
+                console.error('Error config:', error.config)
+            })
     }
 
     return (
@@ -82,7 +118,12 @@ export default function CoachService({exitView, data}:ServiceProps){
                         / {data.type.includes('program')? 'Program': 'Session'}
                     </span>
                 </p>
-                <button className="form-btn mt-8 py-2">Purchase Now</button>
+                <button 
+                    className="form-btn mt-8 py-2"
+                    onClick={(e)=>handleSubmit}
+                >
+                    Purchase Now
+                </button>
             </div>
         </div>
     )

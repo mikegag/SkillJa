@@ -47,6 +47,7 @@ interface ProfileDetails {
         primary_sport: string;
         picture: string | null;
         reviews: Review[];
+        services?: Service[];
         rating: number;
         instagram?: string,
         facebook?: string,
@@ -59,7 +60,6 @@ interface ProfileDetails {
         sport_interests?: string[];
         age_groups?: string[];
         specialization?: string[];
-        services?: Service[];
     }
 }
 
@@ -89,6 +89,7 @@ const defaultProfileDetails: ProfileDetails = {
         primary_sport:'',
         picture: null,
         reviews: [],
+        services: [],
         rating: 0,
         instagram: '',
         facebook: '',
@@ -100,8 +101,7 @@ const defaultProfileDetails: ProfileDetails = {
         goals: [],
         sport_interests: [],
         age_groups: [],
-        specialization: [],
-        services: [],
+        specialization: []
     },
 }
 
@@ -295,9 +295,9 @@ export default function Profile(){
                             <h2 className="text-2xl font-medium font-source mx-auto mb-6 text-center">
                                 Sessions and Packages
                             </h2>
-                            {(profileDetails.preferences.services || []).length > 0 ?
+                            {(profileDetails.profile.services || []).length > 0 ?
                                 <>
-                                    {(profileDetails.preferences.services || []).map((currService, index) => (
+                                    {(profileDetails.profile.services || []).map((currService, index) => (
                                     <div
                                         className="flex rounded-2xl py-2 px-5 mb-4 bg-main-white border border-main-grey-100 cursor-pointer hover:border-main-green-500 hover:shadow-md"
                                         onClick={()=>{
