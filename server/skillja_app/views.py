@@ -315,6 +315,9 @@ def update_coach_profile(request):
 
             if 'location' in data and data['location']:
                 coach_profile.location = data['location']
+            
+            if 'biography' in data and data['biography']:
+                coach_profile.biography = data['biography']
 
             if 'ageGroups' in data and data['ageGroups']:
                 coach_preferences.age_groups = data['ageGroups']

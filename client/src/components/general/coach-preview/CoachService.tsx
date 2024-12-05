@@ -108,13 +108,13 @@ export default function CoachService({exitView, data}:ServiceProps){
                     <></>
                 }
                 {data.location ? 
-                    <p className="font-kulim mt-3">
+                    <p className="font-kulim mt-4">
                         <span className="font-semibold">Location: </span>{data.location}
                     </p> 
                 : 
                     <></>
                 }
-                <p className="font-kulim font-light mt-3">
+                <p className="font-kulim font-light mt-4">
                     <span className="font-semibold mr-2">
                         Price: 
                     </span>
