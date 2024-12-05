@@ -5,6 +5,7 @@ import React, { useState } from "react"
 import GetCSFR from "../../../hooks/GetCSFR";
 
 interface Service {
+    id?: number;
     type: string;
     title: string;
     description: string;

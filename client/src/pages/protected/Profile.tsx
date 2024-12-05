@@ -24,6 +24,7 @@ interface Review {
 }
 
 interface Service {
+    id?: number;
     type: string;
     title: string;
     description: string;

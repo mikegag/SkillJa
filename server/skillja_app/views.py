@@ -626,17 +626,17 @@ def get_order_details(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
     
-@require_GET
+@require_POST
 @login_required
-def create_stripe_checkout(request):
+def create_stripe_checkout(request,coach_id):
         try:
-            # Extract query parameters
-            service_id = request.GET.get('service_id')
-            coach_id = request.GET.get('coach_id')
+            # Parse JSON body
+            body = json.loads(request.body)
+            service_id = body.get('id')
 
             # Validate the input
-            if not service_id or not coach_id:
-                return JsonResponse({'error': 'service_id and coach_id are required'}, status=400)
+            if not service_id:
+                return JsonResponse({'error': 'id for this service is required'}, status=400)
 
             # Validate the coach and service
             coach = User.objects.get(id=coach_id, iscoach=True)
@@ -652,7 +652,7 @@ def create_stripe_checkout(request):
                         'name': service.title,
                         'quantity': 1,
                         'currency': 'cad',
-                        'amount': service.price,
+                        'amount': int(service.price * 100),
                     }
                 ],
                 automatic_tax={'enabled': False}

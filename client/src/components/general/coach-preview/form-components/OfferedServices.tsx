@@ -7,6 +7,7 @@ import axios from "axios";
 import GetCSFR from "../../../../hooks/GetCSFR";
 
 type SavedInformationType = {
+    id: number;
     type: 'full-program' | 'online-program' | 'individual-session';
     title: string;
     description: string;
@@ -27,7 +28,7 @@ export default function OfferedServices() {
     const csrfToken = GetCSFR({ name: "csrftoken" })
     const createServiceData = data.CoachServiceForm.serviceOptions
 
-    // API call to load saved services
+    // API call to load saved services associated with user profile
     useEffect(() => {
         axios.get('https://www.skillja.ca/auth/profile/services/', { 
             headers: {
