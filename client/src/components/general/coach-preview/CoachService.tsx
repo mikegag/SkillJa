@@ -68,27 +68,27 @@ export default function CoachService({exitView, data}:ServiceProps){
     return (
         <div className="pop-up-background" onClick={()=>handleExit(false)}>
             <div className="pop-up-container p-4 lg:p-6 text-main-green-900" onMouseEnter={()=>setInsideModal(true)} onMouseLeave={()=>setInsideModal(false)}>
-                <div className="flex">
-                    <h1 className="font-medium font-source text-xl">
+                <div className="flex pb-3 border-b border-gray-400">
+                    <h1 className="font-medium font-source text-xl my-auto">
                         Sessions & Packages
                     </h1>
                     <FontAwesomeIcon 
                         icon={faX} 
-                        className="text-main-green-900 hover:text-main-green-500 text-lg ml-auto cursor-pointer" 
+                        className="text-main-green-900 hover:text-main-green-500 text-lg my-auto ml-auto cursor-pointer" 
                         onClick={()=> {handleExit(false)}} onMouseEnter={()=>setInsideModal(false)}
                     />
                 </div>
                 <h3 className="font-kulim font-semibold mr-auto text-center mt-6 mb-2">
                     {data.title}
                 </h3>
-                <p className="font-kulim text-sm">
+                <p className="font-kulim font-light">
                     {data.description}
                 </p>
-                <p className="font-kulim mt-3">
+                <p className="font-kulim mt-4 font-light">
                     <span className="font-semibold">Duration:</span> {data.duration}
                 </p>
                 {data.frequency ?
-                    <p className="font-kulim mt-3">
+                    <p className="font-kulim mt-4 font-light">
                         <span className="font-semibold">Frequency:</span> {data.frequency}
                     </p>
                 :
@@ -96,11 +96,11 @@ export default function CoachService({exitView, data}:ServiceProps){
                 }
                 {data.deliverable ? 
                     <>
-                    <p className="mr-auto my-3 font-semibold font-kulim">
+                    <p className="mr-auto mt-4 mb-2 font-semibold font-kulim">
                         Includes:
                     </p>
                     <ul className="ml-10">
-                        <li className="font-kulim list-disc font-light">{data.deliverable}</li> 
+                        <li className="font-kulim list-disc font-light text-base">{data.deliverable}</li> 
                     </ul>
                     </>
                 :
@@ -113,15 +113,18 @@ export default function CoachService({exitView, data}:ServiceProps){
                 : 
                     <></>
                 }
-                <p className="font-kulim font-semibold mt-3">
-                    Price: ${data.price}
+                <p className="font-kulim font-light mt-3">
+                    <span className="font-semibold">
+                        Price: 
+                    </span>
+                        ${data.price}
                     <span className="ml-2">
                         / {data.type.includes('program')? 'Program': 'Session'}
                     </span>
                 </p>
                 <button 
-                    className="form-btn mt-8 py-2"
-                    onClick={(e)=>handleSubmit}
+                    className="form-btn mt-9 mb-3 py-2 lg:w-72 mx-auto"
+                    onClick={(e)=>handleSubmit(e)}
                 >
                     Purchase Now
                 </button>
