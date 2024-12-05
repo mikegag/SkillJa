@@ -19,6 +19,7 @@ urlpatterns = [
     path('auth/profile/update_athlete_profile/', views.update_athlete_profile, name='update_athlete_profile'),
     path('auth/profile/update_coach_profile/', views.update_coach_profile, name='update_coach_profile'),
     path('auth/profile/create_service/', views.create_coach_service, name='create_coach_service'),
+    path('auth/profile/delete_service/', views.delete_coach_service, name='delete_coach_service'),
     path('stripe/config/', views.stripe_config, name='stripe_config'),
     path('stripe/create_stripe_checkout/', views.create_stripe_checkout, name='create_stripe_checkout'),
     path('stripe/get_order_details/', views.get_order_details, name='get_order_details')

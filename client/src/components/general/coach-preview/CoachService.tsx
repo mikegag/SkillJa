@@ -69,14 +69,15 @@ export default function CoachService({exitView, data}:ServiceProps){
         <div className="pop-up-background" onClick={()=>handleExit(false)}>
             <div className="pop-up-container p-4 lg:p-6 text-main-green-900" onMouseEnter={()=>setInsideModal(true)} onMouseLeave={()=>setInsideModal(false)}>
                 <div className="flex pb-3 border-b border-gray-400">
-                    <h1 className="font-medium font-source text-xl my-auto">
-                        Sessions & Packages
-                    </h1>
                     <FontAwesomeIcon 
                         icon={faX} 
-                        className="text-main-green-900 hover:text-main-green-500 text-lg my-auto ml-auto cursor-pointer" 
+                        className="text-main-green-900 hover:text-main-green-500 text-lg my-auto mr-auto cursor-pointer" 
                         onClick={()=> {handleExit(false)}} onMouseEnter={()=>setInsideModal(false)}
                     />
+                    <h1 className="font-medium font-source text-xl m-auto">
+                        Sessions & Packages
+                    </h1>
+                    <p className="opacity-0 ml-auto">-</p>
                 </div>
                 <h3 className="font-kulim font-semibold mr-auto text-center mt-6 mb-2">
                     {data.title}

@@ -49,7 +49,10 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
     function handleSubmit(e:React.FormEvent){
         e.preventDefault()
         // convert price from string (default form input behaviour) to number
-        serviceData.price = Number(serviceData.price)
+        setServiceData((prevData) => ({
+            ...prevData,
+            price: Number(prevData.price)
+        }))
 
         // if service id exists, include data in api call to handle duplication
         if (savedInformation?.id !== undefined){
@@ -94,10 +97,46 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
         setServiceData(prevState => ({ ...prevState, [name]: value }))
     }    
 
+    // Handle deletion of selected service
+    function handleDelete(e:React.FormEvent){
+        // if service id exists then trigger api call
+        if (savedInformation?.id !== undefined){
+            axios.post('https://www.skillja.ca/auth/profile/delete_service/', { id: savedInformation.id }, {
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/json'
+                },
+                withCredentials: true
+                })
+                .then(res => {
+                    // Reload page to update profile information with new changes
+                    if (res.status === 200) {
+                        window.location.reload()
+                    } else {
+                        console.error("service deletion failed")
+                    }
+                })
+                .catch(error => {
+                    if (error.response) {
+                        // the server responded with a status code that falls out of the range of 2xx
+                        console.error('Error response:', error.response.data)
+                        console.error('Status:', error.response.status)
+                        console.error('Headers:', error.response.headers)
+                    } else if (error.request) {
+                        // no response was received
+                        console.error('No response received:', error.request)
+                    } else {
+                        // Something happened in setting up the request that triggered an Error
+                        console.error('Error setting up request:', error.message)
+                    }
+                    console.error('Error config:', error.config)
+            })
+        }
+    }
+
     return (
         <div className="p-3">
             <form 
-                onSubmit={handleSubmit} 
                 className="flex flex-col border border-main-grey-100 rounded-xl p-4"
             >
                 <h3 className="font-semibold mb-4 font-kulim underline">
@@ -119,7 +158,8 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
                                 id={currInput.id}
                                 type={currInput.input}
                                 name={currInput.id}
-                                placeholder={savedInformation ? String(savedInformation[currInput.id as keyof SavedInformationType]) : currInput.placeholder}
+                                value={serviceData[currInput.id as keyof SavedInformationType] || ""}
+                                placeholder={currInput.placeholder}
                                 maxLength={currInput.maxLength}
                                 className="form-input w-full border-main-grey-100 px-3 mb-3"
                                 onChange={handleChange}
@@ -130,11 +170,30 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
                     :
                     <></>
                 ))}
-                <button 
-                    className="bg-main-green-500 rounded-xl p-3 mb-3 mt-6 mx-auto lg:w-72 text-main-white hover:bg-main-green-700"
-                >
-                    Save
-                </button>
+                {savedInformation?.id !== undefined ? 
+                    <div className="flex justify-center items-center">
+                        <button 
+                            className="bg-main-green-500 rounded-xl p-3 mb-3 mt-6 mx-auto md:w-64 text-main-white hover:bg-main-green-700"
+                            onClick={handleSubmit}
+                        >
+                            Update
+                        </button>
+                        <button 
+                            className="bg-gray-500 rounded-xl p-3 mb-3 mt-6 ml-4 mr-auto md:w-64 text-main-white hover:bg-red-500"
+                            onClick={handleDelete}
+                            type="button"
+                        >
+                            Delete
+                        </button>
+                    </div>
+                :
+                    <button 
+                        className="bg-main-green-500 rounded-xl p-3 mb-3 mt-6 mx-auto md:w-72 text-main-white hover:bg-main-green-700"
+                        onClick={handleSubmit}
+                    >
+                        Save
+                    </button>
+                }
             </form>
         </div>
     )

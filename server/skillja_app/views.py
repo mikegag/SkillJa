@@ -454,6 +454,28 @@ def create_coach_service(request):
         # Parse incoming JSON data
         data = json.loads(request.body)
 
+        # Check if the service ID is provided and if the service exists
+        service_id = data.get('id')
+        if service_id:
+            try:
+                # Attempt to retrieve the existing service
+                service = Service.objects.get(id=service_id, coach_profile=coach_profile)
+                # Update the service fields
+                service.title = data['title']
+                service.description = data['description']
+                service.duration = data['duration']
+                service.frequency = data.get('frequency', service.frequency)
+                service.target_audience = data.get('targetAudience', service.target_audience)
+                service.location = data.get('location', service.location)
+                service.deliverable = data.get('deliverable', service.deliverable)
+                service.price = data['price']
+                service.save()
+
+                return JsonResponse({'message': 'Service updated successfully', 'service_id': service.id}, status=200)
+            except Service.DoesNotExist:
+                # If no matching service is found, proceed to create a new one
+                pass
+
         # Create a new Service entry
         new_service = Service.objects.create(
             coach_profile=coach_profile,
@@ -479,6 +501,42 @@ def create_coach_service(request):
     except Exception as e:
         return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
 
+@require_POST
+@login_required
+def delete_coach_service(request):
+    try:
+        # Extract the email from the cookie
+        email = request.COOKIES.get('user_email')
+        if not email:
+            return JsonResponse({'error': 'Email not found in cookies'}, status=400)
+
+        try:
+            # Retrieve the user using the email from the cookie
+            coach = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'User not found with the provided email'}, status=404)
+
+        # Retrieve the CoachProfile for this user
+        coach_profile = coach.coach_profile
+
+        # Parse incoming JSON data
+        data = json.loads(request.body)
+
+        # Check if the service ID is provided
+        service_id = data.get('id')
+        if not service_id:
+            return JsonResponse({'error': 'Service ID is required'}, status=400)
+
+        try:
+            # Attempt to retrieve the service for deletion
+            service = Service.objects.get(id=service_id, coach_profile=coach_profile)
+            service.delete()
+            return JsonResponse({'message': 'Service deleted successfully'}, status=200)
+        except Service.DoesNotExist:
+            return JsonResponse({'error': 'Service not found or does not belong to this coach'}, status=404)
+
+    except Exception as e:
+        return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
 
 # Search methods ------------------------------------------------
 @require_GET
@@ -750,7 +808,12 @@ def getRoutes(request):
         {
             'Endpoint': '/create_coach_service',
             'method': 'POST',
-            'description': 'creates a new service for a coach'
+            'description': 'creates a new service for a coach if it does not exist, else updates existing service with passed data'
+        },
+        {
+            'Endpoint': '/delete_coach_service',
+            'method': 'POST',
+            'description': 'deletes a service related to a coach'
         },
         {
             'Endpoint': '/search',
