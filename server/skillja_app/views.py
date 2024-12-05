@@ -543,7 +543,7 @@ def delete_coach_service(request):
 
 # Search methods ------------------------------------------------
 @require_GET
-def search(request):
+def search(request): 
     try:
         if request.method == 'GET':
             # Get query parameters or set default values
@@ -566,8 +566,8 @@ def search(request):
                 iscoach=True,
                 coach_preferences__specialization__icontains=sport,
                 coach_profile__location__icontains=location,
-                services__price__gte=price_min,
-                services__price__lte=price_max
+                coach_profile__services__price__gte=price_min,
+                coach_profile__services__price__lte=price_max
             ).select_related('coach_profile').values(
                 'id',
                 'fullname',  
