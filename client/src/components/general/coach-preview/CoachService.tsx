@@ -71,10 +71,10 @@ export default function CoachService({exitView, data}:ServiceProps){
                 <div className="flex pb-3 border-b border-gray-400">
                     <FontAwesomeIcon 
                         icon={faX} 
-                        className="text-main-green-900 hover:text-main-green-500 text-lg my-auto mr-auto cursor-pointer" 
+                        className="text-main-green-900 hover:text-main-green-500 my-auto mr-auto cursor-pointer" 
                         onClick={()=> {handleExit(false)}} onMouseEnter={()=>setInsideModal(false)}
                     />
-                    <h1 className="font-medium font-source text-xl m-auto">
+                    <h1 className="font-medium font-source text-lg m-auto">
                         Sessions & Packages
                     </h1>
                     <p className="opacity-0 ml-auto">-</p>

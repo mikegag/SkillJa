@@ -35,7 +35,7 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
 
     const [serviceData, setServiceData] = useState<SavedInformationType>({
         type: useCase || savedInformation?.type || "",
-        title: formData[0]?.label || "",
+        title: savedInformation?.title || "",
         description: savedInformation?.description || "",
         duration: savedInformation?.duration ||"",
         frequency: savedInformation?.frequency || "",
@@ -171,15 +171,15 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
                     <></>
                 ))}
                 {savedInformation?.id !== undefined ? 
-                    <div className="flex justify-center items-center">
+                    <div className="flex justify-center items-center flex-wrap">
                         <button 
-                            className="bg-main-green-500 rounded-xl p-3 mb-3 mt-6 mx-auto md:w-64 text-main-white hover:bg-main-green-700"
+                            className="bg-main-green-500 rounded-xl p-3 mb-3 mt-6 mx-auto md:w-52 text-main-white hover:bg-main-green-700"
                             onClick={handleSubmit}
                         >
                             Update
                         </button>
                         <button 
-                            className="bg-gray-500 rounded-xl p-3 mb-3 mt-6 ml-4 mr-auto md:w-64 text-main-white hover:bg-red-500"
+                            className="bg-gray-500 rounded-xl p-3 mb-3 mt-6 ml-3 mr-auto md:w-52 text-main-white hover:bg-red-500"
                             onClick={handleDelete}
                             type="button"
                         >

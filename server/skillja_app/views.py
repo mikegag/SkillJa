@@ -471,7 +471,7 @@ def create_coach_service(request):
                 service.price = data['price']
                 service.save()
 
-                return JsonResponse({'message': 'Service updated successfully', 'service_id': service.id}, status=200)
+                return JsonResponse({'message': 'Service updated successfully', 'service_id': service.id}, status=201)
             except Service.DoesNotExist:
                 # If no matching service is found, proceed to create a new one
                 pass
