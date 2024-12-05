@@ -17,6 +17,7 @@ type CoachServiceFormType = {
 }[]
 
 type SavedInformationType = {
+    id?: number;
     type: string;
     title: string;
     description: string;
@@ -33,21 +34,28 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
     let formData = data.CoachServiceForm[useCase] as CoachServiceFormType
 
     const [serviceData, setServiceData] = useState<SavedInformationType>({
-        type: useCase || "",
+        type: useCase || savedInformation?.type || "",
         title: formData[0]?.label || "",
-        description: "",
-        duration: "",
-        frequency: "",
-        targetAudience: "",
-        location: "",
-        deliverable: "",
-        price: 0,
+        description: savedInformation?.description || "",
+        duration: savedInformation?.duration ||"",
+        frequency: savedInformation?.frequency || "",
+        targetAudience: savedInformation?.targetAudience || "",
+        location: savedInformation?.location || "",
+        deliverable: savedInformation?.deliverable || "",
+        price: savedInformation?.price || 0,
     })
 
     // submits newly created service
     function handleSubmit(e:React.FormEvent){
         e.preventDefault()
+        // convert price from string (default form input behaviour) to number
         serviceData.price = Number(serviceData.price)
+
+        // if service id exists, include data in api call to handle duplication
+        if (savedInformation?.id !== undefined){
+            serviceData.id = savedInformation.id
+        }
+
         axios.post('https://www.skillja.ca/auth/profile/create_service/', serviceData, {
             headers: {
                 'X-CSRFToken': csrfToken,

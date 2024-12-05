@@ -138,8 +138,8 @@ export default function OfferedServices() {
                             />
                         )
                     )}
-                    <div 
-                        className="flex border border-main-grey-100 text-main-green-900 rounded-xl py-2 px-4 my-2 font-kulim cursor-pointer hover:bg-main-green-500 hover:text-main-white"
+                    {/* <div 
+                        className="flex border border-main-grey-100 text-main-green-900 rounded-xl py-4 px-4 my-4 font-kulim cursor-pointer hover:bg-main-green-500 hover:text-main-white"
                         onClick={() => setCreateService(true)}
                     >
                         <div className="flex flex-col justify-center items-start text-left">
@@ -147,7 +147,7 @@ export default function OfferedServices() {
                             <p className="text-sm">Create a session/program for your athletes</p>
                         </div>
                         <FontAwesomeIcon icon={faChevronRight} className="ml-auto my-auto" />
-                    </div>
+                    </div> */}
                 </>
             }
         </div>

@@ -114,7 +114,7 @@ export default function CoachService({exitView, data}:ServiceProps){
                     <></>
                 }
                 <p className="font-kulim font-light mt-3">
-                    <span className="font-semibold">
+                    <span className="font-semibold mr-2">
                         Price: 
                     </span>
                         ${data.price}
