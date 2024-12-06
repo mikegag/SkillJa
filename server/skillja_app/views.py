@@ -380,8 +380,8 @@ def get_coach_profile(request):
         data = {
             'fullname': user.fullname,
             'profile': {
-                'location': coach_profile.location,
-                'biography': coach_profile.biography,
+                'location': coach_profile.location or '',
+                'biography': coach_profile.biography or '',
                 'primarySport': coach_profile.primary_sport or '',
                 'picture': coach_profile.picture.url if coach_profile.picture else None,
                 'reviews': [model_to_dict(review) for review in coach_profile.reviews.all()],
@@ -395,7 +395,7 @@ def get_coach_profile(request):
                 }
             },
             'preferences': {
-                'experience_level': coach_preferences.experience_level,
+                'experience_level': coach_preferences.experience_level or '',
                 'specialization': coach_preferences.specialization or [],
             }
         }
