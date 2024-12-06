@@ -1,9 +1,10 @@
 import { faX } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import axios from "axios";
+import axios from "axios"
+import { loadStripe } from "@stripe/stripe-js"
 import React, { useState } from "react"
-import GetCSFR from "../../../hooks/GetCSFR";
-import { useLocation } from "react-router-dom";
+import GetCSFR from "../../../hooks/GetCSFR"
+import { useLocation } from "react-router-dom"
 
 interface Service {
     id?: number;
@@ -73,6 +74,8 @@ export default function CoachService({exitView, data}:ServiceProps){
                     serviceId: data.id!,
                     publicKey: res.data.publicKey,
                 }
+                // initialize Stripe object
+                const stripePromise = loadStripe(res.data.publicKey)
 
                 // Send request to create checkout session
                 axios.post(`https://www.skillja.ca/stripe/create_stripe_checkout/${coachId}/`, dataToSend, {
@@ -83,22 +86,26 @@ export default function CoachService({exitView, data}:ServiceProps){
                     withCredentials: true,
                 }
                 )
-                .then((res) => {
-                    const successUrl = res.data.success_url
-                    const cancelUrl = res.data.cancel_url   
-                    // Redirect to Stripe checkout 
+                .then(async (res) => {
                     if (res.status === 200) {
-                        //window.location.href = successUrl
-                    } 
-                    // Redirect to cancelled page
-                    else {
-                        //window.location.href = cancelUrl
+                        const stripe = await stripePromise;
+                        if (stripe) {
+                            // Proceed only if Stripe object is successfully initialized
+                            stripe.redirectToCheckout({ sessionId: res.data.checkout_session_id })
+                            .then((result) => {
+                                if (result.error) {
+                                    console.error("Stripe checkout error:", result.error.message)
+                                }
+                            })
+                        } else {
+                            console.error("Stripe.js failed to load")
+                        }
                     }
                 })
                 .catch(handleError)
             } 
             else {
-                console.error('Stripe initialization failed')
+                console.error('Failed to get Public Stripe Key')
             }
         })
         .catch(handleError)
