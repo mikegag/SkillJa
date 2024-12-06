@@ -16,6 +16,7 @@ from urllib.parse import urlparse, parse_qs
 from django.views.decorators.http import require_POST, require_GET
 from django.contrib.auth.decorators import login_required
 from .utils import calculate_price_deviance, calculate_coach_cost, calculate_coach_review
+from django.core.exceptions import ObjectDoesNotExist
 
 # Authentication methods ----------------------------------------
 def index(request):
@@ -367,11 +368,27 @@ def get_coach_profile(request):
         if not coach_id:
             return JsonResponse({'error': 'Coach ID is required'}, status=400)
 
-        # Get the user object and related models
-        user = User.objects.get(id=coach_id)
-        coach_preferences, created = CoachPreferences.objects.get(user=user)
-        coach_profile, created = CoachProfile.objects.get(user=user)
-        coach_social_media, created = SocialMedia.objects.get(user=user)
+        # Retrieve the user object (ensure this is a coach)
+        try:
+            user = User.objects.get(id=coach_id)
+        except ObjectDoesNotExist:
+            return JsonResponse({'error': 'Coach not found'}, status=404)
+
+        # Retrieve related models, handle missing data gracefully
+        try:
+            coach_preferences = CoachPreferences.objects.get(user=user)
+        except ObjectDoesNotExist:
+            coach_preferences = None
+
+        try:
+            coach_profile = CoachProfile.objects.select_related('user').prefetch_related('reviews', 'services').get(user=user)
+        except ObjectDoesNotExist:
+            return JsonResponse({'error': 'Coach profile not found'}, status=404)
+
+        try:
+            coach_social_media = SocialMedia.objects.get(user=user)
+        except ObjectDoesNotExist:
+            coach_social_media = None
         
         # Retrieve average review rating for coach
         average_rating = calculate_coach_review(coach_id) or 0
