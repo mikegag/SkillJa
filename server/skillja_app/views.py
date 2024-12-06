@@ -736,15 +736,18 @@ def create_stripe_checkout(request,coach_id):
                 cancel_url='https://skillja.ca/' + 'order-cancelled',
                 payment_method_types=['card', 'paypal'],
                 mode='payment',
-                line_items=[
-                    {
-                        'name': service.title,
-                        'quantity': 1,
-                        'description': service.description,
+                line_items=[{
+                    'price_data': {
                         'currency': 'cad',
-                        'amount': int(service.price * 100),
-                    }
-                ],
+                        'unit_amount': int(service.price * 100),
+                        'product_data': {
+                            'name': service.title,
+                            'description': service.description,
+                        },
+                    },
+                    'quantity': 1
+                }
+                ]
             )
             return JsonResponse({'sessionId': checkout_session['id']}, status=200)
         

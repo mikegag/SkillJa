@@ -55,6 +55,7 @@ export default function CoachService({exitView, data}:ServiceProps){
         }
     }
 
+    // Handles Stripe checkout functionality
     function handleSubmit(e:React.FormEvent){
         e.preventDefault()
         // initialize Stripe instance
