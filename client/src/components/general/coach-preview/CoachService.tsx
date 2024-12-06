@@ -96,6 +96,9 @@ export default function CoachService({exitView, data}:ServiceProps){
                                 if (result.error) {
                                     console.error("Stripe checkout error:", result.error.message)
                                 }
+                                else {
+                                    window.location.href = res.data.checkout_session_url
+                                }
                             })
                         } else {
                             console.error("Stripe.js failed to load")
