@@ -21,6 +21,6 @@ urlpatterns = [
     path('auth/profile/create_service/', views.create_coach_service, name='create_coach_service'),
     path('auth/profile/delete_service/', views.delete_coach_service, name='delete_coach_service'),
     path('stripe/config/', views.stripe_config, name='stripe_config'),
-    path('stripe/create_stripe_checkout/', views.create_stripe_checkout, name='create_stripe_checkout'),
+    path('stripe/create_stripe_checkout/<int:coach_id>/', views.create_stripe_checkout, name='create_stripe_checkout'),
     path('stripe/get_order_details/', views.get_order_details, name='get_order_details')
 ]   

@@ -745,7 +745,6 @@ def create_stripe_checkout(request,coach_id):
                         'amount': int(service.price * 100),
                     }
                 ],
-                automatic_tax={'enabled': False}
             )
             return JsonResponse({'sessionId': checkout_session['id']})
         

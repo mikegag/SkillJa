@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import axios from "axios";
 import React, { useState } from "react"
 import GetCSFR from "../../../hooks/GetCSFR";
+import { useParams } from "react-router-dom";
 
 interface Service {
     id?: number;
@@ -31,6 +32,7 @@ export default function CoachService({exitView, data}:ServiceProps){
     const [insideModal, setInsideModal] = useState<boolean>(false)
     const csrfToken = GetCSFR({ name: "csrftoken" })
     const [checkoutData, setCheckoutData] = useState<Checkout>()
+    let params = useParams()
 
     // callback function to let parent know user wants to exit focus view
     function handleExit(value:boolean){
@@ -70,7 +72,7 @@ export default function CoachService({exitView, data}:ServiceProps){
                 setCheckoutData(dataToSend)
 
                 // Send request to create checkout session
-                axios.post('https://www.skillja.ca/stripe/create_stripe_checkout/', dataToSend, {
+                axios.post(`https://www.skillja.ca/stripe/create_stripe_checkout/${params.coach_id}/`, dataToSend, {
                     headers: {
                     'X-CSRFToken': csrfToken,
                     'Content-Type': 'application/json',
