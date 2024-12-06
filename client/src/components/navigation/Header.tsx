@@ -11,8 +11,8 @@ export default function Header({useCase}:HeaderProps){
     const location = useLocation();
 
     useEffect(() => {
-        if (location.pathname === '/home-feed' ) {
-            // Reload the page when the /home-feed route is loaded
+        if (location.pathname === '/home-feed?' ) {
+            // Reload the page when the /home-feed route is accessed when query is present
             window.location.reload()
         }
     }, [])
