@@ -23,7 +23,7 @@ interface ServiceProps {
 }
 
 interface Checkout {
-    service: Service;
+    serviceId: number;
     publicKey: string;
 }
 
@@ -64,7 +64,7 @@ export default function CoachService({exitView, data}:ServiceProps){
             if (res.status === 200) {
                 // Create checkoutData with the service and publicKey
                 const dataToSend: Checkout = {
-                    service: data,
+                    serviceId: data.id!,
                     publicKey: res.data.publicKey,
                 }
                 setCheckoutData(dataToSend)

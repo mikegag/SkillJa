@@ -138,7 +138,7 @@ export default function Coach(){
                         Profile
                     </h1>
                 </div>
-                <section className="flex flex-col justify-center items-center border-b-2 mt-8 lg:mt-20 border-main-grey-300 lg:pb-4 lg:px-10">
+                <section className="flex flex-col justify-center items-center border-b-2 mt-8 lg:mt-20 border-main-grey-300 lg:pb-4 lg:px-16">
                     <div className="flex flex-col justify-center items-center lg:flex-row lg:justify-center lg:items-center lg:w-full">
                         <img 
                             src={require('../../assets/default-avatar.jpg')} 
@@ -166,7 +166,7 @@ export default function Coach(){
                         </div>
                         <div className="flex flex-col justify-center items-center my-2 lg:mr-0 lg:ml-auto">
                             <button 
-                                className="form-btn py-2 px-8 mt-4 mb-2"
+                                className="form-btn py-2 px-8 my-4"
                                 onClick={(e)=>handleMessage(e)}
                             >
                                 Contact

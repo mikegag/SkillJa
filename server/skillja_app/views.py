@@ -713,7 +713,7 @@ def create_stripe_checkout(request,coach_id):
         try:
             # Parse JSON body
             body = json.loads(request.body)
-            service_id = body.get('id')
+            service_id = body.get('serviceId')
 
             # Validate the input
             if not service_id:
