@@ -22,48 +22,83 @@ interface ServiceProps {
     data: Service;
 }
 
+interface Checkout {
+    service: Service;
+    publicKey: string;
+}
+
 export default function CoachService({exitView, data}:ServiceProps){
     const [insideModal, setInsideModal] = useState<boolean>(false)
     const csrfToken = GetCSFR({ name: "csrftoken" })
+    const [checkoutData, setCheckoutData] = useState<Checkout>()
 
+    // callback function to let parent know user wants to exit focus view
     function handleExit(value:boolean){
         if(insideModal === false){
             exitView(value)
         }
     }
 
+    // Helper function log axios errors
+    function handleError(error: any) {
+        if (error.response) {
+          console.error('Error response:', error.response.data);
+        } else if (error.request) {
+          console.error('No response received:', error.request);
+        } else {
+          console.error('Error setting up request:', error.message);
+        }
+    }
+
     function handleSubmit(e:React.FormEvent){
         e.preventDefault()
-        axios.post('https://www.skillja.ca/stripe/create_stripe_checkout/', data, {
+        // initialize Stripe instance
+        axios.get('https://www.skillja.ca/stripe/config/', {
             headers: {
-                'X-CSRFToken': csrfToken,
-                'Content-Type': 'application/json'
+            'X-CSRFToken': csrfToken,
+            'Content-Type': 'application/json',
             },
-            withCredentials: true
-            })
-            .then(res => {
-                if (res.status === 200) {
-                    window.location.reload()
-                } else {
-                    console.error("transaction failed")
+            withCredentials: true,
+        })
+        .then((res) => {
+            if (res.status === 200) {
+                // Create checkoutData with the service and publicKey
+                const dataToSend: Checkout = {
+                    service: data,
+                    publicKey: res.data.publicKey,
                 }
-            })
-            .catch(error => {
-                if (error.response) {
-                    // the server responded with a status code that falls out of the range of 2xx
-                    console.error('Error response:', error.response.data)
-                    console.error('Status:', error.response.status)
-                    console.error('Headers:', error.response.headers)
-                } else if (error.request) {
-                    // no response was received
-                    console.error('No response received:', error.request)
-                } else {
-                    // Something happened in setting up the request that triggered an Error
-                    console.error('Error setting up request:', error.message)
+                setCheckoutData(dataToSend)
+
+                // Send request to create checkout session
+                axios.post('https://www.skillja.ca/stripe/create_stripe_checkout/', dataToSend, {
+                    headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/json',
+                    },
+                    withCredentials: true,
                 }
-                console.error('Error config:', error.config)
-            })
+                )
+                .then((res) => {
+                    const successUrl = res.data.success_url
+                    const cancelUrl = res.data.cancel_url   
+                    // Redirect to Stripe checkout 
+                    if (res.status === 200) {
+                        window.location.href = successUrl
+                    } 
+                    // Redirect to cancelled page
+                    else {
+                        window.location.href = cancelUrl
+                    }
+                })
+                .catch(handleError)
+            } 
+            else {
+                console.error('Stripe initialization failed')
+            }
+        })
+        .catch(handleError)
     }
+
 
     return (
         <div className="pop-up-background" onClick={()=>handleExit(false)}>

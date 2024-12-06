@@ -706,7 +706,7 @@ def get_order_details(request):
         return JsonResponse({'error': str(e)}, status=500)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
-    
+
 @require_POST
 @login_required
 def create_stripe_checkout(request,coach_id):
@@ -721,25 +721,26 @@ def create_stripe_checkout(request,coach_id):
 
             # Validate the coach and service
             coach = User.objects.get(id=coach_id, iscoach=True)
-            coach_profile = CoachProfile.objects.filter(user=coach).first()
+            coach_profile = CoachProfile.objects.get(user=coach)
 
             if not coach_profile:
                 return JsonResponse({'error': 'Coach profile not found'}, status=404)
 
-            service = coach_profile.services.filter(id=service_id).first()
+            service = coach_profile.services.get(id=service_id)
 
             if not service:
                 return JsonResponse({'error': 'Service not found for this coach'}, status=404)
 
             checkout_session = stripe.checkout.Session.create(
-                success_url='https://skillja.ca/' + 'order-success?session_id={CHECKOUT_SESSION_ID}&coach_id={coach_id}',
+                success_url=f'https://skillja.ca/' + 'order-success?session_id={CHECKOUT_SESSION_ID}&coach_id={coach_id}',
                 cancel_url='https://skillja.ca/' + 'order-cancelled',
-                payment_method_types=['card'],
+                payment_method_types=['card', 'wallet'],
                 mode='payment',
                 line_items=[
                     {
                         'name': service.title,
                         'quantity': 1,
+                        'description': service.description,
                         'currency': 'cad',
                         'amount': int(service.price * 100),
                     }
