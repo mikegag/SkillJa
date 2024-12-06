@@ -61,7 +61,7 @@ export default function ProfilePreview(props:ProfilePreviewProps){
                     ))}
                 </div>
                 {props.specialization.map((currSport:string, index:number)=>(
-                    <div key={index} className="bg-main-green-500 px-2 my-auto rounded-full mx-1">
+                    <div key={index} className="bg-main-green-500 py-0.5 px-2.5 my-auto rounded-full mx-1">
                         <p className="text-sm text-main-white">{currSport}</p>
                     </div>
                 ))}

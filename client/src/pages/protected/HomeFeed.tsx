@@ -32,7 +32,7 @@ export default function HomeFeed(){
     const location = useLocation()
     const [data, setData] = useState<dataResultsType>({ results: [] })
     const protectedRoute = '/auth/coach' 
-    const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     useEffect(() => {
         document.title = "SkillJa - Home Feed"
@@ -65,6 +65,9 @@ export default function HomeFeed(){
 
     // performs search based on query parameters
     function performSearch(){
+        // trigger loading animation while API call is processed
+        setIsLoading(true)
+
         axios.get(`https://www.skillja.ca/search/${location.search}`, { 
             headers: {
                 'X-CSRFToken': csrfToken,
@@ -114,7 +117,7 @@ export default function HomeFeed(){
                             <SearchBar mobileView={false} />
                         }
                     </div>
-                    <div role="presentation" className="h-0.5 bg-main-grey-100 rounded-full w-20 lg:w-32 mb-8"></div>
+                    <div role="presentation" className="h-0.5 bg-main-grey-100 rounded-full w-20 lg:w-32 mb-10"></div>
                     {isLoading ? (
                         <Suspense fallback={<div>Loading...</div>}>
                             <LoadingAnimation />

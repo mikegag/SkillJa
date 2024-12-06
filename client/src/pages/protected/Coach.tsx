@@ -118,10 +118,15 @@ export default function Coach(){
             })
     },[])
 
+    // API call to contact coach
+    function handleMessage(e:React.FormEvent){
+        e.preventDefault()
+    }
+
     return (
         <div className="flex flex-col">
             <Header useCase="protected" />
-            <div className="pb-4 px-8 lg:px-14">
+            <div className="pb-4 px-8 lg:px-14 lg:mb-32">
                 <div className="flex justify-center items-center text-center mt-10">
                     <FontAwesomeIcon 
                         icon={faLongArrowLeft}
@@ -133,14 +138,14 @@ export default function Coach(){
                     </h1>
                 </div>
                 <section className="flex flex-col justify-center items-center border-b-2 mt-8 lg:mt-14 border-main-grey-300 lg:pb-4">
-                    <div className="flex flex-col justify-center items-center lg:flex-row">
+                    <div className="flex flex-col justify-center items-center lg:flex-row lg:justify-center lg:items-center lg:w-full">
                         <img 
                             src={require('../../assets/default-avatar.jpg')} 
-                            className="w-32 h-32 rounded-2xl lg:mr-10"
+                            className="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-16 lg:ml-0"
                             alt="headshot of user demonstrating what they look like"
                         />
-                        <div className="flex flex-col justify-center items-center font-kulim text-main-green-900">
-                            <h2 className="text-2xl font-medium font-source mt-3 lg:mt-0 mx-auto lg:ml-0">
+                        <div className="flex flex-col justify-center items-center font-kulim text-main-green-900 my-auto">
+                            <h2 className="text-3xl font-medium font-source mt-3 lg:mt-0 mx-auto lg:ml-0">
                                 {profileDetails?.fullname} 
                             </h2>
                             <h3 className="text-lg my-1 mx-auto font-medium font-source text-main-grey-300 lg:ml-0">
@@ -151,9 +156,20 @@ export default function Coach(){
                                 <FontAwesomeIcon icon={faStar} className="text-amber-400 text-lg lg:text-base mr-2 lg:ml-0" />
                                 {profileDetails.profile?.rating}
                             </h3>
-                            <h3 className="text-lg lg:text-base mx-auto font-medium">
+                            <h3 className="text-lg lg:text-base my-1 lg:ml-0 font-medium">
                                 Experience: {profileDetails.preferences?.experience_level || "Not provided"}
                             </h3>
+                            <h3 className="py-2 px-4 rounded-xl mt-2 mx-auto bg-main-white border border-main-grey-100 cursor-pointer lg:ml-0">
+                                {profileDetails.profile?.primarySport || "No Primary Sport"}
+                            </h3> 
+                        </div>
+                        <div className="flex flex-col justify-center items-center my-2 lg:mr-0 lg:ml-auto">
+                            <button 
+                                className="form btn md:w-52"
+                                onClick={(e)=>handleMessage(e)}
+                            >
+                                Contact
+                            </button>
                             <SocialMediaIcons 
                                 instagram={profileDetails.profile?.socialMedia.instagram}
                                 facebook={profileDetails.profile?.socialMedia.facebook}
