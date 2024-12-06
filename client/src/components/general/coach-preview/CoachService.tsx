@@ -34,6 +34,7 @@ export default function CoachService({exitView, data}:ServiceProps){
     const location = useLocation()
     // Extract query parameters
     const queryParams = new URLSearchParams(location.search)
+    // Retrieve coachId param for API request
     const coachId = queryParams.get("coach_id")
 
     // callback function to let parent know user wants to exit focus view
