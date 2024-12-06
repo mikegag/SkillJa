@@ -4,7 +4,7 @@ import React from "react"
 
 interface ProfilePreviewProps {
     name: string;
-    specializations: string[];
+    specialization: string[];
     location: string;
     rating: number;
     biography: string;
@@ -58,7 +58,7 @@ export default function ProfilePreview(props:ProfilePreviewProps){
                         />
                     ))}
                 </div>
-                {props.specializations.map((currSport:string, index:number)=>(
+                {props.specialization.map((currSport:string, index:number)=>(
                     <div key={index} className="bg-main-green-500 px-2 my-auto rounded-full mx-1">
                         <p className="text-sm text-main-white">{currSport}</p>
                     </div>

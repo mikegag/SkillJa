@@ -74,7 +74,7 @@ export default function HomeFeed(){
                 } else {
                     console.error("Failed to retrieve services")
                 }
-            })
+            }) 
             .catch(error => {
                 if (error.response) {
                     // the server responded with a status code that falls out of the range of 2xx
@@ -111,13 +111,13 @@ export default function HomeFeed(){
                     </div>
                     {data.results.length !== 0 ?
                         data.results.map(coach=>(
-                        <Link to={`${protectedRoute}?name=${coach.name}&id=${coach.id}&location=${coach.location}`} 
+                        <Link to={`${isLoggedIn? "./signup" : `${protectedRoute}?name=${coach.name}&id=${coach.id}&location=${coach.location}`}`} 
                             className="mx-auto my-2 lg:w-9/12"
                         >
                             <ProfilePreview 
                                 name={coach.name}
                                 location={coach.location}
-                                specializations={coach.specializations}
+                                specialization={coach.specializations}
                                 rating={coach.rating}
                                 biography={coach.biography}
                                 price={coach.price}
