@@ -10,7 +10,7 @@ import GetWindowSize from "../../hooks/GetWindowSize"
 interface resultsType{
     name: string;
     id: string;
-    specializations: string[];
+    specialization: string[];
     location: string;
     rating: number;
     biography: string;
@@ -117,7 +117,7 @@ export default function HomeFeed(){
                             <ProfilePreview 
                                 name={coach.name}
                                 location={coach.location}
-                                specialization={coach.specializations}
+                                specialization={coach.specialization}
                                 rating={coach.rating}
                                 biography={coach.biography}
                                 price={coach.price}
