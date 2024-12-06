@@ -88,11 +88,11 @@ export default function CoachService({exitView, data}:ServiceProps){
                     const cancelUrl = res.data.cancel_url   
                     // Redirect to Stripe checkout 
                     if (res.status === 200) {
-                        window.location.href = successUrl
+                        //window.location.href = successUrl
                     } 
                     // Redirect to cancelled page
                     else {
-                        window.location.href = cancelUrl
+                        //window.location.href = cancelUrl
                     }
                 })
                 .catch(handleError)
