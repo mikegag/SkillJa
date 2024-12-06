@@ -363,39 +363,39 @@ def update_coach_profile(request):
 def get_coach_profile(request):
     try:
         # Retrieve coach instance and related models safely
-        coach_id = request.GET.get('id')
+        coach_id = request.GET.get('coach_id')
         if not coach_id:
             return JsonResponse({'error': 'Coach ID is required'}, status=400)
 
-        # Get the user object
+        # Get the user object and related models
         user = User.objects.get(id=coach_id)
-        coach_preferences, created = CoachPreferences.objects.get_or_create(user=user)
-        coach_profile, created = CoachProfile.objects.get_or_create(user=user)
-        coach_social_media, created = SocialMedia.objects.get_or_create(user=user)
+        coach_preferences, created = CoachPreferences.objects.get(user=user)
+        coach_profile, created = CoachProfile.objects.get(user=user)
+        coach_social_media, created = SocialMedia.objects.get(user=user)
         
         # Retrieve average review rating for coach
         average_rating = calculate_coach_review(coach_id) or 0
         
         # Format the data
         data = {
+            'fullname': user.fullname,
             'profile': {
                 'location': coach_profile.location,
                 'biography': coach_profile.biography,
-                'primary_sport': coach_profile.primary_sport,
+                'primarySport': coach_profile.primary_sport or '',
                 'picture': coach_profile.picture.url if coach_profile.picture else None,
                 'reviews': [model_to_dict(review) for review in coach_profile.reviews.all()],
                 'services': [model_to_dict(service) for service in coach_profile.services.all()],
                 'rating': average_rating,
-                'social_media': {
-                    'instagram': coach_social_media.instagram,
-                    'facebook': coach_social_media.facebook,
-                    'twitter': coach_social_media.twitter,
-                    'tiktok': coach_social_media.tiktok
+                'socialMedia': {
+                    'instagram': coach_social_media.instagram or None,
+                    'facebook': coach_social_media.facebook or None,
+                    'twitter': coach_social_media.twitter or None, 
+                    'tiktok': coach_social_media.tiktok or None,
                 }
             },
             'preferences': {
                 'experience_level': coach_preferences.experience_level,
-                'age_groups': coach_preferences.age_groups or [],
                 'specialization': coach_preferences.specialization or [],
             }
         }

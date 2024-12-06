@@ -19,6 +19,7 @@ interface Review {
 }
 
 interface Service {
+    id?: number;
     type: string;
     title: string;
     description: string;
@@ -32,52 +33,52 @@ interface Service {
   
 interface ProfileDetails {
     fullname: string;
-    location: string;
-    biography: string;
-    reviews: Review[];
-    experience_level: string;
-    specialization?: string;
-    services: Service[];
-    rating: number;
-    instagram: string,
-    facebook: string,
-    twitter: string,
-    tiktok: string
-}
-
-// Default values for Service
-const defaultService: Service = {
-    type: '',
-    title: '',
-    description: '',
-    duration: '',
-    frequency: '',
-    target_audience: '',
-    location: '',
-    deliverable: '',
-    price: 0
-}
-
-// Default values for profileDetails
-const defaultProfileDetails: ProfileDetails = {
-    fullname: '',
-    location: '',
-    biography: '',
-    reviews: [],
-    experience_level: '',
-    specialization: '',
-    services: [],
-    rating: 0,
-    instagram: '',
-    facebook: '',
-    twitter: '',
-    tiktok: ''
+    profile: {
+        location: string;
+        biography: string;
+        primarySport: string;
+        picture: string | null;
+        reviews: Review[];
+        services: Service[];
+        rating: number;
+        socialMedia: {
+            instagram: string,
+            facebook: string,
+            twitter: string,
+            tiktok: string
+        }
+    };
+    preferences: {
+        experience_level: string;
+        specialization: string[];
+    }
 }
 
 export default function Coach(){
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-    const [profileDetails, setProfileDetails] = useState<ProfileDetails>(defaultProfileDetails)
-    const [selectedService, setSelectedService] = useState<Service>(defaultService)
+    const [profileDetails, setProfileDetails] = useState<ProfileDetails>({
+        fullname: '',
+        profile: {
+            location: '',
+            biography: '',
+            primarySport: '',
+            picture: '',
+            reviews: [],
+            services: [],
+            rating: 0,
+            socialMedia: {
+                instagram: '',
+                facebook: '',
+                twitter: '',
+                tiktok: ''
+            }
+        },
+        preferences: {
+            experience_level: '',
+            specialization: []
+        }
+    })
+    const [selectedService, setSelectedService] = useState<Service>()
     const windowSize = GetWindowSize()
     const navigate = useNavigate()
     const csrfToken = GetCSFR({ name: "csrftoken" })
@@ -86,7 +87,7 @@ export default function Coach(){
     // API call to get coach details
     useEffect(()=>{
         document.title = "SkillJa - Coach Profile"
-        axios.get(`https://www.skillja.ca/auth/coach?id=${queryParameters.get("id")}`, { 
+        axios.get(`https://www.skillja.ca/auth/coach?coach_id=${queryParameters.get("coach_id")}`, { 
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'
@@ -115,7 +116,7 @@ export default function Coach(){
                 }
                 console.error('Error config:', error.config)
             })
-    },[profileDetails])
+    },[])
 
     return (
         <div className="flex flex-col">
@@ -140,24 +141,24 @@ export default function Coach(){
                         />
                         <div className="flex flex-col justify-center items-center font-kulim text-main-green-900">
                             <h2 className="text-2xl font-medium font-source mt-3 lg:mt-0 mx-auto lg:ml-0">
-                                {profileDetails.fullname? profileDetails.fullname : 'Name' }
+                                {profileDetails.fullname}
                             </h2>
                             <h3 className="text-lg my-1 mx-auto font-medium font-source text-main-grey-300 lg:ml-0">
                                 <FontAwesomeIcon icon={faLocationDot} className="text-main-grey-300 text-lg lg:text-base mr-2 lg:ml-0" />
-                                {profileDetails.location? profileDetails.location : 'Location' }
+                                {profileDetails.profile.location}
                             </h3>
                             <h3 className="text-lg lg:text-base my-1 mx-auto font-medium lg:ml-0">
                                 <FontAwesomeIcon icon={faStar} className="text-amber-400 text-lg lg:text-base mr-2 lg:ml-0" />
-                                {profileDetails.rating ? profileDetails.rating : 0 }
+                                {profileDetails.profile.rating}
                             </h3>
                             <h3 className="text-lg lg:text-base mx-auto font-medium">
-                                Experience: {profileDetails.experience_level? profileDetails.experience_level : 'N/A' }
+                                Experience: {profileDetails.preferences.experience_level}
                             </h3>
                             <SocialMediaIcons 
-                                instagram={profileDetails.instagram!}
-                                facebook={profileDetails.facebook!}
-                                twitter={profileDetails.twitter!}
-                                tiktok={profileDetails.tiktok!}
+                                instagram={profileDetails.profile.socialMedia.instagram}
+                                facebook={profileDetails.profile.socialMedia.facebook}
+                                twitter={profileDetails.profile.socialMedia.twitter}
+                                tiktok={profileDetails.profile.socialMedia.tiktok}
                             />
                         </div>
                     </div>
@@ -168,7 +169,7 @@ export default function Coach(){
                             <></>
                         }
                         <p className="my-6 lg:my-3 text-center lg:text-start">
-                            {profileDetails.biography? profileDetails.biography : 'Bio goes here...' }
+                            {profileDetails.profile.biography}
                         </p>
                     </div>
                 </section>
@@ -178,9 +179,9 @@ export default function Coach(){
                         <h2 className="text-2xl font-medium font-source mx-auto mb-6 text-center">
                             Sessions and Packages
                         </h2>
-                        {profileDetails.services.length > 0 ?
+                        {profileDetails.profile.services.length > 0 ?
                             <>
-                                {profileDetails.services.map((currService, index) => (
+                                {profileDetails.profile.services.map((currService, index) => (
                                 <div
                                     className="flex rounded-2xl py-2 px-5 mb-4 bg-main-white border border-main-grey-100 cursor-pointer hover:border-main-green-500 hover:shadow-md"
                                     onClick={()=>{
@@ -209,15 +210,15 @@ export default function Coach(){
                         <h2 className="text-2xl font-medium font-source mx-auto mb-6 text-center">
                             Reviews and Testimonials
                         </h2>
-                        {profileDetails.reviews?.length > 0 ?
-                            <ReviewSlider data={profileDetails.reviews}/>   
+                        {profileDetails.profile.reviews.length > 0 ?
+                            <ReviewSlider data={profileDetails.profile.reviews}/>   
                         :
                             <p className="mx-auto">No reviews available</p>    
                         }
                     </div>
                 </section>
             </div>
-            {isModalOpen? <CoachService data={selectedService} exitView={setIsModalOpen}/> : <></>}
+            {isModalOpen? <CoachService data={selectedService!} exitView={setIsModalOpen}/> : <></>}
         </div>
     )
 }
