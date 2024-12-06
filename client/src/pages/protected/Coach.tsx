@@ -19,7 +19,7 @@ interface Review {
 }
 
 interface Service {
-    id?: number;
+    id: number;
     type: string;
     title: string;
     description: string;

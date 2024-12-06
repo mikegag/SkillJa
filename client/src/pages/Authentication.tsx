@@ -38,7 +38,12 @@ export default function Authentication(){
     if (loading) {
         return <div className="mt-40 flex flex-col justify-center items-center">
                 <LoadingAnimation />
-                <Link to={'/'} className="text-sm hover:text-main-color-lightgreen mt-20">Back to Home Page</Link>
+                <Link 
+                    to={'/'} 
+                    className="text-sm py-2 px-4 bg-main-green-500 hover:bg-main-green-800 mt-20 cursor-pointer"
+                >
+                    Back to Home Page
+                </Link>
             </div>
     }
 

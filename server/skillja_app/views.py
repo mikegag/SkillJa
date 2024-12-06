@@ -721,7 +721,15 @@ def create_stripe_checkout(request,coach_id):
 
             # Validate the coach and service
             coach = User.objects.get(id=coach_id, iscoach=True)
-            service = coach.services.get(id=service_id)
+            coach_profile = CoachProfile.objects.filter(user=coach).first()
+
+            if not coach_profile:
+                return JsonResponse({'error': 'Coach profile not found'}, status=404)
+
+            service = coach_profile.services.filter(id=service_id).first()
+
+            if not service:
+                return JsonResponse({'error': 'Service not found for this coach'}, status=404)
 
             checkout_session = stripe.checkout.Session.create(
                 success_url='https://skillja.ca/' + 'order-success?session_id={CHECKOUT_SESSION_ID}&coach_id={coach_id}',
