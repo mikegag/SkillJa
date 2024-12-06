@@ -159,7 +159,7 @@ export default function Coach(){
                                 facebook={profileDetails.profile.socialMedia.facebook}
                                 twitter={profileDetails.profile.socialMedia.twitter}
                                 tiktok={profileDetails.profile.socialMedia.tiktok}
-                            />
+                            /> 
                         </div>
                     </div>
                     <div className="w-full lg:mt-6 lg:px-20">
