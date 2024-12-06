@@ -141,24 +141,24 @@ export default function Coach(){
                         />
                         <div className="flex flex-col justify-center items-center font-kulim text-main-green-900">
                             <h2 className="text-2xl font-medium font-source mt-3 lg:mt-0 mx-auto lg:ml-0">
-                                {profileDetails.fullname}
+                                {profileDetails?.fullname}
                             </h2>
                             <h3 className="text-lg my-1 mx-auto font-medium font-source text-main-grey-300 lg:ml-0">
                                 <FontAwesomeIcon icon={faLocationDot} className="text-main-grey-300 text-lg lg:text-base mr-2 lg:ml-0" />
-                                {profileDetails.profile.location}
+                                {profileDetails.profile?.location || "Location not provided"}
                             </h3>
                             <h3 className="text-lg lg:text-base my-1 mx-auto font-medium lg:ml-0">
                                 <FontAwesomeIcon icon={faStar} className="text-amber-400 text-lg lg:text-base mr-2 lg:ml-0" />
-                                {profileDetails.profile.rating}
+                                {profileDetails.profile?.rating}
                             </h3>
                             <h3 className="text-lg lg:text-base mx-auto font-medium">
-                                Experience: {profileDetails.preferences.experience_level}
+                                Experience: {profileDetails.preferences?.experience_level || "Not provided"}
                             </h3>
                             <SocialMediaIcons 
-                                instagram={profileDetails.profile.socialMedia.instagram}
-                                facebook={profileDetails.profile.socialMedia.facebook}
-                                twitter={profileDetails.profile.socialMedia.twitter}
-                                tiktok={profileDetails.profile.socialMedia.tiktok}
+                                instagram={profileDetails.profile?.socialMedia.instagram}
+                                facebook={profileDetails.profile?.socialMedia.facebook}
+                                twitter={profileDetails.profile?.socialMedia.twitter}
+                                tiktok={profileDetails.profile?.socialMedia.tiktok}
                             /> 
                         </div>
                     </div>
@@ -169,7 +169,7 @@ export default function Coach(){
                             <></>
                         }
                         <p className="my-6 lg:my-3 text-center lg:text-start">
-                            {profileDetails.profile.biography}
+                            {profileDetails.profile?.biography || "Biography not provided"}
                         </p>
                     </div>
                 </section>
