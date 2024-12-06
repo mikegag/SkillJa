@@ -29,7 +29,7 @@ interface Service {
     location?: string;
     deliverable?: string;
     price: number;
-}
+} 
   
 interface ProfileDetails {
     fullname: string;
