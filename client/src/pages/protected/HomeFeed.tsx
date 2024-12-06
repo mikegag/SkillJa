@@ -111,7 +111,7 @@ export default function HomeFeed(){
                     </div>
                     {data.results.length !== 0 ?
                         data.results.map(coach=>(
-                        <Link to={`${isLoggedIn? "./signup" : `${protectedRoute}?name=${coach.fullname}&coach_id=${coach.id}&location=${coach.location}`}`} 
+                        <Link to={`${isLoggedIn ? `${protectedRoute}?name=${coach.fullname}&coach_id=${coach.id}&location=${coach.location}` : "/signup" }`} 
                             className="mx-auto my-2 lg:w-9/12"
                         >
                             <ProfilePreview 
