@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, Suspense, lazy } from "react"
 import Header from "../../components/navigation/Header"
 import SearchBar from "../../components/navigation/SearchBar"
 import ProfilePreview from "../../components/navigation/ProfilePreview"
@@ -6,6 +6,9 @@ import { Link, useLocation } from "react-router-dom"
 import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
 import GetWindowSize from "../../hooks/GetWindowSize"
+
+// Lazy load LoadingAnimation
+const LoadingAnimation = lazy(() => import("../../components/general/LoadingAnimation"))
 
 interface resultsType{
     fullname: string;
@@ -29,6 +32,7 @@ export default function HomeFeed(){
     const location = useLocation()
     const [data, setData] = useState<dataResultsType>({ results: [] })
     const protectedRoute = '/auth/coach' 
+    const [isLoading, setIsLoading] = useState<boolean>(true)
 
     useEffect(() => {
         document.title = "SkillJa - Home Feed"
@@ -90,6 +94,9 @@ export default function HomeFeed(){
                 }
                 console.error('Error config:', error.config)
             })
+            .finally(() => {
+                setIsLoading(false) // End loading
+            })
     }
 
     return (
@@ -107,27 +114,38 @@ export default function HomeFeed(){
                             <SearchBar mobileView={false} />
                         }
                     </div>
-                    <div role="presentation" className="h-0.5 bg-main-grey-100 rounded-full w-20 lg:w-32 mb-8">
-                    </div>
-                    {data.results.length !== 0 ?
-                        data.results.map(coach=>(
-                        <Link to={`${isLoggedIn ? `${protectedRoute}?name=${coach.fullname}&coach_id=${coach.id}&location=${coach.location}` : "/signup" }`} 
-                            className="mx-auto my-2 lg:w-9/12"
-                        >
-                            <ProfilePreview 
-                                fullname={coach.fullname}
-                                location={coach.location}
-                                specialization={coach.specialization}
-                                rating={coach.rating}
-                                biography={coach.biography}
-                                price={coach.price}
-                                experience={coach.experience}
-                            />
-                        </Link>
-                        ))
-                        :
-                        <p className="text-center mx-auto text-lg font-kulim">No coaches match your search criteria. Try again.</p>
-                    }           
+                    <div role="presentation" className="h-0.5 bg-main-grey-100 rounded-full w-20 lg:w-32 mb-8"></div>
+                    {isLoading ? (
+                        <Suspense fallback={<div>Loading...</div>}>
+                            <LoadingAnimation />
+                        </Suspense>
+                    ) 
+                    : 
+                        data.results.length !== 0 ? (
+                            data.results.map(coach => (
+                                <Link to={`${isLoggedIn ? `${protectedRoute}?name=${coach.fullname}&coach_id=${coach.id}&location=${coach.location}` : "/signup" }`} 
+                                    className="mx-auto my-2 lg:w-9/12"
+                                    key={coach.id}
+                                >
+                                    <ProfilePreview 
+                                        fullname={coach.fullname}
+                                        location={coach.location}
+                                        specialization={coach.specialization}
+                                        rating={coach.rating}
+                                        biography={coach.biography}
+                                        price={coach.price}
+                                        experience={coach.experience}
+                                    />
+                                </Link>
+                            ))
+                        ) 
+                        : 
+                        (
+                            <p className="text-center mx-auto text-lg font-kulim">
+                                No coaches match your search criteria. Try again.
+                            </p>
+                        )
+                    }    
                 </div>
             </div>
         </>

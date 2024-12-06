@@ -179,7 +179,7 @@ export default function Coach(){
                         <h2 className="text-2xl font-medium font-source mx-auto mb-6 text-center">
                             Sessions and Packages
                         </h2>
-                        {profileDetails.profile.services.length > 0 ?
+                        {profileDetails.profile.services?.length > 0 ?
                             <>
                                 {profileDetails.profile.services.map((currService, index) => (
                                 <div
@@ -210,7 +210,7 @@ export default function Coach(){
                         <h2 className="text-2xl font-medium font-source mx-auto mb-6 text-center">
                             Reviews and Testimonials
                         </h2>
-                        {profileDetails.profile.reviews.length > 0 ?
+                        {profileDetails.profile.reviews?.length > 0 ?
                             <ReviewSlider data={profileDetails.profile.reviews}/>   
                         :
                             <p className="mx-auto">No reviews available</p>    
