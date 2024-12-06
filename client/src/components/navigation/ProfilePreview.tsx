@@ -25,7 +25,7 @@ export default function ProfilePreview(props:ProfilePreviewProps){
                 className="w-14 h-14 lg:w-24 lg:h-24 my-auto mx-3 lg:mx-5 rounded-full border"
                 alt="headshot of user demonstrating what they look like"
             />
-            <div className="flex justify-start flex-wrap my-auto ml-2 md:ml-6 mr-auto">
+            <div className="flex justify-start flex-wrap my-auto ml-1 md:ml-6 mr-auto">
                 <h3 className="w-full text-lg lg:text-2xl pb-2 font-source">{props.fullname}</h3>
                 <div className="flex justify-center items-center text-sm my-0.5">
                     <FontAwesomeIcon icon={faLocationDot}/>
@@ -74,7 +74,7 @@ export default function ProfilePreview(props:ProfilePreviewProps){
                 :
                     <></>
                 }
-                <FontAwesomeIcon icon={faChevronRight} className="text-base my-auto mx-2"/>
+                <FontAwesomeIcon icon={faChevronRight} className="text-base m-auto lg:mx-2"/>
             </div>
         </div>
     )

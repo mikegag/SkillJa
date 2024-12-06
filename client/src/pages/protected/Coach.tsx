@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronRight, faLocationDot, faLongArrowLeft, faStar } from "@fortawesome/free-solid-svg-icons"
 import Header from "../../components/navigation/Header"
+import Footer from "../../components/navigation/Footer"
 import GetWindowSize from "../../hooks/GetWindowSize"
 import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
@@ -133,11 +134,11 @@ export default function Coach(){
                         onClick={()=>navigate(-1)} 
                         className="text-2xl my-auto mr-auto ml-0 hover:text-main-green-500 cursor-pointer" 
                     />
-                    <h1 className="font-source text-center text-3xl pr-4 my-auto mr-auto text-main-green-900">
+                    <h1 className="font-source text-center text-3xl pr-4 lg:pr-1 my-auto mr-auto text-main-green-900">
                         Profile
                     </h1>
                 </div>
-                <section className="flex flex-col justify-center items-center border-b-2 mt-8 lg:mt-14 border-main-grey-300 lg:pb-4">
+                <section className="flex flex-col justify-center items-center border-b-2 mt-8 lg:mt-20 border-main-grey-300 lg:pb-4 lg:px-10">
                     <div className="flex flex-col justify-center items-center lg:flex-row lg:justify-center lg:items-center lg:w-full">
                         <img 
                             src={require('../../assets/default-avatar.jpg')} 
@@ -165,7 +166,7 @@ export default function Coach(){
                         </div>
                         <div className="flex flex-col justify-center items-center my-2 lg:mr-0 lg:ml-auto">
                             <button 
-                                className="form btn md:w-52"
+                                className="form-btn md:w-52"
                                 onClick={(e)=>handleMessage(e)}
                             >
                                 Contact
@@ -235,6 +236,7 @@ export default function Coach(){
                 </section>
             </div>
             {isModalOpen? <CoachService data={selectedService!} exitView={setIsModalOpen}/> : <></>}
+            <Footer />
         </div>
     )
 }

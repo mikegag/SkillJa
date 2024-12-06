@@ -1,12 +1,22 @@
 import React from "react"
 import HamburgerMenu from "./HamburgerMenu"
-import { Link } from "react-router-dom"
+import { useEffect } from "react"
+import { Link, useLocation } from "react-router-dom"
 
 interface HeaderProps {
     useCase: 'default' | 'protected' | 'onboarding'
 }
 
 export default function Header({useCase}:HeaderProps){
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.pathname === '/home-feed' ) {
+            // Reload the page when the /home-feed route is loaded
+            window.location.reload()
+        }
+    }, [])
+
     return (
         <>
         {useCase === 'default' ?
