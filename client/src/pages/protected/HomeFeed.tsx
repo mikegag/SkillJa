@@ -8,7 +8,7 @@ import GetCSFR from "../../hooks/GetCSFR"
 import GetWindowSize from "../../hooks/GetWindowSize"
 
 interface resultsType{
-    name: string;
+    fullname: string;
     id: string;
     specialization: string[];
     location: string;
@@ -111,11 +111,11 @@ export default function HomeFeed(){
                     </div>
                     {data.results.length !== 0 ?
                         data.results.map(coach=>(
-                        <Link to={`${isLoggedIn? "./signup" : `${protectedRoute}?name=${coach.name}&coach_id=${coach.id}&location=${coach.location}`}`} 
+                        <Link to={`${isLoggedIn? "./signup" : `${protectedRoute}?name=${coach.fullname}&coach_id=${coach.id}&location=${coach.location}`}`} 
                             className="mx-auto my-2 lg:w-9/12"
                         >
                             <ProfilePreview 
-                                name={coach.name}
+                                fullname={coach.fullname}
                                 location={coach.location}
                                 specialization={coach.specialization}
                                 rating={coach.rating}
