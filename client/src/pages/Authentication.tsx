@@ -40,7 +40,7 @@ export default function Authentication(){
                 <LoadingAnimation />
                 <Link 
                     to={'/'} 
-                    className="text-sm py-2 px-4 bg-main-green-500 hover:bg-main-green-800 mt-20 cursor-pointer"
+                    className="text-sm mx-auto mt-20 cursor-pointer hover:underline"
                 >
                     Back to Home Page
                 </Link>

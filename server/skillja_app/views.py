@@ -676,7 +676,7 @@ stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 @require_GET
 @login_required
 def stripe_config(request):
-    stripe_config = {'publicKey': os.getenv('STRIPE_PUBLIC_kEY')}
+    stripe_config = {'publicKey': os.getenv('STRIPE_PUBLIC_KEY')}
     return JsonResponse(stripe_config, safe=False)
 
 @require_GET

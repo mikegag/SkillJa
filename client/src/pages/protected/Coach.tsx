@@ -166,7 +166,7 @@ export default function Coach(){
                         </div>
                         <div className="flex flex-col justify-center items-center my-2 lg:mr-0 lg:ml-auto">
                             <button 
-                                className="form-btn md:w-52"
+                                className="form-btn py-2 px-8 mt-4 mb-2"
                                 onClick={(e)=>handleMessage(e)}
                             >
                                 Contact
