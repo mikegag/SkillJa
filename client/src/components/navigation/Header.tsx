@@ -7,11 +7,11 @@ interface HeaderProps {
 }
 
 export default function Header({useCase}:HeaderProps){
-    const location = useLocation();
+    const location = useLocation()
     const handleLinkClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         // Only reload the page if there is a query string
         if (location.search) {
-            window.location.reload();
+            window.location.reload()
         }
     }
 
