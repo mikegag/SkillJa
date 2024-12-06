@@ -734,7 +734,7 @@ def create_stripe_checkout(request,coach_id):
             checkout_session = stripe.checkout.Session.create(
                 success_url=f'https://skillja.ca/' + 'order-success?session_id={CHECKOUT_SESSION_ID}&coach_id={coach_id}',
                 cancel_url='https://skillja.ca/' + 'order-cancelled',
-                payment_method_types=['card', 'paypal'],
+                payment_method_types=['card'],
                 mode='payment',
                 line_items=[{
                     'price_data': {
