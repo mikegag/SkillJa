@@ -20,7 +20,7 @@ export default function ProfilePreview(props:ProfilePreviewProps){
         <div className="flex mx-auto w-full lg:w-10/12 justify-center items-center rounded-2xl bg-main-white border-2 border-main-grey-100 px-2 py-4 hover:border-main-green-500 cursor-pointer">
             <img 
                 src={require('../../assets/default-avatar.jpg')} 
-                className="w-28 h-28 my-2 mx-5 rounded-full border"
+                className="w-16 h-16 lg:w-28 lg:h-28 my-2 mx-5 rounded-full border"
                 alt="headshot of user demonstrating what they look like"
             />
             <div className="flex justify-start flex-wrap my-auto ml-2 mr-auto">
