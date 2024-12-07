@@ -26,5 +26,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('', include('skillja_app.urls')), 
     # Catch-all URL pattern to serve the React app
-    re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
+    #re_path(r'^().*$', TemplateView.as_view(template_name='index.html')),
+    re_path(r'^(?!static/|media/).*$', TemplateView.as_view(template_name='index.html')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
