@@ -29,15 +29,15 @@ export default function App() {
         <Route path="/" element={<Landing />} />
         <Route path="coming-soon" element={<ComingSoon />} />
         <Route path="login" element={<Login />} />
-        <Route path="/signup/" element={<SignUp />} />
+        <Route path="signup" element={<SignUp />} />
         <Route path="home-feed" element={<HomeFeed />} />
         <Route path="order-success" element={<OrderSuccessful/>} />
         <Route path="order-cancelled" element={<OrderCancelled/>} />
         <Route path="auth"element={<Authentication />}>
           <Route path="onboarding" element={<Onboarding/>}/>
           <Route path="coach" element={<Coach />} />
-          <Route path="/calendar/" element={<Calendar />} />
-          <Route path="chat/" element={<Chat />} />
+          <Route path="calendar" element={<Calendar />} />
+          <Route path="chat" element={<Chat />} />
           <Route path="profile">
             <Route index element={<Profile />} />
             <Route path="settings">

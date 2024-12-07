@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import Header from "../../../components/navigation/Header";
 import LoadingAnimation from "../../../components/general/LoadingAnimation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,7 +6,6 @@ import { faArrowRight, faBagShopping } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
 export default function OrderSuccessful(){
-    let urlParams = useParams()
     const [hasLoaded, setHasLoaded] = useState(false)
     const navigate = useNavigate()
 
