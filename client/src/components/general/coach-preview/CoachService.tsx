@@ -54,7 +54,7 @@ export default function CoachService({exitView, data}:ServiceProps){
         } else {
           console.error('Error setting up request:', error.message);
         }
-    }
+    } 
 
     // Handles Stripe checkout functionality
     function handleSubmit(e:React.FormEvent){
