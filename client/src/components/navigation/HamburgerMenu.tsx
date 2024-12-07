@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate} from "react-router-dom"
 import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
 import data from "../../data.json"
@@ -41,7 +41,7 @@ export default function HamburgerMenu({useCase}:MenuProps){
         })
             .then(res => {
                 if (res.status === 200) { 
-                    if (window.location.pathname === '/') {
+                    if (window.location.pathname === '') {
                         window.location.reload()
                     } else {
                         navigate('/')
