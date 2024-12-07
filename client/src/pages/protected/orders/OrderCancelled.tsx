@@ -9,10 +9,8 @@ export default function OrderCancelled(){
     const [hasLoaded, setHasLoaded] = useState(false)
     const navigate = useNavigate()
 
-    //api call to trigger confirmation email
-
     useEffect(()=>{
-        document.title = "Transaction Successful!"
+        document.title = "Transaction Cancelled!"
         const timeoutId = setTimeout(() => {
             setHasLoaded(true)
         }, 1200)

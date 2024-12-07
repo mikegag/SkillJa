@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
-import GetWindowSize from '../../hooks/GetWindowSize'
 import data from "../../data.json"
 
 interface UserDataStructure {
@@ -15,9 +14,7 @@ interface MenuProps {
 
 export default function HamburgerMenu({useCase}:MenuProps){
     const [menuOpen, setMenuOpen] = useState<boolean>(false)
-    const [userData, setuserData] = useState<UserDataStructure>({
-        picture: ''
-    })
+    const [userData, setuserData] = useState<UserDataStructure>({picture:''})
     const menuRef = useRef<HTMLDivElement>(null)
     const navigate = useNavigate()
     const csrfToken = GetCSFR({ name: "csrftoken" })
@@ -43,42 +40,33 @@ export default function HamburgerMenu({useCase}:MenuProps){
             withCredentials: true
         })
             .then(res => {
-                if (res.status === 200) {
-                    navigate("/")
+                if (res.status === 200) { 
+                    if (window.location.pathname === '/') {
+                        window.location.reload()
+                    } else {
+                        navigate('/')
+                    }
                 } else {
-                    console.error("logout failed")
+                    console.error("Logout failed")
                 }
             })
             .catch(error => {
-                if (error.response) {
-                    // the server responded with a status code that falls out of the range of 2xx
-                    console.error('Error response:', error.response.data)
-                    console.error('Status:', error.response.status)
-                    console.error('Headers:', error.response.headers)
-                } else if (error.request) {
-                    // no response was received
-                    console.error('No response received:', error.request)
-                } else {
-                    // Something happened in setting up the request that triggered an Error
-                    console.error('Error setting up request:', error.message)
-                }
-                console.error('Error config:', error.config)
+                console.error('Logout Error:', error)
+                alert("Logout failed. Please try again.")
             })
     }
     
     return (
         <div ref={menuRef}>
+            {/* Hamburger Icon and User Avatar */}
             <div 
                 className={`flex bg-main-white rounded-2xl border border-main-grey-100 p-1 h-12 my-auto hover:cursor-pointer hover:shadow-lg ${menuOpen? "shadow-lg":""}`} 
                 onClick={()=>setMenuOpen(!menuOpen)}
             >
                 <div className="flex flex-col mx-2 my-auto">
-                    <div className="h-0.5 bg-main-green-900 rounded-full w-4 my-0.5">
-                    </div>
-                    <div className="h-0.5 bg-main-green-900 rounded-full w-4 my-0.5">
-                    </div>
-                    <div className="h-0.5 bg-main-green-900 rounded-full w-4 my-0.5">
-                    </div>
+                    <div className="h-0.5 bg-main-green-900 rounded-full w-4 my-0.5"></div>
+                    <div className="h-0.5 bg-main-green-900 rounded-full w-4 my-0.5"></div>
+                    <div className="h-0.5 bg-main-green-900 rounded-full w-4 my-0.5"></div>
                 </div>
                 <img 
                     src={userData.picture? userData.picture : require('../../assets/default-avatar.jpg')}
@@ -86,7 +74,8 @@ export default function HamburgerMenu({useCase}:MenuProps){
                     alt="profile of logged in user"
                 />
             </div>
-            {menuOpen ?
+            {/* Menu Dropdown */}
+            {menuOpen && (
                 <div className="flex flex-col absolute py-2 right-5 z-10 lg:right-11 mt-2 shadow-sm border border-main-grey-100 bg-main-white rounded-2xl w-60 overflow-hidden">
                     {menuData.map((currSection,index)=>(
                         currSection.title.includes('Logout')?
@@ -107,9 +96,7 @@ export default function HamburgerMenu({useCase}:MenuProps){
                             </Link>
                     ))}
                 </div>
-            :
-                <></>
-            }
+            )}
         </div>
     )
 }
