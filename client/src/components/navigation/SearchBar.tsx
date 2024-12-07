@@ -100,6 +100,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                                 </p>
                                 <input 
                                     id="sport"
+                                    name="sport"
                                     aria-label="search term" 
                                     className={`w-full text-main-grey-200 border border-main-grey-100 p-2 mt-1 rounded-2xl hover:cursor-pointer`}
                                     placeholder="Search Sports"
@@ -116,6 +117,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                                 </p>
                                 <input 
                                     id="location"
+                                    name="location"
                                     aria-label="search term" 
                                     className={` w-full text-main-grey-200 border border-main-grey-100 p-2 mt-1 mb-6 rounded-2xl hover:cursor-pointer`}
                                     placeholder="My location"
@@ -132,6 +134,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                                 </p>
                                 <input 
                                     id="price"
+                                    name="price"
                                     aria-label="search term" 
                                     className={` text-main-grey-200 w-full border border-main-grey-100 p-2 mt-1 mb-3 rounded-2xl hover:cursor-pointer`}
                                     placeholder="$$$"
@@ -175,7 +178,9 @@ export default function SearchBar({mobileView}:SearchBarProps){
                         className="my-auto mx-2 text-lg hover:text-main-green-500"
                         aria-label="filter icon within search bar"
                     />
-                    <input 
+                    <input
+                        id="search"
+                        name="search"
                         aria-label="search term" 
                         className="w-full mx-2 focus:outline-none"
                         placeholder="Find coaches near me..."
@@ -203,6 +208,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                     </p>
                     <input 
                         id="sport"
+                        name="sport"
                         aria-label="search term" 
                         className={`${currentlySelected === 'sport'? 'bg-main-white': (currentlySelected ===''? 'bg-main-white' :'bg-main-grey-100')} w-full text-main-grey-200 focus:outline-none ml-0 hover:cursor-pointer`}
                         placeholder="Search Sports"
@@ -223,6 +229,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                     </p>
                     <input 
                         id="location"
+                        name="location"
                         aria-label="search term" 
                         className={`${currentlySelected === 'location'? 'bg-main-white': (currentlySelected ===''? 'bg-main-white' :'bg-main-grey-100')} w-full text-main-grey-200 focus:outline-none ml-0 hover:cursor-pointer`}
                         placeholder="My location"
@@ -247,6 +254,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                         </p>
                         <input 
                             id="price"
+                            name="price"
                             aria-label="search term" 
                             className={`${currentlySelected === 'price'? 'bg-main-white rounded-3xl': (currentlySelected === ''? 'bg-main-white':'bg-main-grey-100 rounded-none')} text-main-grey-200 w-full mx-2 focus:outline-none ml-0 hover:cursor-pointer`}
                             placeholder="$$$"
