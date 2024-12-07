@@ -12,6 +12,7 @@ export default function OrderCancelled(){
     //api call to trigger confirmation email
 
     useEffect(()=>{
+        document.title = "Transaction Successful!"
         const timeoutId = setTimeout(() => {
             setHasLoaded(true)
         }, 1200)

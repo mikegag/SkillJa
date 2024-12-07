@@ -732,8 +732,8 @@ def create_stripe_checkout(request,coach_id):
                 return JsonResponse({'error': 'Service not found for this coach'}, status=404)
 
             checkout_session = stripe.checkout.Session.create(
-                success_url='https://skillja.ca/order-success?session_id={CHECKOUT_SESSION_ID}&coach_id={coach_id}',
-                cancel_url='https://skillja.ca/order-cancelled',
+                success_url='https://www.skillja.ca/order-success?session_id={CHECKOUT_SESSION_ID}&coach_id={coach_id}',
+                cancel_url='https://www.skillja.ca/order-cancelled',
                 payment_method_types=['card'],
                 mode='payment',
                 line_items=[{

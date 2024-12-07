@@ -14,6 +14,7 @@ export default function OrderSuccessful(){
     //api call to trigger confirmation email using session_id and coach_id
 
     useEffect(()=>{
+        document.title = "Transaction Cancelled!"
         const timeoutId = setTimeout(() => {
             setHasLoaded(true)
         }, 1200)
