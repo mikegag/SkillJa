@@ -30,6 +30,7 @@ export default function HamburgerMenu({useCase}:MenuProps){
         return () => {
             document.removeEventListener('mousedown', handleClickOutside)
         }
+        
     }, [])
 
     function handleLogout(){
@@ -41,7 +42,7 @@ export default function HamburgerMenu({useCase}:MenuProps){
         })
             .then(res => {
                 if (res.status === 200) { 
-                    if (window.location.pathname === '') {
+                    if (window.location.pathname === '/') {
                         window.location.reload()
                     } else {
                         navigate('/')

@@ -1,6 +1,5 @@
 import React from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-import NormalizePath from "./hooks/NormalizePath"
 import NotFound from "./pages/NotFound"
 import Landing from "./pages/Landing"
 import Login from "./pages/Login"
@@ -25,7 +24,6 @@ import OrderCancelled from "./pages/protected/orders/OrderCancelled"
 export default function App() {
   return (
     <BrowserRouter>
-      <NormalizePath />
       <Routes>
         <Route path="*" element={<NotFound/>} />
         <Route path="/" element={<Landing />} />
