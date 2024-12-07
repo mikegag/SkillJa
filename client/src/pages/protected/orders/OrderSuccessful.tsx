@@ -27,7 +27,7 @@ export default function OrderSuccessful(){
                 {hasLoaded ?
                     <>
                         <FontAwesomeIcon icon={faBagShopping} className="mt-6 text-main-green-600 h-12 mx-auto"/>
-                        <h1 className="text-4xl my-8 font-semibold">
+                        <h1 className="text-4xl my-8 mx-auto text-center font-semibold">
                             Thank you!
                         </h1>
                         <p className="text-xl text-center mx-auto">

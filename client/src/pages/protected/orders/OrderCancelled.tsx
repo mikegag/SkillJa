@@ -25,7 +25,7 @@ export default function OrderCancelled(){
                 {hasLoaded ?
                     <>
                         <FontAwesomeIcon icon={faX} className="mt-6 text-red-500 h-9 mx-auto"/>
-                        <h1 className="text-4xl my-8 font-semibold">
+                        <h1 className="text-4xl my-8 mx-auto text-center font-semibold">
                             Oop! Something went wrong...
                         </h1>
                         <p className="text-xl text-center mx-auto">
