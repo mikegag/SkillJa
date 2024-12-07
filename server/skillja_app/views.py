@@ -749,7 +749,7 @@ def create_stripe_checkout(request,coach_id):
                 }
                 ]
             )
-            return JsonResponse({'checkout_url': checkout_session.url}, status=200)
+            return JsonResponse({'checkout_url': checkout_session.url, 'checkout_session_id': checkout_session.id}, status=200)
         
         except User.DoesNotExist:
             return JsonResponse({'error': 'Coach not found'}, status=404)
