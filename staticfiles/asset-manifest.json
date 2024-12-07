@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.9bc7a485.css",
-    "main.js": "/static/js/main.363a8065.js",
+    "main.js": "/static/js/main.c0b64f92.js",
     "static/media/google-logo.png": "/static/media/google-logo.d2ace79a84bc22261966.png",
     "static/media/main-landing-racers.png": "/static/media/main-landing-racers.2db9e2de9385fbda7f8a.png",
     "static/media/sports-equipment.png": "/static/media/sports-equipment.708493ac07eeabe38376.png",
@@ -21,10 +21,10 @@
     "static/media/golf.svg": "/static/media/golf.5da8f10b735d81ec46fdd97ba8113e8b.svg",
     "index.html": "/index.html",
     "main.9bc7a485.css.map": "/static/css/main.9bc7a485.css.map",
-    "main.363a8065.js.map": "/static/js/main.363a8065.js.map"
+    "main.c0b64f92.js.map": "/static/js/main.c0b64f92.js.map"
   },
   "entrypoints": [
     "static/css/main.9bc7a485.css",
-    "static/js/main.363a8065.js"
+    "static/js/main.c0b64f92.js"
   ]
 }
