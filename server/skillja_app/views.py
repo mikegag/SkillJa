@@ -6,7 +6,7 @@ from django.shortcuts import redirect, get_object_or_404, render
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login as auth_login, authenticate
 from django.contrib.auth import logout
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import User, CoachPreferences, AthletePreferences, CoachProfile, AthleteProfile, Service, Review, SocialMedia
@@ -671,8 +671,6 @@ def random_profiles(request):
 
 
 # Stripe methods ------------------------------------------------
-stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
-
 @require_GET
 @login_required
 def stripe_config(request):
@@ -711,6 +709,8 @@ def get_order_details(request):
 @login_required
 def create_stripe_checkout(request,coach_id):
         try:
+            stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
+
             # Parse JSON body
             body = json.loads(request.body)
             service_id = body.get('serviceId')
@@ -758,6 +758,29 @@ def create_stripe_checkout(request,coach_id):
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
 
+@csrf_exempt
+def stripe_webhook(request):
+    stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
+    endpoint_key = os.getenv('STRIPE_ENDPOINT_KEY')
+    payload = request.body
+    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+    event = None
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, endpoint_key
+        )
+    except ValueError as e:
+        # Invalid payload
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
+        # Invalid signature
+        return HttpResponse(status=400)
+
+    # Handle the checkout.session.completed event
+    if event['type'] == 'checkout.session.completed':
+        return HttpResponse(status=200)
+    
 
 # Custom HTTP response methods ----------------------------------
 def custom_500(request):
