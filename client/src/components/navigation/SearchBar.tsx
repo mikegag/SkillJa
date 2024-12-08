@@ -1,6 +1,6 @@
 import { faMagnifyingGlass, faX } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import DropDown from "./search/DropDown"
 import SingleSlider from "./search/SingleSlider"
@@ -29,6 +29,22 @@ export default function SearchBar({mobileView}:SearchBarProps){
     const [currentlySelected, setCurrentlySelected] = useState<string>('')
     const [insideSearchBar, setInsideSearchBar] = useState<boolean>(false)
     const navigate = useNavigate()
+    // Separate refs for each input
+    const sportInputRef = useRef<HTMLInputElement>(null);
+    const locationInputRef = useRef<HTMLInputElement>(null);
+    const priceInputRef = useRef<HTMLInputElement>(null);
+
+    // Handle focusing the correct input and clearing focus on the others
+    const handleFocus = (inputType: string) => {
+        // Focus the respective input
+        if (inputType === "sport") {
+        sportInputRef.current?.focus();
+        } else if (inputType === "location") {
+        locationInputRef.current?.focus();
+        } else if (inputType === "price") {
+        priceInputRef.current?.focus();
+        }
+    }
 
     // Function to execute search and navigate to home feed page with query parameters
     function performSearch() {
@@ -201,7 +217,10 @@ export default function SearchBar({mobileView}:SearchBarProps){
             >
                 <div
                     className={`${currentlySelected === 'sport'? 'bg-main-white': (currentlySelected ===''? 'bg-main-white' :'bg-main-grey-100')} flex flex-col justify-center items-start text-left w-60 rounded-2xl py-1.5 px-3.5`}
-                    onClick={()=>setCurrentlySelected('sport')}
+                    onClick={()=>{
+                        setCurrentlySelected('sport');
+                        handleFocus('sport');
+                    }}
                 >
                     <p className="text-main-black mb-1">
                         My Sport
@@ -212,6 +231,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                         aria-label="search term" 
                         className={`${currentlySelected === 'sport'? 'bg-main-white': (currentlySelected ===''? 'bg-main-white' :'bg-main-grey-100')} w-full text-main-grey-200 focus:outline-none ml-0 hover:cursor-pointer`}
                         placeholder="Search Sports"
+                        ref={sportInputRef}
                         onChange={(e) => setSearchTerm({ ...searchTerm, sport: e.target.value })}
                         onClick={()=>setCurrentlySelected('sport')}
                         value={searchTerm.sport}
@@ -222,7 +242,10 @@ export default function SearchBar({mobileView}:SearchBarProps){
                 <div role="presentation" className={`h-11 w-0.5 bg-main-grey-100 rounded-full py-0.5 m-auto`}></div>
                 <div
                     className={`${currentlySelected === 'location'? 'bg-main-white rounded-2xl': (currentlySelected === ''? 'bg-main-white' :'bg-main-grey-100')} flex flex-col justify-center items-start text-left rounded-2xl py-1.5 px-3.5 w-60 font-kulim`}
-                    onClick={()=>setCurrentlySelected('location')}
+                    onClick={()=>{
+                        setCurrentlySelected('location');
+                        handleFocus('location');
+                    }}
                 >
                     <p className="text-main-black mb-1">
                         Where
@@ -233,6 +256,7 @@ export default function SearchBar({mobileView}:SearchBarProps){
                         aria-label="search term" 
                         className={`${currentlySelected === 'location'? 'bg-main-white': (currentlySelected ===''? 'bg-main-white' :'bg-main-grey-100')} w-full text-main-grey-200 focus:outline-none ml-0 hover:cursor-pointer`}
                         placeholder="My location"
+                        ref={locationInputRef}
                         onChange={(e) => {const value = e.target.value;
                             setSearchTerm({ ...searchTerm, location: {...searchTerm.location, place:e.target.value} })
                         }}
@@ -245,7 +269,10 @@ export default function SearchBar({mobileView}:SearchBarProps){
                 <div role="presentation" className="h-11 w-0.5 bg-main-grey-100 rounded-full py-0.5 m-auto"></div>
                 <div
                     className={`${currentlySelected === 'price'? 'bg-main-white rounded-2xl': (currentlySelected ===''? 'bg-main-white' :'bg-main-grey-100')} flex justify-center items-center text-left w-56 rounded-2xl py-1.5 px-3.5`}
-                    onClick={()=>setCurrentlySelected('price')}
+                    onClick={()=>{
+                        setCurrentlySelected('price');
+                        handleFocus('price');
+                    }}
                 >
                     {currentlySelected === 'price' ? <DropDown useCase="price" onPriceChange={handlePriceChange} /> : <></>}
                     <div className={`${currentlySelected === 'price'? 'bg-main-white rounded-2xl': (currentlySelected === ''? 'bg-main-white' :'bg-main-grey-100 rounded-none')} flex flex-col justify-center items-start`}>
@@ -256,8 +283,9 @@ export default function SearchBar({mobileView}:SearchBarProps){
                             id="price"
                             name="price"
                             aria-label="search term" 
-                            className={`${currentlySelected === 'price'? 'bg-main-white rounded-3xl': (currentlySelected === ''? 'bg-main-white':'bg-main-grey-100 rounded-none')} text-main-grey-200 w-full mx-2 focus:outline-none ml-0 hover:cursor-pointer`}
+                            className={`${currentlySelected === 'price'? 'bg-main-white': (currentlySelected === ''? 'bg-main-white':'bg-main-grey-100 rounded-none')} text-main-grey-200 w-full mx-2 focus:outline-none ml-0 hover:cursor-pointer`}
                             placeholder="$$$"
+                            ref={priceInputRef}
                             onChange={(e) => setSearchTerm({...searchTerm, price: {...searchTerm.price, value: e.target.value} })}
                             onClick={()=>setCurrentlySelected('price')}
                             value={searchTerm.price.value}
