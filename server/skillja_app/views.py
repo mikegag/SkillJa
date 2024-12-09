@@ -802,7 +802,7 @@ def new_user_confirmation_email(request):
         # Prepare the JWT token
         token_payload = {
             "user_id": user.id,
-            "exp": (now() + timedelta(days=1)).timestamp() 
+            "exp": (now() + timedelta(days=2)).timestamp() 
         }
         token = jwt.encode(token_payload, os.getenv('EMAIL_CONFIRMATION_KEY'), algorithm="HS256")
         confirmation_link = f"https://www.skillja.ca/confirm_account?token={token}"

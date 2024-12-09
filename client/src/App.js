@@ -20,6 +20,7 @@ import Payments from './pages/protected/settings/Payments'
 import ComingSoon from "./pages/ComingSoon"
 import OrderSuccessful from "./pages/protected/orders/OrderSuccessful"
 import OrderCancelled from "./pages/protected/orders/OrderCancelled"
+import ConfirmEmail from "./pages/protected/misc/ConfirmEmail"
 
 export default function App() {
   return (
@@ -33,6 +34,7 @@ export default function App() {
         <Route path="home-feed" element={<HomeFeed />} />
         <Route path="order-success" element={<OrderSuccessful/>} />
         <Route path="order-cancelled" element={<OrderCancelled/>} />
+        <Route path="confirm_account" element={<ConfirmEmail/>} />
         <Route path="auth"element={<Authentication />}>
           <Route path="onboarding" element={<Onboarding/>}/>
           <Route path="coach" element={<Coach />} />

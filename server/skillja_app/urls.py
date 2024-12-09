@@ -23,5 +23,7 @@ urlpatterns = [
     path('stripe/config/', views.stripe_config, name='stripe_config'),
     path('stripe/create_stripe_checkout/<int:coach_id>/', views.create_stripe_checkout, name='create_stripe_checkout'),
     path('stripe/get_order_details/', views.get_order_details, name='get_order_details'),
-    path('stripe/webhook/', views.stripe_webhook, name='webhook')
+    path('stripe/webhook/', views.stripe_webhook, name='webhook'),
+    path('email/new_user_confirmation/', views.new_user_confirmation_email, name='new_user_confirmation_email'),
+    path('email/confirm_email/', views.confirm_email, name='confirm_email')
 ]   
