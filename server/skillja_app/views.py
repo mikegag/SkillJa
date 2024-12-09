@@ -1,5 +1,5 @@
 from django.forms import model_to_dict
-import json, os, stripe
+import json, os, stripe, requests, jwt
 from venv import logger
 from django.db import IntegrityError
 from django.shortcuts import redirect, get_object_or_404, render
@@ -17,6 +17,10 @@ from django.views.decorators.http import require_POST, require_GET
 from django.contrib.auth.decorators import login_required
 from .utils import calculate_price_deviance, calculate_coach_cost, calculate_coach_review
 from django.core.exceptions import ObjectDoesNotExist
+from django.template.loader import render_to_string
+from django.utils.timezone import now
+from datetime import timedelta
+
 
 # Authentication methods ----------------------------------------
 def index(request):
@@ -558,6 +562,7 @@ def delete_coach_service(request):
     except Exception as e:
         return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
 
+
 # Search methods ------------------------------------------------
 @require_GET
 def search(request): 
@@ -779,8 +784,73 @@ def stripe_webhook(request):
 
     # Handle the checkout.session.completed event
     if event['type'] == 'checkout.session.completed':
+        # trigger event e.g send user what they purchased etc
         return HttpResponse(status=200)
-    
+
+
+# Email and Mailgun methods -------------------------------------
+@require_POST
+@login_required
+def new_user_confirmation_email(request):
+    try:
+        recipient = request.POST.get("recipient", "recipient@example.com")
+        try:
+            user = User.objects.get(email=request.POST.get('email'))
+        except User.DoesNotExist:
+            return Response({"error": "User not found!"}, status=400)
+
+        # Prepare the JWT token
+        token_payload = {
+            "user_id": user.id,
+            "exp": (now() + timedelta(days=1)).timestamp() 
+        }
+        token = jwt.encode(token_payload, os.getenv('EMAIL_CONFIRMATION_KEY'), algorithm="HS256")
+        confirmation_link = f"https://www.skillja.ca/confirm_account?token={token}"
+        
+        # Render the HTML email template
+        html_content = render_to_string("email/confirm_email.html", {"confirmation_link": confirmation_link})
+
+        # Mailgun API credentials
+        api_key = os.getenv("MAILGUN_API_KEY")
+        domain = os.getenv("MAILGUN_DOMAIN")
+
+        # Mailgun API request
+        response = requests.post(
+            f"https://api.mailgun.net/v3/{domain}/messages",
+            auth=("api", api_key),
+            data={
+                "from": f"SkillJa <mailgun@{domain}>",
+                "to": recipient,
+                "subject": "Confirm Your Email Address - SkillJa",
+                "html": html_content, 
+            },
+        )
+        if response.status_code == 200:
+            return JsonResponse({"message": "Email sent successfully!"}, status=200)
+        else:
+            return JsonResponse({"error": "Failed to send email", "details": response.text}, status=500)
+
+    except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+@require_POST
+def confirm_email(request):
+    token = request.data.get("token")
+    try:
+        payload = jwt.decode(token, os.getenv('EMAIL_CONFIRMATION_KEY'), algorithms=["HS256"])
+        user_id = payload["id"]
+        user = User.objects.get(id=user_id)
+        # Activate the user's account
+        user.is_active = True  
+        user.save()
+        return Response({"message": "Email confirmed successfully!"})
+    except jwt.ExpiredSignatureError:
+        return Response({"error": "Token expired!"}, status=400)
+    except jwt.InvalidTokenError:
+        return Response({"error": "Invalid token!"}, status=400)
+    except User.DoesNotExist:
+        return Response({"error": "User not found!"}, status=400)
+
 
 # Custom HTTP response methods ----------------------------------
 def custom_500(request):
