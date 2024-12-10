@@ -6,6 +6,7 @@ import { Link } from "react-router-dom"
 import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
 import Header from "../../components/navigation/Header"
+import { SendEmailConfirmation } from "../../hooks/SendEmailConfirmation"
 
 // Interface for a single question
 interface Question {
@@ -18,31 +19,37 @@ interface Question {
     buttonValue?: string,
     image?: string
 }
+
 // Interface for options related to team and individual sports
 interface Options {
     team: string[],
     individual: string[]
 }
+
 // Interface for a series of questions
 interface Series {
     series: number,
     questions: Question[]
 }
+
 // Interface for the component state
 interface State {
     currentSeries: number,
     answers: { questionId: number; answer: string[] }[]
 }
+
 // Interface for actions dispatched to the reducer
 interface Action {
     type: 'ANSWER_QUESTION' | 'NEXT_SERIES',
     payload?: { questionId: number; answer: string[] }
 }
+
 // Initial state for the reducer
 const initialState: State = {
     currentSeries: 0,
     answers: [],
 }
+
 // Reducer function to manage state transitions between question sets
 const reducer = (state: State, action: Action): State => {
     switch (action.type) {
@@ -103,6 +110,7 @@ export default function Onboarding() {
         const updatedAnswers = currentAnswers.includes(option) ? currentAnswers.filter(ans => ans !== option) : [...currentAnswers, option]
         dispatch({ type: 'ANSWER_QUESTION', payload: { questionId, answer: updatedAnswers } })
     }
+
     // Function to determine if the continue button should be enabled
     const isContinueButtonEnabled = () => {
         const currentQuestion = userQuestions[state.currentSeries].questions[0];
@@ -115,6 +123,13 @@ export default function Onboarding() {
         }
         return false
     }
+
+    // Retrieves user_email cookie that's utilized in handleSubmit()
+    const userEmail = document.cookie
+        .split("; ")
+        .find(cookie => cookie.startsWith("user_email="))
+        ?.split("=")[1] || "No email found"
+
     // Submits onboarding responses to database
     function handleSubmit(responses: Record<string, string[] | string>){
         axios.post('https://www.skillja.ca/auth/onboarding/', responses, {
@@ -125,7 +140,9 @@ export default function Onboarding() {
             withCredentials: true
         })
             .then(res => {
-                if (res.status !== 201) {
+                if (res.status === 201) {
+                    SendEmailConfirmation({recipient: userEmail})
+                } else {
                     console.error("onboarding failed")
                 }
             })
