@@ -790,12 +790,11 @@ def stripe_webhook(request):
 
 # Email and Mailgun methods -------------------------------------
 @require_POST
-@login_required
 def new_user_confirmation_email(request):
     try:
         recipient = request.POST.get("recipient", "recipient@example.com")
         try:
-            user = User.objects.get(email=request.POST.get('email'))
+            user = User.objects.get(email=recipient)
         except User.DoesNotExist:
             return Response({"error": "User not found!"}, status=400)
 

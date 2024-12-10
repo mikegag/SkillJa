@@ -22,7 +22,7 @@ export default function ConfirmEmail(){
             return
         }
 
-        axios.post('https://www.skillja.ca/email/confirm_emil/', {token}, { 
+        axios.post('https://www.skillja.ca/email/confirm_email/', {token}, { 
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'

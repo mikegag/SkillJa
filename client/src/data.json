@@ -175,7 +175,7 @@
         {
             "series": 5,
             "questions": [
-              { "id":5, "title": "Thank you for your application!", "subtitle": "You will receive an email shortly regarding your application status!", "image": "main-landing-racers.png", "buttonValue":"Browse SkillJa"}
+              { "id":5, "title": "Thank you for your application!", "subtitle": "You will receive an email shortly... Please check your junk folder if you do not recieve anything.", "image": "main-landing-racers.png", "buttonValue":"Browse SkillJa"}
             ]
         }
     ],
