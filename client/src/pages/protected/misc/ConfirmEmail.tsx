@@ -14,7 +14,8 @@ export default function ConfirmEmail(){
 
     useEffect(()=>{
         document.title = "Confirm Email"
-        const token = queryParameters.get("token"); // Get the token from URL
+        // Get the token from URL
+        const token = queryParameters.get("token")
 
         if (!token) {
             setDisplayMessage("Error! Please try again and ensure the link is valid.")
@@ -53,6 +54,7 @@ export default function ConfirmEmail(){
                 setIsLoading(false)
             })
     },[])
+
     return (
         <div className="flex flex-col">
             <Header useCase="onboarding" />

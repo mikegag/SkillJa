@@ -34,7 +34,7 @@ export default function App() {
         <Route path="home-feed" element={<HomeFeed />} />
         <Route path="order-success" element={<OrderSuccessful/>} />
         <Route path="order-cancelled" element={<OrderCancelled/>} />
-        <Route path="confirm_account" element={<ConfirmEmail/>} />
+        <Route path="confirm-account" element={<ConfirmEmail/>} />
         <Route path="auth"element={<Authentication />}>
           <Route path="onboarding" element={<Onboarding/>}/>
           <Route path="coach" element={<Coach />} />

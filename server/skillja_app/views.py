@@ -804,7 +804,7 @@ def new_user_confirmation_email(request):
             "exp": (now() + timedelta(days=2)).timestamp() 
         }
         token = jwt.encode(token_payload, os.getenv('EMAIL_CONFIRMATION_KEY'), algorithm="HS256")
-        confirmation_link = f"https://www.skillja.ca/confirm_account?token={token}"
+        confirmation_link = f"https://www.skillja.ca/confirm-account?token={token}"
         
         # Render the HTML email template
         html_content = render_to_string("email/confirm_email.html", {"confirmation_link": confirmation_link})
