@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
 import Header from "../../components/navigation/Header"
-import { SendEmailConfirmation } from "../../hooks/SendEmailConfirmation"
+import SendEmailConfirmation from "../../hooks/SendEmailConfirmation"
 
 // Interface for a single question
 interface Question {

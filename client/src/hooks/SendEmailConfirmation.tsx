@@ -7,7 +7,7 @@ interface SendEmailConfirmationProps {
 }
 
 //---- this can only be sent after account has been created in onboarding
-export async function SendEmailConfirmation({ recipient }: SendEmailConfirmationProps): Promise<boolean> {
+export default async function SendEmailConfirmation({ recipient }: SendEmailConfirmationProps): Promise<boolean> {
   const csrfToken = GetCSFR({ name: "csrftoken" })
 
   try {
