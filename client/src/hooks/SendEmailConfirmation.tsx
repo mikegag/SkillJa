@@ -1,21 +1,19 @@
-import React from "react"
 import axios from "axios"
-import GetCSFR from "./GetCSFR"
 
 interface SendEmailConfirmationProps {
   recipient: string;
+  token: string;
 }
 
 //---- this can only be sent after account has been created in onboarding
-export default async function SendEmailConfirmation({ recipient }: SendEmailConfirmationProps): Promise<boolean> {
-  const csrfToken = GetCSFR({ name: "csrftoken" })
+export default async function SendEmailConfirmation({ recipient, token }: SendEmailConfirmationProps): Promise<boolean> {
 
   try {
     const response = await axios.post(
       "https://www.skillja.ca/email/new_user_confirmation/", { recipient },
       {
         headers: {
-          "X-CSRFToken": csrfToken,
+          "X-CSRFToken": token,
           "Content-Type": "application/json",
         },
         withCredentials: true,

@@ -141,7 +141,7 @@ export default function Onboarding() {
         })
             .then(res => {
                 if (res.status === 201) {
-                    SendEmailConfirmation({recipient: userEmail})
+                    SendEmailConfirmation({recipient: userEmail, token: csrfToken!})
                 } else {
                     console.error("onboarding failed")
                 }
