@@ -24,7 +24,6 @@ export default function Landing(){
     const [refSecond, inViewSecond] = useInView({ triggerOnce: true })
     const [refThird, inViewThird] = useInView({ triggerOnce: true })
     const [refFourth, inViewFourth] = useInView({ triggerOnce: true })
-    const [refFooter, inViewFooter] = useInView({ triggerOnce: true })
 
     useEffect(() => {
         document.title = "SkillJa | Find Sport Coaches and Instructors"
