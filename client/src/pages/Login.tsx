@@ -118,14 +118,15 @@ export default function Login(){
                         Login
                     </button>
                 </form>
-                <div className="flex justify-center items-center my-7">
+                {/* <div className="flex justify-center items-center my-7" role="presentation">
                     <div className="bg-main-grey-300 h-0.5 w-28 lg:w-36"></div>
                     <p className="mx-3 lg:mx-4 text-main-grey-200">Or Login with</p>
                     <div className="bg-main-grey-300 h-0.5 w-28 lg:w-36"></div>
                 </div>
                 <div className="mb-9 my-auto">
                     <SignInPartners />
-                </div>
+                </div> */}
+                <div className="bg-main-grey-300 h-0.5 w-28 lg:w-44 mt-16 mb-8" role="presentation"></div>
                 <p className="text-main-grey-300 font-kulim">
                     Don't have an account? 
                     <Link to={'/signup'}>

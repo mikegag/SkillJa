@@ -257,7 +257,6 @@ export default function SignUp(){
                       {signupQuestions[state.currentSeries].button}
                   </button>
               </form>
-
               {/* <div className="flex justify-center items-center my-7">
                   <div className="bg-main-grey-300 h-0.5 w-28 lg:w-36"></div>
                   <p className="mx-3 lg:mx-4 text-main-grey-200">Or Sign Up With</p>
@@ -266,10 +265,10 @@ export default function SignUp(){
               <div className="mb-9">
                   <SignInPartners />
               </div> */}
-              <div className="my-6 border-t border-gray-400 w-fit pt-6">
+              <div className="my-9">
                 {invalidCaptcha && state.currentSeries === 0 && (<ReCAPTCHA onChange={onChange} sitekey={process.env.REACT_APP_RECAPTCHA_PUBLIC_KEY!} />)}
               </div>
-            
+              <div className="bg-main-grey-300 h-0.5 w-28 lg:w-40 mb-5" role="presentation"></div>
               <p className="text-main-grey-300 font-kulim"> 
                   Already have an account? 
                   <Link to={'/login'}>
