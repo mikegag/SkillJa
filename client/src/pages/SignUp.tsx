@@ -133,7 +133,7 @@ export default function SignUp(){
           }, 1000)
         } else {
 
-          axios.post('/signup/', formData, {
+          axios.post(`${process.env.REACT_APP_SKILLJA_URL}/signup/`, formData, {
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'

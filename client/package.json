@@ -1,6 +1,5 @@
 {
   "name": "client",
-  "proxy": "https://www.skillja.ca/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

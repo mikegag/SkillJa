@@ -119,7 +119,7 @@ export default function Profile(){
     // API call to get user profile details
     useEffect(()=>{
         document.title = "SkillJa - Profile"
-        axios.get('https://www.skillja.ca/auth/profile/', { 
+        axios.get(`${process.env.REACT_APP_SKILLJA_URL}/auth/profile/`, { 
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'

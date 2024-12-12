@@ -126,7 +126,7 @@ export default function Onboarding() {
 
     // Submits onboarding responses to database
     function handleSubmit(responses: Record<string, string[] | string>){
-        axios.post('/auth/onboarding/', responses, {
+        axios.post(`${process.env.REACT_APP_SKILLJA_URL}/auth/onboarding/`, responses, {
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'

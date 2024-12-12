@@ -11,7 +11,7 @@ export default function Authentication(){
     const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
-        axios.get('https://www.skillja.ca/auth_status/', { 
+        axios.get(`${process.env.REACT_APP_SKILLJA_URL}/auth_status/`, { 
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'
