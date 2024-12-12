@@ -23,7 +23,7 @@ export default function OrderSuccessful(){
         }, 1200)
 
         // Trigger API to send user a confirmation email regarding their transaction
-        axios.post('https://www.skillja.ca/order_confirmation/', {session_id:sessionId, coach_id:coachId}, {
+        axios.post(`${process.env.REACT_APP_SKILLJA_URL}/order_confirmation/`, {session_id:sessionId, coach_id:coachId}, {
             headers: {
                 'X-CSRFToken': csrfToken,
             }, 

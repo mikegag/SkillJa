@@ -10,7 +10,7 @@ export default async function SendEmailConfirmation({ recipient, token }: SendEm
 
   try {
     const response = await axios.post(
-      "https://www.skillja.ca/email/new_user_confirmation/", { recipient },
+      `${process.env.REACT_APP_SKILLJA_URL}/email/new_user_confirmation/`, { recipient },
       {
         headers: {
           "X-CSRFToken": token,

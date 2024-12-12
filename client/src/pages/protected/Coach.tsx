@@ -88,7 +88,7 @@ export default function Coach(){
     // API call to get coach details
     useEffect(()=>{
         document.title = "SkillJa - Coach Profile"
-        axios.get(`https://www.skillja.ca/auth/coach?coach_id=${queryParameters.get("coach_id")}`, { 
+        axios.get(`${process.env.REACT_APP_SKILLJA_URL}/auth/coach?coach_id=${queryParameters.get("coach_id")}`, { 
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'

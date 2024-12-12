@@ -44,7 +44,7 @@ export default function HomeFeed(){
             performSearch()
         }
         // checks if user is currently logged in, determines if viewing coach profiles is allowed or not
-        axios.get('https://www.skillja.ca/auth_status/', {
+        axios.get(`${process.env.REACT_APP_SKILLJA_URL}/auth_status/`, {
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'
@@ -68,7 +68,7 @@ export default function HomeFeed(){
         // trigger loading animation while API call is processed
         setIsLoading(true)
 
-        axios.get(`https://www.skillja.ca/search/${location.search}`, { 
+        axios.get(`${process.env.REACT_APP_SKILLJA_URL}/search/${location.search}`, { 
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'
