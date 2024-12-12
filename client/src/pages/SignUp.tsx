@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react"
+import React, { useCallback, useEffect, useReducer, useRef, useState } from "react"
 import Header from "../components/navigation/Header"
 import SignInPartners from "../components/userAuthentication/SignInPartners"
 import AgreementTerms from "../components/userAuthentication/AgreementTerms"
@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { IconDefinition, faChevronDown, faLock, faPhone } from "@fortawesome/free-solid-svg-icons"
 import data from "../data.json"
 import axios from "axios"
+import ReCAPTCHA from "react-google-recaptcha"
 
 // Define structure for the form data
 interface FormStructure {
@@ -132,13 +133,13 @@ export default function SignUp(){
           }, 1000)
         } else {
 
-          axios.post('https://www.skillja.ca/signup/', formData, {
+          axios.post('/signup/', formData, {
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'
             },
             withCredentials: true
-        })
+            })
             .then(res => {
                 if (res.status === 201) {
                     setTimeout(() => {
@@ -165,9 +166,14 @@ export default function SignUp(){
             })
         }
     }
+    
     // Get inputs for the current series of questions
     const currentInputs = signupQuestions[state.currentSeries].inputs
-
+    const [token, setToken] = useState("");
+    const [invalidCaptcha, setInvalidCaptch] = useState(true);
+    function onChange(value: any) {
+      setInvalidCaptch(false)
+    }
     return (
         <div className="flex flex-col h-dvh px-2">
           <Header useCase="default" />
@@ -219,7 +225,7 @@ export default function SignUp(){
                             {input.options?.map((option, index) => (
                                 index === 0 ? (
                                     <option key={option.value} disabled selected={option.selected} value="">
-                                    {option.placeholder}
+                                      {option.placeholder}
                                     </option>
                                 ) : (
                                     <option key={option.value} value={option.value} selected={option.selected}>
@@ -243,23 +249,27 @@ export default function SignUp(){
                   }
                   {passwordMismatch? <ErrorMessage /> : <></>}
                   <button
-                      className="w-full form-btn mx-auto"
+                      className={`w-full form-btn mx-auto ${(agreeToTerms=== true && state.currentSeries === signupQuestions.length - 1) || passwordMismatch === true || invalidCaptcha ? "cursor-not-allowed":""}`}
                       aria-label="sign up form submission"
                       type="submit"
-                      disabled={(agreeToTerms=== true && state.currentSeries === signupQuestions.length - 1) || passwordMismatch === true}
+                      disabled={(agreeToTerms=== true && state.currentSeries === signupQuestions.length - 1) || passwordMismatch === true || invalidCaptcha}
                   >
                       {signupQuestions[state.currentSeries].button}
                   </button>
               </form>
 
-              <div className="flex justify-center items-center my-7">
+              {/* <div className="flex justify-center items-center my-7">
                   <div className="bg-main-grey-300 h-0.5 w-28 lg:w-36"></div>
                   <p className="mx-3 lg:mx-4 text-main-grey-200">Or Sign Up With</p>
                   <div className="bg-main-grey-300 h-0.5 w-28 lg:w-36"></div>
               </div>
               <div className="mb-9">
                   <SignInPartners />
+              </div> */}
+              <div className="my-6 border-t border-gray-400 w-fit pt-6">
+                {invalidCaptcha && state.currentSeries === 0 && (<ReCAPTCHA onChange={onChange} sitekey={process.env.REACT_APP_RECAPTCHA_PUBLIC_KEY!} />)}
               </div>
+            
               <p className="text-main-grey-300 font-kulim"> 
                   Already have an account? 
                   <Link to={'/login'}>

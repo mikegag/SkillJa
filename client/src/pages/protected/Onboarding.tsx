@@ -124,15 +124,9 @@ export default function Onboarding() {
         return false
     }
 
-    // Retrieves user_email cookie that's utilized in handleSubmit()
-    const userEmail = document.cookie
-        .split("; ")
-        .find(cookie => cookie.startsWith("user_email="))
-        ?.split("=")[1] || "No email found"
-
     // Submits onboarding responses to database
     function handleSubmit(responses: Record<string, string[] | string>){
-        axios.post('https://www.skillja.ca/auth/onboarding/', responses, {
+        axios.post('/auth/onboarding/', responses, {
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'
@@ -141,6 +135,8 @@ export default function Onboarding() {
         })
             .then(res => {
                 if (res.status === 201) {
+                    // Retrieves user_email cookie that's utilized in handleSubmit()
+                    const userEmail = document.cookie.split("; ").find(cookie => cookie.startsWith("user_email="))?.split("=")[1] || "No email found"
                     SendEmailConfirmation({recipient: userEmail, token: csrfToken!})
                 } else {
                     console.error("onboarding failed")
