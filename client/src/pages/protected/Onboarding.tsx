@@ -7,6 +7,7 @@ import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
 import Header from "../../components/navigation/Header"
 import SendEmailConfirmation from "../../hooks/SendEmailConfirmation"
+import GetUserEmail from "../../hooks/GetUserEmail"
 
 // Interface for a single question
 interface Question {
@@ -79,11 +80,21 @@ export default function Onboarding() {
     const userData: Series[] = data.athleteQuestions
     const questionSetRef = useRef(userData)
     const userQuestions = questionSetRef.current
+    // stores user email set in cookies during signup process, utilized by SendEmailConfirmation hook
+    const [userEmail, setUserEmail] = useState<string>("")
 
     useEffect(() => {
         document.title = "SkillJa - Onboarding"
         const currentQuestion = userQuestions[state.currentSeries].questions[0]
         const selectedOptions = state.answers.find((ans) => ans.questionId === currentQuestion.id)?.answer
+        const fetchUserEmail = async () => {
+            const token = csrfToken!
+            const email = await GetUserEmail({ token })
+            setUserEmail(email)
+          }
+      
+        fetchUserEmail()
+
         // Check if multiple options are selected on questions where this feature is disabled
         if (selectedOptions && selectedOptions.length > 1 && !currentQuestion.multiSelect) {
             setOptionsOverloaded(true)
@@ -104,6 +115,7 @@ export default function Onboarding() {
             handleSubmit(formattedResponses)
         }
     }, [state, userQuestions, questionSetRef])
+
     // Function to handle user answer selection
     const handleAnswer = (questionId: number, option: string) => {
         const currentAnswers = state.answers.find(ans => ans.questionId === questionId)?.answer || []
@@ -135,8 +147,6 @@ export default function Onboarding() {
         })
             .then(res => {
                 if (res.status === 201) {
-                    // Retrieves user_email cookie that's utilized in handleSubmit()
-                    const userEmail = document.cookie.split("; ").find(cookie => cookie.startsWith("user_email="))?.split("=")[1] || "No email found"
                     SendEmailConfirmation({recipient: userEmail, token: csrfToken!})
                 } else {
                     console.error("onboarding failed")

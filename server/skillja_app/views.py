@@ -174,6 +174,11 @@ def verify_captcha(request):
     except requests.RequestException as e:
         return JsonResponse({"success": False, "error": str(e)}, status=500)
 
+@require_GET
+def get_user_email(request):
+    user_email = request.COOKIES.get('user_email', 'No email found')
+    return JsonResponse({'user_email': user_email})
+
 
 # Profile (Athlete & Coach) methods -----------------------------
 @require_GET
