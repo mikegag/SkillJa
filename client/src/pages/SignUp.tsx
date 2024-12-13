@@ -86,6 +86,8 @@ const reducer = (state: State, action: Action): State => {
 export default function SignUp(){
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
+    const [captchaToken, setCaptchaToken] = useState<string | null>("")
+    const [invalidCaptcha, setInvalidCaptcha] = useState(true)
     const csrfToken = GetCSFR({ name: "csrftoken" })
     const [formData, setFormData] = useState<FormStructure>({
       fullname: '',
@@ -169,11 +171,49 @@ export default function SignUp(){
     
     // Get inputs for the current series of questions
     const currentInputs = signupQuestions[state.currentSeries].inputs
-    const [token, setToken] = useState("");
-    const [invalidCaptcha, setInvalidCaptch] = useState(true);
-    function onChange(value: any) {
-      setInvalidCaptch(false)
+
+    // Handle ReCAPTCHA change
+    function handleCaptchaChange(value: string | null) {
+      if (value) {
+        setCaptchaToken(value)
+        setInvalidCaptcha(false)
+
+        // API call to verify captcha attempt
+        axios.post(`${process.env.REACT_APP_SKILLJA_URL}/verify_captcha/`, {token: value}, {
+          headers: {
+              'X-CSRFToken': csrfToken,
+              'Content-Type': 'application/json'
+          },
+          withCredentials: true
+          })
+          .then(res => {
+              if (res.data.success === true) {
+                setInvalidCaptcha(false)
+              } else {
+                  console.error("captcha failed")
+              }
+          })
+          .catch(error => {
+              if (error.response) {
+                  // the server responded with a status code that falls out of the range of 2xx
+                  console.error('Error response:', error.response.data)
+                  console.error('Status:', error.response.status)
+                  console.error('Headers:', error.response.headers)
+              } else if (error.request) {
+                  // no response was received
+                  console.error('No response received:', error.request)
+              } else {
+                  // Something happened in setting up the request that triggered an Error
+                  console.error('Error setting up request:', error.message)
+              }
+              console.error('Error config:', error.config)
+          })
+      } else {
+        setCaptchaToken(null)
+        setInvalidCaptcha(true)
+      }
     }
+
     return (
         <div className="flex flex-col h-dvh px-2">
           <Header useCase="default" />
@@ -266,7 +306,13 @@ export default function SignUp(){
                   <SignInPartners />
               </div> */}
               <div className="my-9">
-                {invalidCaptcha && state.currentSeries === 0 && (<ReCAPTCHA onChange={onChange} sitekey={process.env.REACT_APP_RECAPTCHA_PUBLIC_KEY!} />)}
+                {invalidCaptcha && state.currentSeries === 0 && (
+                  <ReCAPTCHA 
+                    onChange={handleCaptchaChange} 
+                    sitekey="6LdnN5kqAAAAACgsXMuydI3lZj-RH8jX1mV-6hYq"
+                    onExpired={() => setCaptchaToken(null)}
+                  />)
+                }
               </div>
               <div className="bg-main-grey-300 h-0.5 w-28 lg:w-40 mb-5" role="presentation"></div>
               <p className="text-main-grey-300 font-kulim"> 

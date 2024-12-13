@@ -152,6 +152,28 @@ def onboarding_user(request):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
 
+@require_POST
+def verify_captcha(request):
+    #Verify reCAPTCHA token with Google's API.
+    url = "https://www.google.com/recaptcha/api/siteverify"
+    # Parse JSON data
+    data = json.loads(request.body)
+    token = data.get('token')
+    secret_key = os.getenv('RECAPTCHA_SECRET_KEY')
+    if not token:
+        return JsonResponse({"success": False, "error": "Token missing"}, status=400)
+
+    try:
+        response = requests.post(url, data={"secret": secret_key, "response": token})
+        response_data = response.json()
+
+        if response_data.get("success"):
+            return JsonResponse({"success": True}, status=200)
+        else:
+            return JsonResponse({"success": False, "error": response_data.get("error-codes")}, status=400)
+    except requests.RequestException as e:
+        return JsonResponse({"success": False, "error": str(e)}, status=500)
+
 
 # Profile (Athlete & Coach) methods -----------------------------
 @require_GET
