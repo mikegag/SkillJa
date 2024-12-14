@@ -170,7 +170,7 @@ def verify_captcha(request):
         if response_data.get("success"):
             return JsonResponse({"success": True}, status=200)
         else:
-            return JsonResponse({"success": False, "error": response_data.get("error-codes")}, status=400)
+            return JsonResponse({"success": False, "error": response_data.get("error-codes")})
     except requests.RequestException as e:
         return JsonResponse({"success": False, "error": str(e)}, status=500)
 
@@ -819,11 +819,13 @@ def stripe_webhook(request):
 @require_POST
 def new_user_confirmation_email(request):
     try:
-        recipient = request.POST.get("recipient", "recipient@example.com")
+        # Parse JSON body
+        body = json.loads(request.body)
+        recipient = body.get('recipient', 'recipient@email.com')
         try:
             user = User.objects.get(email=recipient)
         except User.DoesNotExist:
-            return Response({"error": "User not found!"}, status=400)
+            return JsonResponse({"error": "User not found!"}, status=400)
 
         # Prepare the JWT token
         token_payload = {
@@ -860,6 +862,7 @@ def new_user_confirmation_email(request):
             return JsonResponse({'error': str(e)}, status=500)
 
 @require_POST
+@csrf_exempt
 def confirm_email(request):
     token = request.data.get("token")
     try:

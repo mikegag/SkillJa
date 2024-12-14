@@ -190,10 +190,12 @@ export default function SignUp(){
               if (res.data.success === true) {
                 setInvalidCaptcha(false)
               } else {
+                  setInvalidCaptcha(true)
                   console.error("captcha failed")
               }
           })
           .catch(error => {
+              setInvalidCaptcha(true)
               if (error.response) {
                   // the server responded with a status code that falls out of the range of 2xx
                   console.error('Error response:', error.response.data)
@@ -230,7 +232,10 @@ export default function SignUp(){
               <>
               <form className="flex flex-col justify-center w-full mx-auto px-4 md:w-7/12 lg:w-4/12" onSubmit={handleSubmit}>
                   {currentInputs.map((input) => (
-                      <div className="relative w-full mb-5" key={input.id}>
+                    <div className="relative w-full mb-5" key={input.id}>
+                      <label htmlFor={input.id} className="sr-only">
+                        {input.placeholder}
+                      </label>
                       {input.type !== "select" ? (
                       <>
                           <input
@@ -255,32 +260,32 @@ export default function SignUp(){
                       </>
                       ) : (
                           <>
-                          <select 
-                            id={input.id} 
-                            name={input.name} 
-                            className="form-input appearance-none" 
-                            onChange={handleChange}
-                            required
-                          >
-                            {input.options?.map((option, index) => (
-                                index === 0 ? (
-                                    <option key={option.value} disabled selected={option.selected} value="">
-                                      {option.placeholder}
-                                    </option>
-                                ) : (
-                                    <option key={option.value} value={option.value} selected={option.selected}>
-                                        {option.placeholder}
-                                    </option>
-                                )
-                            ))}
-                          </select>
-                          <FontAwesomeIcon
-                              icon={iconMap[input.icon]}
-                              className="absolute inset-y-4 left-0 flex items-center pl-4 text-main-grey-500"
-                          />
-                      </>
+                            <select 
+                              id={input.id} 
+                              name={input.name} 
+                              className="form-input appearance-none" 
+                              onChange={handleChange}
+                              defaultValue=""
+                              required
+                            >
+                              {input.options?.map((option, index) => (
+                                <option
+                                  id={option.value}
+                                  key={option.value}
+                                  value={index === 0 ? "" : option.value}
+                                  disabled={index === 0}
+                                >
+                                  {option.placeholder}
+                                </option>
+                              ))}
+                            </select>
+                            <FontAwesomeIcon
+                                icon={iconMap[input.icon]}
+                                className="absolute inset-y-4 left-0 flex items-center pl-4 text-main-grey-500"
+                            />
+                          </>
                       )}
-                      </div>
+                    </div>
                   ))}
                   {state.currentSeries === signupQuestions.length - 1 ?
                         <AgreementTerms isClicked = {agreeToTerms} /> 

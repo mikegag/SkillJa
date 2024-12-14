@@ -34,7 +34,7 @@ export default function HamburgerMenu({useCase}:MenuProps){
     }, [])
 
     function handleLogout(){
-        axios.post('https://www.skillja.ca/logout/',{}, {
+        axios.post(`${process.env.REACT_APP_SKILLJA_URL}/logout/`,{}, {
             headers: {
                 'X-CSRFToken': csrfToken,
             }, 

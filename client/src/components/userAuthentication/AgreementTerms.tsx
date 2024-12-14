@@ -62,6 +62,7 @@ export default function AgreementTerms({isClicked}:formProps){
             :
             <div className="mb-5 text-center">
                 <input
+                    id="agreement"
                     type={data.terms.inputs[0].type}
                     name="agreement"
                     onClick={()=>setClicked(!clicked)}

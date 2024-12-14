@@ -83,10 +83,7 @@ export default function Onboarding() {
     // stores user email set in cookies during signup process, utilized by SendEmailConfirmation hook
     const [userEmail, setUserEmail] = useState<string>("")
 
-    useEffect(() => {
-        document.title = "SkillJa - Onboarding"
-        const currentQuestion = userQuestions[state.currentSeries].questions[0]
-        const selectedOptions = state.answers.find((ans) => ans.questionId === currentQuestion.id)?.answer
+    useEffect(()=>{
         const fetchUserEmail = async () => {
             const token = csrfToken!
             const email = await GetUserEmail({ token })
@@ -94,6 +91,12 @@ export default function Onboarding() {
           }
       
         fetchUserEmail()
+    },[])
+
+    useEffect(() => {
+        document.title = "SkillJa - Onboarding"
+        const currentQuestion = userQuestions[state.currentSeries].questions[0]
+        const selectedOptions = state.answers.find((ans) => ans.questionId === currentQuestion.id)?.answer
 
         // Check if multiple options are selected on questions where this feature is disabled
         if (selectedOptions && selectedOptions.length > 1 && !currentQuestion.multiSelect) {
