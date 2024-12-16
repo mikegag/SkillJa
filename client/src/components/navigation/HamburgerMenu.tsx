@@ -3,6 +3,7 @@ import { Link, useNavigate} from "react-router-dom"
 import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
 import data from "../../data.json"
+import RetrieveImage from "../../hooks/RetrieveImage"
 
 interface UserDataStructure {
     picture: string
@@ -69,11 +70,9 @@ export default function HamburgerMenu({useCase}:MenuProps){
                     <div className="h-0.5 bg-main-green-900 rounded-full w-4 my-0.5"></div>
                     <div className="h-0.5 bg-main-green-900 rounded-full w-4 my-0.5"></div>
                 </div>
-                <img 
-                    src={userData.picture? userData.picture : require('../../assets/default-avatar.jpg')}
-                    className="w-8 rounded-full my-auto mx-2" 
-                    alt="profile of logged in user"
-                />
+                <div className="my-auto mx-2" >
+                    <RetrieveImage name="logo_gmail.com" styles="w-8 rounded-full h-8" />
+                </div>
             </div>
             {/* Menu Dropdown */}
             {menuOpen && (

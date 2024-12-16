@@ -1,10 +1,7 @@
-import django_heroku
-import os
-import sys
+import django_heroku, os, sys, cloudinary, dj_database_url, mimetypes
 from pathlib import Path
-import dj_database_url
 from dotenv import load_dotenv
-import mimetypes
+
 
 # Add MIME type for CSS files
 mimetypes.add_type("text/css", ".css", True)
@@ -135,6 +132,14 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'skillja_app.models.EmailAuthBackend', 
+)
+
+# Cloudinary account configuration
+cloudinary.config(
+    cloud_name=os.getenv('CLOUDINARY_USERNAME'),
+    api_key=os.getenv('CLOUDINARY_API_KEY'),
+    api_secret=os.getenv('CLOUDINARY_SECRET_KEY'),
+    secure=True
 )
 
 

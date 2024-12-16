@@ -1,5 +1,5 @@
 from django.forms import model_to_dict
-import json, os, stripe, requests, jwt
+import json, os, stripe, requests, jwt, cloudinary, time
 from venv import logger
 from django.db import IntegrityError
 from django.shortcuts import redirect, get_object_or_404, render
@@ -879,6 +879,28 @@ def confirm_email(request):
         return Response({"error": "Invalid token!"}, status=400)
     except User.DoesNotExist:
         return Response({"error": "User not found!"}, status=400)
+
+
+# Image and Cloudinary methods ----------------------------------
+@csrf_exempt
+def get_image(request):
+    if request.method == "GET":
+        # Name of the image 
+        image_name = request.GET.get("image_name", "default-avatar")
+
+        # Generate a signed URL with an expiration time of 2.5 hours
+        expiration_time = int(time.time()) + 9000
+        # Generate a signed URL
+        url = cloudinary.utils.private_download_url(public_id=image_name, 
+            format="jpg", 
+            resource_type="image", 
+            type="upload",
+            expires_at=expiration_time,
+            attachment=False
+        )
+
+        return JsonResponse({"signed_url": url})
+    return JsonResponse({"error": "Invalid request method"}, status=400)
 
 
 # Custom HTTP response methods ----------------------------------

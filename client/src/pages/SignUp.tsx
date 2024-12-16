@@ -211,7 +211,6 @@ export default function SignUp(){
               console.error('Error config:', error.config)
           })
       } else {
-        setCaptchaToken(null)
         setInvalidCaptcha(true)
       }
     }
