@@ -33,6 +33,7 @@ export default function HomeFeed(){
     const [data, setData] = useState<dataResultsType>({ results: [] })
     const protectedRoute = '/auth/coach' 
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [userEmail, setUserEmail] = useState<string>("")
 
     useEffect(() => {
         document.title = "SkillJa - Home Feed"
@@ -54,6 +55,7 @@ export default function HomeFeed(){
         .then(res => {
             if (res.status === 200) {
                 setIsLoggedIn(res.data.is_logged_in)
+                setUserEmail(res.data.email)
             } else {
                 console.error("Failed to verify authentication")
             }
@@ -104,7 +106,8 @@ export default function HomeFeed(){
 
     return (
         <>
-            {isLoggedIn === false ? <Header useCase="default"/> : <Header useCase="protected"/>}
+            { (userEmail && isLoggedIn) && ( <Header useCase="protected" imageName={userEmail} /> ) }
+            { (!userEmail || !isLoggedIn) && ( <Header useCase="default" /> ) }
             <div className="px-4">
                 <div className="flex flex-col items-center justify-center text-main-green-900 mt-10">
                     <h1 className="font-source font-medium text-4xl my-2">

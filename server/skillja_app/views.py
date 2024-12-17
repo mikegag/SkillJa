@@ -175,6 +175,7 @@ def verify_captcha(request):
         return JsonResponse({"success": False, "error": str(e)}, status=500)
 
 @require_GET
+@csrf_exempt
 def get_user_email(request):
     email = request.COOKIES.get('user_email', 'No email found')
     return JsonResponse({'user_email': email})
@@ -888,7 +889,8 @@ def get_image(request):
     try:
         # Name of the image 
         image_name = request.GET.get("image_name", "default-avatar")
-        print(image_name)
+        # Format image_name to match naming convention set in Cloudinary storage
+        image_name = image_name.replace('@','_')
         # Possible image formats
         formats = ["jpg", "png", "jpeg"]
         # Generate a signed URL with an expiration time of 2.5 hours

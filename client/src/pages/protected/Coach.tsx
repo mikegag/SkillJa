@@ -85,8 +85,9 @@ export default function Coach(){
     const navigate = useNavigate()
     const csrfToken = GetCSFR({ name: "csrftoken" })
     const [queryParameters] = useSearchParams()
+        const [userEmail, setUserEmail] = useState<string>("")
 
-    // API call to get coach details
+    // API call to get coach details and user email
     useEffect(()=>{
         document.title = "SkillJa - Coach Profile"
         axios.get(`${process.env.REACT_APP_SKILLJA_URL}/auth/coach?coach_id=${queryParameters.get("coach_id")}`, { 
@@ -118,6 +119,36 @@ export default function Coach(){
                 }
                 console.error('Error config:', error.config)
             })
+
+            axios.get(`${process.env.REACT_APP_SKILLJA_URL}/get_user_email/`, { 
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/json'
+                },
+                withCredentials: true
+            }) 
+                .then(res => {
+                    if (res.status === 200) {
+                        setUserEmail(res.data.user_email)
+                    } else {
+                        console.error("Failed to retrieve user email")
+                    }
+                })
+                .catch(error => {
+                    if (error.response) {
+                        // the server responded with a status code that falls out of the range of 2xx
+                        console.error('Error response:', error.response.data)
+                        console.error('Status:', error.response.status)
+                        console.error('Headers:', error.response.headers)
+                    } else if (error.request) {
+                        // no response was received
+                        console.error('No response received:', error.request)
+                    } else {
+                        // Something happened in setting up the request that triggered an Error
+                        console.error('Error setting up request:', error.message)
+                    }
+                    console.error('Error config:', error.config)
+                })
     },[])
 
     // API call to contact coach
@@ -127,16 +158,8 @@ export default function Coach(){
 
     return (
         <div className="flex flex-col">
-            {
-                (profileDetails.profile.picture) && (
-                    <Header useCase="protected" imageName={profileDetails.profile.picture} />
-                )
-            }
-            {
-                !(profileDetails.profile.picture) && (
-                    <Header useCase="protected" />
-                )
-            }
+            { (userEmail) && ( <Header useCase="protected" imageName={userEmail} /> ) }
+            { !(userEmail) && ( <Header useCase="protected" /> ) }
             <div className="pb-4 px-8 lg:px-14 lg:mb-32">
                 <div className="flex justify-center items-center text-center mt-10">
                     <FontAwesomeIcon 

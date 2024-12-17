@@ -15,6 +15,7 @@ export default function HeroSection({view}:ViewProps){
     const [isPageLoaded, setIsPageLoaded] = useState<boolean>(false)
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
     const csrfToken = GetCSFR({ name: "csrftoken" })
+    const [userEmail, setUserEmail] = useState<string>("")
     
     useEffect(()=>{
         const timer = setTimeout(() => {
@@ -34,6 +35,7 @@ export default function HeroSection({view}:ViewProps){
         .then(res => {
             if (res.status === 200) {
                 setIsLoggedIn(res.data.is_logged_in)
+                setUserEmail(res.data.email)
             } else {
                 console.error("Failed to verify authentication")
             }
@@ -48,7 +50,8 @@ export default function HeroSection({view}:ViewProps){
         <>
         {view === 'mobile' ?
             <div className={`h-dvh bg-main-cream flex flex-col justify-start items-center px-2 transition-opacity duration-1000 ${isPageLoaded ? 'opacity-100' : 'opacity-0'}`}>
-                {isLoggedIn === false ? <Header useCase="default"/> : <Header useCase="protected"/>}
+                { (userEmail && isLoggedIn) && ( <Header useCase="protected" imageName={userEmail} /> ) }
+                { (!userEmail || !isLoggedIn) && ( <Header useCase="default" /> ) }
                 <h1 className="text-center text-main-green-900 font-medium text-4xl px-4 font-source">
                     {data.landing.hero.title}
                 </h1>
@@ -78,7 +81,8 @@ export default function HeroSection({view}:ViewProps){
             </div>
         :
             <div className={`bg-main-cream flex flex-col justify-start items-center px-2 transition-opacity duration-1000 ${isPageLoaded ? 'opacity-100' : 'opacity-0'}`}>
-                {isLoggedIn === false ? <Header useCase="default"/> : <Header useCase="protected"/>}
+                { (userEmail && isLoggedIn) && ( <Header useCase="protected" imageName={userEmail} /> ) }
+                { (!userEmail || !isLoggedIn) && ( <Header useCase="default" /> ) }
                 <h1 className="text-center text-main-green-900 font-medium text-4xl px-4 font-source mb-1">
                     {data.landing.hero.title.slice(0,-1)},
                 </h1>

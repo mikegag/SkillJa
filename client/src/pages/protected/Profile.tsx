@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, createContext } from "react"
+import React, { useEffect, useState} from "react"
 import Header from "../../components/navigation/Header"
 import GetWindowSize from '../../hooks/GetWindowSize'
 import CurrentGoal from "../../components/general/athlete-preview/CurrentGoal"
@@ -116,7 +116,6 @@ export default function Profile(){
     const csrfToken = GetCSFR({ name: "csrftoken" })
     const [readyToDisplayProfileForm, setReadyToDisplayProfileForm] = useState<boolean>(false)
     const [readyToDisplayServicesForm, setReadyToDisplayServicesForm] = useState<boolean>(false)
-    const UserContext = createContext(null)
 
     // API call to get user profile details
     useEffect(()=>{
@@ -154,16 +153,8 @@ export default function Profile(){
 
     return (
         <div className="flex flex-col">
-            {
-                (profileDetails.profile.picture) && (
-                    <Header useCase="protected" imageName={profileDetails.profile.picture} />
-                )
-            }
-            {
-                !(profileDetails.profile.picture) && (
-                    <Header useCase="protected" />
-                )
-            }
+            { (profileDetails.profile.picture) && ( <Header useCase="protected" imageName={profileDetails.profile.picture} /> ) }
+            { !(profileDetails.profile.picture) && ( <Header useCase="protected" /> ) }
             <div className="pb-4 px-8 lg:px-14 lg:mb-32">
             {profileDetails.isathlete && readyToDisplayProfileForm? <EditAthleteProfileForm displayForm={setReadyToDisplayProfileForm} prevSavedData={profileDetails} />:<></>}
             {profileDetails.iscoach && readyToDisplayProfileForm? <EditCoachProfileForm displayForm={setReadyToDisplayProfileForm} prevSavedData={profileDetails}/>:<></>}
