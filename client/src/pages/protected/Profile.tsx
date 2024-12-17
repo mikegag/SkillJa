@@ -14,6 +14,7 @@ import EditCoachServiceForm from "../../components/general/coach-preview/EditCoa
 import ReviewSlider from "../../components/general/coach-preview/ReviewSlider"
 import CoachService from "../../components/general/coach-preview/CoachService"
 import Footer from "../../components/navigation/Footer"
+import RetrieveImage from "../../hooks/RetrieveImage"
 
 interface Review {
     id: number;
@@ -177,11 +178,12 @@ export default function Profile(){
                 </div>
                 <section className="flex flex-col justify-center items-center border-b-2 mt-8 lg:mt-14 border-main-grey-300 lg:pb-4">
                     <div className="flex flex-col justify-center items-center lg:flex-row">
-                        <img 
+                        {/* <img 
                             src={require('../../assets/default-avatar.jpg')} 
                             className="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-10"
                             alt="headshot of user demonstrating what they look like"
-                        />
+                        /> */}
+                        <RetrieveImage name={profileDetails.profile.picture? profileDetails.profile.picture : 'default'} styles="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-10" />
                         <div className="flex flex-col justify-center items-center font-kulim text-main-green-900">
                             <h2 className="text-2xl font-medium font-source mt-3 lg:mt-0 mx-auto lg:ml-0">
                                 {profileDetails.name? profileDetails.name : 'Name' }

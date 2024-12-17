@@ -10,18 +10,20 @@ export default function RetrieveImage({name, styles}:Image) {
   const [imageUrl, setImageUrl] = useState("")
 
   useEffect(() => {
-    const fetchImage = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.REACT_APP_SKILLJA_URL}/image/get_image/?image_name=${name}`
-        )
-        setImageUrl(response.data.signed_url)
-      } catch (error) {
-        console.error("Error fetching the signed image URL:", error)
-      }
-    }
+    if(name !== "" && name !== "default"){
+        const fetchImage = async () => {
+        try {
+            const response = await axios.get(
+            `${process.env.REACT_APP_SKILLJA_URL}/image/get_image/?image_name=${name}`
+            )
+            setImageUrl(response.data.signed_url)
+        } catch (error) {
+            console.error("Error fetching the signed image URL:", error)
+        }
+        }
 
-    fetchImage()
+        fetchImage()
+    }
   }, [])
 
   return (

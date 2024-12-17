@@ -10,6 +10,7 @@ import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
 import ReviewSlider from "../../components/general/coach-preview/ReviewSlider"
 import SocialMediaIcons from "../../components/general/coach-preview/SocialMediaIcons"
+import RetrieveImage from "../../hooks/RetrieveImage"
 
 interface Review {
     id: number;
@@ -140,11 +141,7 @@ export default function Coach(){
                 </div>
                 <section className="flex flex-col justify-center items-center border-b-2 mt-8 lg:mt-20 border-main-grey-300 lg:pb-4 lg:px-16">
                     <div className="flex flex-col justify-center items-center lg:flex-row lg:justify-center lg:items-center lg:w-full">
-                        <img 
-                            src={require('../../assets/default-avatar.jpg')} 
-                            className="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-16 lg:ml-0"
-                            alt="headshot of user demonstrating what they look like"
-                        />
+                        <RetrieveImage name={profileDetails.profile.picture? profileDetails.profile.picture : 'default'} styles="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-16 lg:ml-0" />
                         <div className="flex flex-col justify-center items-center font-kulim text-main-green-900 my-auto">
                             <h2 className="text-3xl font-medium font-source mt-3 lg:mt-0 mx-auto lg:ml-0">
                                 {profileDetails?.fullname} 
