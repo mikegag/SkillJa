@@ -331,7 +331,7 @@ export default function EditCoachProfileForm({displayForm, prevSavedData}:FormPr
                         <p className="my-6">
                             Sports You Coach
                         </p>
-                        <Accordion title="Individual Sports" style="border-main-grey-100">
+                        <Accordion title="Individual Sports" styles="border-main-grey-100">
                             {data.profileForms.coach.sportOptions.individual.map((option, index) => (
                                 <button 
                                     onClick={(e)=>{
@@ -347,7 +347,7 @@ export default function EditCoachProfileForm({displayForm, prevSavedData}:FormPr
                                 </button>
                             ))}
                         </Accordion>
-                        <Accordion title="Team Sports" style="border-main-grey-100">
+                        <Accordion title="Team Sports" styles="border-main-grey-100">
                             {data.profileForms.coach.sportOptions.team.map((option, index) => (
                                 <button 
                                     onClick={(e)=>{

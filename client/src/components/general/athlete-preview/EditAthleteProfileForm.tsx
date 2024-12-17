@@ -308,7 +308,7 @@ export default function EditAthleteProfileForm({displayForm, prevSavedData}:Form
                         <p className="my-6">
                             Sports of Interest
                         </p>
-                        <Accordion title="Individual Sports" style="border-main-grey-100">
+                        <Accordion title="Individual Sports" styles="border-main-grey-100">
                             {data.profileForms.athlete.sportOptions.individual.map((option, index) => (
                                 <button 
                                     onClick={(e)=>{e.preventDefault(); handleAccordionChange(e)}}
@@ -321,7 +321,7 @@ export default function EditAthleteProfileForm({displayForm, prevSavedData}:Form
                                 </button>
                             ))}
                         </Accordion>
-                        <Accordion title="Team Sports" style="border-main-grey-100">
+                        <Accordion title="Team Sports" styles="border-main-grey-100">
                             {data.profileForms.athlete.sportOptions.team.map((option, index) => (
                                 <button 
                                     onClick={(e)=>{e.preventDefault(); handleAccordionChange(e)}}
