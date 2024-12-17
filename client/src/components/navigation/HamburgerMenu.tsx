@@ -5,17 +5,13 @@ import GetCSFR from "../../hooks/GetCSFR"
 import data from "../../data.json"
 import RetrieveImage from "../../hooks/RetrieveImage"
 
-interface UserDataStructure {
-    picture: string
-}
-
 interface MenuProps {
     useCase: 'public' | 'authorized'
+    picture?: string
 }
 
-export default function HamburgerMenu({useCase}:MenuProps){
+export default function HamburgerMenu({useCase, picture}:MenuProps){
     const [menuOpen, setMenuOpen] = useState<boolean>(false)
-    const [userData, setuserData] = useState<UserDataStructure>({picture:''})
     const menuRef = useRef<HTMLDivElement>(null)
     const navigate = useNavigate()
     const csrfToken = GetCSFR({ name: "csrftoken" })
@@ -71,7 +67,7 @@ export default function HamburgerMenu({useCase}:MenuProps){
                     <div className="h-0.5 bg-main-green-900 rounded-full w-4 my-0.5"></div>
                 </div>
                 <div className="my-auto mx-2" >
-                    <RetrieveImage name="logo_gmail.com" styles="w-8 rounded-full h-8" />
+                    <RetrieveImage name={picture? picture : "default"} styles="w-8 rounded-full h-8" />
                 </div>
             </div>
             {/* Menu Dropdown */}
