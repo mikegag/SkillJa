@@ -113,10 +113,9 @@ class CoachProfile(models.Model):
     primary_sport = models.CharField(max_length=100, blank= True, null = True, default='No Primary Sport')
     location = models.CharField(max_length=100, default='No Location Specified')
     biography = models.CharField(max_length=255, default='No Biography Specified')
-    picture = models.ImageField(upload_to='coach_pictures/', blank=True, null=True)
+    picture = models.CharField(max_length=120, default='', blank=True)
     services = models.ManyToManyField('Service', related_name='coach_services', blank=True)
     reviews = models.ManyToManyField('Review', related_name='coach_profiles', blank=True) 
-    social_media = models.OneToOneField('SocialMedia', on_delete=models.CASCADE, related_name='coach_profile', null=True, blank=True)
 
     def __str__(self):
         return f'{self.user.email} - Coach Profile'
@@ -126,7 +125,7 @@ class AthleteProfile(models.Model):
     primary_sport = models.CharField(max_length=100, blank= True, null = True, default='Not Specified')
     location = models.CharField(max_length=100, default='No Location Specified')
     biography = models.CharField(max_length=255, default='No Biography Specified')
-    picture = models.ImageField(upload_to='athlete_pictures/', blank=True, null=True)
+    picture = models.CharField(max_length=120, default='', blank=True)
     reviews = models.ManyToManyField('Review', related_name='athlete_profiles', blank=True)
 
     def __str__(self):
