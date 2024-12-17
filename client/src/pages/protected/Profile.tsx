@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useContext, createContext } from "react"
 import Header from "../../components/navigation/Header"
 import GetWindowSize from '../../hooks/GetWindowSize'
 import CurrentGoal from "../../components/general/athlete-preview/CurrentGoal"
@@ -116,6 +116,7 @@ export default function Profile(){
     const csrfToken = GetCSFR({ name: "csrftoken" })
     const [readyToDisplayProfileForm, setReadyToDisplayProfileForm] = useState<boolean>(false)
     const [readyToDisplayServicesForm, setReadyToDisplayServicesForm] = useState<boolean>(false)
+    const UserContext = createContext(null)
 
     // API call to get user profile details
     useEffect(()=>{
@@ -153,7 +154,16 @@ export default function Profile(){
 
     return (
         <div className="flex flex-col">
-            <Header useCase="protected" />
+            {
+                (profileDetails.profile.picture) && (
+                    <Header useCase="protected" imageName={profileDetails.profile.picture} />
+                )
+            }
+            {
+                !(profileDetails.profile.picture) && (
+                    <Header useCase="protected" />
+                )
+            }
             <div className="pb-4 px-8 lg:px-14 lg:mb-32">
             {profileDetails.isathlete && readyToDisplayProfileForm? <EditAthleteProfileForm displayForm={setReadyToDisplayProfileForm} prevSavedData={profileDetails} />:<></>}
             {profileDetails.iscoach && readyToDisplayProfileForm? <EditCoachProfileForm displayForm={setReadyToDisplayProfileForm} prevSavedData={profileDetails}/>:<></>}
@@ -178,13 +188,18 @@ export default function Profile(){
                 </div>
                 <section className="flex flex-col justify-center items-center border-b-2 mt-8 lg:mt-14 border-main-grey-300 lg:pb-4">
                     <div className="flex flex-col justify-center items-center lg:flex-row">
-                        { (profileDetails.profile.picture) && (
+                        {(profileDetails.profile.picture) && (
                             <RetrieveImage
-                            name={profileDetails.profile.picture || 'default'}
-                            styles="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-10"
+                                imageName={profileDetails.profile.picture}
+                                styling="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-10"
                             />
-                        )
-                        }
+                        )}
+                        {!(profileDetails.profile.picture) && (
+                            <RetrieveImage
+                                imageName={'default'}
+                                styling="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-10"
+                            />
+                        )}
                         <div className="flex flex-col justify-center items-center font-kulim text-main-green-900">
                             <h2 className="text-2xl font-medium font-source mt-3 lg:mt-0 mx-auto lg:ml-0">
                                 {profileDetails.name? profileDetails.name : 'Name' }

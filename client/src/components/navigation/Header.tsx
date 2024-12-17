@@ -3,10 +3,12 @@ import HamburgerMenu from "./HamburgerMenu"
 import { Link} from "react-router-dom"
 
 interface HeaderProps {
-    useCase: 'default' | 'protected' | 'onboarding'
+    useCase: 'default' | 'protected' | 'onboarding';
+    imageName?: string;
+    url?:string;
 }
 
-export default function Header({useCase}:HeaderProps){
+export default function Header({useCase, imageName, url}:HeaderProps){
 
     return (
         <>
@@ -30,7 +32,7 @@ export default function Header({useCase}:HeaderProps){
                             alt="SkillJa logo"
                         />
                     </Link>
-                    <HamburgerMenu useCase="authorized" />
+                    <HamburgerMenu useCase="authorized" imageName={imageName} url={url}/>
                 </div>
             :
                 <div className="w-full flex items-center px-4 pt-2 pb-4 lg:px-10">

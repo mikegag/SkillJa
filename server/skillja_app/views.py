@@ -46,7 +46,7 @@ def user_login(request):
         if user is not None:
             auth_login(request,user)
             response = JsonResponse({'message': 'Login Successful'}, status = 200)
-            response.set_cookie ('user_email', email, httponly=True, secure = False)
+            response.set_cookie ('user_email', email, httponly=True, secure = True, samesite='Lax')
             return response
         else:
             return JsonResponse({'error': 'Invalid email or password'}, status = 400)
@@ -176,8 +176,8 @@ def verify_captcha(request):
 
 @require_GET
 def get_user_email(request):
-    user_email = request.COOKIES.get('user_email', 'No email found')
-    return JsonResponse({'user_email': user_email})
+    email = request.COOKIES.get('user_email', 'No email found')
+    return JsonResponse({'user_email': email})
 
 
 # Profile (Athlete & Coach) methods -----------------------------

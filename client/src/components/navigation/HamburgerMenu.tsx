@@ -6,11 +6,12 @@ import data from "../../data.json"
 import RetrieveImage from "../../hooks/RetrieveImage"
 
 interface MenuProps {
-    useCase: 'public' | 'authorized'
-    picture?: string
+    useCase: 'public' | 'authorized';
+    imageName?: string;
+    url?: string;
 }
 
-export default function HamburgerMenu({useCase, picture}:MenuProps){
+export default function HamburgerMenu({useCase, imageName, url}:MenuProps){
     const [menuOpen, setMenuOpen] = useState<boolean>(false)
     const menuRef = useRef<HTMLDivElement>(null)
     const navigate = useNavigate()
@@ -27,7 +28,6 @@ export default function HamburgerMenu({useCase, picture}:MenuProps){
         return () => {
             document.removeEventListener('mousedown', handleClickOutside)
         }
-        
     }, [])
 
     function handleLogout(){
@@ -67,7 +67,7 @@ export default function HamburgerMenu({useCase, picture}:MenuProps){
                     <div className="h-0.5 bg-main-green-900 rounded-full w-4 my-0.5"></div>
                 </div>
                 <div className="my-auto mx-2" >
-                    <RetrieveImage name={picture? picture : "default"} styles="w-8 rounded-full h-8" />
+                    <RetrieveImage imageName={imageName} url={url} styling="w-8 rounded-full h-8" />
                 </div>
             </div>
             {/* Menu Dropdown */}

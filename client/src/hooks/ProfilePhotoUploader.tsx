@@ -57,11 +57,11 @@ export default function ProfilePhotoUploader({ token }: { token: string }) {
         // temporarily display success to alert user then reset button text to default value
         setTimeout(() => {
             setButtonText("Success!")
-        }, 2000)
+        }, 1500)
         setTimeout(()=>{
             setIsUploading(false)
             setButtonText("Update Photo")
-        },5000)
+        },3000)
     }
   }
 
@@ -81,8 +81,8 @@ export default function ProfilePhotoUploader({ token }: { token: string }) {
             accept="image/*"
             onChange={handleFileChange}
         />
-        <p className="mt-1 text-xs text-gray-500 dark:text-gray-300" id="file_input_help">
-            PNG, JPG or JPEG.
+        <p className="mt-1.5 text-xs px-2 text-gray-500 dark:text-gray-300" id="file_input_help">
+            PNG, JPG or JPEG. Recommended: X by X (e.g., 500px by 500px).
         </p>
         <button
             onClick={handleUpload}

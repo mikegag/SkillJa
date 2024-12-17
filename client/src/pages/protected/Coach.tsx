@@ -127,7 +127,16 @@ export default function Coach(){
 
     return (
         <div className="flex flex-col">
-            <Header useCase="protected" />
+            {
+                (profileDetails.profile.picture) && (
+                    <Header useCase="protected" imageName={profileDetails.profile.picture} />
+                )
+            }
+            {
+                !(profileDetails.profile.picture) && (
+                    <Header useCase="protected" />
+                )
+            }
             <div className="pb-4 px-8 lg:px-14 lg:mb-32">
                 <div className="flex justify-center items-center text-center mt-10">
                     <FontAwesomeIcon 
@@ -141,7 +150,7 @@ export default function Coach(){
                 </div>
                 <section className="flex flex-col justify-center items-center border-b-2 mt-8 lg:mt-20 border-main-grey-300 lg:pb-4 lg:px-16">
                     <div className="flex flex-col justify-center items-center lg:flex-row lg:justify-center lg:items-center lg:w-full">
-                        <RetrieveImage name={profileDetails.profile.picture? profileDetails.profile.picture : 'default'} styles="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-16 lg:ml-0" />
+                        <RetrieveImage imageName={profileDetails.profile.picture? profileDetails.profile.picture : 'default'} styling="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-16 lg:ml-0" />
                         <div className="flex flex-col justify-center items-center font-kulim text-main-green-900 my-auto">
                             <h2 className="text-3xl font-medium font-source mt-3 lg:mt-0 mx-auto lg:ml-0">
                                 {profileDetails?.fullname} 
