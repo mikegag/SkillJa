@@ -210,7 +210,7 @@ def get_user_profile(request):
                     'location': athlete_profile.location,
                     'biography': athlete_profile.biography,
                     'primary_sport': athlete_profile.primary_sport,
-                    'picture': athlete_profile.picture.url if athlete_profile.picture else None,
+                    'picture': athlete_profile.picture if athlete_profile.picture else None,
                     'reviews': [review.id for review in athlete_profile.reviews.all()],
                     'rating': average_rating,
                 },
@@ -232,7 +232,7 @@ def get_user_profile(request):
                     'location': coach_profile.location,
                     'biography': coach_profile.biography,
                     'primary_sport': coach_profile.primary_sport,
-                    'picture': coach_profile.picture.url if coach_profile.picture else None,
+                    'picture': coach_profile.picture if coach_profile.picture else None,
                     'reviews': [model_to_dict(review) for review in coach_profile.reviews.all()],
                     'services': [model_to_dict(service) for service in coach_profile.services.all()],
                     'rating': average_rating,
@@ -431,7 +431,7 @@ def get_coach_profile(request):
                 'location': coach_profile.location or '',
                 'biography': coach_profile.biography or '',
                 'primarySport': coach_profile.primary_sport or '', 
-                'picture': coach_profile.picture.url if coach_profile.picture else None,
+                'picture': coach_profile.picture if coach_profile.picture else None,
                 'reviews': [model_to_dict(review) for review in coach_profile.reviews.all()],
                 'services': [model_to_dict(service) for service in coach_profile.services.all()],
                 'rating': average_rating,
@@ -888,19 +888,35 @@ def get_image(request):
     try:
         # Name of the image 
         image_name = request.GET.get("image_name", "default-avatar")
-
+        print(image_name)
+        # Possible image formats
+        formats = ["jpg", "png", "jpeg"]
         # Generate a signed URL with an expiration time of 2.5 hours
         expiration_time = int(time.time()) + 9000
-        # Generate a signed URL
-        url = cloudinary.utils.private_download_url(public_id=image_name, 
-            format="jpg", 
-            resource_type="image", 
-            type="upload",
-            expires_at=expiration_time,
-            attachment=False
-        )
-        return JsonResponse({"signed_url": url})
-        
+
+        # Iterate over formats and validate the URL
+        for fmt in formats:
+            try:
+                # Generate the signed URL
+                url = cloudinary.utils.private_download_url(
+                    public_id=image_name,
+                    format=fmt,
+                    resource_type="image",
+                    type="private",
+                    expires_at=expiration_time,
+                    attachment=False
+                )
+                # Check if the URL is valid by sending a HEAD request
+                response = requests.head(url)
+                if response.status_code == 200:
+                    return JsonResponse({"signed_url": url})
+            except Exception as e:
+                # Log the failure but don't stop the loop
+                print(f"Failed to generate or validate URL for format {fmt}: {str(e)}")
+
+        # If no valid URL is found after checking all formats
+        return JsonResponse({"error": "Image not found in any format."}, status=404)
+
     except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
 
@@ -934,9 +950,23 @@ def upload_image(request):
             public_id=file_name,
             type="private"
         )
-        
+
+        # update user picture reference with Cloudinary public_id
+        user = User.objects.get(email=email)
+        if hasattr(user, 'coach_profile') and user.iscoach:
+            user.coach_profile.picture = file_name
+            user.coach_profile.save()
+        elif hasattr(user, 'athlete_profile') and user.isathlete:
+            user.athlete_profile.picture = file_name
+            user.athlete_profile.save()
+        else:
+            return JsonResponse({'error': 'User profile not found!'}, status=404)
+
         # Return success response with the uploaded image URL
         return JsonResponse({'message': 'Image uploaded successfully'}, status=200)
+
+    except User.DoesNotExist:
+        return JsonResponse({'error': f'User with email {email} not found!'}, status=404)
 
     except cloudinary.exceptions.Error as e:
         # Handle Cloudinary-specific errors

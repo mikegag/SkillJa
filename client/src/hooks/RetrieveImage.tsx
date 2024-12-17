@@ -10,7 +10,7 @@ export default function RetrieveImage({name, styles}:Image) {
   const [imageUrl, setImageUrl] = useState("")
 
   useEffect(() => {
-    if(name !== "" && name !== "default"){
+    if(name !== "default"){
         const fetchImage = async () => {
         try {
             const response = await axios.get(
