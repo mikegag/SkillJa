@@ -23,7 +23,7 @@ export default function EditCoachServiceForm({displayForm}:FormProps){
             onClick={windowSize.width >=1024? ()=>handleExit(false): ()=>{}}
         >
             <div 
-                className="pop-up-container h-4/6" 
+                className="pop-up-container h-4/5" 
                 onMouseEnter={()=>setInsideForm(true)} 
                 onMouseLeave={()=>setInsideForm(false)}
             >

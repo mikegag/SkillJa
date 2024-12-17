@@ -28,5 +28,6 @@ urlpatterns = [
     path('stripe/webhook/', views.stripe_webhook, name='webhook'),
     path('email/new_user_confirmation/', views.new_user_confirmation_email, name='new_user_confirmation_email'),
     path('email/confirm_email/', views.confirm_email, name='confirm_email'),
-    path('image/get_image/', views.get_image, name='get_image')
+    path('image/get_image/', views.get_image, name='get_image'),
+    path('image/upload_image/', views.upload_image, name='upload_image')
 ]   

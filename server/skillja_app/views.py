@@ -1,5 +1,5 @@
 from django.forms import model_to_dict
-import json, os, stripe, requests, jwt, cloudinary, time
+import json, os, stripe, requests, jwt, cloudinary, cloudinary.uploader, time
 from venv import logger
 from django.db import IntegrityError
 from django.shortcuts import redirect, get_object_or_404, render
@@ -882,9 +882,10 @@ def confirm_email(request):
 
 
 # Image and Cloudinary methods ----------------------------------
+@require_GET
 @csrf_exempt
 def get_image(request):
-    if request.method == "GET":
+    try:
         # Name of the image 
         image_name = request.GET.get("image_name", "default-avatar")
 
@@ -898,9 +899,51 @@ def get_image(request):
             expires_at=expiration_time,
             attachment=False
         )
-
         return JsonResponse({"signed_url": url})
-    return JsonResponse({"error": "Invalid request method"}, status=400)
+        
+    except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+@require_POST
+@login_required
+def upload_image(request):
+    try:
+        # Allowed file types
+        ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/jpg"]
+
+        # Ensure the file is in the request
+        uploaded_file = request.FILES.get("filepath")
+        if not uploaded_file:
+            return JsonResponse({'error': 'No file uploaded'}, status=400)
+
+        # Validate file type
+        if uploaded_file.content_type not in ALLOWED_IMAGE_TYPES:
+            return JsonResponse({"error": "Invalid file type. Only JPEG and PNG allowed."}, status=400)
+
+        # Extract the email from the cookie
+        email = request.COOKIES.get('user_email')
+        if not email:
+            return JsonResponse({'error': 'Email not found in cookies'}, status=400)
+
+        # Format file name to prevent Cloudinary errors
+        file_name = email.replace('@', '_')
+
+        # Upload the image to Cloudinary
+        cloudinary.uploader.upload(
+            uploaded_file,
+            public_id=file_name,
+            type="private"
+        )
+        
+        # Return success response with the uploaded image URL
+        return JsonResponse({'message': 'Image uploaded successfully'}, status=200)
+
+    except cloudinary.exceptions.Error as e:
+        # Handle Cloudinary-specific errors
+        return JsonResponse({'error': f'Cloudinary error: {str(e)}'}, status=500)
+    except Exception as e:
+        # Handle general errors
+        return JsonResponse({'error': f'Server error: {str(e)}'}, status=500)
 
 
 # Custom HTTP response methods ----------------------------------

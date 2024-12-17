@@ -7,6 +7,7 @@ import data from '../../../data.json'
 import GetWindowSize from '../../../hooks/GetWindowSize'
 import axios from "axios"
 import GetCSFR from "../../../hooks/GetCSFR"
+import ProfilePhotoUploader from "../../../hooks/ProfilePhotoUploader"
 
 interface FormStructure {
     fullname: string,
@@ -241,7 +242,7 @@ export default function EditAthleteProfileForm({displayForm, prevSavedData}:Form
             }
         > 
             <div 
-                className="pop-up-container h-4/6" 
+                className="pop-up-container h-4/5" 
                 onMouseEnter={()=>setInsideForm(true)} 
                 onMouseLeave={()=>setInsideForm(false)}
             >
@@ -263,19 +264,7 @@ export default function EditAthleteProfileForm({displayForm, prevSavedData}:Form
                     </p>
                 </div>
                 <form className="flex flex-col bg-main-white p-3 lg:px-5 rounded-b-xl" onSubmit={handleSubmit}>
-                    <div className="flex flex-col justify-center items-center my-5">
-                        <img 
-                            src={require('../../../assets/default-avatar.jpg')} 
-                            className="w-28 rounded-xl"
-                            alt={`profile picture of ${prevSavedData?.name}`}
-                        />
-                        <button 
-                            onClick={(e)=>e.preventDefault() }
-                            className="mt-8 mx-auto py-2 px-4 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
-                        >
-                            Edit Photo
-                        </button>
-                    </div>
+                    <ProfilePhotoUploader token={csrfToken!}/>
                     <div>
                         <p>Personal Information</p>
                         {data.profileForms.athlete.personalInformation.map(renderInput)}
