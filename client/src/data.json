@@ -40,10 +40,10 @@
         {
             "series": 1,
             "inputs": [
-              { "id":"fullname", "name":"fullname", "icon": "faUser", "type": "text", "placeholder": "Full Name"}, 
-              { "id":"email", "name":"email", "icon": "faEnvelope", "type": "email", "placeholder": "Email"},
-              { "id":"password", "name":"password", "icon": "faLock", "type": "password", "placeholder": "Password"},
-              { "id":"confirmpassword", "name":"confirmpassword", "icon": "faLock", "type": "password", "placeholder": "Confirm Password"}
+              { "id":"fullname", "name":"fullname", "icon": "faUser", "type": "text", "placeholder": "First and Last name", "required": "Full name is required", "pattern": {"value": "^[A-Za-z]{2,} [A-Za-z]{2,}$", "message": "Name must follow format: Firstname Lastname (e.g., 'John Doe')."}, "minLength": {"value": 6, "message": "Names must be at least 6 characters."}, "maxLength": {"value": 60, "message": "Names must be at most 60 characters."} }, 
+              { "id":"email", "name":"email", "icon": "faEnvelope", "type": "email", "placeholder": "Email", "required": "Email is required", "pattern": { "value": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$", "message": "Please enter a valid email address."}, "maxLength": {"value": 60, "message": "Email must be at most 60 characters."}  },
+              { "id":"password", "name":"password", "icon": "faLock", "type": "password", "placeholder": "Password", "required": "Password is required", "minLength": { "value": 4, "message": "Passwords must be at least 4 characters."}, "maxLength": {"value": 60, "message": "Passwords must be at most 60 characters."}  },
+              { "id":"confirmpassword", "name":"confirmpassword", "icon": "faLock", "type": "password", "placeholder": "Confirm Password", "required": "Confirm password is required",  "minLength": { "value": 4, "message": "Passwords must be at least 4 characters."}, "maxLength": {"value": 60, "message": "Passwords must be at most 60 characters."}   }
             ],
             "title": "“No one has come up with a substitute for hard work.” - Ted Williams",
             "button": "Next Steps"
@@ -51,9 +51,9 @@
         {
             "series": 2,
             "inputs": [
-              { "id":"birthdate", "name":"birthdate", "icon": "faCalendar", "type": "date", "placeholder": "Date of birth (DD-MM-YYYY)"}, 
-              { "id":"phonenumber", "name":"phonenumber", "icon": "faPhone", "type": "tel", "placeholder": "Phone Number (ex. 123-456-7890)", "pattern": "[0-9]{3}-[0-9]{3}-[0-9]{4}"},
-              { "id":"gender", "name":"gender", "icon": "faChevronDown", "type": "select", 
+              { "id":"birthdate", "name":"birthdate", "icon": "faCalendar", "type": "date", "placeholder": "Date of birth (DD-MM-YYYY)", "required": "Date of Birth is required"}, 
+              { "id":"phonenumber", "name":"phonenumber", "icon": "faPhone", "type": "tel", "placeholder": "Phone Number (ex. 123-456-7890)", "required": "Phone number is required", "pattern": {"value": "[0-9]{3}-[0-9]{3}-[0-9]{4}", "message": "Number must follow format: xxx-xxx-xxxx"}, "minLength": { "value": 9, "message": "Number must be at least 9 digits."},  "maxLength": { "value": 16, "message": "Number must be at most 16 digits."} },
+              { "id":"gender", "name":"gender", "required": "Gender is required", "icon": "faChevronDown", "type": "select", 
                     "options":[
                         {"value": "gender", "selected":true, "placeholder":"Select Your Gender"},
                         {"value": "male", "selected":false, "placeholder":"Male"},
@@ -68,7 +68,7 @@
     
     "terms": {
             "inputs": [
-              { "id": "agreement", "name":"agreement", "type": "checkbox", "placeholder": "I have read and agree to the Terms and Conditions, and Privacy Policy.", "required":true}
+              { "id": "agreement", "name":"agreement", "type": "checkbox", "placeholder": "I have read and agree to the Terms and Conditions, and Privacy Policy.",  "required": "Terms and Privacy Policy is required"}
             ],
             "terms_conditions": [
                 {"index": 0, "title": "Terms and Conditions", "body": ""},
