@@ -8,6 +8,7 @@ import GetWindowSize from '../../../hooks/GetWindowSize'
 import axios from "axios";
 import GetCSFR from "../../../hooks/GetCSFR";
 import ProfilePhotoUploader from "../../../hooks/ProfilePhotoUploader";
+import { faFacebook, faInstagram, faTiktok, faTwitter } from "@fortawesome/free-brands-svg-icons";
 
 interface FormStructure {
     fullname: string;
@@ -188,7 +189,11 @@ export default function EditCoachProfileForm({displayForm, prevSavedData}:FormPr
         faPhone,
         faLocationDot,
         faNewspaper,
-        faMedal
+        faMedal,
+        faInstagram,
+        faFacebook,
+        faTwitter,
+        faTiktok
     }
     // Render form inputs dynamically based on their type
     function renderInput(input: any) {

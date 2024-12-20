@@ -30,7 +30,7 @@ export default function OfferedServices() {
 
     // API call to load saved services associated with user profile
     useEffect(() => {
-        axios.get('https://www.skillja.ca/auth/profile/services/', { 
+        axios.get(`${process.env.REACT_APP_SKILLJA_URL}/auth/profile/services/`, { 
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'

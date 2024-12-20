@@ -59,7 +59,7 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
             serviceData.id = savedInformation.id
         }
 
-        axios.post('https://www.skillja.ca/auth/profile/create_service/', serviceData, {
+        axios.post(`${process.env.REACT_APP_SKILLJA_URL}/auth/profile/create_service/`, serviceData, {
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'

@@ -60,7 +60,7 @@ export default function CoachService({exitView, data}:ServiceProps){
     function handleSubmit(e:React.FormEvent){
         e.preventDefault()
         // initialize Stripe instance
-        axios.get('https://www.skillja.ca/stripe/config/', {
+        axios.get(`${process.env.REACT_APP_SKILLJA_URL}/stripe/config/`, {
             headers: {
             'X-CSRFToken': csrfToken,
             'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ export default function CoachService({exitView, data}:ServiceProps){
                 const stripePromise = loadStripe(res.data.publicKey)
 
                 // Send request to create checkout session
-                axios.post(`https://www.skillja.ca/stripe/create_stripe_checkout/${coachId}/`, dataToSend, {
+                axios.post(`${process.env.REACT_APP_SKILLJA_URL}/stripe/create_stripe_checkout/${coachId}/`, dataToSend, {
                     headers: {
                     'X-CSRFToken': csrfToken,
                     'Content-Type': 'application/json',
