@@ -3,41 +3,40 @@ import axios from "axios"
 
 interface Image {
     imageName?: string;
+    id?:string;
     url?: string;
     styling: string;
 }
 
-export default function RetrieveImage({imageName, styling, url}:Image) {
+export default function RetrieveImage({imageName, styling, url, id}:Image) {
   const [imageUrl, setImageUrl] = useState("")
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // If an image name is passed as a prop, trigger API call
-    if(imageName !== "default" && imageName !== "" && imageName !== undefined){
-        const fetchImage = async () => {
-            try {
-                const response = await axios.get(
-                `${process.env.REACT_APP_SKILLJA_URL}/image/get_image/?image_name=${imageName}`
-                )
-                if(response.status === 200){
-                    setImageUrl(response.data.signed_url)
-                } else {
-                    setError('No image found for this user.')
-                }
-            } catch (error) {
-                // Do not log the error to the console in this case
-                setError('Could not retrieve the image. Please try again later.')
-            }
+    const fetchImage = async (endpoint: string) => {
+      try {
+        const response = await axios.get(endpoint)
+        if (response.status === 200) {
+          setImageUrl(response.data.signed_url)
+        } else {
+          setError("No image found for this user.")
         }
-
-        fetchImage()
-    }
-    // If an image url is passed as a prop, set its value in state
-    if(url !== "" && url !== undefined){
-        setImageUrl(url)
+      } catch {
+        setError("Could not retrieve the image. Please try again later.")
+        console.log(error)
+      }
     }
 
-  }, [])
+    if (imageName && imageName !== "default") {
+      const endpoint = `${process.env.REACT_APP_SKILLJA_URL}/image/get_image/?image_name=${imageName}`
+      fetchImage(endpoint)
+    } else if (id) {
+      const endpoint = `${process.env.REACT_APP_SKILLJA_URL}/image/get_image/?id=${id}`
+      fetchImage(endpoint)
+    } else if (url) {
+      setImageUrl(url)
+    }
+  }, [imageName, id, url])
 
   return (
     <img 

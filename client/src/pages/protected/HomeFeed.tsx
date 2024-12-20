@@ -134,6 +134,7 @@ export default function HomeFeed(){
                                     key={coach.id}
                                 >
                                     <ProfilePreview 
+                                        id={coach.id}
                                         fullname={coach.fullname}
                                         location={coach.location}
                                         specialization={coach.specialization}

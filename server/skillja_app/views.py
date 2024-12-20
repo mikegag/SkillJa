@@ -811,7 +811,7 @@ def create_stripe_checkout(request,coach_id):
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
 
-@csrf_exempt
+#@csrf_exempt
 def stripe_webhook(request):
     stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
     endpoint_key = os.getenv('STRIPE_ENDPOINT_KEY')
@@ -883,7 +883,7 @@ def new_user_confirmation_email(request):
             return JsonResponse({'error': str(e)}, status=500)
 
 @require_POST
-@csrf_exempt
+#@csrf_exempt
 def confirm_email(request):
     token = request.data.get("token")
     try:
@@ -904,13 +904,22 @@ def confirm_email(request):
 
 # Image and Cloudinary methods ----------------------------------
 @require_GET
-@csrf_exempt
 def get_image(request):
     try:
-        # Name of the image 
+        # Extract parameters
+        user_id = request.GET.get("id")
         image_name = request.GET.get("image_name", "default-avatar")
-        # Format image_name to match naming convention set in Cloudinary storage
-        image_name = image_name.replace('@','_')
+
+        if user_id:
+            # Fetch the user and derive image_name from the email
+            try:
+                user = User.objects.get(id=user_id)
+                image_name = user.email.replace('@', '_')
+            except User.DoesNotExist:
+                return JsonResponse({"error": "User not found."}, status=404)
+
+        # Ensure image_name follows expected conventions
+        image_name = image_name.replace('@', '_')
         # Possible image formats
         formats = ["jpg", "png", "jpeg"]
         # Generate a signed URL with an expiration time of 2.5 hours
