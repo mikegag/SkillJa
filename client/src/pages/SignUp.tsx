@@ -1,5 +1,5 @@
 import React, { useReducer, useState } from "react"
-import { useForm, SubmitHandler } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import Header from "../components/navigation/Header"
 import AgreementTerms from "../components/userAuthentication/AgreementTerms"
 import LoadingAnimation from "../components/general/LoadingAnimation"
@@ -85,13 +85,15 @@ const reducer = (state: State, action: { type: "NEXT_SERIES" }): State => {
 export default function SignUp() {
   const { register, handleSubmit, watch, formState: { errors } } = useForm<FormStructure>()
   const [loading, setLoading] = useState(false)
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const [captchaToken, setCaptchaToken] = useState<string | null>(null)
   const [invalidCaptcha, setInvalidCaptcha] = useState(true)
   const csrfToken = GetCSFR({ name: "csrftoken" })
   const [agreeToTerms, setAgreeToTerms] = useState<boolean>(false)
   const [state, dispatch] = useReducer(reducer, initialState)
-  const password = watch("password")
+  const password = watch("password") 
+  const [errorEmailMessage, setErrorEmailMessage] = useState<string | undefined>(undefined)
+  const [errorPasswordMessage, setErrorPasswordMessage] = useState<string | undefined>(undefined)
 
 
   function onSubmit(formData:FormStructure){
@@ -137,6 +139,7 @@ export default function SignUp() {
   const signupQuestions: Series[] = data.signup;
   const currentInputs = signupQuestions[state.currentSeries].inputs
 
+
   return (
     <div className="flex flex-col h-dvh px-2">
       <Header useCase="default" />
@@ -164,31 +167,55 @@ export default function SignUp() {
                           pattern: input.pattern ? { value: new RegExp(input.pattern.value), message: input.pattern.message } : undefined,
                           minLength: input.minLength ? { value: input.minLength.value, message: input.minLength.message } : undefined,
                           maxLength: input.maxLength ? { value: input.maxLength.value, message: input.maxLength.message } : undefined,
-                          validate: input.name === "confirmpassword" ? (val) => {
-                            if (password !== val) {
-                              return "Your passwords do not match!";
+                          validate: async (val) => {
+                            if (input.name === "confirmpassword" && password !== val) {
+                              setErrorPasswordMessage("Passwords do not match!")
                             }
-                          } : undefined,
+                            if (input.name === "confirmpassword" && password === val) {
+                              setErrorPasswordMessage(undefined)
+                            }
+                            if (input.name === "email") {
+                              try {
+                                const response = await axios.post(`${process.env.REACT_APP_SKILLJA_URL}/does_user_exist/`, 
+                                  { email: val },
+                                  {
+                                    headers: {
+                                      "X-CSRFToken": csrfToken!,
+                                      "Content-Type": "application/json",
+                                    },
+                                    withCredentials: true,
+                                  }
+                                )
+                                if (response.data.exists) {
+                                  setErrorEmailMessage("This email is already in use.")
+                                  return false
+                                } else {
+                                  setErrorEmailMessage(undefined)
+                                  return true
+                                }
+                              } catch (error) {
+                                console.error("Error checking email existence:", error)
+                                return "Failed to validate email. Please try again."
+                              }
+                            }
+                            return true
+                          },
                         })}
                         placeholder={input.placeholder}
                         className={`form-input ${input.type === "date" ? "date-input" : ""}`}
                         autoComplete="on"
                       />
-                      {errors[input.name as keyof FormStructure] && 
+                      {errors[input.name as keyof FormStructure]?.message && (
                         <p className="text-red-500 text-sm my-3 mx-auto text-center">
-                        {
-                          errors[input.name as keyof FormStructure]?.type === "required"
-                            ? input.required
-                            : errors[input.name as keyof FormStructure]?.type === "pattern"
-                            ? input.pattern?.message
-                            : errors[input.name as keyof FormStructure]?.type === "minLength"
-                            ? input.minLength?.message
-                            : errors[input.name as keyof FormStructure]?.type === "maxLength"
-                            ? input.maxLength?.message
-                            : "Your passwords do not match!"
-                        }
+                          {errors[input.name as keyof FormStructure]?.message}
                         </p>
-                      }
+                      )}
+                      {errorEmailMessage && input.name === "email" && (
+                        <p className="text-red-500 text-sm my-3 mx-auto text-center">{errorEmailMessage}</p>
+                      )}
+                      {errorPasswordMessage && input.name === "confirmpassword" && (
+                        <p className="text-red-500 text-sm my-3 mx-auto text-center">{errorPasswordMessage}</p>
+                      )}
                       {input.type !== "date" && (
                         <FontAwesomeIcon
                           icon={iconMap[input.icon]}
@@ -252,5 +279,5 @@ export default function SignUp() {
         )}
       </div>
     </div>
-  );
+  )
 }

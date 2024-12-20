@@ -180,6 +180,26 @@ def get_user_email(request):
     email = request.COOKIES.get('user_email', 'No email found')
     return JsonResponse({'user_email': email})
 
+@require_POST
+def does_user_exist(request):
+    try:
+        # Parse JSON data
+        data = json.loads(request.body)
+        email = data.get('email')
+        
+        if not email:
+            return JsonResponse({"error": "Email field is required."}, status=400)
+        
+        # Check if user with given email exists
+        User.objects.get(email=email)
+        return JsonResponse({"exists": True}, status=200)
+    
+    except User.DoesNotExist:
+        return JsonResponse({"exists": False}, status=200)
+    
+    except Exception as e:
+        return JsonResponse({"error": "An unexpected error occurred."}, status=500)
+
 
 # Profile (Athlete & Coach) methods -----------------------------
 @require_GET
