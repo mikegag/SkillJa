@@ -21,6 +21,7 @@ export default function AccountInformation(){
 
     // Retrieve any saved notification preferences
     useEffect(()=>{
+        document.title = 'SkillJa - Notifications'
         axios.get(`${process.env.REACT_APP_SKILLJA_URL}/settings/get_notification_preferences`, { 
             headers: {
                 'X-CSRFToken': csrfToken,

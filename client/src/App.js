@@ -22,6 +22,7 @@ import ComingSoon from "./pages/ComingSoon"
 import OrderSuccessful from "./pages/protected/orders/OrderSuccessful"
 import OrderCancelled from "./pages/protected/orders/OrderCancelled"
 import ConfirmEmail from "./pages/protected/misc/ConfirmEmail"
+import Invite from "./pages/protected/settings/Invite"
 
 export default function App() {
   return (
@@ -46,10 +47,11 @@ export default function App() {
             <Route path="settings">
               <Route index element={<Account />} />
                 <Route path="account-information" element={<AccountInformation/>} />
-                <Route path="payments" element={<Payments/>} />
+                <Route path="payments" element={<ComingSoon/>} />
                 <Route path="notifications" element={<Notifications/>} />
                 <Route path="faqs" element={<Faqs/>} />
                 <Route path="report-issue" element={<ReportIssue/>} />
+                <Route path="invite" element={<Invite/>} />
               </Route>
           </Route>
         </Route>
