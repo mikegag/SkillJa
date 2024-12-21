@@ -217,7 +217,7 @@
    "settings": [
         {
             "general": [
-                { "id": "account", "title": "Account Information", "icon": "faUser", "link":"./account-information" },
+                { "id": "profile", "title": "Account Information", "icon": "faUser", "link":"./account-information" },
                 { "id": "payments", "title": "Payment Methods", "icon": "faCreditCard", "link":"./payments" },
                 { "id": "notifications", "title": "Notifications", "icon": "faBell", "link":"./notifications" }
             ]
@@ -226,6 +226,24 @@
             "support": [
                 { "id": "report", "title": "Report an Issue", "icon": "faCircleInfo", "link":"./report-issue" },
                 { "id": "faqs", "title": "FAQs", "icon": "faQuestion", "link":"./faqs" }
+            ]
+        }
+    ],
+
+    "account": [
+        {
+            "account": [
+                { "id": "profile", "title": "Profile", "subtitle":"Edit your personal details and update your profile picture", "icon": "faNewspaper", "link":"/auth/profile" },
+                { "id": "payments", "title": "Payment Methods & Payouts", "subtitle": "Manage saved cards and add new payment options", "icon": "faCreditCard", "link":"./payments" },
+                { "id": "notifications", "title": "Notifications", "subtitle": "Customize your alerts and email preferences", "icon": "faBell", "link":"./notifications" },
+                { "id": "invite", "title": "Invite Athletes & Coaches", "subtitle": "Share SkillJa with athletes and coaches to help them connect, train, and grow together", "icon": "faPaperPlane", "link":"./invite" },
+                { "id": "privacy", "title": "Privacy", "subtitle":"Control your location sharing and data preferences", "icon": "faEye", "link":"./privacy" }
+            ]
+        },
+        {
+            "support": [
+                { "id": "contact", "title": "Contact Us", "subtitle": "Reach out directly for support with any issues or questions", "icon": "faEnvelope", "link":"./contact-us" },
+                { "id": "faqs", "title": "FAQ's", "subtitle":"Browse our frequently asked questions for quick answers", "icon": "faCircleQuestion", "link":"/faqs" }
             ]
         }
     ],

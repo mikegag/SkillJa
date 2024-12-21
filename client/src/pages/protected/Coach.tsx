@@ -85,7 +85,7 @@ export default function Coach(){
     const navigate = useNavigate()
     const csrfToken = GetCSFR({ name: "csrftoken" })
     const [queryParameters] = useSearchParams()
-        const [userEmail, setUserEmail] = useState<string>("")
+    const [userEmail, setUserEmail] = useState<string>("")
 
     // API call to get coach details and user email
     useEffect(()=>{

@@ -812,6 +812,7 @@ def create_stripe_checkout(request,coach_id):
             return JsonResponse({'error': str(e)}, status=500)
 
 #@csrf_exempt
+@login_required
 def stripe_webhook(request):
     stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
     endpoint_key = os.getenv('STRIPE_ENDPOINT_KEY')

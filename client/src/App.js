@@ -12,6 +12,7 @@ import Calendar from "./pages/protected/Calendar"
 import Chat from "./pages/protected/Chat"
 import Profile from "./pages/protected/Profile"
 import Settings from "./pages/protected/Settings"
+import Account from "./pages/protected/Account"
 import AccountInformation from "./pages/protected/settings/AccountInformation"
 import Notifications from "./pages/protected/settings/Notifications"
 import Faqs from "./pages/protected/settings/Faqs"
@@ -43,7 +44,7 @@ export default function App() {
           <Route path="profile">
             <Route index element={<Profile />} />
             <Route path="settings">
-              <Route index element={<Settings />} />
+              <Route index element={<Account />} />
                 <Route path="account-information" element={<AccountInformation/>} />
                 <Route path="payments" element={<Payments/>} />
                 <Route path="notifications" element={<Notifications/>} />
