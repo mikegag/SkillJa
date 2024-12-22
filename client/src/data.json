@@ -72,38 +72,430 @@
             ],
             "terms_conditions": [
                 {"index": 0, "title": "Terms and Conditions", "body": ""},
-                {"index": 1, "title": "1. Introduction", "body": "Welcome to SkillJa! These Terms and Conditions govern your use of our platform and the services provided therein. By accessing or using our platform, you agree to comply with these Terms and Conditions."},
-                {"index": 2, "title": "2. Definitions", "body": "Platform refers to SkillJa. User refers to any individual accessing or using the Platform. Coach refers to registered sports coaches offering their services through the Platform. Services refers to the coaching services provided by Coaches through the Platform. Content refers to any information, data, text, images, videos, or other materials uploaded, posted, or transmitted on the Platform."},
-                {"index": 3, "title": "3. Registration", "body": "Users must register an account to access certain features and services of the Platform. Users agree to provide accurate, current, and complete information during the registration process. Users are responsible for maintaining the confidentiality of their account credentials and for all activities that occur under their account."},
-                {"index": 4, "title": "4. Coach Services", "body": "Coaches are independent contractors responsible for the provision of coaching services. Coaches agree to provide services in a professional and competent manner. Coaches are responsible for setting their own rates and scheduling sessions with Users."},
-                {"index": 5, "title": "5. Payments", "body": "Users agree to pay the applicable fees for coaching services as set by the Coach. Payment terms and methods will be specified by the Platform. All payments are non-refundable unless otherwise specified."},
-                {"index": 6, "title": "6. User Responsibilities", "body": "Users agree to comply with all applicable laws and regulations. Users are solely responsible for their interactions with Coaches and other Users. Users agree not to use the Platform for any illegal or unauthorized purpose."},
-                {"index": 7, "title": "7. Content", "body": "Users retain ownership of any Content they upload or post on the Platform. Users grant the Platform a worldwide, non-exclusive, royalty-free license to use, reproduce, modify, adapt, publish, translate, distribute, and display their Content. Users agree not to upload or post any Content that is unlawful, defamatory, obscene, or otherwise objectionable."},
-                {"index": 8, "title": "8. Intellectual Property", "body": "The Platform and its contents are protected by copyright, trademark, and other laws. Users agree not to reproduce, modify, distribute, or otherwise use any content from the Platform without permission."},
-                {"index": 9, "title": "9. Limitation of Liability", "body": "The Platform is provided on an 'as is' and 'as available' basis without any warranties of any kind. In no event shall the Platform be liable for any indirect, incidental, special, or consequential damages arising out of or in any way connected with the use of the Platform."},
-                {"index": 10, "title": "10. Termination", "body": "The Platform reserves the right to suspend or terminate User accounts at any time without prior notice for violations of these Terms and Conditions. Upon termination, Users must cease all use of the Platform and any Services provided therein."},
-                {"index": 11, "title": "11. Changes to Terms and Conditions", "body": "The Platform reserves the right to update or modify these Terms and Conditions at any time without prior notice. Users are encouraged to review the Terms and Conditions periodically for changes."},
-                {"index": 12, "title": "12. Governing Law", "body": "These Terms and Conditions shall be governed by and construed in accordance with the laws of Ontario Canada."},
-                {"index": 13, "title": "13. Contact Us", "body": "If you have any questions or concerns about these Terms and Conditions, please contact us at support@skillja.com."}
+                {
+                    "index": 1,
+                    "title": "1. Introduction",
+                    "body": [
+                        {
+                            "subheader": "",
+                            "points": [
+                                "Welcome to SkillJa! These Terms and Conditions govern your use of our platform and the services provided therein.",
+                                "By accessing or using our platform, you agree to comply with these Terms and Conditions."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "index": 2,
+                    "title": "2. Definitions",
+                    "body": [
+                        {
+                            "subheader": "",
+                            "points": [
+                                "Platform refers to SkillJa.",
+                                "User refers to any individual accessing or using the Platform.",
+                                "Coach refers to registered sports coaches offering their services through the Platform.",
+                                "Services refers to the coaching services provided by Coaches through the Platform.",
+                                "Content refers to any information, data, text, images, videos, or other materials uploaded, posted, or transmitted on the Platform."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "index": 3,
+                    "title": "3. Registration",
+                    "body": [
+                        {
+                            "subheader": "",
+                            "points": [
+                                "Users must register an account to access certain features and services of the Platform.",
+                                "Users agree to provide accurate, current, and complete information during the registration process.",
+                                "Users are responsible for maintaining the confidentiality of their account credentials and for all activities that occur under their account."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "index": 4,
+                    "title": "4. Coach Services",
+                    "body": [
+                        {
+                            "subheader": "",
+                            "points": [
+                                "Coaches are independent contractors responsible for the provision of coaching services.",
+                                "Coaches agree to provide services in a professional and competent manner.",
+                                "Coaches are responsible for setting their own rates and scheduling sessions with Users."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "index": 5,
+                    "title": "5. Payments",
+                    "body": [
+                        {
+                            "subheader": "",
+                            "points": [
+                                "Users agree to pay the applicable fees for coaching services as set by the Coach.",
+                                "Payment terms and methods will be specified by the Platform.",
+                                "All payments are non-refundable unless otherwise specified."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "index": 6,
+                    "title": "6. User Responsibilities",
+                    "body": [
+                        {
+                            "subheader": "",
+                            "points": [
+                                "Users agree to comply with all applicable laws and regulations.",
+                                "Users are solely responsible for their interactions with Coaches and other Users.",
+                                "Users agree not to use the Platform for any illegal or unauthorized purpose."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "index": 7,
+                    "title": "7. Content",
+                    "body": [
+                        {
+                            "subheader": "",
+                            "points": [
+                                "Users retain ownership of any Content they upload or post on the Platform.",
+                                "Users grant the Platform a worldwide, non-exclusive, royalty-free license to use, reproduce, modify, adapt, publish, translate, distribute, and display their Content.",
+                                "Users agree not to upload or post any Content that is unlawful, defamatory, obscene, or otherwise objectionable."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "index": 8,
+                    "title": "8. Intellectual Property",
+                    "body": [
+                        {
+                            "subheader": "",
+                            "points": [
+                                "The Platform and its contents are protected by copyright, trademark, and other laws.",
+                                "Users agree not to reproduce, modify, distribute, or otherwise use any content from the Platform without permission."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "index": 9,
+                    "title": "9. Limitation of Liability",
+                    "body": [
+                        {
+                            "subheader": "",
+                            "points": [
+                                "The Platform is provided on an 'as is' and 'as available' basis without any warranties of any kind.",
+                                "In no event shall the Platform be liable for any indirect, incidental, special, or consequential damages arising out of or in any way connected with the use of the Platform."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "index": 10,
+                    "title": "10. Termination",
+                    "body": [
+                        {
+                            "subheader": "",
+                            "points": [
+                                "The Platform reserves the right to suspend or terminate User accounts at any time without prior notice for violations of these Terms and Conditions.",
+                                "Upon termination, Users must cease all use of the Platform and any Services provided therein."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "index": 11,
+                    "title": "11. Changes to Terms and Conditions",
+                    "body": [
+                        {
+                            "subheader": "",
+                            "points": [
+                                "The Platform reserves the right to update or modify these Terms and Conditions at any time without prior notice.",
+                                "Users are encouraged to review the Terms and Conditions periodically for changes."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "index": 12,
+                    "title": "12. Governing Law",
+                    "body": [
+                        {
+                            "subheader": "",
+                            "points": [
+                                "These Terms and Conditions shall be governed by and construed in accordance with the laws of Ontario, Canada."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "index": 13,
+                    "title": "13. Contact Us",
+                    "body": [
+                        {
+                            "subheader": "",
+                            "points": [
+                                "If you have any questions or concerns about these Terms and Conditions, please contact us at support@skillja.com."
+                            ]
+                        }
+                    ]
+                }
             ],
-            "privacy_policy": [ 
+            "privacy_policy": [
                 {"index": 0, "title": "Privacy Policy", "body": ""},
-                {"index": 1, "title": "Effective Date:", "body": "July 11th 2024"},
-                {"index": 2, "title": "Last Updated:", "body": "June 7th 2024"},
-                {"index": 3, "title": "1. Introduction", "body": "Welcome to SkillJa! Your privacy is important to us. This Privacy Policy explains how we collect, use, disclose, and protect your personal information when you use our app and services. By using SkillJa, you agree to the terms outlined in this policy."},
-                {"index": 4, "title": "2. Personal Information", "body": "When you register or use SkillJa, we may collect the following personal information:\nContact Information: Name, email address, phone number.\nProfile Information: Age, gender, location, and photos.\nPayment Information: Credit card details and billing information for transactions.\nActivity Information: Details about your sports, experience levels, and training preferences.\nDevice Information: Device type, operating system, and unique device identifiers."},
-                {"index": 5, "title": "3. Usage Data", "body": "We automatically collect data about your interactions with our app, including:\nLog Data: IP address, browser type, pages viewed, and access times.\nCookies: Data stored on your device to track usage and preferences."},
-                {"index": 6, "title": "4. Location Data", "body": "With your permission, we collect and process information about your location to provide location-based services."},
-                {"index": 7, "title": "5. How We Use Your Information", "body": "We use the collected information for the following purposes:\nService Provision: To create and manage your account, and to provide personalized recommendations for coaches and athletes.\nCommunication: To send you notifications, updates, and promotional materials.\nPayment Processing: To process transactions and manage subscriptions.\nImprovement: To analyze usage and enhance the app’s features and functionality.\nCompliance: To comply with legal obligations and prevent fraud."},
-                {"index": 8, "title": "6. How We Share Your Information", "body": "We may share your information with:\nService Providers: Third-party companies that assist us in providing services (e.g., payment processors, email services).\nLegal Authorities: When required by law, or to protect our rights and users’ safety.\nBusiness Transfers: In the event of a merger, acquisition, or sale of assets."},
-                {"index": 9, "title": "7. Access and Control", "body": "You have the right to:\nAccess: Request a copy of the personal information we hold about you.\nCorrection: Request corrections to inaccurate or incomplete personal information.\nDeletion: Request the deletion of your personal information, subject to legal obligations.\nRestriction: Request the restriction of processing your personal information in certain circumstances.\nPortability: Request the transfer of your personal information to another service provider."},
-                {"index": 10, "title": "8. Opt-Out", "body": "You may opt-out of receiving promotional communications from us by following the unsubscribe instructions in those communications or by contacting us directly."},
-                {"index": 11, "title": "9. Data Security", "body": "We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, disclosure, alteration, or destruction. However, no internet-based service is completely secure, and we cannot guarantee absolute security."},
-                {"index": 12, "title": "10. Data Retention", "body": "We retain your personal information for as long as necessary to fulfill the purposes outlined in this policy, or as required by law. Once the information is no longer needed, we will delete it securely."},
-                {"index": 13, "title": "11. Children's Privacy", "body": "SkillJa is not intended for use by children under the age of 13. We do not knowingly collect personal information from children under 13. If we become aware that we have inadvertently received such information, we will take steps to delete it."},
-                {"index": 14, "title": "12. Changes to This Privacy Policy", "body": "We may update this Privacy Policy from time to time. We will notify you of any significant changes by posting the new policy on our app and updating the effective date. Your continued use of the app after the changes take effect constitutes your acceptance of the new policy."},
-                {"index": 15, "title": "13. Contact Us", "body": "If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at:\nEmail: support@skillja.com"}
-              ]
+                {"index": 1, "title": "Effective Date:", "body": [{"subheader": "", "points": ["July 11th 2024"]}]},
+                {"index": 2, "title": "Last Updated:", "body": [{"subheader": "", "points": ["June 7th 2024"]}]},
+                {
+                  "index": 3,
+                  "title": "1. Introduction",
+                  "body": [
+                    {
+                      "subheader": "",
+                      "points": [
+                        "Welcome to SkillJa! Your privacy is important to us.",
+                        "This Privacy Policy explains how we collect, use, disclose, and protect your personal information when you use our app and services.",
+                        "By using SkillJa, you agree to the terms outlined in this policy."
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "index": 4,
+                  "title": "2. Personal Information",
+                  "body": [
+                    {
+                      "subheader": "We may collect the following personal information:",
+                      "points": [
+                        "Contact Information: Name, email address, phone number.",
+                        "Profile Information: Age, gender, location, and photos.",
+                        "Payment Information: Credit card details and billing information for transactions.",
+                        "Activity Information: Details about your sports, experience levels, and training preferences.",
+                        "Device Information: Device type, operating system, and unique device identifiers."
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "index": 5,
+                  "title": "3. Usage Data",
+                  "body": [
+                    {
+                      "subheader": "We automatically collect data about your interactions with our app:",
+                      "points": [
+                        "Log Data: IP address, browser type, pages viewed, and access times.",
+                        "Cookies: Data stored on your device to track usage and preferences."
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "index": 6,
+                  "title": "4. Location Data",
+                  "body": [
+                    {
+                      "subheader": "",
+                      "points": [
+                        "With your permission, we collect and process information about your location to provide location-based services."
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "index": 7,
+                  "title": "5. How We Use Your Information",
+                  "body": [
+                    {
+                      "subheader": "We use the collected information for the following purposes:",
+                      "points": [
+                        "Service Provision: To create and manage your account, and to provide personalized recommendations for coaches and athletes.",
+                        "Communication: To send you notifications, updates, and promotional materials.",
+                        "Payment Processing: To process transactions and manage subscriptions.",
+                        "Improvement: To analyze usage and enhance the app’s features and functionality.",
+                        "Compliance: To comply with legal obligations and prevent fraud."
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "index": 8,
+                  "title": "6. How We Share Your Information",
+                  "body": [
+                    {
+                      "subheader": "We may share your information with:",
+                      "points": [
+                        "Service Providers: Third-party companies that assist us in providing services (e.g., payment processors, email services).",
+                        "Legal Authorities: When required by law, or to protect our rights and users’ safety.",
+                        "Business Transfers: In the event of a merger, acquisition, or sale of assets."
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "index": 9,
+                  "title": "7. Access and Control",
+                  "body": [
+                    {
+                      "subheader": "You have the right to:",
+                      "points": [
+                        "Access: Request a copy of the personal information we hold about you.",
+                        "Correction: Request corrections to inaccurate or incomplete personal information.",
+                        "Deletion: Request the deletion of your personal information, subject to legal obligations.",
+                        "Restriction: Request the restriction of processing your personal information in certain circumstances.",
+                        "Portability: Request the transfer of your personal information to another service provider."
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "index": 10,
+                  "title": "8. Opt-Out",
+                  "body": [
+                    {
+                      "subheader": "",
+                      "points": [
+                        "You may opt-out of receiving promotional communications from us by following the unsubscribe instructions in those communications or by contacting us directly."
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "index": 11,
+                  "title": "9. Data Security",
+                  "body": [
+                    {
+                      "subheader": "",
+                      "points": [
+                        "We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, disclosure, alteration, or destruction.",
+                        "However, no internet-based service is completely secure, and we cannot guarantee absolute security."
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "index": 12,
+                  "title": "10. Data Retention",
+                  "body": [
+                    {
+                      "subheader": "",
+                      "points": [
+                        "We retain your personal information for as long as necessary to fulfill the purposes outlined in this policy, or as required by law.",
+                        "Once the information is no longer needed, we will delete it securely."
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "index": 13,
+                  "title": "11. Children's Privacy",
+                  "body": [
+                    {
+                      "subheader": "",
+                      "points": [
+                        "SkillJa is not intended for use by children under the age of 13.",
+                        "We do not knowingly collect personal information from children under 13.",
+                        "If we become aware that we have inadvertently received such information, we will take steps to delete it."
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "index": 14,
+                  "title": "12. Changes to This Privacy Policy",
+                  "body": [
+                    {
+                      "subheader": "",
+                      "points": [
+                        "We may update this Privacy Policy from time to time.",
+                        "We will notify you of any significant changes by posting the new policy on our app and updating the effective date.",
+                        "Your continued use of the app after the changes take effect constitutes your acceptance of the new policy."
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "index": 15,
+                  "title": "13. Contact Us",
+                  "body": [
+                    {
+                      "subheader": "",
+                      "points": [
+                        "If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at:",
+                        "Email: support@skillja.com"
+                      ]
+                    }
+                  ]
+                }
+            ],            
+            "data_collection": [
+                {"index": 0, "title": "How SkillJa Uses Your Data", "body": []},
+                {"index": 1, "title": "1. Personal Information", "body": [
+                    {"subheader": "We collect and use the following personal information.", "points": ["Name", "Email address", "Phone number"]},
+                    {"subheader": "How We Use It:", "points": [
+                        "Account Creation & Authentication: We use your name, email, and phone number to create and manage your account, log you in, and keep your account secure.",
+                        "Communication: We use your email and phone number to send updates, notifications, and responses from coaches (for athletes) or inquiries from athletes (for coaches).",
+                        "Service Notifications: Your contact information allows us to send reminders for sessions, program updates, or changes made by the coach/athlete.",
+                        "Marketing Communications (Optional): With your consent, we may use your email to send promotional materials. You can opt-out anytime."
+                    ]}
+                ]},
+                {"index": 2, "title": "2. Birthday", "body": [
+                    {"subheader": "We collect and use your date of birth (birthday).", "points": []},
+                    {"subheader": "How We Use It:", "points": [
+                        "Tailored Experiences: Your birthday helps us provide age-appropriate content or recommendations, such as connecting with coaches who specialize in specific age groups.",
+                        "Personalized Offers: With your consent, we may send birthday discounts or offers to celebrate your special day."
+                    ]}
+                ]},
+                {"index": 3, "title": "3. Location Information", "body": [
+                    {"subheader": "We collect and use your location data (via IP address or GPS with consent).", "points": []},
+                    {"subheader": "How We Use It:", "points": [
+                        "Matching You with Local Coaches/Athletes: We recommend nearby coaches or athletes for in-person sessions.",
+                        "Service Availability: Ensures relevant and available services in your area.",
+                        "Session Locations: Helps confirm session locations and recommend convenient meeting spots."
+                    ]}
+                ]},
+                {"index": 4, "title": "4. Questionnaire Responses", "body": [
+                    {"subheader": "We collect and use answers to personalized questions in our onboarding questionnaire.", "points": []},
+                    {"subheader": "How We Use It:", "points": [
+                        "Athlete Goals & Preferences: Your answers help us recommend coaches and programs that align with your goals and fitness level.",
+                        "Coaching Specialization: Coaches tailor their programs based on your specific goals (e.g., running or strength training).",
+                        "Improved Matching: Ensures the best match between athletes and coaches for a great experience."
+                    ]}
+                ]},
+                {"index": 5, "title": "5. Data for Coaches", "body": [
+                    {"subheader": "We collect and use the following coach data: Name, email, phone number, birthday, location, and responses to professional background questions.", "points": []},
+                    {"subheader": "How We Use It:", "points": [
+                        "Profile Creation: Builds a professional profile for athletes to view, showcasing your expertise and location.",
+                        "Athlete Matching: Matches you with athletes seeking coaching in your field of expertise.",
+                        "Client Communication: Facilitates communication with potential athletes using your email and phone number."
+                    ]}
+                ]},
+                {"index": 6, "title": "6. Security and Fraud Prevention", "body": [
+                    {"subheader": "We collect login details (username, password), location data, and activity on the app.", "points": []},
+                    {"subheader": "How We Use It:", "points": [
+                        "Account Security: Keeps your account secure and detects unauthorized access.",
+                        "Fraud Detection: Monitors for suspicious behavior using location and activity data."
+                    ]}
+                ]},
+                {"index": 7, "title": "7. Legal Compliance", "body": [
+                    {"subheader": "We collect any additional data necessary to comply with legal obligations.", "points": []},
+                    {"subheader": "How We Use It:", "points": [
+                        "Compliance with Laws: Ensures legal obligations are met, disputes are resolved, and agreements are enforced."
+                    ]}
+                ]},
+                {"index": 8, "title": "8. Your Rights and Controls", "body": [
+                    {"subheader": "You have full control over your data.", "points": [
+                        "Edit or Update: Change your account information anytime via profile settings.",
+                        "Download: Request a copy of your collected data.",
+                        "Delete: Request deletion of your account and data, subject to legal obligations."
+                    ]}
+                ]}
+          ]
     },
 
     "athleteQuestions":[

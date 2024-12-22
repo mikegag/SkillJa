@@ -27,14 +27,30 @@ export default function AgreementTerms({isClicked}:formProps){
                         <button className="ml-auto mr-0 hover:text-main-green-500" onClick={()=>setFormToDisplay("")}>
                             <FontAwesomeIcon icon={faX}/>
                         </button>
-                        {data.terms.terms_conditions.map((info,index)=>(
-                            <div key={index}>
-                                <h3 key={index + "title"} className={`font-bold w-full ${index===0? "text-center underline mb-2 text-lg":"mb-2"}`}>
-                                    { info.title}
+                        {data.terms.terms_conditions.map((info, index) => (
+                            <div key={index} className="mb-7">
+                                <h3 
+                                    key={`${index}-title`} 
+                                    className={`font-bold w-full ${index === 0 ? "text-center underline mb-2 text-lg" : "mb-2"}`}
+                                >
+                                    {info.title} 
                                 </h3>
-                                <p key={index + "body"} className="mb-6">
-                                    {info.body}
-                                </p>
+                                {Array.isArray(info.body) ? (
+                                    info.body.map((val, subIndex) => (
+                                        <div key={`${index}-${subIndex}`}>
+                                            {val.subheader && <p className="font-semibold">{val.subheader}</p>}
+                                            {val.points && val.points.length > 0 && (
+                                                <ul className="list-disc pl-5">
+                                                    {val.points.map((point, pointIndex) => (
+                                                        <li key={`${index}-${subIndex}-${pointIndex}`}>{point}</li>
+                                                    ))}
+                                                </ul>
+                                            )}
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p>{info.body}</p>
+                                )}
                             </div>
                         ))}
                     </div>
@@ -47,14 +63,30 @@ export default function AgreementTerms({isClicked}:formProps){
                     <button className="ml-auto mr-0 hover:text-main-green-500" onClick={()=>setFormToDisplay("")}>
                         <FontAwesomeIcon icon={faX}/>
                     </button>
-                    {data.terms.privacy_policy.map((info,index)=>(
-                        <div key={index}>
-                            <h3 key={index + "title"} className={`font-bold w-full ${index===0? "text-center underline mb-2 text-lg":"mb-2"}`}>
-                                { info.title}
+                    {data.terms.privacy_policy.map((info, index) => (
+                        <div key={index} className="mb-7">
+                            <h3 
+                                key={`${index}-title`} 
+                                className={`font-bold w-full ${index === 0 ? "text-center underline mb-2 text-lg" : "mb-2"}`}
+                            >
+                                {info.title}
                             </h3>
-                            <p key={index + "body"} className="mb-6">
-                                {info.body}
-                            </p>
+                            {Array.isArray(info.body) ? (
+                                info.body.map((val, subIndex) => (
+                                    <div key={`${index}-${subIndex}`}>
+                                        {val.subheader && <p className="font-semibold">{val.subheader}</p>}
+                                        {val.points && val.points.length > 0 && (
+                                            <ul className="list-disc pl-5">
+                                                {val.points.map((point, pointIndex) => (
+                                                    <li key={`${index}-${subIndex}-${pointIndex}`}>{point}</li>
+                                                ))}
+                                            </ul>
+                                        )}
+                                    </div>
+                                ))
+                            ) : (
+                                <p>{info.body}</p>
+                            )}
                         </div>
                     ))}
                 </div>

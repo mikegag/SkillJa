@@ -23,6 +23,7 @@ import OrderSuccessful from "./pages/protected/orders/OrderSuccessful"
 import OrderCancelled from "./pages/protected/orders/OrderCancelled"
 import ConfirmEmail from "./pages/protected/misc/ConfirmEmail"
 import Invite from "./pages/protected/settings/Invite"
+import Privacy from "./pages/protected/settings/Privacy"
 
 export default function App() {
   return (
@@ -52,6 +53,7 @@ export default function App() {
                 <Route path="faqs" element={<Faqs/>} />
                 <Route path="report-issue" element={<ReportIssue/>} />
                 <Route path="invite" element={<Invite/>} />
+                <Route path="privacy" element={<Privacy/>} />
               </Route>
           </Route>
         </Route>

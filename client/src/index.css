@@ -62,7 +62,7 @@ body {
   }
   .pop-up-container {
     @apply relative flex flex-col bg-white rounded-2xl border-t lg:border border-main-black w-11/12 h-fit 
-            top-5 lg:top-10 bottom-0 lg:w-6/12  lg:my-auto overflow-scroll py-5;
+            top-5 lg:top-10 bottom-0 lg:w-6/12 lg:my-auto overflow-scroll py-5;
   }
 }
 
