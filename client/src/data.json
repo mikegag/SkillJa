@@ -779,5 +779,12 @@
         {"type":"online-program","title":"Create Online Coaching Program", "subtitle":"Provided 100% Online"},
         {"type":"individual-session","title":"Create Individual Session", "subtitle":"Individual Session to focus on specific needs"}
       ]
-    }
+    },
+    "deleteAccount": [
+      {"index":0, "option": "I am no longer interested in SkillJa and/or sports"},
+      {"index":1, "option": "SkillJa is too expensive"},
+      {"index":2, "option": "SkillJa does not offer the sports I need"},
+      {"index":3, "option": "SkillJa is too difficult to use"},
+      {"index":4, "option": "I had a bad experience with SkillJa"}
+    ]
 }

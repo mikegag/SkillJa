@@ -200,6 +200,21 @@ def does_user_exist(request):
     except Exception as e:
         return JsonResponse({"error": "An unexpected error occurred."}, status=500)
 
+@require_POST
+@login_required
+def delete_account(request):
+    try:
+        # Deactivate the currently logged-in user's account
+        user = request.user
+        user.is_active = False
+        user.save()  # Don't forget to save the changes to the database
+        user_logout(request)
+        return JsonResponse({"message": "User account has been deactivated."}, status=200)
+    except User.DoesNotExist:
+        return JsonResponse({"error": "User not found."}, status=404)
+    except Exception as e:
+        return JsonResponse({"error": "An unexpected error occurred."}, status=500)
+
 
 # Profile (Athlete & Coach) methods -----------------------------
 @require_GET

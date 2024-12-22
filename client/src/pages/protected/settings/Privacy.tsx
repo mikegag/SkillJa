@@ -4,6 +4,7 @@ import Footer from "../../../components/navigation/Footer"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronRight, faX } from "@fortawesome/free-solid-svg-icons"
 import data from "../../../data.json"
+import { Link } from "react-router-dom"
 
 
 export default function Invite(){
@@ -11,7 +12,6 @@ export default function Invite(){
     
     useEffect(()=>{
         document.title = 'SkillJa - Privacy'
-        // API call to delete account
     },[])
 
     return (
@@ -64,7 +64,8 @@ export default function Invite(){
                <p className="mt-6 mb-4 font-semibold">
                     Your Data Controls
                </p>
-               <div 
+               <Link
+                    to={"./delete-account"}
                     className="flex justify-center items-start bg-white p-3 border border-gray-300 rounded-2xl mb-4 cursor-pointer hover:border-main-green-500 w-80 lg:w-3/6">
                     <p className="ml-0 mr-auto">
                         Delete account
@@ -73,7 +74,7 @@ export default function Invite(){
                         icon={faChevronRight} 
                         className="text-gray-400 my-auto ml-auto mr-0"
                     />
-               </div>
+               </Link>
                {
                 formToDisplay === "terms"?
                     <div className="w-dvw h-dvh flex justify-center items-center bg-black bg-opacity-60 absolute top-0 left-0">
