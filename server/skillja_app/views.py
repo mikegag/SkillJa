@@ -9,7 +9,7 @@ from django.contrib.auth import logout
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import User, CoachPreferences, AthletePreferences, CoachProfile, AthleteProfile, Service, Review, SocialMedia
+from .models import User, CoachPreferences, AthletePreferences, CoachProfile, AthleteProfile, Service, Review, SocialMedia, Settings
 from django.middleware.csrf import get_token, rotate_token
 from django.shortcuts import redirect
 from urllib.parse import urlparse, parse_qs
@@ -206,9 +206,22 @@ def delete_account(request):
     try:
         # Deactivate the currently logged-in user's account
         user = request.user
+        user_settings = Settings.objects.get(user=user)
+        data = json.loads(request.body)
+
+        # Extract reason or set default
+        reason = data.get('reason', 'N/A')
+
+        # Update user and settings
         user.is_active = False
-        user.save()  # Don't forget to save the changes to the database
+        user.save()
+
+        user_settings.account_deletion_reason = reason
+        user_settings.save()
+
+        # Log out the user
         user_logout(request)
+
         return JsonResponse({"message": "User account has been deactivated."}, status=200)
     except User.DoesNotExist:
         return JsonResponse({"error": "User not found."}, status=404)

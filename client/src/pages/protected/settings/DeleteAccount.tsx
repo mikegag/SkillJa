@@ -20,7 +20,7 @@ export default function DeleteAccount(){
     },[])
 
     function handleAccountDeletion(){
-        axios.post(`${process.env.REACT_APP_SKILLJA_URL}/delete_account/`,{},{
+        axios.post(`${process.env.REACT_APP_SKILLJA_URL}/delete_account/`,{reason: reason},{
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'

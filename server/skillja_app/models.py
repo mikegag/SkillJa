@@ -172,3 +172,10 @@ class SocialMedia(models.Model):
 
     def __str__(self):
         return f'Social Media - {self.user.email}'
+    
+class Settings(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='settings')
+    email_message_notifications = models.BooleanField(default=False)
+    email_appointment_notifications = models.BooleanField(default=False)
+    email_marketing_notifications = models.BooleanField(default=False)
+    account_deletion_reason = models.CharField(max_length=255, blank=True, null=True)
