@@ -15,12 +15,14 @@ export default function DeleteAccount(){
     const [confirmDelete, setConfirmDelete] = useState<boolean>(false)
     const navigate = useNavigate()
     const csrfToken = GetCSFR({ name: "csrftoken" })
+    const [errorMessage, setErrorMessage] = useState<string>("")
+
     useEffect(()=>{
         document.title = 'SkillJa - Delete Account'
     },[])
 
     function handleAccountDeletion(){
-        axios.post(`${process.env.REACT_APP_SKILLJA_URL}/delete_account/`,{reason: reason},{
+        axios.post(`${process.env.REACT_APP_SKILLJA_URL}/delete_account/`, {reason: reason},{
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'
@@ -31,11 +33,12 @@ export default function DeleteAccount(){
             if (res.status === 200) {
                 navigate("/")
             } else {
-                console.error("Failed to delete account")
+                setErrorMessage("Failed to delete account. Please try again later.")
             }
         })
         .catch(error => {
-            console.error(error)
+            console.error(error);
+            setErrorMessage("An unexpected error occurred. Please try again.")
         })
     }
 
@@ -66,31 +69,36 @@ export default function DeleteAccount(){
                 </p>
                 <Accordion title="Select reason" styles="border-main-grey-100 lg:w-2/6 ml-0 mr-auto">
                     {data.deleteAccount.map((value) => (
-                        <button 
-                            onClick={(e)=>{
-                                e.preventDefault()
-                                setReason(value.option)
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setReason((prev) => (prev === value.option ? "" : value.option));
                             }}
-                            key={`individual-${value.index}`} 
+                            key={`individual-${value.index}`}
                             value={value.option}
                             aria-label={`account deletion option: ${value.option}`}
-                            className={`text-left p-3 hover:bg-main-green-700 hover:text-main-color-white ${reason.includes(value.option)? "bg-main-green-500 text-white": "bg-white"} `}
+                            className={`text-left p-3 hover:bg-main-green-700 hover:text-main-color-white ${
+                                reason === value.option ? "bg-main-green-500 text-white" : "bg-white"
+                            }`}
                         >
                             {value.option}
                         </button>
                     ))}
                 </Accordion>
-                {reason && (
-                    <button 
-                        className={`form-btn ${confirmDelete? "bg-red-500 hover:bg-red-700": ""}`}
-                        onClick={()=>{
-                            setConfirmDelete(true);
+                <button
+                    className={`form-btn ${confirmDelete ? "bg-red-500 hover:bg-red-700" : ""}`}
+                    onClick={() => {
+                        if (confirmDelete) {
                             handleAccountDeletion();
-                        }}
-                    >
-                        {confirmDelete ? "Confirm Account Deletion" : "Delete my account"}
-                    </button>
-                )}
+                        } else {
+                            setConfirmDelete(true);
+                        }
+                    }}
+                    aria-describedby="delete-warning"
+                >
+                    {confirmDelete ? "Confirm Account Deletion" : "Delete my account"}
+                </button>
+                {errorMessage && <p className="text-red-500 mt-4" aria-live="assertive">{errorMessage}</p>}
             </section>
             <Footer />
         </>
