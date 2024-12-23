@@ -200,33 +200,88 @@ def does_user_exist(request):
     except Exception as e:
         return JsonResponse({"error": "An unexpected error occurred."}, status=500)
 
+
+# Settings methods ----------------------------------------------
 @require_POST
 @login_required
 def delete_account(request):
     try:
-        # Deactivate the currently logged-in user's account
+        # Get the logged-in user
         user = request.user
-        user_settings = Settings.objects.get(user=user)
-        data = json.loads(request.body)
+        user_settings, created = Settings.objects.get_or_create(user=user)
 
-        # Extract reason or set default
-        reason = data.get('reason', 'N/A')
+        # Parse the request body
+        try:
+            data = json.loads(request.body)
+            reason = data.get("reason", "N/A")
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON in request body."}, status=400)
 
-        # Update user and settings
+        # Deactivate user account
         user.is_active = False
         user.save()
 
+        # Save the account deletion reason
         user_settings.account_deletion_reason = reason
         user_settings.save()
 
         # Log out the user
         user_logout(request)
 
-        return JsonResponse({"message": "User account has been deactivated."}, status=200)
+        return JsonResponse({"message": "User account has been successfully deactivated."}, status=200)
+
     except User.DoesNotExist:
         return JsonResponse({"error": "User not found."}, status=404)
+
     except Exception as e:
-        return JsonResponse({"error": "An unexpected error occurred."}, status=500)
+        return JsonResponse({"error": "An unexpected error occurred. Please try again later."}, status=500)
+
+@require_GET
+@login_required
+def get_notification_preferences(request):
+    try:
+        # Retrieve the logged-in user
+        user = request.user
+        user_settings, created = Settings.objects.get_or_create(user=user)
+
+        data = {
+            'messaging': user_settings.email_message_notifications or False,
+            'appointments': user_settings.email_appointment_notifications or False,
+            'marketing': user_settings.email_marketing_notifications or False
+        }
+        
+        return JsonResponse({"preferences": data}, status = 200)
+    
+    except User.DoesNotExist:
+        return JsonResponse({"error": "User not found"}, status=404)
+    except Exception as e:
+        return JsonResponse({"error": "An unexpected error occurred. Please try again later."}, status = 500)
+
+@require_POST
+@login_required
+def update_notification_preferences(request):    
+    try:
+        # Retrieve logged in user
+        user = request.user
+        user_settings, created = Settings.objects.get_or_create(user=user)
+
+        # Parse json data from body
+        preferences = json.loads(request.body)
+
+        if 'messaging' in preferences:
+            user_settings.email_message_notifications = preferences['messaging']
+        if 'marketing' in preferences:
+            user_settings.email_marketing_notifications = preferences['marketing']
+        if 'appointments' in preferences:
+            user_settings.email_appointment_notifications = preferences['appointments']
+        
+        # Save user settings with new updates
+        user_settings.save()
+        return JsonResponse({"success":"user notification preferences successfully updated"}, status=201)
+    except User.DoesNotExist:
+        return JsonResponse({"error": "User not found"}, status=404)
+    except Exception as e:
+        return JsonResponse({"error": "An unexpected error occurred. Please try again later."}, status=500)
 
 
 # Profile (Athlete & Coach) methods -----------------------------

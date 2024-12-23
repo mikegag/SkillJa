@@ -22,7 +22,7 @@ export default function AccountInformation(){
     // Retrieve any saved notification preferences
     useEffect(()=>{
         document.title = 'SkillJa - Notifications'
-        axios.get(`${process.env.REACT_APP_SKILLJA_URL}/settings/get_notification_preferences`, { 
+        axios.get(`${process.env.REACT_APP_SKILLJA_URL}/settings/get_notification_preferences/`, { 
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'
@@ -31,11 +31,12 @@ export default function AccountInformation(){
         }) 
         .then(res => {
             if (res.status === 200) {
-                setFormData({
-                    messaging: res.data.messaging,
-                    appointments: res.data.appointments,
-                    marketing: res.data.marketing
-                })
+                setFormData((prev)=>({
+                    ...prev,
+                    messaging: res.data.preferences.messaging,
+                    appointments: res.data.preferences.appointments,
+                    marketing: res.data.preferences.marketing
+                }))
             }
         })
         .catch(error => {
@@ -54,7 +55,7 @@ export default function AccountInformation(){
 
     function handleSubmit(e:React.FormEvent){
         e.preventDefault()
-        axios.post(`${process.env.REACT_APP_SKILLJA_URL}/settings/update_notification_preferences`, formData, { 
+        axios.post(`${process.env.REACT_APP_SKILLJA_URL}/settings/update_notification_preferences/`, formData, { 
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'
@@ -62,7 +63,7 @@ export default function AccountInformation(){
             withCredentials: true
         }) 
         .then(res => {
-            if (res.status === 200) {
+            if (res.status === 201) {
                 setDisableButton(true)
             }
         })
