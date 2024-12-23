@@ -17,6 +17,7 @@ from django.views.decorators.http import require_POST, require_GET
 from django.contrib.auth.decorators import login_required
 from .utils import calculate_price_deviance, calculate_coach_cost, calculate_coach_review
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.timezone import now
 from datetime import timedelta
@@ -984,6 +985,49 @@ def confirm_email(request):
         return Response({"error": "Invalid token!"}, status=400)
     except User.DoesNotExist:
         return Response({"error": "User not found!"}, status=400)
+
+@require_POST
+def contact_us_email(request):
+    try:
+        # Parse incoming JSON data
+        data = json.loads(request.body)
+        firstname = data['firstname']
+        lastname = data['lastname']
+        email = data['email']
+        reason = data['reason']
+        message = data['message']
+
+        # Construct the email content
+        body = (
+            f"Name: {firstname} {lastname}\n"
+            f"Email: {email}\n"
+            f"Reason: {reason}\n\n"
+            f"Message:\n{message}"
+        )
+        recipient = os.getenv('DEFAULT_CONTACT_EMAIL') 
+
+        # Mailgun API credentials
+        api_key = os.getenv("MAILGUN_API_KEY")
+        domain = os.getenv("MAILGUN_DOMAIN")
+
+        # Mailgun API request
+        response = requests.post(
+            f"https://api.mailgun.net/v3/{domain}/messages",
+            auth=("api", api_key),
+            data={
+                "from": f"SkillJa <mailgun@{domain}>",
+                "to": recipient,
+                "subject": f"Inquiry - Contact Us Message From {firstname} {lastname}",
+                "text": body, 
+            },
+        )
+        if response.status_code == 200:
+            return JsonResponse({"message": "Email sent successfully!"}, status=200)
+        else:
+            return JsonResponse({"error": "Failed to send email", "details": response.text}, status=500)
+
+    except Exception as e:
+        return JsonResponse({"Error": "An unexpected error occurred."}, status=500)
 
 
 # Image and Cloudinary methods ----------------------------------

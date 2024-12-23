@@ -24,6 +24,7 @@ import ConfirmEmail from "./pages/protected/misc/ConfirmEmail"
 import Invite from "./pages/protected/settings/Invite"
 import Privacy from "./pages/protected/settings/Privacy"
 import DeleteAccount from "./pages/protected/settings/DeleteAccount"
+import Contact from "./pages/protected/settings/Contact"
 
 export default function App() {
   return (
@@ -51,7 +52,7 @@ export default function App() {
                 <Route path="payments" element={<ComingSoon/>} />
                 <Route path="notifications" element={<Notifications/>} />
                 <Route path="faqs" element={<Faqs/>} />
-                <Route path="report-issue" element={<ReportIssue/>} />
+                <Route path="contact-us" element={<Contact/>} />
                 <Route path="invite" element={<Invite/>} />
                 <Route path="privacy">
                   <Route index element={<Privacy/>} />

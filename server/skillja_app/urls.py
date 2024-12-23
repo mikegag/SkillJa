@@ -33,5 +33,6 @@ urlpatterns = [
     path('image/get_image/', views.get_image, name='get_image'),
     path('image/upload_image/', views.upload_image, name='upload_image'),
     path('settings/get_notification_preferences/', views.get_notification_preferences, name='get_notification_preferences'),
-    path('settings/update_notification_preferences/', views.update_notification_preferences, name='update_notification_preferences')
+    path('settings/update_notification_preferences/', views.update_notification_preferences, name='update_notification_preferences'),
+    path('settings/contact_us/', views.contact_us_email, name='contact_us_email')
 ]   

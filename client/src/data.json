@@ -785,5 +785,12 @@
       {"index":2, "option": "SkillJa does not offer the sports I need"},
       {"index":3, "option": "SkillJa is too difficult to use"},
       {"index":4, "option": "I had a bad experience with SkillJa"}
+    ],
+    "contactUs": [
+      {"index":0, "option": "General Inquiry"},
+      {"index":1, "option": "Suggestions"},
+      {"index":2, "option": "Billing & Payments"},
+      {"index":3, "option": "Report an Issue"},
+      {"index":4, "option": "Partnerships and Collaboration"}
     ]
 }

@@ -48,11 +48,12 @@ export default function Login() {
         if (res.status === 200) {
           navigate("/home-feed")
         } else {
-          console.error("Login failed")
+          alert("Login failed. Try again!")
         }
       })
-      .catch((error) => {
+      .catch((error) => { 
         setLoading(false)
+        alert('Error occurred! Please try again later.')
         if (error.response) {
           console.error("Error response:", error.response.data)
         } else if (error.request) {
@@ -133,7 +134,7 @@ export default function Login() {
               >
                 Login
               </button>
-            </form>
+            </form> 
             {/* <div className="flex justify-center items-center my-7" role="presentation">
                 <div className="bg-main-grey-300 h-0.5 w-28 lg:w-36"></div>
                 <p className="mx-3 lg:mx-4 text-main-grey-200">Or Login with</p>
