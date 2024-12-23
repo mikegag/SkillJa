@@ -12,10 +12,8 @@ import Calendar from "./pages/protected/Calendar"
 import Chat from "./pages/protected/Chat"
 import Profile from "./pages/protected/Profile"
 import Account from "./pages/protected/Account"
-import AccountInformation from "./pages/protected/settings/AccountInformation"
 import Notifications from "./pages/protected/settings/Notifications"
 import Faqs from "./pages/protected/settings/Faqs"
-import ReportIssue from "./pages/protected/settings/ReportIssue"
 import Payments from './pages/protected/settings/Payments'
 import ComingSoon from "./pages/ComingSoon"
 import OrderSuccessful from "./pages/protected/orders/OrderSuccessful"
@@ -36,6 +34,8 @@ export default function App() {
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<SignUp />} />
         <Route path="home-feed" element={<HomeFeed />} />
+        <Route path="faqs" element={<Faqs/>} />
+        <Route path="contact-us" element={<Contact/>} />
         <Route path="order-success" element={<OrderSuccessful/>} />
         <Route path="order-cancelled" element={<OrderCancelled/>} />
         <Route path="confirm-account" element={<ConfirmEmail/>} />
@@ -48,11 +48,8 @@ export default function App() {
             <Route index element={<Profile />} />
             <Route path="settings">
               <Route index element={<Account />} />
-                <Route path="account-information" element={<AccountInformation/>} />
                 <Route path="payments" element={<ComingSoon/>} />
                 <Route path="notifications" element={<Notifications/>} />
-                <Route path="faqs" element={<Faqs/>} />
-                <Route path="contact-us" element={<Contact/>} />
                 <Route path="invite" element={<Invite/>} />
                 <Route path="privacy">
                   <Route index element={<Privacy/>} />

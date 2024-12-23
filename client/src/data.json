@@ -618,8 +618,8 @@
         },
         {
             "support": [
-                { "id": "contact", "title": "Contact Us", "subtitle": "Reach out directly for support with any issues or questions", "icon": "faEnvelope", "link":"./contact-us" },
-                { "id": "faqs", "title": "FAQ's", "subtitle":"Browse our frequently asked questions for quick answers", "icon": "faCircleQuestion", "link":"./faqs" }
+                { "id": "contact", "title": "Contact Us", "subtitle": "Reach out directly for support with any issues or questions", "icon": "faEnvelope", "link":"/contact-us" },
+                { "id": "faqs", "title": "FAQ's", "subtitle":"Browse our frequently asked questions for quick answers", "icon": "faCircleQuestion", "link":"/faqs" }
             ]
         }
     ],

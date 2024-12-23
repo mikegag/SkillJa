@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Outlet, useNavigate, Link } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import GetCSFR from "../hooks/GetCSFR";
 import LoadingAnimation from "../components/general/LoadingAnimation";
 
@@ -36,14 +36,8 @@ export default function Authentication(){
 
     // Handle loading state and redirect if not authenticated
     if (loading) {
-        return <div className="mt-40 flex flex-col justify-center items-center">
+        return <div className="mt-40 lg:mt-64 flex flex-col justify-center items-center">
                 <LoadingAnimation />
-                <Link 
-                    to={'/'} 
-                    className="text-sm mx-auto mt-20 cursor-pointer hover:underline"
-                >
-                    Back to Home Page
-                </Link>
             </div>
     }
 

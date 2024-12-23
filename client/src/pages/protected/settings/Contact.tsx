@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { useForm } from "react-hook-form";
+import { useForm } from "react-hook-form"
 import Header from "../../../components/navigation/Header"
 import Footer from "../../../components/navigation/Footer"
 import axios from "axios"
@@ -69,7 +69,7 @@ export default function Contact(){
     return (
         <>
             <Header useCase="protected" />
-            <section className="flex flex-col justify-start items-start font-kulim py-2 px-4 lg:px-12 mx-auto mt-10 mb-20">
+            <section className="flex flex-col justify-start items-start font-kulim py-2 px-4 lg:px-12 mx-auto mt-10 mb-24">
                 <h2 className="text-3xl font-source mb-2 text-left ml-0 mr-auto">
                     Contact Us
                 </h2>
@@ -80,7 +80,8 @@ export default function Contact(){
                     <div className="flex justify-start items-start w-full mb-3">
                         <div className="flex flex-col justify-start items-start w-full mr-4">
                             <label className="font-semibold mb-0.5">First Name</label>
-                            <input 
+                            <input
+                                id="firstname" 
                                 type="text" 
                                 className="form-input px-3 border-gray-300"
                                 {...register("firstname", {
@@ -103,6 +104,7 @@ export default function Contact(){
                         <div className="flex flex-col justify-start items-start w-full">
                             <label className="font-semibold mb-0.5">Last Name</label>
                             <input 
+                                id="lastname"
                                 type="text" 
                                 className="form-input px-3 border-gray-300" 
                                 {...register("lastname", {
@@ -127,6 +129,7 @@ export default function Contact(){
                     {errors.lastname && <p className="text-red-500">{errors.lastname.message}</p>}
                     <label className="font-semibold mb-0.5">Email</label>
                     <input 
+                        id="email"
                         type="email" 
                         className="form-input px-3 border-gray-300 w-full mr-4 mb-3"
                         {...register("email", {
@@ -160,8 +163,9 @@ export default function Contact(){
                         ))}
                     </Accordion>
                     <label className="font-semibold mb-0.5">What Can We Help You with?</label>
-                    <textarea  
-                        className="form-input px-3 border border-gray-300 w-full min-h-40 max-h-44" 
+                    <textarea
+                        id="message"  
+                        className="form-input px-3 border border-gray-300 w-full min-h-36 max-h-44" 
                         {...register("message", {
                             required: "message is required",
                             minLength:{

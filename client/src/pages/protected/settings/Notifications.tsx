@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
 import Header from "../../../components/navigation/Header"
 import Footer from "../../../components/navigation/Footer"
-import axios from "axios";
-import GetCSFR from "../../../hooks/GetCSFR";
+import axios from "axios"
+import GetCSFR from "../../../hooks/GetCSFR"
 
 interface Form {
     messaging: boolean;
@@ -75,14 +75,14 @@ export default function Notifications(){
     return (
         <>
             <Header useCase="protected" />
-            <section className="flex flex-col justify-center items-center font-kulim py-2 px-4 lg:px-12 mx-auto mt-10 mb-20">
+            <section className="flex flex-col justify-start items-start font-kulim py-2 px-4 lg:px-12 mx-auto mt-10 mb-20">
                 <h2 className="text-3xl font-source mb-2">
                     Notifications
                 </h2>
                 <p>
                     Customize your alerts and email preferences
                 </p>
-                <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center w-full mt-8">
+                <form onSubmit={handleSubmit} className="flex flex-col justify-start items-start w-full mt-8">
                     {[
                         {
                             id: "messaging",
@@ -120,8 +120,9 @@ export default function Notifications(){
                         </div>
                     ))}
                     <button 
-                        className={`form-btn mt-9 mx-auto ${disableButton ? "text-gray-400": "text-white"}`} 
+                        className={`form-btn mt-9 mr-auto ${disableButton ? "text-gray-400": "text-white"}`} 
                         disabled={disableButton}
+                        aria-label="submit notification preferences"
                     >
                         Save changes
                     </button>
