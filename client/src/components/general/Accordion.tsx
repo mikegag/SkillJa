@@ -3,12 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { useState, useEffect, useRef } from "react"
 
 type AccordionProps = {
-  title: string,
-  children: React.ReactNode
-  styles?: string
+  title: string;
+  children: React.ReactNode;
+  styles?: string;
+  titleStyles?: string;
+  childrenStyles?: string;
 };
 
-export default function Accordion({ title, children, styles }: AccordionProps) {
+export default function Accordion({ title, children, styles, titleStyles, childrenStyles }: AccordionProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [answerHeight, setAnswerHeight] = useState<number | undefined>(undefined)
   const answerRef = useRef<HTMLDivElement>(null)
@@ -27,7 +29,7 @@ export default function Accordion({ title, children, styles }: AccordionProps) {
         onClick={(e)=>{toggleAccordion(); e.preventDefault();}}
         className={`flex justify-between items-center w-full p-3   ${isOpen ? 'rounded-b-none' : ''}`}
       >
-        <p className="bg-main-white font-source font-medium text-main-black text-base">{title}</p>
+        <p className={`${titleStyles ? titleStyles : "bg-main-white font-source font-medium text-main-black text-base"}`}>{title}</p>
         <FontAwesomeIcon
           icon={faChevronDown}
           className={`ml-3 h-4 w-4 transform transition-transform duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`}
@@ -37,7 +39,7 @@ export default function Accordion({ title, children, styles }: AccordionProps) {
         className={` max-h-40 overflow-scroll transition-height duration-300 rounded-lg ${isOpen ? 'rounded-t-none' : ''}`}
         style={{ height: isOpen ? answerHeight : 0 }}
       >
-        <div ref={answerRef} className={`bg-main-white ${isOpen ? 'flex flex-col border-t' : 'hidden'}`}>
+        <div ref={answerRef} className={`bg-main-white ${isOpen ? `flex flex-col border-t ${childrenStyles}` : 'hidden'}`}>
           {children}
         </div>
       </div>

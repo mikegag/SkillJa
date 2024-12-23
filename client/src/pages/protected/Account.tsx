@@ -29,7 +29,7 @@ export default function Account(){
                     Manage your account settings and preferences to personalize SkillJa for your experience
                 </p>
                 <div className="flex flex-wrap">
-                    {data.account[0].account?.map((item)=>(
+                    {data.settings[0].account?.map((item)=>(
                         <Link 
                             key={item.id} 
                             to={item.link}
@@ -54,7 +54,7 @@ export default function Account(){
                     Find answers, get help, and connect with our team for assistance
                 </p>
                 <div className="flex flex-wrap">
-                    {data.account[1].support?.map((item)=>(
+                    {data.settings[1].support?.map((item)=>(
                         <Link 
                             key={item.id} 
                             to={item.link}

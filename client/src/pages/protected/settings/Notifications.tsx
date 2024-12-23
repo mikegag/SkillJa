@@ -10,7 +10,7 @@ interface Form {
     marketing: boolean;
 }
 
-export default function AccountInformation(){
+export default function Notifications(){
     const [formData, setFormData] = useState<Form>({
         messaging: false,
         appointments: false,

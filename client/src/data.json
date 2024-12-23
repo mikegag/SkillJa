@@ -606,23 +606,7 @@
         }
     ],
 
-   "settings": [
-        {
-            "general": [
-                { "id": "profile", "title": "Account Information", "icon": "faUser", "link":"./account-information" },
-                { "id": "payments", "title": "Payment Methods", "icon": "faCreditCard", "link":"./payments" },
-                { "id": "notifications", "title": "Notifications", "icon": "faBell", "link":"./notifications" }
-            ]
-        },
-        {
-            "support": [
-                { "id": "report", "title": "Report an Issue", "icon": "faCircleInfo", "link":"./report-issue" },
-                { "id": "faqs", "title": "FAQs", "icon": "faQuestion", "link":"./faqs" }
-            ]
-        }
-    ],
-
-    "account": [
+    "settings": [
         {
             "account": [
                 { "id": "profile", "title": "Profile", "subtitle":"Edit your personal details and update your profile picture", "icon": "faNewspaper", "link":"/auth/profile" },
@@ -635,16 +619,31 @@
         {
             "support": [
                 { "id": "contact", "title": "Contact Us", "subtitle": "Reach out directly for support with any issues or questions", "icon": "faEnvelope", "link":"./contact-us" },
-                { "id": "faqs", "title": "FAQ's", "subtitle":"Browse our frequently asked questions for quick answers", "icon": "faCircleQuestion", "link":"/faqs" }
+                { "id": "faqs", "title": "FAQ's", "subtitle":"Browse our frequently asked questions for quick answers", "icon": "faCircleQuestion", "link":"./faqs" }
             ]
         }
     ],
 
-    "faqs": [
-            { "question": "question 1", "answer":"answer 1" },
-            { "question": "question 2", "answer":"answer 2" },
-            { "question": "question 3", "answer":"answer 3" }
-    ],
+    "faqs": {
+        "gettingStarted": [
+            { "question": "How do I find a coach?", "answer":"You can find a coach by using the search bar or browsing the coach feed after entering your search preferences." },
+            { "question": "Can I browse programs without signing up?", "answer":"Yes, you can browse coaches without signing up, but you’ll need to create an account to message coaches or purchase programs." },
+            { "question": "How do I create an account?", "answer":"Users can create an account by clicking the 'Sign Up' button and following the prompts to enter their information." },
+            { "question": "What information do I need to sign up?", "answer":"To sign up, users need to provide their name, email address, and a password. Additional details can be added later to customize their profile." }
+        ],
+        "coachingPrograms": [
+            { "question": "What types of sports or training programs are available?", "answer":"Our platform offers programs and coaching for a wide range of sports, from team sports like basketball and soccer to individual training for running, weightlifting, golf, and more. Whatever your sport or fitness goal, there's something here for you!" },
+            { "question": "Can I book a single session or do I have to commit to a full training program?", "answer":"You can book single sessions, purchase full training programs, or even schedule a consultation to explore what fits your needs best." },
+            { "question": "How do I find the right coach for my goals?", "answer":"You can browse coaches by sport, training style, location, and expertise. Use the filters to narrow your search and view coach profiles, which include experience, certifications, and reviews from other athletes." },
+            { "question": "Can I switch coaches or programs if my needs change?", "answer":"Absolutely! Our platform allows you to adjust your coaching or program selection as your goals evolve. You can switch coaches, modify your training plan, or explore new sports anytime." }
+        ],
+        "paymentSupport": [
+            { "question": "What payment methods are accepted?", "answer":"We accept a variety of payment methods, including major credit cards, debit cards, and digital wallets like Apple Pay." },
+            { "question": "Can I get a refund if I’m not satisfied?", "answer":"Refund policies vary depending on the coach or program. Be sure to review the terms before purchasing, and feel free to contact us for assistance if needed." },
+            { "question": "How do I contact support if I have an issue with my payment?", "answer":"You can reach our support team through the “Contact Us” page. Select the “Billing & Payments” category, and we’ll respond as quickly as possible to help resolve your concern." },
+            { "question": "Are there any hidden fees or charges?", "answer":"No, we prioritize transparency. All fees, including any applicable taxes, will be clearly displayed during checkout." }
+        ]
+    },
 
     "HamburgerMenu": {
         "public":[
