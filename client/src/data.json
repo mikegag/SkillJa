@@ -21,7 +21,7 @@
           },
           "footer": {
             "subSections": ["About Us","Become a Coach", "How SkillJa Works", "FAQ's"],
-            "links":["/coming-soon","/signup","/coming-soon","/faqs"]
+            "links":["/about-us","/signup","/coming-soon","/faqs"]
           }
     },
     

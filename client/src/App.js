@@ -23,6 +23,7 @@ import Invite from "./pages/protected/settings/Invite"
 import Privacy from "./pages/protected/settings/Privacy"
 import DeleteAccount from "./pages/protected/settings/DeleteAccount"
 import Contact from "./pages/protected/settings/Contact"
+import AboutUs from "./pages/AboutUs"
 
 export default function App() {
   return (
@@ -36,6 +37,7 @@ export default function App() {
         <Route path="home-feed" element={<HomeFeed />} />
         <Route path="faqs" element={<Faqs/>} />
         <Route path="contact-us" element={<Contact/>} />
+        <Route path="about-us" element={<AboutUs/>} />
         <Route path="order-success" element={<OrderSuccessful/>} />
         <Route path="order-cancelled" element={<OrderCancelled/>} />
         <Route path="confirm-account" element={<ConfirmEmail/>} />
