@@ -61,18 +61,21 @@ export default function Footer(){
                     <FontAwesomeIcon icon={faCopyright} className="mr-1" />
                     SkillJa 2025
                 </p>
-                <p className="mx-3 text-sm hover:text-main-green-500 cursor-pointer" onClick={()=>setFormToDisplay("terms")}>
-                    Terms
-                </p>
-                <p className="mx-3 text-sm hover:text-main-green-500 cursor-pointer" onClick={()=>{setFormToDisplay("privacy"); console.log("Terms clicked");}}>
-                    Privacy
-                </p>
+                <Link to={'/terms-conditions'}>
+                    <p className="mx-3 text-sm hover:text-main-green-500 cursor-pointer">
+                        Terms
+                    </p>
+                </Link>
+                <Link to={'/privacy-policy'}>
+                    <p className="mx-3 text-sm hover:text-main-green-500 cursor-pointer">
+                        Privacy
+                    </p>
+                </Link>
                 <Link to={'/contact-us'}>
                     <p className="mx-3 text-sm hover:text-main-green-500 cursor-pointer">
                         Contact Us
                     </p>
                 </Link>
-                
             </div>
         </motion.div>
     )
