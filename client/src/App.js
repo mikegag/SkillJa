@@ -31,37 +31,35 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="*" element={<NotFound/>} />
+        <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Landing />} />
         <Route path="coming-soon" element={<ComingSoon />} />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<SignUp />} />
         <Route path="home-feed" element={<HomeFeed />} />
-        <Route path="faqs" element={<Faqs/>} />
-        <Route path="contact-us" element={<Contact/>} />
-        <Route path="about-us" element={<AboutUs/>} />
-        <Route path="terms-conditions" element={<TermsConditions/>} />
-        <Route path="privacy-policy" element={<PrivacyPolicy/>} />
-        <Route path="order-success" element={<OrderSuccessful/>} />
-        <Route path="order-cancelled" element={<OrderCancelled/>} />
-        <Route path="confirm-account" element={<ConfirmEmail/>} />
-        <Route path="auth"element={<Authentication />}>
-          <Route path="onboarding" element={<Onboarding/>}/>
+        <Route path="faqs" element={<Faqs />} />
+        <Route path="contact-us" element={<Contact />} />
+        <Route path="about-us" element={<AboutUs />} />
+        <Route path="terms-conditions" element={<TermsConditions />} />
+        <Route path="privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="order-success" element={<OrderSuccessful />} />
+        <Route path="order-cancelled" element={<OrderCancelled />} />
+        <Route path="confirm-account" element={<ConfirmEmail />} />
+        <Route path="auth" element={<Authentication />}>
+          <Route path="onboarding" element={<Onboarding />} />
           <Route path="coach" element={<Coach />} />
           <Route path="calendar" element={<Calendar />} />
           <Route path="chat" element={<Chat />} />
-          <Route path="profile">
-            <Route index element={<Profile />} />
-            <Route path="settings">
-              <Route index element={<Account />} />
-                <Route path="payments" element={<ComingSoon/>} />
-                <Route path="notifications" element={<Notifications/>} />
-                <Route path="invite" element={<Invite/>} />
-                <Route path="privacy">
-                  <Route index element={<Privacy/>} />
-                  <Route path="delete-account" element={<DeleteAccount/>} />
-                </Route>
-              </Route>
+          <Route path="profile" element={<Profile />} />
+          <Route path="settings">
+            <Route index element={<Account />} />
+            <Route path="payments" element={<Payments />} />
+            <Route path="notifications" element={<Notifications />} />
+            <Route path="invite" element={<Invite />} />
+            <Route path="privacy">
+              <Route index element={<Privacy/>} />
+              <Route path="delete-account" element={<DeleteAccount/>} />
+            </Route>
           </Route>
         </Route>
       </Routes>

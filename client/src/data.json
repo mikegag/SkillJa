@@ -627,7 +627,7 @@
     "faqs": {
         "gettingStarted": [
             { "question": "How do I find a coach?", "answer":"You can find a coach by using the search bar or browsing the coach feed after entering your search preferences." },
-            { "question": "Can I browse programs without signing up?", "answer":"Yes, you can browse coaches without signing up, but you’ll need to create an account to message coaches or purchase programs." },
+            { "question": "Can I browse programs without signing up?", "answer":"Yes, you can browse coaches without signing up, but you'll need to create an account to message coaches or purchase programs." },
             { "question": "How do I create an account?", "answer":"Users can create an account by clicking the 'Sign Up' button and following the prompts to enter their information." },
             { "question": "What information do I need to sign up?", "answer":"To sign up, users need to provide their name, email address, and a password. Additional details can be added later to customize their profile." }
         ],
@@ -639,7 +639,7 @@
         ],
         "paymentSupport": [
             { "question": "What payment methods are accepted?", "answer":"We accept a variety of payment methods, including major credit cards, debit cards, and digital wallets like Apple Pay." },
-            { "question": "Can I get a refund if I’m not satisfied?", "answer":"Refund policies vary depending on the coach or program. Be sure to review the terms before purchasing, and feel free to contact us for assistance if needed." },
+            { "question": "Can I get a refund if I'm not satisfied?", "answer":"Refund policies vary depending on the coach or program. Be sure to review the terms before purchasing, and feel free to contact us for assistance if needed." },
             { "question": "How do I contact support if I have an issue with my payment?", "answer":"You can reach our support team through the “Contact Us” page. Select the “Billing & Payments” category, and we’ll respond as quickly as possible to help resolve your concern." },
             { "question": "Are there any hidden fees or charges?", "answer":"No, we prioritize transparency. All fees, including any applicable taxes, will be clearly displayed during checkout." }
         ]
@@ -656,7 +656,7 @@
           {"title":"Home", "link":"/home-feed"},
           {"title":"Messages", "link":"/auth/chat"},
           {"title":"Calendar", "link":"/auth/calendar"},
-          {"title":"Account & Support", "link":"/auth/account"},
+          {"title":"Account & Support", "link":"/auth/settings"},
           {"title":"Log out", "link":"/"}
         ]
     },
