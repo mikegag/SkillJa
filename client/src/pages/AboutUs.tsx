@@ -11,7 +11,7 @@ export default function AboutUs(){
 
     return (
         <div>
-            <Header useCase="protected"/>
+            <Header />
             <section className="flex flex-col justify-start items-start font-kulim py-2 px-4 lg:px-12 mx-auto mt-10 mb-24">
                 <h1 className="font-source text-4xl font-bold mx-auto text-center">
                     Make Training Simple, Enjoyable,

@@ -28,7 +28,7 @@ export default function Faqs(){
 
     return (
         <>
-            <Header useCase="protected" />
+            <Header />
             <section className="flex flex-col justify-center items-center font-kulim py-2 px-4 lg:px-12 mx-auto mt-10 mb-20">
                 <h2 className="text-4xl font-semibold font-source mb-4 text-center">
                     Frequently Asked Questions

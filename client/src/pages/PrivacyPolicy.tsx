@@ -11,7 +11,7 @@ export default function PrivacyPolicy(){
 
     return (
         <>
-            <Header useCase="protected" />
+            <Header  />
             <section className="flex flex-col justify-start items-start font-kulim py-2 px-4 lg:px-12 mx-auto mt-10 mb-24">
                 <h2 className="text-3xl font-source mb-2 text-left ml-0 mr-auto">
                     Privacy Policy
