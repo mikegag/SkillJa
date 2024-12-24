@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import Header from "../../components/navigation/Header"
 import Footer from "../../components/navigation/Footer"
 import { faBell, faCreditCard, faNewspaper } from "@fortawesome/free-solid-svg-icons"
@@ -18,6 +18,10 @@ const icons: Record<string, any>={
 }
 
 export default function Account(){
+    useEffect(()=>{
+        document.title = 'SkillJa - Account'
+    },[])
+    
     return (
         <>
             <Header useCase="protected" />

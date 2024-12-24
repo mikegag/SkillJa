@@ -20,8 +20,8 @@
             "subtitle":["Browse detailed profiles, read reviews, and choose the best coach to help you achieve your goals.","Connect with athletes, grow your client base, and manage your business with ease. Share your expertise and help athletes reach their full potential."]
           },
           "footer": {
-            "subSections": ["Our Mission","Become a Coach", "How SkillJa Works", "Support"],
-            "links":["/coming-soon","/coming-soon","/coming-soon","/coming-soon"]
+            "subSections": ["About Us","Become a Coach", "How SkillJa Works", "FAQ's"],
+            "links":["/coming-soon","/signup","/coming-soon","/faqs"]
           }
     },
     
