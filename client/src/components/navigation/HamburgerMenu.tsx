@@ -61,7 +61,7 @@ export default function HamburgerMenu({useCase, imageName, url}:MenuProps){
                 className={`flex bg-main-white rounded-2xl border border-main-grey-100 p-1 h-12 my-auto hover:cursor-pointer hover:shadow-lg ${menuOpen? "shadow-lg":""}`} 
                 onClick={()=>setMenuOpen(!menuOpen)}
             >
-                <div className="flex flex-col mx-2 my-auto">
+                <div className="flex flex-col mx-2 my-auto" role="presentation">
                     <div className="h-0.5 bg-main-green-900 rounded-full w-4 my-0.5"></div>
                     <div className="h-0.5 bg-main-green-900 rounded-full w-4 my-0.5"></div>
                     <div className="h-0.5 bg-main-green-900 rounded-full w-4 my-0.5"></div>
@@ -74,9 +74,9 @@ export default function HamburgerMenu({useCase, imageName, url}:MenuProps){
             {menuOpen && (
                 <div className="flex flex-col absolute py-2 right-5 z-10 lg:right-11 mt-2 shadow-sm border border-main-grey-100 bg-main-white rounded-2xl w-60 overflow-hidden">
                     {menuData.map((currSection,index)=>(
-                        currSection.title.includes('Logout')?
+                        currSection.title.includes('Log out') ?
                             <div 
-                                className="w-full p-2 hover:bg-main-grey-100 cursor-pointer" 
+                                className="w-full px-3 py-2 hover:bg-main-grey-100 cursor-pointer font-kulim font-medium" 
                                 onClick={()=>handleLogout()}
                                 key={index}
                             >
@@ -86,7 +86,7 @@ export default function HamburgerMenu({useCase, imageName, url}:MenuProps){
                             <Link 
                                 to={currSection.link} 
                                 key={index} 
-                                className="w-full p-2 hover:bg-main-grey-100 cursor-pointer"
+                                className="w-full px-3 py-2 hover:bg-main-grey-100 cursor-pointer font-kulim font-medium"
                             >
                                 <p>{currSection.title}</p>
                             </Link>

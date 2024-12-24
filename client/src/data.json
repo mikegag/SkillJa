@@ -649,18 +649,15 @@
         "public":[
           {"title":"Login", "link":"/login"},
           {"title":"Sign Up", "link":"/signup"},
-          {"title":"Become a Coach", "link":"/coming-soon"},
-          {"title":"How SkillJa Works", "link":"/coming-soon"},
-          {"title":"Our Mission", "link":"/coming-soon"},
-          {"title":"Support", "link":"/coming-soon"}
+          {"title":"About Us", "link":"/about-us"},
+          {"title":"FAQ's", "link":"/faqs"}
         ],
         "authorized": [
           {"title":"Home", "link":"/home-feed"},
           {"title":"Messages", "link":"/auth/chat"},
           {"title":"Calendar", "link":"/auth/calendar"},
-          {"title":"Profile", "link":"/auth/profile"},
-          {"title":"Support", "link":"/coming-soon"},
-          {"title":"Logout", "link":"/"}
+          {"title":"Account & Support", "link":"/auth/account"},
+          {"title":"Log out", "link":"/"}
         ]
     },
 
