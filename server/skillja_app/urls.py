@@ -31,6 +31,7 @@ urlpatterns = [
     path('email/new_user_confirmation/', views.new_user_confirmation_email, name='new_user_confirmation_email'),
     path('email/confirm_email/', views.confirm_email, name='confirm_email'),
     path('image/get_image/', views.get_image, name='get_image'),
+    path('image/get_cached_image/', views.get_cached_image, name='get_cached_image'),
     path('image/upload_image/', views.upload_image, name='upload_image'),
     path('settings/get_notification_preferences/', views.get_notification_preferences, name='get_notification_preferences'),
     path('settings/update_notification_preferences/', views.update_notification_preferences, name='update_notification_preferences'),

@@ -15,6 +15,7 @@ import ReviewSlider from "../../components/general/coach-preview/ReviewSlider"
 import CoachService from "../../components/general/coach-preview/CoachService"
 import Footer from "../../components/navigation/Footer"
 import RetrieveImage from "../../hooks/RetrieveImage"
+import { UserContext } from "../../hooks/RetrieveImageContext"
 
 interface Review {
     id: number;
@@ -134,27 +135,14 @@ export default function Profile(){
                     console.error("Failed to retrieve profile details")
                 }
             })
-            .catch(error => {
-                if (error.response) {
-                    // the server responded with a status code that falls out of the range of 2xx
-                    console.error('Error response:', error.response.data)
-                    console.error('Status:', error.response.status)
-                    console.error('Headers:', error.response.headers)
-                } else if (error.request) {
-                    // no response was received
-                    console.error('No response received:', error.request)
-                } else {
-                    // Something happened in setting up the request that triggered an Error
-                    console.error('Error setting up request:', error.message)
-                }
-                console.error('Error config:', error.config)
-            })
+            .catch(error => {console.error(error)})
     },[])
 
     return (
         <div className="flex flex-col">
-            { (profileDetails.profile.picture) && ( <Header useCase="protected" imageName={profileDetails.profile.picture} /> ) }
-            { !(profileDetails.profile.picture) && ( <Header useCase="protected" /> ) }
+            <UserContext.Provider value={{imageName:profileDetails.profile.picture!, cache:true}}>
+                <Header useCase="protected" /> 
+            </UserContext.Provider> 
             <div className="pb-4 px-8 lg:px-14 lg:mb-32">
             {profileDetails.isathlete && readyToDisplayProfileForm? <EditAthleteProfileForm displayForm={setReadyToDisplayProfileForm} prevSavedData={profileDetails} />:<></>}
             {profileDetails.iscoach && readyToDisplayProfileForm? <EditCoachProfileForm displayForm={setReadyToDisplayProfileForm} prevSavedData={profileDetails}/>:<></>}
@@ -179,18 +167,9 @@ export default function Profile(){
                 </div>
                 <section className="flex flex-col justify-center items-center border-b-2 mt-8 lg:mt-14 border-main-grey-300 lg:pb-4">
                     <div className="flex flex-col justify-center items-center lg:flex-row">
-                        {(profileDetails.profile.picture) && (
-                            <RetrieveImage
-                                imageName={profileDetails.profile.picture}
-                                styling="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-10"
-                            />
-                        )}
-                        {!(profileDetails.profile.picture) && (
-                            <RetrieveImage
-                                imageName={'default'}
-                                styling="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-10"
-                            />
-                        )}
+                        <UserContext.Provider value={{imageName:profileDetails.profile.picture!, cache:true}}>
+                            <RetrieveImage styling="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-10" />
+                        </UserContext.Provider>
                         <div className="flex flex-col justify-center items-center font-kulim text-main-green-900">
                             <h2 className="text-2xl font-medium font-source mt-3 lg:mt-0 mx-auto lg:ml-0">
                                 {profileDetails.name? profileDetails.name : 'Name' }

@@ -7,11 +7,10 @@ import RetrieveImage from "../../hooks/RetrieveImage"
 
 interface MenuProps {
     useCase: 'public' | 'authorized';
-    imageName?: string;
     url?: string;
 }
 
-export default function HamburgerMenu({useCase, imageName, url}:MenuProps){
+export default function HamburgerMenu({useCase, url}:MenuProps){
     const [menuOpen, setMenuOpen] = useState<boolean>(false)
     const menuRef = useRef<HTMLDivElement>(null)
     const navigate = useNavigate()
@@ -67,7 +66,7 @@ export default function HamburgerMenu({useCase, imageName, url}:MenuProps){
                     <div className="h-0.5 bg-main-green-900 rounded-full w-4 my-0.5"></div>
                 </div>
                 <div className="my-auto mx-2" >
-                    <RetrieveImage imageName={imageName} url={url} styling="w-8 rounded-full h-8" />
+                    <RetrieveImage url={url} styling="w-8 rounded-full h-8" />
                 </div>
             </div>
             {/* Menu Dropdown */}

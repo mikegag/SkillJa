@@ -6,11 +6,10 @@ import GetCSFR from "../../hooks/GetCSFR"
 
 interface HeaderProps {
     useCase?: "default" | "protected" | "onboarding";
-    imageName?: string;
     url?: string;
 }
 
-export default function Header({ useCase: initialUseCase, imageName, url }: HeaderProps) {
+export default function Header({ useCase: initialUseCase, url}: HeaderProps) {
     const [useCase, setUseCase] = useState(initialUseCase || "default")
     const csrfToken = GetCSFR({ name: "csrftoken" })
 
@@ -28,7 +27,7 @@ export default function Header({ useCase: initialUseCase, imageName, url }: Head
 
     useEffect(() => {
         // If no useCase is passed and session Id exists, then check authentication status every 10 minutes
-        if (!initialUseCase && (checkSessionCookie() || isCurrentTimeMultipleOf20Minutes())) {
+        if (!initialUseCase || useCase==='default' && (checkSessionCookie() || isCurrentTimeMultipleOf20Minutes())) {
             axios
                 .get(`${process.env.REACT_APP_SKILLJA_URL}/auth_status/`, {
                     headers: {
@@ -48,7 +47,7 @@ export default function Header({ useCase: initialUseCase, imageName, url }: Head
                     console.error("Error checking authentication", error)
                 })
         }
-    }, [csrfToken, initialUseCase])
+    }, [initialUseCase])
 
     return (
         <>
@@ -72,7 +71,7 @@ export default function Header({ useCase: initialUseCase, imageName, url }: Head
                             alt="SkillJa logo"
                         />
                     </Link>
-                    <HamburgerMenu useCase="authorized" imageName={imageName} url={url} />
+                    <HamburgerMenu useCase="authorized" url={url} />
                 </div>
             ) : (
                 <div className="w-full flex items-center px-4 pt-6 pb-4 mb-8 lg:px-10">

@@ -6,6 +6,7 @@ import SliderPreview from "./SliderPreview"
 import SearchBar from "../../navigation/SearchBar"
 import axios from "axios"
 import GetCSFR from "../../../hooks/GetCSFR"
+import { UserContext, useUserContext } from "../../../hooks/RetrieveImageContext"
 
 interface ViewProps {
     view: 'mobile' | 'desktop'
@@ -50,7 +51,11 @@ export default function HeroSection({view}:ViewProps){
         <>
         {view === 'mobile' ?
             <div className={`h-dvh bg-main-cream flex flex-col justify-start items-center px-2 transition-opacity duration-1000 ${isPageLoaded ? 'opacity-100' : 'opacity-0'}`}>
-                { (userEmail && isLoggedIn) && ( <Header useCase="protected" imageName={userEmail} /> ) }
+                { (userEmail && isLoggedIn) && ( 
+                    <UserContext.Provider value={{imageName:userEmail, cache:true}}>
+                        <Header useCase="protected" /> 
+                    </UserContext.Provider>
+                )}
                 { (!userEmail || !isLoggedIn) && ( <Header useCase="default" /> ) }
                 <h1 className="text-center text-main-green-900 font-medium text-4xl px-4 font-source">
                     {data.landing.hero.title}
@@ -81,7 +86,11 @@ export default function HeroSection({view}:ViewProps){
             </div>
         :
             <div className={`bg-main-cream flex flex-col justify-start items-center px-2 transition-opacity duration-1000 ${isPageLoaded ? 'opacity-100' : 'opacity-0'}`}>
-                { (userEmail && isLoggedIn) && ( <Header useCase="protected" imageName={userEmail} /> ) }
+                { (userEmail && isLoggedIn) && ( 
+                    <UserContext.Provider value={{imageName:userEmail, cache:true}}>
+                        <Header useCase="protected" /> 
+                    </UserContext.Provider>
+                )}
                 { (!userEmail || !isLoggedIn) && ( <Header useCase="default" /> ) }
                 <h1 className="text-center text-main-green-900 font-medium text-4xl px-4 font-source mb-1">
                     {data.landing.hero.title.slice(0,-1)},

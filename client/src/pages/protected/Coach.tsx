@@ -11,6 +11,7 @@ import GetCSFR from "../../hooks/GetCSFR"
 import ReviewSlider from "../../components/general/coach-preview/ReviewSlider"
 import SocialMediaIcons from "../../components/general/coach-preview/SocialMediaIcons"
 import RetrieveImage from "../../hooks/RetrieveImage"
+import { UserContext } from "../../hooks/RetrieveImageContext"
 
 interface Review {
     id: number;
@@ -96,7 +97,7 @@ export default function Coach(){
                 'Content-Type': 'application/json'
             },
             withCredentials: true
-        }) 
+            }) 
             .then(res => {
                 if (res.status === 200) {
                     setProfileDetails(res.data)
@@ -104,21 +105,7 @@ export default function Coach(){
                     console.error("Failed to retrieve coach details")
                 }
             })
-            .catch(error => {
-                if (error.response) {
-                    // the server responded with a status code that falls out of the range of 2xx
-                    console.error('Error response:', error.response.data)
-                    console.error('Status:', error.response.status)
-                    console.error('Headers:', error.response.headers)
-                } else if (error.request) {
-                    // no response was received
-                    console.error('No response received:', error.request)
-                } else {
-                    // Something happened in setting up the request that triggered an Error
-                    console.error('Error setting up request:', error.message)
-                }
-                console.error('Error config:', error.config)
-            })
+            .catch(error => {console.error(error)})
 
             axios.get(`${process.env.REACT_APP_SKILLJA_URL}/get_user_email/`, { 
                 headers: {
@@ -126,7 +113,7 @@ export default function Coach(){
                     'Content-Type': 'application/json'
                 },
                 withCredentials: true
-            }) 
+                }) 
                 .then(res => {
                     if (res.status === 200) {
                         setUserEmail(res.data.user_email)
@@ -134,21 +121,7 @@ export default function Coach(){
                         console.error("Failed to retrieve user email")
                     }
                 })
-                .catch(error => {
-                    if (error.response) {
-                        // the server responded with a status code that falls out of the range of 2xx
-                        console.error('Error response:', error.response.data)
-                        console.error('Status:', error.response.status)
-                        console.error('Headers:', error.response.headers)
-                    } else if (error.request) {
-                        // no response was received
-                        console.error('No response received:', error.request)
-                    } else {
-                        // Something happened in setting up the request that triggered an Error
-                        console.error('Error setting up request:', error.message)
-                    }
-                    console.error('Error config:', error.config)
-                })
+                .catch(error => {console.error(error)})
     },[])
 
     // API call to contact coach
@@ -158,8 +131,14 @@ export default function Coach(){
 
     return (
         <div className="flex flex-col">
-            { (userEmail) && ( <Header useCase="protected" imageName={userEmail} /> ) }
-            { !(userEmail) && ( <Header useCase="protected" /> ) }
+            { (userEmail) && ( 
+                <UserContext.Provider value={{imageName:userEmail, cache:false}}>
+                    <Header useCase="protected" /> 
+                </UserContext.Provider>
+            )}
+            { !(userEmail) && ( 
+                <Header useCase="protected" /> 
+            )}
             <div className="pb-4 px-8 lg:px-14 lg:mb-32">
                 <div className="flex justify-center items-center text-center mt-10">
                     <FontAwesomeIcon 
@@ -173,7 +152,9 @@ export default function Coach(){
                 </div>
                 <section className="flex flex-col justify-center items-center border-b-2 mt-8 lg:mt-20 border-main-grey-300 lg:pb-4 lg:px-16">
                     <div className="flex flex-col justify-center items-center lg:flex-row lg:justify-center lg:items-center lg:w-full">
-                        <RetrieveImage imageName={profileDetails.profile.picture? profileDetails.profile.picture : 'default'} styling="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-16 lg:ml-0" />
+                        <UserContext.Provider value={{imageName:profileDetails.profile.picture? profileDetails.profile.picture : 'default', cache:false}}>
+                            <RetrieveImage styling="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-16 lg:ml-0" />
+                        </UserContext.Provider>
                         <div className="flex flex-col justify-center items-center font-kulim text-main-green-900 my-auto">
                             <h2 className="text-3xl font-medium font-source mt-3 lg:mt-0 mx-auto lg:ml-0">
                                 {profileDetails?.fullname} 

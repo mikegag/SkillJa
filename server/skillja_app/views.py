@@ -11,13 +11,10 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import User, CoachPreferences, AthletePreferences, CoachProfile, AthleteProfile, Service, Review, SocialMedia, Settings
 from django.middleware.csrf import get_token, rotate_token
-from django.shortcuts import redirect
-from urllib.parse import urlparse, parse_qs
 from django.views.decorators.http import require_POST, require_GET
 from django.contrib.auth.decorators import login_required
 from .utils import calculate_price_deviance, calculate_coach_cost, calculate_coach_review
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.timezone import now
 from datetime import timedelta
@@ -60,6 +57,7 @@ def user_logout(request):
         rotate_token(request)
         response = JsonResponse({'message':'Logout Successful'}, status=200)
         response.delete_cookie('user_email')
+        response.delete_cookie('profile_image_url')
         return response
     return JsonResponse({'error': 'Invalid request'}, status = 400)
 
@@ -1037,6 +1035,7 @@ def get_image(request):
         # Extract parameters
         user_id = request.GET.get("id")
         image_name = request.GET.get("image_name", "default-avatar")
+        cache = request.GET.get("cache", "False").lower() == "true"
 
         if user_id:
             # Fetch the user and derive image_name from the email
@@ -1048,6 +1047,7 @@ def get_image(request):
 
         # Ensure image_name follows expected conventions
         image_name = image_name.replace('@', '_')
+
         # Possible image formats
         formats = ["jpg", "png", "jpeg"]
         # Generate a signed URL with an expiration time of 2.5 hours
@@ -1067,8 +1067,13 @@ def get_image(request):
                 )
                 # Check if the URL is valid by sending a HEAD request
                 response = requests.head(url)
+ 
                 if response.status_code == 200:
-                    return JsonResponse({"signed_url": url})
+                    response = JsonResponse({"signed_url": url})
+                    # cache url as a cookie to eliminate redundant Cloudinary API calls
+                    if cache == True:
+                        response.set_cookie ('profile_image_url', url, max_age=9000, httponly=True, secure=True, samesite='Lax')
+                    return response
             except Exception as e:
                 # Log the failure but don't stop the loop
                 print(f"Failed to generate or validate URL for format {fmt}: {str(e)}")
@@ -1133,6 +1138,18 @@ def upload_image(request):
     except Exception as e:
         # Handle general errors
         return JsonResponse({'error': f'Server error: {str(e)}'}, status=500)
+
+@require_GET
+@login_required
+def get_cached_image(request):
+    try:
+        profile_image_url = request.COOKIES.get('profile_image_url', None)
+        if profile_image_url:
+            return JsonResponse({"profile_image_url": profile_image_url}, status=200)
+        else:
+            return JsonResponse({"error": "No cached image available."}, status=204)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
 
 
 # Custom HTTP response methods ----------------------------------

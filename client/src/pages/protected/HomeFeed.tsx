@@ -6,6 +6,7 @@ import { Link, useLocation } from "react-router-dom"
 import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
 import GetWindowSize from "../../hooks/GetWindowSize"
+import { UserContext } from "../../hooks/RetrieveImageContext"
 
 // Lazy load LoadingAnimation
 const LoadingAnimation = lazy(() => import("../../components/general/LoadingAnimation"))
@@ -84,30 +85,21 @@ export default function HomeFeed(){
                     console.error("Failed to retrieve services")
                 }
             }) 
-            .catch(error => {
-                if (error.response) {
-                    // the server responded with a status code that falls out of the range of 2xx
-                    console.error('Error response:', error.response.data)
-                    console.error('Status:', error.response.status)
-                    console.error('Headers:', error.response.headers)
-                } else if (error.request) {
-                    // no response was received
-                    console.error('No response received:', error.request)
-                } else {
-                    // Something happened in setting up the request that triggered an Error
-                    console.error('Error setting up request:', error.message)
-                }
-                console.error('Error config:', error.config)
-            })
-            .finally(() => {
-                setIsLoading(false) // End loading
-            })
+            .catch(error => {console.error(error) })
+            // End loading
+            .finally(() => { setIsLoading(false) })
     }
 
     return (
         <>
-            { (userEmail && isLoggedIn) && ( <Header useCase="protected" imageName={userEmail} /> ) }
-            { (!userEmail || !isLoggedIn) && ( <Header useCase="default" /> ) }
+            { (userEmail && isLoggedIn) && ( 
+                <UserContext.Provider value={{imageName: userEmail, cache: true}}>
+                    <Header useCase="protected"  /> 
+                </UserContext.Provider>
+            )}
+            { (!userEmail || !isLoggedIn) && ( 
+                <Header useCase="default" /> 
+            )}
             <div className="px-4">
                 <div className="flex flex-col items-center justify-center text-main-green-900 mt-10">
                     <h1 className="font-source font-medium text-4xl my-2">
