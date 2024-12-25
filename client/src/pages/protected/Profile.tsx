@@ -148,22 +148,9 @@ export default function Profile(){
             {profileDetails.iscoach && readyToDisplayProfileForm? <EditCoachProfileForm displayForm={setReadyToDisplayProfileForm} prevSavedData={profileDetails}/>:<></>}
             {profileDetails.iscoach && readyToDisplayServicesForm? <EditCoachServiceForm displayForm={setReadyToDisplayServicesForm}/>:<></>}
                 <div className="flex justify-center text-center mt-10">
-                    <FontAwesomeIcon 
-                        icon={faLongArrowLeft}
-                        onClick={()=>navigate(-1)} 
-                        className="text-2xl my-auto mr-auto hover:text-main-green-500 cursor-pointer" 
-                    />
-                    <h1 className="font-source text-3xl pl-2 m-auto text-main-green-900">
+                    <h1 className="font-source text-3xl m-auto text-main-green-900">
                         Profile
                     </h1>
-                    <Link 
-                        to={'./settings'} 
-                        className="text-2xl my-auto ml-auto hover:text-main-green-500 cursor-pointer"
-                    >
-                        <FontAwesomeIcon 
-                            icon={faGear}
-                        />
-                    </Link>
                 </div>
                 <section className="flex flex-col justify-center items-center border-b-2 mt-8 lg:mt-14 border-main-grey-300 lg:pb-4">
                     <div className="flex flex-col justify-center items-center lg:flex-row">
