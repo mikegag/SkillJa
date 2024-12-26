@@ -19,6 +19,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false)
   const csrfToken = GetCSFR({ name: "csrftoken" })
   const navigate = useNavigate()
+  const [errorMessage, setErrorMessage] = useState("")
   
   // React Hook Form setup
   const {
@@ -33,8 +34,6 @@ export default function Login() {
 
   // Function to handle form submission
   function onSubmit(data:FormStructure)  {
-    setLoading(true)
-
     axios
       .post(`${process.env.REACT_APP_SKILLJA_URL}/login/`, data, {
         headers: {
@@ -44,23 +43,24 @@ export default function Login() {
         withCredentials: true,
       })
       .then((res) => {
-        setLoading(false);
         if (res.status === 200) {
-          navigate("/home-feed")
+          // Simulate loading process
+          setLoading(true)
+          const timer = setTimeout(() => {
+            setLoading(false)
+            navigate("/home-feed")
+          }, 1000)
+          // End loading animation and cleanup timer
+          return ()=> clearTimeout(timer)
+        } else if(res.status == 204) {
+            setErrorMessage("Your account has not been confirmed! Please check your email and click the confirmation link sent to you.")
         } else {
-          alert("Login failed. Try again!")
-        }
+            setErrorMessage("Login failed. Try again!")
+          }
       })
       .catch((error) => { 
-        setLoading(false)
         alert('Error occurred! Please try again later.')
-        if (error.response) {
-          console.error("Error response:", error.response.data)
-        } else if (error.request) {
-          console.error("No response received:", error.request)
-        } else {
-          console.error("Error setting up request:", error.message)
-        }
+        console.error(error)
       })
   }
 
@@ -122,8 +122,13 @@ export default function Login() {
                   className="absolute inset-y-4 left-0 flex items-center pl-4 text-main-grey-500"
                 />
                 {errors.password && (
-                  <p className="text-red-500 text-sm mb-3 mx-auto text-center">
+                  <p className="text-red-500 text-sm my-3 mx-auto text-center">
                     *{errors.password.message}*
+                  </p>
+                )}
+                {errorMessage && (
+                  <p className="text-red-500 text-sm my-3 mx-auto text-center">
+                    *{errorMessage}*
                   </p>
                 )}
               </div>

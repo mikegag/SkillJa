@@ -35,19 +35,25 @@ def csrf_token(request):
     
 @require_POST
 def user_login(request):
-    if request.method == 'POST':
+    try:
         data = json.loads(request.body)
         email = data.get('email')
         password = data.get('password')
-
+        # check if user has a valid account
         user = authenticate(request, username=email, password=password)
         if user is not None:
-            auth_login(request,user)
-            response = JsonResponse({'message': 'Login Successful'}, status = 200)
-            response.set_cookie ('user_email', email, httponly=True, secure = True, samesite='Lax')
-            return response
+            # check if user account has been email confirmed
+            if user.is_active:
+                auth_login(request,user)
+                response = JsonResponse({'message': 'Login Successful'}, status = 200)
+                response.set_cookie ('user_email', email, httponly=True, secure = True, samesite='Lax')
+                return response
+            else:
+                return JsonResponse({"inactive": "user has not confirmed their account/is inactive"}, status=204)
         else:
             return JsonResponse({'error': 'Invalid email or password'}, status = 400)
+    except Exception as e:
+        return JsonResponse({"error": "An unexpected error occurred"}, status=500)
  
 @require_POST
 def user_logout(request):
