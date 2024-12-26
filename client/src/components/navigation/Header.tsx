@@ -28,8 +28,7 @@ export default function Header({ useCase: initialUseCase, url}: HeaderProps) {
     useEffect(() => {
         // If no useCase is passed and session Id exists, then check authentication status every 10 minutes
         if (!initialUseCase || useCase==='default' && (checkSessionCookie() || isCurrentTimeMultipleOf20Minutes())) {
-            axios
-                .get(`${process.env.REACT_APP_SKILLJA_URL}/auth_status/`, {
+            axios.get(`${process.env.REACT_APP_SKILLJA_URL}/auth_status/`, {
                     headers: {
                         "X-CSRFToken": csrfToken,
                         "Content-Type": "application/json",
@@ -37,7 +36,7 @@ export default function Header({ useCase: initialUseCase, url}: HeaderProps) {
                     withCredentials: true,
                 })
                 .then((res) => {
-                    if (res.status === 200) {
+                    if (res.data.is_logged_in === 200) {
                         setUseCase("protected")
                     } else {
                         setUseCase("default")

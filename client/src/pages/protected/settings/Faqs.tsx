@@ -56,7 +56,7 @@ export default function Faqs(){
                             key={index}
                             title={value.question}
                             children={value.answer}
-                            styles="border-0 bg-transparent w-full font-kulim font-semibold"
+                            styles="border-0 bg-transparent w-full font-kulim font-semibold mb-7"
                             titleStyles="border-0 bg-transparent ml-0 mr-auto font-kulim text-left"
                             childrenStyles="border-t-0 bg-transparent px-3 font-kulim font-medium text-gray-500"
                         />

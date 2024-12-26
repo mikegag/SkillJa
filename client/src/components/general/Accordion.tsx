@@ -24,7 +24,7 @@ export default function Accordion({ title, children, styles, titleStyles, childr
   }
 
   return (
-    <div className={`rounded-2xl mb-5 mx-auto border bg-white w-72 font-source overflow-hidden ${styles? styles :'border-main-grey-200'}`}>
+    <div className={`${styles? styles :'rounded-2xl mb-5 mx-auto border bg-white w-72 font-source overflow-hidden border-main-grey-200'}`}>
       <button
         onClick={(e)=>{toggleAccordion(); e.preventDefault();}}
         className={`flex justify-between items-center w-full p-3   ${isOpen ? 'rounded-b-none' : ''}`}
