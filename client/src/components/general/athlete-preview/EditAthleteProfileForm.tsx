@@ -200,7 +200,7 @@ export default function EditAthleteProfileForm({displayForm, prevSavedData}:Form
                 </div>
             )
         }
-        return (
+        return ( 
             <div key={input.id} className="relative w-full mb-5 mt-5">
                 {input.type === 'textarea' ? (
                     <textarea
@@ -212,18 +212,30 @@ export default function EditAthleteProfileForm({displayForm, prevSavedData}:Form
                         onChange={handleChange}
                         maxLength={220}
                     />
-                ) : (
-                    <input
-                        id={input.id}
-                        type={input.type}
-                        name={input.name}
-                        className="form-input w-full border-main-grey-100"
-                        placeholder={input.placeholder}
-                        value={formData[input.name as keyof FormStructure] as string}
-                        onChange={handleChange}
-                        maxLength={110}
-                        data-index={input.index || ''}
-                    />
+                ) : ( input.name.includes('Goal') ? 
+                        <input
+                            id={input.id}
+                            type={input.type}
+                            name={input.name}
+                            className="form-input w-full border-main-grey-100"
+                            placeholder={formData.goals[input.index] as string || input.placeholder}
+                            value={formData[input.name as keyof FormStructure] as string}
+                            onChange={handleChange}
+                            maxLength={110}
+                            data-index={input.index || ''}
+                        />
+                    :
+                        <input
+                            id={input.id}
+                            type={input.type}
+                            name={input.name}
+                            className="form-input w-full border-main-grey-100"
+                            placeholder={input.placeholder}
+                            value={formData[input.name as keyof FormStructure] as string}
+                            onChange={handleChange}
+                            maxLength={110}
+                            data-index={input.index || ''}
+                        />
                 )}
                 <FontAwesomeIcon
                     icon={IconComponent}
