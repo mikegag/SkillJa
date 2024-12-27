@@ -535,6 +535,7 @@ def get_coach_profile(request):
         
         # Format the data
         data = {
+            'userId': user.id,
             'fullname': user.fullname,
             'profile': {
                 'location': coach_profile.location or '',
@@ -703,62 +704,62 @@ def delete_coach_service(request):
 @require_GET
 def search(request): 
     try:
-        if request.method == 'GET':
-            # Get query parameters or set default values
-            sport = request.GET.get('sport', 'tennis') 
-            location = request.GET.get('location', 'toronto')
-            # Default to '$60'
-            original_price = request.GET.get('priceValue', 60)
-            # Default to 0%
-            min_deviation = request.GET.get('priceMin', 0)
-            # Default to 50%
-            max_deviation = request.GET.get('priceMax', 50)
+        # Get query parameters or set default values
+        sport = request.GET.get('sport', 'tennis') 
+        location = request.GET.get('location', 'toronto')
+        # Default to '$60'
+        original_price = request.GET.get('priceValue', 60)
+        # Default to 0%
+        min_deviation = request.GET.get('priceMin', 0)
+        # Default to 50%
+        max_deviation = request.GET.get('priceMax', 50)
 
-            # Convert to integers, handling empty strings
-            original_price = int(original_price) if original_price else 60
-            min_deviation = int(min_deviation) if min_deviation else 0
-            max_deviation = int(max_deviation) if max_deviation else 50
+        # Convert to integers, handling empty strings
+        original_price = int(original_price) if original_price else 60
+        min_deviation = int(min_deviation) if min_deviation else 0
+        max_deviation = int(max_deviation) if max_deviation else 50
 
-            # Calculate price bounds
-            price_min, price_max = calculate_price_deviance(original_price, min_deviation, max_deviation)
-            
-            # Perform the search for coaches based on specialization, location, and price range.
-            results = User.objects.filter(
-                iscoach=True,
-                coach_preferences__specialization__icontains=sport,
-                coach_profile__location__icontains=location,
-                coach_profile__services__price__gte=price_min,
-                coach_profile__services__price__lte=price_max
-            ).select_related('coach_profile').values(
-                'id',
-                'fullname',  
-                'coach_profile__location', 
-                'coach_preferences__specialization',
-                'coach_preferences__experience_level',
-                'coach_profile__biography'
-            ).distinct()
+        # Calculate price bounds
+        price_min, price_max = calculate_price_deviance(original_price, min_deviation, max_deviation)
+        
+        # Perform the search for coaches based on specialization, location, and price range.
+        results = User.objects.filter(
+            iscoach=True,
+            is_active=True,
+            coach_preferences__specialization__icontains=sport,
+            coach_profile__location__icontains=location,
+            coach_profile__services__price__gte=price_min,
+            coach_profile__services__price__lte=price_max
+        ).select_related('coach_profile').values(
+            'id',
+            'fullname',  
+            'coach_profile__location', 
+            'coach_preferences__specialization',
+            'coach_preferences__experience_level',
+            'coach_profile__biography'
+        ).distinct()
 
-            # Format results for cleaner JSON output
-            formatted_results = []
-            for result in results:
-                average_cost = calculate_coach_cost(result['id']) or 1
-                average_rating = calculate_coach_review(result['id']) or 0
+        # Format results for cleaner JSON output
+        formatted_results = []
+        for result in results:
+            average_cost = calculate_coach_cost(result['id']) or 1
+            average_rating = calculate_coach_review(result['id']) or 0
 
-                formatted_results.append({
-                    'id': result['id'],
-                    'fullname': result['fullname'],
-                    'location': result['coach_profile__location'],
-                    'specialization': result['coach_preferences__specialization'],
-                    'experience': result['coach_preferences__experience_level'],
-                    'biography': result['coach_profile__biography'],
-                    'cost': average_cost,
-                    'rating': average_rating
-                })
+            formatted_results.append({
+                'id': result['id'],
+                'fullname': result['fullname'],
+                'location': result['coach_profile__location'],
+                'specialization': result['coach_preferences__specialization'],
+                'experience': result['coach_preferences__experience_level'],
+                'biography': result['coach_profile__biography'],
+                'cost': average_cost,
+                'rating': average_rating
+            })
 
-            data = {
-                'results': formatted_results
-            }
-            return JsonResponse(data)
+        data = {
+            'results': formatted_results
+        }
+        return JsonResponse(data)
 
     except Exception as e:
         return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
@@ -848,13 +849,14 @@ def get_order_details(request):
 
 @require_POST
 @login_required
-def create_stripe_checkout(request,coach_id):
-        try:
+def create_stripe_checkout(request):
+        try: 
             stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 
             # Parse JSON body
             body = json.loads(request.body)
             service_id = body.get('serviceId')
+            coach_id = body.get('coachId')
 
             # Validate the input
             if not service_id:
@@ -863,17 +865,15 @@ def create_stripe_checkout(request,coach_id):
             # Validate the coach and service
             coach = User.objects.get(id=coach_id, iscoach=True)
             coach_profile = CoachProfile.objects.get(user=coach)
-
             if not coach_profile:
                 return JsonResponse({'error': 'Coach profile not found'}, status=404)
-
+            
             service = coach_profile.services.get(id=service_id)
-
             if not service:
                 return JsonResponse({'error': 'Service not found for this coach'}, status=404)
 
             checkout_session = stripe.checkout.Session.create(
-                success_url='https://www.skillja.ca/order-success?session_id={CHECKOUT_SESSION_ID}&coach_id={coach_id}',
+                success_url='http://localhost:3000/order-success?session_id=${CHECKOUT_SESSION_ID}' + f'&coach_id={coach_id}',
                 cancel_url='https://www.skillja.ca/order-cancelled',
                 payment_method_types=['card'],
                 mode='payment',
@@ -899,8 +899,6 @@ def create_stripe_checkout(request,coach_id):
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
 
-#@csrf_exempt
-@login_required
 def stripe_webhook(request):
     stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
     endpoint_key = os.getenv('STRIPE_ENDPOINT_KEY')

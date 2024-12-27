@@ -140,9 +140,14 @@ export default function Profile(){
 
     return (
         <div className="flex flex-col">
-            <UserContext.Provider value={{imageName:profileDetails.profile.picture!, cache:true}}>
-                <Header useCase="protected" /> 
-            </UserContext.Provider> 
+            {profileDetails.profile.picture && (
+                <UserContext.Provider value={{imageName:profileDetails.profile.picture, cache:true}}>
+                    <Header useCase="protected" /> 
+                </UserContext.Provider> 
+            )}
+            {!profileDetails.profile.picture && (
+                <Header useCase="onboarding" /> 
+            )}
             <div className="pb-4 px-8 lg:px-14 lg:mb-32">
             {profileDetails.isathlete && readyToDisplayProfileForm? <EditAthleteProfileForm displayForm={setReadyToDisplayProfileForm} prevSavedData={profileDetails} />:<></>}
             {profileDetails.iscoach && readyToDisplayProfileForm? <EditCoachProfileForm displayForm={setReadyToDisplayProfileForm} prevSavedData={profileDetails}/>:<></>}
@@ -154,9 +159,14 @@ export default function Profile(){
                 </div>
                 <section className="flex flex-col justify-center items-center border-b-2 mt-8 lg:mt-14 border-main-grey-300 lg:pb-4">
                     <div className="flex flex-col justify-center items-center lg:flex-row">
-                        <UserContext.Provider value={{imageName:profileDetails.profile.picture!, cache:true}}>
-                            <RetrieveImage styling="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-10" />
-                        </UserContext.Provider>
+                        {profileDetails.profile.picture && (
+                            <UserContext.Provider value={{imageName:profileDetails.profile.picture!, cache:true}}>
+                                <RetrieveImage styling="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-10" />
+                            </UserContext.Provider>
+                        )}
+                        {!profileDetails.profile.picture && (
+                            <img src={require('../../assets/default-avatar.jpg')} className="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-10" />
+                        )}
                         <div className="flex flex-col justify-center items-center font-kulim text-main-green-900">
                             <h2 className="text-2xl font-medium font-source mt-3 lg:mt-0 mx-auto lg:ml-0">
                                 {profileDetails.name? profileDetails.name : 'Name' }

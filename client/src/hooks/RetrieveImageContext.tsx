@@ -4,6 +4,7 @@ import { createContext, useContext } from "react";
 interface UserContextType {
     imageName: string;
     cache: boolean;
+    id?:string;
 }
 export const UserContext = createContext<UserContextType>({
     imageName: "",

@@ -27,6 +27,7 @@ interface ServiceProps {
 interface Checkout {
     serviceId: number;
     publicKey: string;
+    coachId: string;
 }
 
 export default function CoachService({exitView, data}:ServiceProps){
@@ -72,13 +73,14 @@ export default function CoachService({exitView, data}:ServiceProps){
                 // Create checkoutData with the service and publicKey
                 const dataToSend: Checkout = {
                     serviceId: data.id!,
-                    publicKey: res.data.publicKey,
+                    publicKey: res.data.publicKey, 
+                    coachId: coachId!
                 }
                 // initialize Stripe object
                 const stripePromise = loadStripe(res.data.publicKey)
 
                 // Send request to create checkout session
-                axios.post(`${process.env.REACT_APP_SKILLJA_URL}/stripe/create_stripe_checkout/${coachId}/`, dataToSend, {
+                axios.post(`${process.env.REACT_APP_SKILLJA_URL}/stripe/create_stripe_checkout/`, dataToSend, {
                     headers: {
                     'X-CSRFToken': csrfToken,
                     'Content-Type': 'application/json',

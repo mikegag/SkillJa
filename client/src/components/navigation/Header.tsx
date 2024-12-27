@@ -36,7 +36,7 @@ export default function Header({ useCase: initialUseCase, url}: HeaderProps) {
                     withCredentials: true,
                 })
                 .then((res) => {
-                    if (res.data.is_logged_in === 200) {
+                    if (res.data.is_logged_in === true) {
                         setUseCase("protected")
                     } else {
                         setUseCase("default")
@@ -46,11 +46,11 @@ export default function Header({ useCase: initialUseCase, url}: HeaderProps) {
                     console.error("Error checking authentication", error)
                 })
         }
-    }, [initialUseCase])
+    }, [])
 
     return (
         <>
-            {useCase === "default" ? (
+            {useCase && useCase === "default" ? (
                 <div className="w-full flex items-center px-4 pt-6 pb-4 mb-8 lg:px-10">
                     <Link to="/" className="mr-auto ml-0 my-auto">
                         <img
@@ -61,7 +61,7 @@ export default function Header({ useCase: initialUseCase, url}: HeaderProps) {
                     </Link>
                     <HamburgerMenu useCase="public" />
                 </div>
-            ) : useCase === "protected" ? (
+            ) : useCase && useCase === "protected" ? (
                 <div className="w-full flex items-center px-4 pt-6 pb-4 mb-8 lg:px-10">
                     <Link to="/home-feed" className="mr-auto ml-0 my-auto">
                         <img

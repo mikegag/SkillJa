@@ -98,7 +98,7 @@ export default function HomeFeed(){
                 </UserContext.Provider>
             )}
             { (!userEmail || !isLoggedIn) && ( 
-                <Header useCase="default" /> 
+                <Header useCase="onboarding"  /> 
             )}
             <div className="px-4">
                 <div className="flex flex-col items-center justify-center text-main-green-900 mt-10">

@@ -14,7 +14,6 @@ export default function RetrieveImage({ styling, url, id}:Image) {
   const csrfToken = GetCSFR({ name: "csrftoken" })
   const userContext = useUserContext()
   
-
     useEffect(() => {
         const fetchCacheImage = async () => {
             try {
@@ -26,10 +25,10 @@ export default function RetrieveImage({ styling, url, id}:Image) {
                     withCredentials: true
                 })
                 // if coach image is not requested and cached image exists
-                if (res.status === 200 && (!id && !url)) {
+                if (res.status === 200 && !id && !url) {
                     setImageUrl(res.data.profile_image_url)
                 } 
-                else if (res.status === 204 || (id || url)) {
+                else if (res.status === 204 || id || url) {
                     // If no cached image, fetch a new profile image url or fetch coach image
                     const fetchImage = async (endpoint:string) => {
                         try {
@@ -50,12 +49,14 @@ export default function RetrieveImage({ styling, url, id}:Image) {
                             console.error(error)
                         }
                     } 
-
                     // Construct the appropriate endpoint based on input parameters
-                    if (userContext.imageName && userContext.imageName !== "default") {
+                    if (userContext.imageName !=="" && userContext.imageName !== "default") {
                         const endpoint = `${process.env.REACT_APP_SKILLJA_URL}/image/get_image/?image_name=${userContext.imageName}&cache=${userContext.cache}`
                         fetchImage(endpoint)
-                    } else if (id) {
+                    } else if (userContext.id) {
+                        const endpoint = `${process.env.REACT_APP_SKILLJA_URL}/image/get_image/?id=${userContext.id}`
+                        fetchImage(endpoint)
+                }   else if (id) {
                         const endpoint = `${process.env.REACT_APP_SKILLJA_URL}/image/get_image/?id=${id}`
                         fetchImage(endpoint)
                     } else if (url) {
@@ -66,10 +67,9 @@ export default function RetrieveImage({ styling, url, id}:Image) {
                 console.error("Error checking authentication", error)
             }
         }   
-            fetchCacheImage()
-            
-    }, [id, url])
-
+        
+        fetchCacheImage()
+    }, [])
 
   return (
     <img 

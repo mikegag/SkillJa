@@ -12,6 +12,7 @@ import ReviewSlider from "../../components/general/coach-preview/ReviewSlider"
 import SocialMediaIcons from "../../components/general/coach-preview/SocialMediaIcons"
 import RetrieveImage from "../../hooks/RetrieveImage"
 import { UserContext } from "../../hooks/RetrieveImageContext"
+import { image } from "@cloudinary/url-gen/qualifiers/source"
 
 interface Review {
     id: number;
@@ -35,6 +36,7 @@ interface Service {
 } 
   
 interface ProfileDetails {
+    userId: string;
     fullname: string;
     profile: {
         location: string;
@@ -60,6 +62,7 @@ interface ProfileDetails {
 export default function Coach(){
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const [profileDetails, setProfileDetails] = useState<ProfileDetails>({
+        userId: '',
         fullname: '',
         profile: {
             location: '',
@@ -132,12 +135,17 @@ export default function Coach(){
     return (
         <div className="flex flex-col">
             { (userEmail) && ( 
-                <UserContext.Provider value={{imageName:userEmail, cache:false}}>
+                <UserContext.Provider value={{imageName:userEmail, cache:true}}>
                     <Header useCase="protected" /> 
                 </UserContext.Provider>
             )}
+            {/* { !(userEmail) && ( 
+                <UserContext.Provider value={{imageName:'default', cache:false}}>
+                    <Header useCase="protected" /> 
+                </UserContext.Provider>
+            )} */}
             { !(userEmail) && ( 
-                <Header useCase="protected" /> 
+                <Header useCase="onboarding" /> 
             )}
             <div className="pb-4 px-8 lg:px-14 lg:mb-32">
                 <div className="flex justify-center items-center text-center mt-10">
@@ -152,9 +160,12 @@ export default function Coach(){
                 </div>
                 <section className="flex flex-col justify-center items-center border-b-2 mt-8 lg:mt-20 border-main-grey-300 lg:pb-4 lg:px-16">
                     <div className="flex flex-col justify-center items-center lg:flex-row lg:justify-center lg:items-center lg:w-full">
-                        <UserContext.Provider value={{imageName:profileDetails.profile.picture? profileDetails.profile.picture : 'default', cache:false}}>
-                            <RetrieveImage styling="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-16 lg:ml-0" />
-                        </UserContext.Provider>
+                        {!profileDetails.userId && (
+                            <img src={require('../../assets/default-avatar.jpg')} className="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-16 lg:ml-0" />
+                        )}
+                        {profileDetails.userId && (
+                            <RetrieveImage id={profileDetails.userId!} styling="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-16 lg:ml-0" />
+                        )}
                         <div className="flex flex-col justify-center items-center font-kulim text-main-green-900 my-auto">
                             <h2 className="text-3xl font-medium font-source mt-3 lg:mt-0 mx-auto lg:ml-0">
                                 {profileDetails?.fullname} 

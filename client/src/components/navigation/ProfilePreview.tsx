@@ -3,6 +3,7 @@ import { faChevronRight, faDollarSign, faLocationDot, faStar } from "@fortawesom
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import RetrieveImage from "../../hooks/RetrieveImage"
 import GetWindowSize from "../../hooks/GetWindowSize"
+import LoadingAnimation from "../general/LoadingAnimation";
 
 interface ProfilePreviewProps {
     id: string;
@@ -22,7 +23,12 @@ export default function ProfilePreview(props:ProfilePreviewProps){
 
     return (
         <div className="flex mx-auto mb-4 w-full lg:w-10/12 justify-center items-center rounded-2xl bg-main-white border-2 border-main-grey-100 px-2 py-4 hover:border-main-green-500 hover:shadow-sm cursor-pointer">
-            <RetrieveImage id={props.id} styling="w-14 h-14 lg:w-24 lg:h-24 my-auto mx-3 lg:mx-5 rounded-full border" />
+            {props.id && (
+                <RetrieveImage id={props.id} styling="w-14 h-14 md:w-28 md:h-28 my-auto mx-3 lg:mx-5 rounded-full border" />
+            )}
+            {!props.id && (
+                <img src={require('../../assets/default-avatar.jpg')} className="w-14 h-14 md:w-28 md:h-28 my-auto mx-3 lg:mx-5 rounded-full border" />
+            )}
             <div className="flex justify-start flex-wrap my-auto ml-1 md:ml-6 mr-auto">
                 <h3 className="w-full text-lg lg:text-2xl pb-2 font-source">{props.fullname}</h3>
                 <div className="flex justify-center items-center text-sm my-0.5">
