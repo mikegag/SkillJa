@@ -9,12 +9,12 @@ import GetCSFR from "../../../hooks/GetCSFR"
 
 export default function OrderSuccessful(){
     const [hasLoaded, setHasLoaded] = useState(false)
-    const [responseMessage, setResponseMessage] = useState("-")
     const navigate = useNavigate()
     const [queryParameters] = useSearchParams()
-    const csrfToken = GetCSFR({ name: "csrftoken" })
-    const coachId = queryParameters.get('coach_id')
-    const sessionId =queryParameters.get('session_id')
+    // const csrfToken = GetCSFR({ name: "csrftoken" })
+    // const coachId = queryParameters.get('coach_id')
+    // const sessionId =queryParameters.get('session_id')
+    // const [responseMessage, setResponseMessage] = useState("-")
 
     useEffect(()=>{
         document.title = "Transaction Successful!"
@@ -22,7 +22,7 @@ export default function OrderSuccessful(){
             setHasLoaded(true)
         }, 1200)
 
-        // Trigger API to send user a confirmation email regarding their transaction
+        // Trigger API to send user a confirmation email regarding their transaction + need to add endpoint in backed
         // axios.post(`${process.env.REACT_APP_SKILLJA_URL}/order_confirmation/`, {session_id:sessionId, coach_id:coachId}, {
         //     headers: {
         //         'X-CSRFToken': csrfToken,
