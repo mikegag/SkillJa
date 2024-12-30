@@ -2,21 +2,26 @@ import React, { useEffect } from "react"
 import { useState } from "react"
 import Header from "../../components/navigation/Header"
 import CalendarDisplay from "../../components/general/calendar-preview/CalendarDisplay"
-import CalendarForm from "../../components/general/calendar-preview/CalendarForm"
 import EventAccordion from "../../components/general/calendar-preview/EventAccordion"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faArrowLeftLong, faChevronLeft, faChevronRight, faPlusCircle } from "@fortawesome/free-solid-svg-icons"
+import Footer from "../../components/navigation/Footer"
 
 interface MonthDays {
-    month: string,
-    days: number[]
+    month: string;
+    days: number[];
+    yearChange?: boolean;
 }
 
 export default function Calendar(){
     const [firstMonthSelectedDay, setFirstMonthSelectedDay] = useState<string>("1")
     const [secondMonthSelectedDay, setSecondMonthSelectedDay] = useState<string>("1")
     const [displayCurrentMonth, setDisplayCurrentMonth] = useState<boolean>(true)
-    const [addNewEvent, setAddNewEvent] = useState<boolean>(false)
+    const [savedEvents, setSavedEvents] = useState([])
+
+    useEffect(()=>{
+        document.title = 'SkillJa - Calendar'
+    },[])
+
+    //API call to get events for currently selected day
 
     useEffect(()=>{
         //updates selected day when switching between months on CalendarDisplay
@@ -36,11 +41,28 @@ export default function Calendar(){
         ]
         const currentYear = today.getFullYear()
         const currentMonth = today.getMonth()
+        const currentMonthDays: MonthDays = {
+            month: monthNames[currentMonth],
+            days: getMonthDays(currentYear, currentMonth)
+        }
 
+        const nextMonth = (currentMonth + 1) % 12
+        // update year if current month is December, since New Year calendar is different from current
+        const nextMonthYear = nextMonth === 0 ? currentYear + 1 : currentYear
+        const yearChange = nextMonth === 0 ? true : false
+
+        const nextMonthDays: MonthDays = {
+            month: monthNames[nextMonth],
+            days: getMonthDays(nextMonthYear, nextMonth),
+            yearChange: yearChange
+        }
+        
+        // get number of days in given month and year
         function daysInMonth(year: number, month: number): number {
             return new Date(year, month + 1, 0).getDate()
         }
 
+        // get list of all days in given month and year
         function getMonthDays(year: number, month: number): number[] {
             const days = []
             const numDays = daysInMonth(year, month)
@@ -50,19 +72,6 @@ export default function Calendar(){
             return days
         }
 
-        const currentMonthDays: MonthDays = {
-            month: monthNames[currentMonth],
-            days: getMonthDays(currentYear, currentMonth)
-        };
-
-        const nextMonth = (currentMonth + 1) % 12
-        const nextMonthYear = nextMonth === 0 ? currentYear + 1 : currentYear
-
-        const nextMonthDays: MonthDays = {
-            month: monthNames[nextMonth],
-            days: getMonthDays(nextMonthYear, nextMonth)
-        };
-
         return { currentMonthDays, nextMonthDays }
     }
     
@@ -71,65 +80,37 @@ export default function Calendar(){
     return (
         <div className="flex flex-col">
             <Header useCase="protected" />
-            <div className="flex flex-wrap h-dvh">
-                <section className="flex flex-col m-auto my-8 lg:my-14">
-                    <div className="ml-auto">
-                        <button 
-                            className="p-1 mx-2 w-fit text-main-green-900 hover:text-main-green-500"
-                            onClick={()=>setDisplayCurrentMonth(true)}
-                        >
-                            <FontAwesomeIcon icon={faChevronLeft} />
-                        </button>
-                        <button 
-                            className="p-1 mx-2 w-fit text-main-green-900 hover:text-main-green-500"
-                            onClick={()=>setDisplayCurrentMonth(false)}
-                        >
-                            <FontAwesomeIcon icon={faChevronRight} />
-                        </button>
-                    </div>
+            <div className="flex justify-center items-start flex-wrap mt-10 pb-4 mb-16 lg:mb-32">
+                <section className="flex flex-col mx-auto">
                     {displayCurrentMonth ? 
-                        <CalendarDisplay monthDays={currentMonthDays} daySelection ={setFirstMonthSelectedDay} />  
+                        <CalendarDisplay monthDays={currentMonthDays} daySelection ={setFirstMonthSelectedDay} monthSelection={setDisplayCurrentMonth} />  
                     :
-                        <CalendarDisplay monthDays={nextMonthDays} daySelection ={setSecondMonthSelectedDay} />
+                        <CalendarDisplay monthDays={nextMonthDays} daySelection ={setSecondMonthSelectedDay} monthSelection={setDisplayCurrentMonth} />
                     }
                 </section>
-                <section className="flex flex-col items-center justify-start bg-main-green-800 mt-auto pb-6 min-h-96 lg:h-dvh w-full rounded-t-3xl lg:w-5/12 lg:ml-auto lg:rounded-l-none lg:rounded-tr-none">
-                    {addNewEvent ?
-                    <>
-                        <div className="flex justify-start w-full mt-12 mb-6 py-2 px-8">
-                            <h2 className="mr-auto heading text-main-cream"></h2>
-                            <FontAwesomeIcon 
-                                icon={faArrowLeftLong} 
-                                onClick={()=>setAddNewEvent(false)}
-                                className="text-3xl ml-auto text-main-cream hover:text-main-green-300 cursor-pointer" 
-                            />
-                        </div>
-                        <CalendarForm />
-                    </>
-                    :
-                    <>
-                        <div className="flex justify-start w-full mt-12 mb-12 py-2 px-8">
-                            {displayCurrentMonth?
-                                <h2 className="mr-auto heading text-main-cream">
+                <section className="flex flex-col items-start justify-start mx-auto border-t md:border-t-0 w-80 mt-10 md:mt-0 lg:ml-4 lg:mr-auto">
+                    <div className="flex py-2 font-source text-left w-full mb-6">
+                        {displayCurrentMonth ?
+                            <h2 className="ml-0 mr-auto pt-6 md:pt-0 my-auto text-2xl text-left">
                                 {currentMonthDays.month} {firstMonthSelectedDay}
-                                </h2>
-                            : 
-                                <h2 className="mr-auto heading text-main-cream">
-                                {nextMonthDays.month} {secondMonthSelectedDay}
-                                </h2>
-                            }
-                            <FontAwesomeIcon 
-                                icon={faPlusCircle} 
-                                onClick={()=>setAddNewEvent(true)}
-                                className="text-2xl ml-auto text-main-cream hover:text-main-green-300 cursor-pointer" 
-                            />
-                        </div>
-                        <EventAccordion title="Workout with Fred" time="4:00pm" description="workout with Coach Steph" />
-                        <EventAccordion title="active recovery" time="7:00pm" description="sleep" />
-                    </>
+                            </h2>
+                        : 
+                            <h2 className="ml-0 mr-auto pt-6 md:pt-0 my-auto text-2xl text-left">
+                            {nextMonthDays.month} {secondMonthSelectedDay}
+                            </h2>
+                        }
+                    </div>
+                    {savedEvents.length > 0 ?
+                        // savedEvents.map(event=>(
+                        //     <EventAccordion title={event.title} time={event.time} description={event.description} />
+                        // ))
+                        <></>
+                    :
+                        <p>No scheduled events.</p>
                     }
                 </section>
             </div>
+            <Footer />
         </div>
     )
 }

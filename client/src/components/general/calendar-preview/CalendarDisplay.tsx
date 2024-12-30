@@ -1,17 +1,21 @@
+import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react"
 import { useState, useEffect } from "react"
 
 interface MonthDays {
-    month: string,
-    days: number[]
+    month: string;
+    days: number[];
+    yearChange?: boolean;
 }
 
 interface CalendarProps {
-    monthDays: MonthDays,
-    daySelection: (value:string)=>void
+    monthDays: MonthDays;
+    daySelection: (value:string)=>void;
+    monthSelection: (value:boolean)=>void;
 }
 
-export default function CalendarDisplay({ monthDays, daySelection }:CalendarProps){
+export default function CalendarDisplay({ monthDays, daySelection, monthSelection }:CalendarProps){
     const [selectedDay, setSelectedDay] = useState<string>("1")
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
@@ -28,7 +32,7 @@ export default function CalendarDisplay({ monthDays, daySelection }:CalendarProp
     }
 
     const today = new Date()
-    const currentYear = today.getFullYear()
+    const currentYear = monthDays.yearChange ? today.getFullYear() + 1 : today.getFullYear()
     const currentMonthIndex = new Date(`${monthDays.month} 1, ${currentYear}`).getMonth()
     const firstDayOfMonth = getFirstDayOfMonth(currentYear, currentMonthIndex)
     const weeks: number[][] = Array.from({ length: 6 }, () => [])
@@ -54,17 +58,33 @@ export default function CalendarDisplay({ monthDays, daySelection }:CalendarProp
     }
 
     return (
-        <div className="text-lg lg:text-2xl">
-            <h2 className="text-main-green-900 font-source text-2xl lg:text-3xl mb-4 lg:mb-8">
-                {monthDays.month.slice(0,3)} {selectedDay}
-            </h2>
+        <div className="flex flex-col font-source text-lg lg:text-2xl">
+            <div className="flex mb-4 lg:mb-10 lg:px-8">
+                <h2 className="text-main-green-900 font-source text-3xl lg:text-4xl font-semibold ml-0 mr-auto my-auto">
+                    {monthDays.month} {currentYear}
+                </h2>
+                <div className="mr-0 ml-auto my-auto">
+                    <button 
+                        className="p-1 mx-2 w-fit text-main-green-900 hover:text-main-green-500"
+                        onClick={()=>monthSelection(true)}
+                    >
+                        <FontAwesomeIcon icon={faChevronLeft} className="text-lg" />
+                    </button>
+                    <button 
+                        className="p-1 mx-2 w-fit text-main-green-900 hover:text-main-green-500"
+                        onClick={()=>monthSelection(false)}
+                    >
+                        <FontAwesomeIcon icon={faChevronRight} className="text-lg" />
+                    </button>
+                </div>
+            </div>
             <table>
-                <thead className="border-b border-main-green-900">
+                <thead className="font-source">
                     <tr>
                         {daysOfWeek.map((day) => (
                             <th
                                 key={day}
-                                className="pr-3 lg:pr-5 pb-1 font-kulim font-light"
+                                className="pr-1 lg:pr-1.5 pb-6 font-source font-light"
                             >
                                 {day}
                             </th>
@@ -75,18 +95,17 @@ export default function CalendarDisplay({ monthDays, daySelection }:CalendarProp
                 {weeks.map((week, index) => (
                     <tr key={index} className={index===0? 'pt-6': ""}>
                         {week.map((day, i) => (
-                            
                             <td 
                                 key={i} 
                                 id={`${monthDays.month}-${day}`}
                                 className={`
                                     ${day === 0 ? 'empty cursor-not-allowed' : ''} 
                                     ${index===0? 'pt-5': ""}  
-                                    font-kulim py-2`
+                                    font-source p-2 lg:py-5 lg:px-6`
                                 }
                             >
-                                <div className="flex w-full cursor-pointer" onClick={()=>setSelectedDay(day.toString())}>
-                                    <p className={`px-2 py-0.5 lg:py-2 lg:px-3 mx-auto 
+                                <div className="flex justify-center w-full cursor-pointer" onClick={()=>setSelectedDay(day.toString())}>
+                                    <p className={`flex justify-center px-2 py-0.5 lg:py-2 lg:px-3 md:min-w-12 mx-auto 
                                             ${(today.toDateString().slice(8,10).replace(/^0+(?=\d)/, '') == day.toString()) && (today.toDateString().slice(4,7) == monthDays.month.slice(0,3)) ? "underline":""} 
                                             ${selectedDay == day.toString()? "flex justify-center bg-amber-400 rounded-full":""}  
                                             ${day === 0 ? 'cursor-not-allowed' : ''} `}
@@ -95,7 +114,6 @@ export default function CalendarDisplay({ monthDays, daySelection }:CalendarProp
                                     </p>
                                 </div>
                             </td>
-                            
                         ))}
                     </tr>
                 ))}
