@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db.models import Q
@@ -151,7 +152,7 @@ class Service(models.Model):
     #tbd - deliverable = models.FileField(upload_to='service_files/', blank=True, null=True)
 
     def __str__(self):
-        return f'{self.title} - {self.user.email}'
+        return f'{self.user.email} - Service'
 
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
@@ -161,7 +162,7 @@ class Review(models.Model):
     date = models.DateField(default=timezone.now)
 
     def __str__(self):
-        return f'{self.title} - {self.user.email}'
+        return f'{self.user.email} - Review'
 
 class SocialMedia(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='socialMedia')
@@ -171,7 +172,7 @@ class SocialMedia(models.Model):
     tiktok = models.CharField(max_length=255, blank=True, null=True, default='/')
 
     def __str__(self):
-        return f'Social Media - {self.user.email}'
+        return f'{self.user.email} - Social Media'
     
 class Settings(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='settings')
@@ -179,3 +180,38 @@ class Settings(models.Model):
     email_appointment_notifications = models.BooleanField(default=False)
     email_marketing_notifications = models.BooleanField(default=False)
     account_deletion_reason = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.user.email} - Settings '
+
+class Chat(models.Model):
+    user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='chat_initiator')
+    user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='chats_receiver')
+    created_at = models.DateTimeField(default=now)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user1', 'user2'],
+                name='unique_chat_users'
+            )
+        ]
+        ordering = ['-created_at']
+
+    def save(self, *args, **kwargs):
+        if self.user1 == self.user2:
+            raise ValueError("A user cannot start a chat with themselves.")
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f'Chat between {self.user1.email} and {self.user2.email}'
+
+class Message(models.Model):
+    chat = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name='message')
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_message')
+    content = models.TextField()
+    sent_at = models.DateTimeField(default=now)
+    read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'Message {self.id} from {self.sender.email}'
