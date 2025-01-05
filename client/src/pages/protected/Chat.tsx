@@ -4,86 +4,122 @@ import MessageSummary from "../../components/general/chat-preview/MessageSummary
 import ChatBox from "../../components/general/chat-preview/ChatBox"
 import GetWindowSize from '../../hooks/GetWindowSize'
 import Footer from "../../components/navigation/Footer"
+import axios from "axios"
+import GetCSFR from "../../hooks/GetCSFR"
 
 interface Message {
+    messageId: number;
     senderId: number;
-    messagePreview: string;
-    opened: boolean;
-    selected: number;
+    content: string;
+    sentAt: string;
+    read: boolean;
+}
 
-    messageId?: string;
+interface MessagePreview {
+    chatId: number;
+    userId: number;
+    senderId: number;
     sender: string;
-    content?: string;
-    sentAt?: string;
-    read?: boolean;
-
+    opened: boolean;
+    messagePreview: string;
+    sentAt: string;
 }
 
 interface Chat {
-    senderId: number,
-    sender: string,
-    userId: number,
-
-    user1?: string,
-    user2?: string,
-    messages: Message[]
+    chatId: number;
+    userId: number;
+    senderId: number;
+    sender: string;
+    messages: Message[];
 }
 
-/* 
-
-need a view that returns a list of messagepreviews - get{
-    senderId 
-    sender
-    opened = any existence of a message from sender with read = false
-    messagePreview = last sent message
-    sentAt = time last message was sent
-}
-
-need a view that returns an entire chat - get {
-    senderId
-    sender
-    userId
-    messages
-    chatId (used to update message read status)
-}
-
-need a view that updates messages read status - post {
-    chatId
-    messageId
-}
-
-http polling every 45 seconds to reload messagepreviews and currently open chat if exists
-
-*/
 
 export default function Chat(){
     const size = GetWindowSize()
     const [openChat, setOpenChat] = useState<boolean>(false) 
-    const [selectedChat, setSelectedChat] = useState<number>(0)
-    const [selectedChatDetails, setSelectedChatDetails] = useState<Chat>({
-        senderId: -1,
-        sender: '',
-        userId: -2,
-        messages: []
-    })
+    const [selectedChat, setSelectedChat] = useState<number>(-1)
+    const [selectedChatDetails, setSelectedChatDetails] = useState<Chat | null>(null)
+    const csrfToken = GetCSFR({ name: "csrftoken" })
+    const [savedChats, setSavedChats] = useState<MessagePreview[] | null>(null)
 
     useEffect(()=>{
         document.title = 'SkillJa - Messages'
-    },[])
+
+        // if a chat is currently being displayed, use http polling to update the conversation periodically
+        if(selectedChatDetails){
+            const httpPolling = setInterval(()=> retrieveChatInfo(selectedChatDetails.chatId), 45000)
+            return ()=> clearInterval(httpPolling)
+        }
+
+    },[selectedChatDetails])
 
     useEffect(()=>{
         // if chat is exited, clear any currently selected chat data
         if(!openChat && selectedChatDetails){
-            setSelectedChatDetails({
-                senderId: -1,
-                sender: '',
-                userId: -2,
-                messages: []
-            })
+            setSelectedChat(-1)
+            setSelectedChatDetails(null)
         }
+
+        // get any previous chats and display their previews
+        retrieveMessagePreviews()
+        
+        // update message read status if currently selected chat has unopened messages
+        if(selectedChat === selectedChatDetails?.chatId && savedChats?.filter((chatPreviewInfo)=> chatPreviewInfo.opened === false)){
+            axios.post(`${process.env.REACT_APP_SKILLJA_URL}/chat/update_message_read_status/`, {chat_id: selectedChatDetails.chatId}, { 
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/json'
+                },
+                withCredentials: true
+                }) 
+                .then(res => {
+                    if(res.status===200){
+                        // update displayed message previews, since message read status has been updated
+                        retrieveMessagePreviews()
+                    } 
+                })
+                .catch(error => {console.error(error)})
+        }
+
     },[openChat])
 
-    //api call to get user id and pass to chatbox
+    // Retrieves chat details
+    function retrieveChatInfo(chatId:number){
+        axios.get(`${process.env.REACT_APP_SKILLJA_URL}/chat/get_message_previews/?chat_id=${chatId}`, { 
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true
+            }) 
+            .then(res => {
+                if(res.status===200){
+                    setSelectedChatDetails(res.data.chat)
+                }
+            })
+            .catch(error => {console.error(error)})
+    }
+
+    // Retrieve message previews
+    function retrieveMessagePreviews(){
+        axios.get(`${process.env.REACT_APP_SKILLJA_URL}/chat/get_message_previews/`, { 
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true
+            }) 
+            .then(res => {
+                if(res.status===200){
+                    setSavedChats(res.data.messagePreviews)
+                } 
+                // user is not part of any chats
+                else if (res.status===204){
+                    setSavedChats([])
+                }
+            })
+            .catch(error => {console.error(error)})
+    }
 
     return (
         <div className="flex flex-col"> 
@@ -92,10 +128,10 @@ export default function Chat(){
                 {size.width < 900 && openChat === true ?
                     <ChatBox 
                         displayChatBox={setOpenChat} 
-                        senderId={selectedChatDetails.senderId}
-                        sender={selectedChatDetails.sender}
-                        userId={selectedChatDetails.userId}
-                        messages={selectedChatDetails.messages}
+                        senderId={selectedChatDetails ? selectedChatDetails.senderId : -1}
+                        sender={selectedChatDetails ? selectedChatDetails.sender : "Select a chat"}
+                        userId={selectedChatDetails ? selectedChatDetails.userId : -2}
+                        messages={selectedChatDetails ? selectedChatDetails.messages : []}
                     />
                     :
                     <section className="w-full mx-5 lg:mx-0 lg:pr-8">
@@ -103,50 +139,42 @@ export default function Chat(){
                             Messages
                         </h1>
                         <div className="flex flex-col h-96 overflow-scroll">
-                            <div onClick={()=>{setSelectedChatDetails({
-                                senderId: 1,
-                                sender: 'jeff',
-                                userId: 2,
-                                messages: []
-
-                            }); setOpenChat(true); setSelectedChat(1)}
-                            }>
-                                <MessageSummary
-                                    senderId={1}
-                                    selected={selectedChat} 
-                                    sender="Jeff Mare"
-                                    opened={false}
-                                    messagePreview="Hi its jeff! I like da meathballs ok ahahah"
-                                    sentAt="12-24"
-                                />
-                            </div>
-                            <div onClick={()=>{setSelectedChatDetails({
-                                senderId: 3,
-                                sender: 'john',
-                                userId: 2,
-                                messages: []
-
-                            }); setOpenChat(true); setSelectedChat(3)}
-                            }>
-                                <MessageSummary
-                                    senderId={3}
-                                    selected={selectedChat} 
-                                    sender="john d"
-                                    opened={false}
-                                    messagePreview="my name john"
-                                    sentAt="1-1-25"
-                                />
-                            </div>
+                            {savedChats ? 
+                                savedChats.map((preview, index)=>(
+                                    <div 
+                                        key={index} 
+                                        onClick={()=>{
+                                            retrieveChatInfo(preview.chatId);
+                                            setOpenChat(true); 
+                                            setSelectedChat(preview.chatId);
+                                        }}
+                                    >
+                                        <MessageSummary
+                                            senderId={preview.senderId}
+                                            chatId={preview.chatId}
+                                            selectedChat={selectedChat} 
+                                            sender={preview.sender}
+                                            opened={preview.opened}
+                                            messagePreview={preview.messagePreview}
+                                            sentAt={preview.sentAt}
+                                        />
+                                    </div>
+                                ))
+                            :
+                                <div className="mx-auto my-6">
+                                    <p className="px-3 mx-auto">No messages available</p>
+                                </div>
+                            }
                         </div>   
                     </section>
                 }
                 {size.width >= 900 && (
                     <ChatBox 
                         displayChatBox={setOpenChat} 
-                        senderId={selectedChatDetails.senderId}
-                        sender={selectedChatDetails.sender}
-                        userId={selectedChatDetails.userId}
-                        messages={selectedChatDetails.messages}
+                        senderId={selectedChatDetails ? selectedChatDetails.senderId : -1}
+                        sender={selectedChatDetails ? selectedChatDetails.sender : "Select a chat"}
+                        userId={selectedChatDetails ? selectedChatDetails.userId : -2}
+                        messages={selectedChatDetails ? selectedChatDetails.messages : []}
                     />
                 )}
             </div>

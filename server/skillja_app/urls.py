@@ -35,5 +35,8 @@ urlpatterns = [
     path('image/upload_image/', views.upload_image, name='upload_image'),
     path('settings/get_notification_preferences/', views.get_notification_preferences, name='get_notification_preferences'),
     path('settings/update_notification_preferences/', views.update_notification_preferences, name='update_notification_preferences'),
-    path('settings/contact_us/', views.contact_us_email, name='contact_us_email')
+    path('settings/contact_us/', views.contact_us_email, name='contact_us_email'),
+    path('chat/get_message_previews/', views.get_message_previews, name='get_message_previews'),
+    path('chat/get_chat/', views.get_chat, name='get_chat'),
+    path('chat/update_message_read_status/', views.update_message_read_status, name='update_message_read_status')
 ]   

@@ -4,10 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronLeft, faCircleArrowUp } from "@fortawesome/free-solid-svg-icons"
 
 interface Message {
-    sender?: string;
-    senderId?: number;
-    date?: string;
-    content?: string;
+    messageId: number;
+    senderId: number;
+    content: string;
+    sentAt: string;
+    read: boolean;
 }
 
 interface ChatBoxProps {
@@ -24,13 +25,19 @@ export default function ChatBox({displayChatBox, userId, sender, messages}:ChatB
     const displayedDates = new Set<string>()
     const currentDate = getCurrentDate() 
 
-    // helper function that returns the current date in format (dd)-(mm)-(yyyy)
-    function getCurrentDate(){
+     // helper function that returns the a raw and formatted date object
+     function getCurrentDate(){
         const date = new Date()
-        let day = date.getDate()
         let month = date.getMonth() + 1
-        let year = date.getFullYear()
-        return `${day}-${month}-${year}`
+        let year = date.getFullYear().toString()
+        let formattedYear = year.slice(2)
+        return {rawDate: `${year}-${month}`, formattedDate: `${month}-${formattedYear}` }
+    }
+    // formats sentAt prop which is a date object in the format {yyyy}-{mm}-{dd}T{00:00:00Z}
+    function formatSentAtProp(sentAtProp: string){
+        const year = sentAtProp.slice(0,5)
+        const month = sentAtProp.slice(6,8)
+        return `${month}-${year}`
     }
     
     
@@ -53,14 +60,14 @@ export default function ChatBox({displayChatBox, userId, sender, messages}:ChatB
             <div className="flex flex-col h-96 overflow-scroll">
                 {messages?.map((message, index) => {
                     const isUserMessage = message.senderId === userId
-                    const showDate = !displayedDates.has(message.date || "")
-                    if (message.date) displayedDates.add(message.date)
+                    const showDate = !displayedDates.has(message.sentAt || "")
+                    if (message.sentAt) displayedDates.add(message.sentAt)
 
                     return (
                         <div key={index}>
                             {showDate && (
                                 <p className="text-sm mx-auto my-2">
-                                    {message.date === currentDate ?  'Today' : message.date}
+                                    {message.sentAt ? (message.sentAt === currentDate.rawDate ? 'Today' : formatSentAtProp(message.sentAt)) : "-"}
                                 </p>
                             )}
                             <div

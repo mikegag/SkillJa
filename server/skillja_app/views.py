@@ -2,6 +2,7 @@ from django.forms import model_to_dict
 import json, os, stripe, requests, jwt, cloudinary, cloudinary.uploader, time
 from venv import logger
 from django.db import IntegrityError
+from django.db.models import Q
 from django.shortcuts import redirect, get_object_or_404, render
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login as auth_login, authenticate
@@ -9,7 +10,7 @@ from django.contrib.auth import logout
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import User, CoachPreferences, AthletePreferences, CoachProfile, AthleteProfile, Service, Review, SocialMedia, Settings
+from .models import User, CoachPreferences, AthletePreferences, CoachProfile, AthleteProfile, Service, Review, SocialMedia, Settings, Chat, Message
 from django.middleware.csrf import get_token, rotate_token
 from django.views.decorators.http import require_POST, require_GET
 from django.contrib.auth.decorators import login_required
@@ -811,6 +812,139 @@ def random_profiles(request):
     except Exception as e:
         return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
 
+
+# Chat methods --------------------------------------------------
+@require_GET
+@login_required
+def get_message_previews(request):
+    try:
+        user = request.user
+
+        if not user:
+            return JsonResponse({"error:" "User not found"}, status=404)
+        
+        # Filter chats where the user is either user1 or user2
+        chats = Chat.objects.filter(Q(user1=user) | Q(user2=user)).prefetch_related('message')
+
+        if not chats.exists():
+            return JsonResponse({"messagePreviews": []}, status=204)
+
+        # Format message previews
+        message_previews = []
+        for chat in chats:
+            # Determine the other participant
+            other_user = chat.user1 if chat.user2 == user else chat.user2
+            
+            # Filter messages sent by the other participant
+            latest_message = chat.message.filter(sender=other_user).order_by('-sent_at').first()
+            if latest_message:
+                message_previews.append({
+                    'chatId': chat.id,
+                    'userId': user.id,
+                    'senderId': other_user.id,
+                    'sender': other_user.fullname,
+                    'opened': latest_message.read,
+                    'messagePreview': latest_message.content,
+                    'sentAt': latest_message.sent_at,
+                })
+
+        return JsonResponse({"messagePreviews": message_previews}, status=200)
+
+    except Exception as e:
+        return JsonResponse({"error": "An unexpected error occurred", "details": str(e)}, status=500)
+
+@require_GET
+@login_required
+def get_chat(request):
+    try:
+        user = request.user
+
+        if not user:
+            return JsonResponse({"error:" "User not found"}, status=404)
+        
+        # Get chat ID from request
+        chat_id = request.GET.get('chat_id')
+        if not chat_id:
+            return JsonResponse({"error": "Chat ID is required"}, status=400)
+
+        # Fetch the chat
+        try:
+            chat = Chat.objects.get(id=chat_id)
+        except Chat.DoesNotExist:
+            return JsonResponse({"error": "Chat not found"}, status=404)
+
+        # Check if the user is part of the chat
+        if user != chat.user1 and user != chat.user2:
+            return JsonResponse({"error": "You are not a participant in this chat"}, status=403)
+
+        # Fetch messages for the chat
+        messages = Message.objects.filter(chat=chat).order_by('sent_at')
+
+        # Determine the other participant
+        other_user = chat.user1 if chat.user2 == user else chat.user2
+
+        # Format the chat info and messages
+        chat_info = {
+            'chatId': chat.id,
+            'userId': user.id,
+            'senderId': other_user.id,
+            'sender': other_user.fullname,
+            'messages': [
+                {
+                    'messageId': message.id,
+                    'content': message.content,
+                    'senderId': message.sender.id,
+                    'sentAt': message.sent_at,
+                    'read': message.read,
+                }
+                for message in messages
+            ]
+        }
+
+        return JsonResponse({"chat": chat_info}, status=200)
+
+    except Chat.DoesNotExist:
+        return JsonResponse({"error": "Chat not found"}, status=404)
+    except Exception as e:
+        return JsonResponse({"error": "An unexpected error occurred", "details": str(e)}, status=500)
+
+@require_POST
+@login_required
+def update_message_read_status(request):
+    try:
+        user = request.user
+
+        # Parse incoming JSON data
+        data = json.loads(request.body)
+
+        # Get chat ID from request body
+        chat_id = data.get('chat_id')
+        if not chat_id:
+            return JsonResponse({"error": "Chat ID is required"}, status=400)
+
+        # Fetch the chat
+        try:
+            chat = Chat.objects.get(id=chat_id)
+        except Chat.DoesNotExist:
+            return JsonResponse({"error": "Chat not found"}, status=404)
+
+        # Check if the user is part of the chat
+        if user != chat.user1 and user != chat.user2:
+            return JsonResponse({"error": "You are not a participant in this chat"}, status=403)
+
+        # Determine the other participant
+        other_user = chat.user1 if chat.user2 == user else chat.user2
+
+        # Update read status for messages from the other participant
+        updated_count = Message.objects.filter(chat=chat, sender=other_user, read=False).update(read=True)
+
+        return JsonResponse({"success": True}, status=200)
+
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Invalid JSON body"}, status=400)
+    except Exception as e:
+        return JsonResponse({"error": "An unexpected error occurred", "details": str(e)}, status=500)
+    
 
 # Stripe methods ------------------------------------------------
 @require_GET
