@@ -63,29 +63,37 @@ export default function Chat(){
         // get any previous chats and display their previews
         retrieveMessagePreviews()
         
-        // update message read status if currently selected chat has unopened messages
-        if(selectedChat === selectedChatDetails?.chatId && savedChats?.filter((chatPreviewInfo)=> chatPreviewInfo.opened === false)){
-            axios.post(`${process.env.REACT_APP_SKILLJA_URL}/chat/update_message_read_status/`, {chat_id: selectedChatDetails.chatId}, { 
-                headers: {
-                    'X-CSRFToken': csrfToken,
-                    'Content-Type': 'application/json'
-                },
-                withCredentials: true
-                }) 
-                .then(res => {
-                    if(res.status===200){
-                        // update displayed message previews, since message read status has been updated
-                        retrieveMessagePreviews()
-                    } 
-                })
-                .catch(error => {console.error(error)})
-        }
+        // update message read status if currently selected chat has unopened messages, delay to allow API data to load
+        const messageReadDelay = setTimeout(() => {
+            if (selectedChat === selectedChatDetails?.chatId && 
+                    savedChats?.filter((chatPreviewInfo)=> (
+                        chatPreviewInfo.opened === false && chatPreviewInfo.chatId === selectedChat)).length===1
+                )
+            {
+                axios.post(`${process.env.REACT_APP_SKILLJA_URL}/chat/update_message_read_status/`, {chat_id: selectedChatDetails.chatId}, { 
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                        'Content-Type': 'application/json'
+                    },
+                    withCredentials: true
+                    }) 
+                    .then(res => {
+                        if(res.status===200){
+                            // update displayed message previews, since message read status has been updated
+                            retrieveMessagePreviews()
+                        } 
+                    })
+                    .catch(error => {console.error(error)})
+            }
+        }, 2000)
+        
+        return () => clearTimeout(messageReadDelay)
 
-    },[openChat])
+    },[openChat, selectedChatDetails])
 
     // Retrieves chat details
     function retrieveChatInfo(chatId:number){
-        axios.get(`${process.env.REACT_APP_SKILLJA_URL}/chat/get_message_previews/?chat_id=${chatId}`, { 
+        axios.get(`${process.env.REACT_APP_SKILLJA_URL}/chat/get_chat/?chat_id=${chatId}`, { 
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'
@@ -128,6 +136,8 @@ export default function Chat(){
                 {size.width < 900 && openChat === true ?
                     <ChatBox 
                         displayChatBox={setOpenChat} 
+                        csrftoken={csrfToken!}
+                        chatId={selectedChatDetails? selectedChatDetails.chatId : -3}
                         senderId={selectedChatDetails ? selectedChatDetails.senderId : -1}
                         sender={selectedChatDetails ? selectedChatDetails.sender : "Select a chat"}
                         userId={selectedChatDetails ? selectedChatDetails.userId : -2}
@@ -139,7 +149,7 @@ export default function Chat(){
                             Messages
                         </h1>
                         <div className="flex flex-col h-96 overflow-scroll">
-                            {savedChats ? 
+                            {savedChats && savedChats?.length > 0 ? 
                                 savedChats.map((preview, index)=>(
                                     <div 
                                         key={index} 
@@ -171,6 +181,8 @@ export default function Chat(){
                 {size.width >= 900 && (
                     <ChatBox 
                         displayChatBox={setOpenChat} 
+                        csrftoken={csrfToken!}
+                        chatId={selectedChatDetails? selectedChatDetails.chatId : -3}
                         senderId={selectedChatDetails ? selectedChatDetails.senderId : -1}
                         sender={selectedChatDetails ? selectedChatDetails.sender : "Select a chat"}
                         userId={selectedChatDetails ? selectedChatDetails.userId : -2}

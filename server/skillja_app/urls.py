@@ -38,5 +38,7 @@ urlpatterns = [
     path('settings/contact_us/', views.contact_us_email, name='contact_us_email'),
     path('chat/get_message_previews/', views.get_message_previews, name='get_message_previews'),
     path('chat/get_chat/', views.get_chat, name='get_chat'),
-    path('chat/update_message_read_status/', views.update_message_read_status, name='update_message_read_status')
+    path('chat/update_message_read_status/', views.update_message_read_status, name='update_message_read_status'),
+    path('chat/contact_coach/', views.contact_coach, name='contact_coach'),
+    path('chat/send_chat_message/', views.send_chat_message, name='send_chat_message')
 ]   

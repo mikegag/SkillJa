@@ -208,10 +208,13 @@ class Chat(models.Model):
 
 class Message(models.Model):
     chat = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name='message')
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_message')
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='sent_message')
     content = models.TextField()
     sent_at = models.DateTimeField(default=now)
     read = models.BooleanField(default=False)
 
+    # admin messages will not have the sender field
     def __str__(self):
-        return f'Message {self.id} from {self.sender.email}'
+        if self.sender:
+            return f'Message {self.id} from {self.sender.email}'
+        return f'System Message {self.id}'

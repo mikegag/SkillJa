@@ -12,7 +12,7 @@ import ReviewSlider from "../../components/general/coach-preview/ReviewSlider"
 import SocialMediaIcons from "../../components/general/coach-preview/SocialMediaIcons"
 import RetrieveImage from "../../hooks/RetrieveImage"
 import { UserContext } from "../../hooks/RetrieveImageContext"
-import { image } from "@cloudinary/url-gen/qualifiers/source"
+import ContactCoachForm from "../../components/general/coach-preview/ContactCoachForm"
 
 interface Review {
     id: number;
@@ -110,26 +110,37 @@ export default function Coach(){
             })
             .catch(error => {console.error(error)})
 
-            axios.get(`${process.env.REACT_APP_SKILLJA_URL}/get_user_email/`, { 
-                headers: {
-                    'X-CSRFToken': csrfToken,
-                    'Content-Type': 'application/json'
-                },
-                withCredentials: true
-                }) 
-                .then(res => {
-                    if (res.status === 200) {
-                        setUserEmail(res.data.user_email)
-                    } else {
-                        console.error("Failed to retrieve user email")
-                    }
-                })
-                .catch(error => {console.error(error)})
+        axios.get(`${process.env.REACT_APP_SKILLJA_URL}/get_user_email/`, { 
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true
+            }) 
+            .then(res => {
+                if (res.status === 200) {
+                    setUserEmail(res.data.user_email)
+                } else {
+                    console.error("Failed to retrieve user email")
+                }
+            })
+            .catch(error => {console.error(error)})
     },[])
 
     // API call to contact coach
     function handleMessage(e:React.FormEvent){
         e.preventDefault()
+        axios.post(`${process.env.REACT_APP_SKILLJA_URL}/chat/contact_coach/`, {coach_id: queryParameters.get("coach_id")}, { 
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true
+            }) 
+            .then(res => {
+                
+            })
+            .catch(error => {console.error(error)})
     }
 
     return (
@@ -139,11 +150,6 @@ export default function Coach(){
                     <Header useCase="protected" /> 
                 </UserContext.Provider>
             )}
-            {/* { !(userEmail) && ( 
-                <UserContext.Provider value={{imageName:'default', cache:false}}>
-                    <Header useCase="protected" /> 
-                </UserContext.Provider>
-            )} */}
             { !(userEmail) && ( 
                 <Header useCase="onboarding" /> 
             )}
@@ -186,12 +192,7 @@ export default function Coach(){
                             </h3> 
                         </div>
                         <div className="flex flex-col justify-center items-center my-2 lg:mr-0 lg:ml-auto">
-                            <button 
-                                className="form-btn py-2 px-8 my-4"
-                                onClick={(e)=>handleMessage(e)}
-                            >
-                                Contact
-                            </button>
+                            <ContactCoachForm csrftoken={csrfToken!} coachId={queryParameters.get("coach_id")!}/>
                             <SocialMediaIcons 
                                 instagram={profileDetails.profile?.socialMedia.instagram}
                                 facebook={profileDetails.profile?.socialMedia.facebook}

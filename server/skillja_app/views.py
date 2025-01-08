@@ -835,15 +835,15 @@ def get_message_previews(request):
             # Determine the other participant
             other_user = chat.user1 if chat.user2 == user else chat.user2
             
-            # Filter messages sent by the other participant
-            latest_message = chat.message.filter(sender=other_user).order_by('-sent_at').first()
+            # Retrieve the latest message from the current chat
+            latest_message = chat.message.order_by('-sent_at').first()
             if latest_message:
                 message_previews.append({
                     'chatId': chat.id,
                     'userId': user.id,
                     'senderId': other_user.id,
                     'sender': other_user.fullname,
-                    'opened': latest_message.read,
+                    'opened': latest_message.read if latest_message.sender == other_user else True,
                     'messagePreview': latest_message.content,
                     'sentAt': latest_message.sent_at,
                 })
@@ -944,8 +944,91 @@ def update_message_read_status(request):
         return JsonResponse({"error": "Invalid JSON body"}, status=400)
     except Exception as e:
         return JsonResponse({"error": "An unexpected error occurred", "details": str(e)}, status=500)
-    
 
+@require_POST
+@login_required
+def contact_coach(request):
+    try:
+        data = json.loads(request.body)
+        user = request.user
+        coach_id = data.get('coach_id')
+
+        # Check if the coach exists
+        try:
+            coach = User.objects.get(id=coach_id)
+        except User.DoesNotExist:
+            return JsonResponse({"error": "Invalid coach id"}, status=400)
+
+        if user == coach:
+            return JsonResponse({"error": "Cannot send message to yourself"}, status=400)
+
+        # Check if a chat already exists between user and coach
+        if Chat.objects.filter(Q(user1=user, user2=coach) | Q(user1=coach, user2=user)).exists():
+            return JsonResponse({"error": "Chat already exists between user and coach"}, status=400)
+
+        # Create a new chat
+        new_chat = Chat.objects.create(user1=user, user2=coach)
+
+        # Set default message if not provided
+        message_content = data.get('message', 'Hi, I am interested in your profile')
+
+        # Create a new message in the chat
+        Message.objects.create(chat=new_chat, sender=user, content=message_content)
+
+        return JsonResponse({"success": True, "message": "Chat and message created successfully"}, status=201)
+
+    except Exception as e:
+        return JsonResponse({"error": "An unexpected error occurred", "details": str(e)}, status=500)
+
+@require_POST
+@login_required
+def send_chat_message(request):
+    try:
+        sender = request.user
+        data = json.loads(request.body)
+
+        # Validate request payload
+        chat_id = data.get('chat_id')
+        message = data.get('message')
+
+        if not chat_id:
+            return JsonResponse({"error": "chatId parameter is missing"}, status=400)
+        if not message:
+            return JsonResponse({"error": "message parameter is missing"}, status=400)
+
+        # Verify the chat exists and the sender is a participant
+        try:
+            chat = Chat.objects.get(id=chat_id)
+        except Chat.DoesNotExist:
+            return JsonResponse({"error": "Chat does not exist"}, status=404)
+
+        if sender != chat.user1 and sender != chat.user2:
+            return JsonResponse({"error": "You are not authorized to send messages in this chat"}, status=403)
+
+        # Create the new message
+        new_message = Message.objects.create(
+            chat=chat,
+            sender=sender,
+            content=message
+        )
+
+        return JsonResponse({
+            "success": "Message sent!",
+            "message": {
+                "messageId": new_message.id,
+                "senderId": sender.id,
+                "content": new_message.content,
+                "sentAt": new_message.sent_at,
+                "read": new_message.read,
+            }
+        }, status=201)
+
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Invalid JSON in request body"}, status=400)
+
+    except Exception as e:
+        return JsonResponse({"error": "An unexpected error occurred", "details": str(e)}, status=500)
+    
 # Stripe methods ------------------------------------------------
 @require_GET
 @login_required
