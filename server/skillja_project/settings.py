@@ -50,7 +50,7 @@ CORS_ALLOW_HEADERS = [
 
 CSRF_COOKIE_SECURE = True
 # Below set to False during production 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_CREDENTIALS = True
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_COOKIE_SECURE = True
@@ -147,7 +147,7 @@ Q_CLUSTER = {
     'name': 'DjangoQ',
     'workers': 4,
     'timeout': 90,
-    'retry': 60,
+    'retry': 120,
     # Use Django ORM as broker
     'django_orm': 'default',
 }
