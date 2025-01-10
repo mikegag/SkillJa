@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from django.utils.timezone import now
+from django.utils.timezone import now, timedelta
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db.models import Q
@@ -218,3 +218,30 @@ class Message(models.Model):
         if self.sender:
             return f'Message {self.id} from {self.sender.email}'
         return f'System Message {self.id}'
+
+class Calendar(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='calendar')
+
+    def __str__(self):
+        return f"{self.user.get_full_name()}'s Calendar"
+
+class Event(models.Model):
+    created_at = models.DateTimeField(default=now)
+    date = models.DateTimeField()
+    title = models.CharField(max_length=255)
+    description = models.CharField(max_length=255, blank=True, null=True)
+    location = models.CharField(max_length=255, blank=True, null=True)
+    participants = models.ManyToManyField(User, related_name='events')
+
+    def __str__(self):
+        return f"{self.title} on {self.date.strftime('%Y-%m-%d')}"
+
+    @classmethod
+    def delete_old_events(cls):
+        """
+        Deletes events older than one year.
+        """
+        one_year_ago = timezone.now() - timedelta(days=365)
+        cls.objects.filter(date__lt=one_year_ago).delete()
+
+

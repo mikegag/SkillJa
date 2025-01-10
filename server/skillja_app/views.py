@@ -10,15 +10,16 @@ from django.contrib.auth import logout
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import User, CoachPreferences, AthletePreferences, CoachProfile, AthleteProfile, Service, Review, SocialMedia, Settings, Chat, Message
+from .models import User, CoachPreferences, AthletePreferences, CoachProfile, AthleteProfile, Service, Review, SocialMedia, Settings, Chat, Message, Calendar, Event
 from django.middleware.csrf import get_token, rotate_token
 from django.views.decorators.http import require_POST, require_GET
 from django.contrib.auth.decorators import login_required
 from .utils import calculate_price_deviance, calculate_coach_cost, calculate_coach_review
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.loader import render_to_string
-from django.utils.timezone import now
-from datetime import timedelta
+from django.utils.timezone import now, make_aware
+from datetime import datetime, timedelta
+from django.utils.dateparse import parse_date
 
 
 # Authentication methods ----------------------------------------
@@ -1029,6 +1030,117 @@ def send_chat_message(request):
     except Exception as e:
         return JsonResponse({"error": "An unexpected error occurred", "details": str(e)}, status=500)
     
+
+# Calendar methods ----------------------------------------------
+@require_POST
+@login_required
+def create_calendar_event(request):
+    try:
+        user = request.user
+        data = json.loads(request.body)
+
+        # Extracting required fields from the request
+        event_date = data.get('date')
+        event_title = data.get('title')
+        # Optional
+        event_description = data.get('description', None)
+        # Optional
+        event_location = data.get('location', None)
+         # List of user IDs
+        event_participants = data.get('participants')
+
+        # Validate required fields
+        if not event_date or not event_title or not event_participants:
+            return JsonResponse({"error": "Missing required parameters."}, status=400)
+
+        # Convert date to datetime object
+        try:
+            naive_date = datetime.strptime(event_date, '%Y-%m-%d-%H-%M')  # Custom format
+            aware_date = make_aware(naive_date)  # Add timezone info
+        except ValueError:
+            return JsonResponse({"error": "Invalid date format. Use YYYY-MM-DD-HH-MM."}, status=400)
+
+        # Validate participants
+        participant_users = User.objects.filter(id__in=event_participants)
+        if not participant_users.exists():
+            return JsonResponse({"error": "No valid participants found."}, status=400)
+
+        # Ensure the user has a calendar, creating one if it doesn't exist
+        user_calendar, _ = Calendar.objects.get_or_create(user=user)
+
+        # Ensure each participant has a calendar
+        for participant in participant_users:
+            Calendar.objects.get_or_create(user=participant)
+
+        # Create the event
+        new_event = Event.objects.create(
+            date=aware_date,
+            title=event_title,
+            location=event_location,
+            description=event_description
+        )
+
+        # Add the creator and participants to the event
+        new_event.participants.add(user, *participant_users)
+
+        return JsonResponse({
+            "success": "New event created!",
+            "event": {
+                "id": new_event.id,
+                "title": new_event.title,
+                "date": new_event.date.isoformat(),
+                "location": new_event.location,
+                "description": new_event.description,
+                "participants": list(new_event.participants.values('id', 'username'))
+            }
+        }, status=201)
+
+    except KeyError as e:
+        return JsonResponse({"error": f"Missing key: {str(e)}"}, status=400)
+    except Exception as e:
+        return JsonResponse({"error": "An unexpected error occurred.", "details": str(e)}, status=500)
+
+@require_GET
+@login_required
+def get_calendar_event(request):
+    try:
+        user = request.user
+        event_date = request.GET.get('day')
+
+        if not event_date:
+            return JsonResponse({"error": "The 'day' query parameter is required."}, status=400)
+
+        # Parse the date string into a proper date object
+        event_date_parsed = parse_date(event_date)
+        if not event_date_parsed:
+            return JsonResponse({"error": "Invalid date format. Use 'YYYY-MM-DD'."}, status=400)
+
+        # Filter events by comparing only the date part of the DateTimeField
+        events = Event.objects.filter(
+            participants=user,
+            date__year=event_date_parsed.year,
+            date__month=event_date_parsed.month,
+            date__day=event_date_parsed.day
+        )
+
+        # Serialize the events into a list of dictionaries
+        events_data = [
+            {
+                "id": event.id,
+                "title": event.title,
+                "description": event.description,
+                "location": event.location,
+                "date": event.date.strftime('%Y-%m-%d %H:%M:%S'),
+            }
+            for event in events
+        ]
+
+        return JsonResponse({"events": events_data}, status=200)
+
+    except Exception as e:
+        return JsonResponse({"error": "An unexpected error occurred.", "details": str(e)}, status=500)
+
+
 # Stripe methods ------------------------------------------------
 @require_GET
 @login_required

@@ -4,6 +4,8 @@ import Header from "../../components/navigation/Header"
 import CalendarDisplay from "../../components/general/calendar-preview/CalendarDisplay"
 import EventAccordion from "../../components/general/calendar-preview/EventAccordion"
 import Footer from "../../components/navigation/Footer"
+import axios from "axios"
+import GetCSFR from "../../hooks/GetCSFR"
 
 interface MonthDays {
     month: string;
@@ -12,6 +14,7 @@ interface MonthDays {
 }
 
 export default function Calendar(){
+    const csrfToken = GetCSFR({ name: "csrftoken" })
     const [firstMonthSelectedDay, setFirstMonthSelectedDay] = useState<string>("1")
     const [secondMonthSelectedDay, setSecondMonthSelectedDay] = useState<string>("1")
     const [displayCurrentMonth, setDisplayCurrentMonth] = useState<boolean>(true)
@@ -21,7 +24,26 @@ export default function Calendar(){
         document.title = 'SkillJa - Calendar'
     },[])
 
-    //API call to get events for currently selected day
+    // API call to get events for currently selected day
+    function retrieveEvents(day:string){
+        axios.get(`${process.env.REACT_APP_SKILLJA_URL}/calender/get_events/day?=${day}`, { 
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true
+            }) 
+            .then(res => {
+                if(res.status===200){
+                    setSavedEvents(res.data.events)
+                } 
+            })
+            .catch(error => {console.error(error)})
+    }
+
+    useEffect(()=>{
+
+    },[firstMonthSelectedDay,secondMonthSelectedDay])
 
     useEffect(()=>{
         //updates selected day when switching between months on CalendarDisplay

@@ -40,5 +40,7 @@ urlpatterns = [
     path('chat/get_chat/', views.get_chat, name='get_chat'),
     path('chat/update_message_read_status/', views.update_message_read_status, name='update_message_read_status'),
     path('chat/contact_coach/', views.contact_coach, name='contact_coach'),
-    path('chat/send_chat_message/', views.send_chat_message, name='send_chat_message')
+    path('chat/send_chat_message/', views.send_chat_message, name='send_chat_message'),
+    path('calendar/create_calendar_event/', views.create_calendar_event, name='create_calendar_event'),
+    path('calendar/get_calendar_event/', views.get_calendar_event, name='get_calendar_event')
 ]   

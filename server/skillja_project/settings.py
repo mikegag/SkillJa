@@ -50,7 +50,7 @@ CORS_ALLOW_HEADERS = [
 
 CSRF_COOKIE_SECURE = True
 # Below set to False during production 
-CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_COOKIE_SECURE = True
@@ -141,6 +141,19 @@ cloudinary.config(
     api_secret=os.getenv('CLOUDINARY_SECRET_KEY'),
     secure=True
 )
+
+# Background Scheduling and Cleanup process
+Q_CLUSTER = {
+    'name': 'DjangoQ',
+    'workers': 4,
+    'timeout': 90,
+    'retry': 60,
+    # Use Django ORM as broker
+    'django_orm': 'default',
+}
+
+# Use local timezones
+USE_TZ=True
 
 
 # Internationalization
