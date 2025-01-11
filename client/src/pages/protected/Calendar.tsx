@@ -9,16 +9,25 @@ import GetCSFR from "../../hooks/GetCSFR"
 
 interface MonthDays {
     month: string;
+    monthIndex: number;
     days: number[];
-    yearChange?: boolean;
+    yearChange: boolean;
+    year: number;
+}
+
+interface CalendarEvent {
+    title: string;
+    date: string;
+    description?: string;
+    location?: string
 }
 
 export default function Calendar(){
     const csrfToken = GetCSFR({ name: "csrftoken" })
-    const [firstMonthSelectedDay, setFirstMonthSelectedDay] = useState<string>("1")
-    const [secondMonthSelectedDay, setSecondMonthSelectedDay] = useState<string>("1")
+    const [firstMonthSelectedDay, setFirstMonthSelectedDay] = useState<string>(new Date().toDateString().slice(8,10))
+    const [secondMonthSelectedDay, setSecondMonthSelectedDay] = useState<string>(new Date().toDateString().slice(8,10))
     const [displayCurrentMonth, setDisplayCurrentMonth] = useState<boolean>(true)
-    const [savedEvents, setSavedEvents] = useState([])
+    const [savedEvents, setSavedEvents] = useState<CalendarEvent[]>()
 
     useEffect(()=>{
         document.title = 'SkillJa - Calendar'
@@ -26,7 +35,7 @@ export default function Calendar(){
 
     // API call to get events for currently selected day
     function retrieveEvents(day:string){
-        axios.get(`${process.env.REACT_APP_SKILLJA_URL}/calender/get_events/day?=${day}`, { 
+        axios.get(`${process.env.REACT_APP_SKILLJA_URL}/calendar/get_calendar_event/?day=${day}`, { 
             headers: {
                 'X-CSRFToken': csrfToken,
                 'Content-Type': 'application/json'
@@ -42,17 +51,22 @@ export default function Calendar(){
     }
 
     useEffect(()=>{
-
-    },[firstMonthSelectedDay,secondMonthSelectedDay])
-
-    useEffect(()=>{
-        //updates selected day when switching between months on CalendarDisplay
+        // if a day from this month is selected, retrieve events for that day
         if(displayCurrentMonth){
-            setSecondMonthSelectedDay(firstMonthSelectedDay)
-        } else {
-            setFirstMonthSelectedDay(secondMonthSelectedDay)
+            // Zero pad month and days to conform with API
+            const formattedMonth = String(currentMonthDays.monthIndex).length === 2 ? currentMonthDays.monthIndex : `0${currentMonthDays.monthIndex}`
+            const formatedDay = firstMonthSelectedDay.length === 2 ? firstMonthSelectedDay : `0${firstMonthSelectedDay}`
+            retrieveEvents(`${currentMonthDays.year}-${formattedMonth}-${formatedDay}`)
         } 
-    },[displayCurrentMonth, firstMonthSelectedDay, secondMonthSelectedDay])
+        // if a day from the next month is selected, retrieve events for that day
+        else if (!displayCurrentMonth){
+            // Zero pad month and days to conform with API
+            const formattedMonth = String(nextMonthDays.monthIndex).length === 2 ? nextMonthDays.monthIndex : `0${nextMonthDays.monthIndex}`
+            const formatedDay = secondMonthSelectedDay.length === 2 ? secondMonthSelectedDay : `0${secondMonthSelectedDay}`
+            retrieveEvents(`${nextMonthDays.year}-${formattedMonth}-${formatedDay}`)
+        }
+
+    },[firstMonthSelectedDay, secondMonthSelectedDay, displayCurrentMonth])
 
     //returns data for current month and following month based on today's date
     function getDaysCurrentAndNextMonth() {
@@ -65,7 +79,10 @@ export default function Calendar(){
         const currentMonth = today.getMonth()
         const currentMonthDays: MonthDays = {
             month: monthNames[currentMonth],
-            days: getMonthDays(currentYear, currentMonth)
+            monthIndex: currentMonth+1,
+            days: getMonthDays(currentYear, currentMonth),
+            yearChange: false,
+            year: currentYear
         }
 
         const nextMonth = (currentMonth + 1) % 12
@@ -75,8 +92,10 @@ export default function Calendar(){
 
         const nextMonthDays: MonthDays = {
             month: monthNames[nextMonth],
+            monthIndex: nextMonth+1,
             days: getMonthDays(nextMonthYear, nextMonth),
-            yearChange: yearChange
+            yearChange: yearChange,
+            year: nextMonthYear
         }
         
         // get number of days in given month and year
@@ -105,9 +124,9 @@ export default function Calendar(){
             <div className="flex justify-center items-start flex-wrap mt-10 pb-4 mb-16 lg:mb-32">
                 <section className="flex flex-col mx-auto">
                     {displayCurrentMonth ? 
-                        <CalendarDisplay monthDays={currentMonthDays} daySelection ={setFirstMonthSelectedDay} monthSelection={setDisplayCurrentMonth} />  
+                        <CalendarDisplay monthDays={currentMonthDays} daySelection={setFirstMonthSelectedDay} monthSelection={setDisplayCurrentMonth} selectedDay={firstMonthSelectedDay} />  
                     :
-                        <CalendarDisplay monthDays={nextMonthDays} daySelection ={setSecondMonthSelectedDay} monthSelection={setDisplayCurrentMonth} />
+                        <CalendarDisplay monthDays={nextMonthDays} daySelection={setSecondMonthSelectedDay} monthSelection={setDisplayCurrentMonth} selectedDay={secondMonthSelectedDay} />
                     }
                 </section>
                 <section className="flex flex-col items-start justify-start mx-auto border-t md:border-t-0 w-80 mt-10 md:mt-0 lg:ml-4 lg:mr-auto">
@@ -122,11 +141,10 @@ export default function Calendar(){
                             </h2>
                         }
                     </div>
-                    {savedEvents.length > 0 ?
-                        // savedEvents.map(event=>(
-                        //     <EventAccordion title={event.title} time={event.time} description={event.description} />
-                        // ))
-                        <></>
+                    {savedEvents && savedEvents.length > 0 ?
+                        savedEvents.map((event)=>(
+                            <EventAccordion title={event.title} time={event.date}  />
+                        ))
                     :
                         <p>No scheduled events.</p>
                     }

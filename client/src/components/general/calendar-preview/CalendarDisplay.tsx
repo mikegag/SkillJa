@@ -13,15 +13,11 @@ interface CalendarProps {
     monthDays: MonthDays;
     daySelection: (value:string)=>void;
     monthSelection: (value:boolean)=>void;
+    selectedDay: string;
 }
 
-export default function CalendarDisplay({ monthDays, daySelection, monthSelection }:CalendarProps){
-    const [selectedDay, setSelectedDay] = useState<string>("1")
+export default function CalendarDisplay({ monthDays, daySelection, monthSelection, selectedDay }: CalendarProps){
     const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-
-    useEffect(()=>{
-        setSelectedDay(today.toDateString().slice(8,10))
-    },[])
 
     useEffect(()=>{
         daySelection(selectedDay)
@@ -50,7 +46,7 @@ export default function CalendarDisplay({ monthDays, daySelection, monthSelectio
             currentWeek++
         }
         weeks[currentWeek].push(day)
-    });
+    })
 
     // Fill remaining empty cells for the last week
     while (weeks[currentWeek].length < 7) {
@@ -100,14 +96,14 @@ export default function CalendarDisplay({ monthDays, daySelection, monthSelectio
                                 id={`${monthDays.month}-${day}`}
                                 className={`
                                     ${day === 0 ? 'empty cursor-not-allowed' : ''} 
-                                    ${index===0? 'pt-5': ""}  
+                                    ${index===0 ? 'pt-5': ""}  
                                     font-source p-2 lg:py-5 lg:px-6`
                                 }
                             >
-                                <div className="flex justify-center w-full cursor-pointer" onClick={()=>setSelectedDay(day.toString())}>
+                                <div className="flex justify-center w-full cursor-pointer" onClick={()=>daySelection(day.toString())}>
                                     <p className={`flex justify-center px-2 py-0.5 lg:py-2 lg:px-3 md:min-w-12 mx-auto 
                                             ${(today.toDateString().slice(8,10).replace(/^0+(?=\d)/, '') == day.toString()) && (today.toDateString().slice(4,7) == monthDays.month.slice(0,3)) ? "underline":""} 
-                                            ${selectedDay == day.toString()? "flex justify-center bg-amber-400 rounded-full":""}  
+                                            ${selectedDay === day.toString() ? "flex justify-center bg-amber-400 rounded-full":""}  
                                             ${day === 0 ? 'cursor-not-allowed' : ''} `}
                                     >
                                         {day !== 0 ? day : ''}

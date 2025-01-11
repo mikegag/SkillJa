@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef } from "react"
 type EventAccordionProps = {
   title: string;
   time: string;
-  description: string;
+  description?: string;
   styling?: string;
 }
 

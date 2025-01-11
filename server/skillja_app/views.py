@@ -3,11 +3,11 @@ import json, os, stripe, requests, jwt, cloudinary, cloudinary.uploader, time
 from venv import logger
 from django.db import IntegrityError
 from django.db.models import Q
-from django.shortcuts import redirect, get_object_or_404, render
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login as auth_login, authenticate
 from django.contrib.auth import logout
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import User, CoachPreferences, AthletePreferences, CoachProfile, AthleteProfile, Service, Review, SocialMedia, Settings, Chat, Message, Calendar, Event
