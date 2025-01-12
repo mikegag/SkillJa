@@ -74,7 +74,6 @@ body {
   input [type="date"]::before {
     content: attr(placeholder) !important;
   }
-
   .date-input::-webkit-calendar-picker-indicator {
     position: absolute;
     left: 13px;
@@ -187,10 +186,26 @@ body {
     -o-appearance: none;
     appearance: none;
   }
-
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
+  }
+  .datepicker {
+    @apply mx-auto left-10;
+    left: 70px !important;
+  }
+  /* Selected day background color */
+  .datepicker .react-datepicker__day--selected{
+    @apply bg-main-green-500 text-white;
+  }
+  /* Hover effect for selected day */
+  .datepicker .react-datepicker__day--selected:hover {
+    @apply hover:bg-main-green-700;
+  }
+  /* Styling for the time picker inputs (select dropdown or time input) */
+  .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected,
+  .datepicker .react-datepicker__time-container input {
+    @apply bg-main-green-500 hover:bg-main-green-700;
   }
 }

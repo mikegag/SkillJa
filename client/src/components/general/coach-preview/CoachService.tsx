@@ -5,6 +5,7 @@ import { loadStripe } from "@stripe/stripe-js"
 import React, { useState } from "react"
 import GetCSFR from "../../../hooks/GetCSFR"
 import { useLocation } from "react-router-dom"
+import ServiceDateTimePicker from "./form-components/ServiceDateTimePicker"
 
 interface Service {
     id?: number;
@@ -140,32 +141,26 @@ export default function CoachService({exitView, data}:ServiceProps){
                 <p className="font-kulim mt-4 font-light">
                     <span className="font-semibold">Duration:</span> {data.duration}
                 </p>
-                {data.frequency ?
+                {data.frequency && (
                     <p className="font-kulim mt-4 font-light">
                         <span className="font-semibold">Frequency:</span> {data.frequency}
                     </p>
-                :
-                    <></>
-                }
-                {data.deliverable ? 
+                )}
+                {data.deliverable && (
                     <>
-                    <p className="mr-auto mt-4 mb-2 font-semibold font-kulim">
-                        Includes:
-                    </p>
-                    <ul className="ml-10">
-                        <li className="font-kulim list-disc font-light text-base">{data.deliverable}</li> 
-                    </ul>
+                        <p className="mr-auto mt-4 mb-2 font-semibold font-kulim">
+                            Includes:
+                        </p>
+                        <ul className="ml-10">
+                            <li className="font-kulim list-disc font-light text-base">{data.deliverable}</li> 
+                        </ul>
                     </>
-                :
-                    <></>
-                }
-                {data.location ? 
+                )}
+                {data.location && (
                     <p className="font-kulim mt-4">
                         <span className="font-semibold">Location: </span>{data.location}
                     </p> 
-                : 
-                    <></>
-                }
+                )}
                 <p className="font-kulim font-light mt-4">
                     <span className="font-semibold mr-2">
                         Price: 
@@ -175,8 +170,9 @@ export default function CoachService({exitView, data}:ServiceProps){
                         / {data.type.includes('program')? 'Program': 'Session'}
                     </span>
                 </p>
+                <ServiceDateTimePicker csrftoken={csrfToken!} />
                 <button 
-                    className="form-btn mt-9 mb-3 py-2 lg:w-72 mx-auto"
+                    className={`form-btn mt-9 mb-3 py-2 lg:w-72 mx-auto ${coachId ? 'cursor-pointer' : 'bg-main-grey-200 cursor-not-allowed hover:bg-main-grey-200'}`}
                     onClick={(e)=>handleSubmit(e)}
                 >
                     Purchase Now
