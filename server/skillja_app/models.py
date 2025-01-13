@@ -244,4 +244,37 @@ class Event(models.Model):
         one_year_ago = timezone.now() - timedelta(days=365)
         cls.objects.filter(date__lt=one_year_ago).delete()
 
+class BlockedDay(models.Model):
+    date = models.DateField()
+    month_schedule = models.ForeignKey("MonthSchedule", on_delete=models.CASCADE, related_name="blocked_days")
 
+    def __str__(self):
+        return f"Blocked Day: {self.date}"
+
+class WeeklySchedule(models.Model):
+    # Represent availability for a specific day of the week
+    # 1 = Sunday, ..., 7 = Saturday
+    day_of_week = models.PositiveSmallIntegerField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    month_schedule = models.ForeignKey("MonthSchedule", on_delete=models.CASCADE, related_name="weekly_schedules")
+
+    class Meta:
+        unique_together = ('month_schedule', 'day_of_week')
+
+    def __str__(self):
+        return f"Day {self.day_of_week}: {self.start_time} - {self.end_time}"
+
+class MonthSchedule(models.Model):
+    coach_availability = models.ForeignKey("CoachAvailability", on_delete=models.CASCADE, related_name="month_schedules")
+    month = models.DateField()  # Use the first day of the month as a reference point
+    is_current_month = models.BooleanField()
+
+    def __str__(self):
+        return f"{'Current' if self.is_current_month else 'Next'} Month Schedule"
+
+class CoachAvailability(models.Model):
+    coach = models.OneToOneField(User, on_delete=models.CASCADE, related_name="availability")
+
+    def __str__(self):
+        return f"Availability for Coach {self.coach}"

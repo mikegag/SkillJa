@@ -1,7 +1,7 @@
 from django.forms import model_to_dict
 import json, os, stripe, requests, jwt, cloudinary, cloudinary.uploader, time
 from venv import logger
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 from django.db.models import Q
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
@@ -10,7 +10,7 @@ from django.contrib.auth import logout
 from django.http import HttpResponse, JsonResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import User, CoachPreferences, AthletePreferences, CoachProfile, AthleteProfile, Service, Review, SocialMedia, Settings, Chat, Message, Calendar, Event
+from .models import User, CoachPreferences, AthletePreferences, CoachProfile, AthleteProfile, Service, Review, SocialMedia, Settings, Chat, Message, Calendar, Event, CoachAvailability, BlockedDay, WeeklySchedule, MonthSchedule
 from django.middleware.csrf import get_token, rotate_token
 from django.views.decorators.http import require_POST, require_GET
 from django.contrib.auth.decorators import login_required
@@ -18,7 +18,7 @@ from .utils import calculate_price_deviance, calculate_coach_cost, calculate_coa
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.loader import render_to_string
 from django.utils.timezone import now, make_aware
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from django.utils.dateparse import parse_date
 
 
@@ -1139,6 +1139,116 @@ def get_calendar_event(request):
 
     except Exception as e:
         return JsonResponse({"error": "An unexpected error occurred.", "details": str(e)}, status=500)
+
+@require_GET
+@login_required
+def get_coach_availability(request):
+    try:
+        coach_id = request.GET.get("coachId")
+        if not coach_id:
+            return JsonResponse({"error": "Missing 'coachId' parameter"}, status=400)
+
+        coach_availability = CoachAvailability.objects.prefetch_related(
+            "month_schedules__weekly_schedules",
+            "month_schedules__blocked_days"
+        ).filter(coach_id=coach_id).first()
+
+        if not coach_availability:
+            return JsonResponse({"error": "Coach availability not found"}, status=404)
+
+        def serialize_month_schedule(month_schedule):
+            return {
+                "weekly": [
+                    {
+                        "day_of_week": ws.day_of_week,
+                        "start_time": str(ws.start_time),
+                        "end_time": str(ws.end_time),
+                    }
+                    for ws in month_schedule.weekly_schedules.all()
+                ],
+                "blocked_days": [str(bd.date) for bd in month_schedule.blocked_days.all()],
+            }
+
+        data = {
+            "currentMonth": serialize_month_schedule(
+                coach_availability.month_schedules.filter(is_current_month=True).first()
+            ),
+            "nextMonth": serialize_month_schedule(
+                coach_availability.month_schedules.filter(is_current_month=False).first()
+            ),
+        }
+
+        return JsonResponse({"availability": data})
+
+    except Exception as e:
+        return JsonResponse({"error": "An unexpected error occurred", "details": str(e)}, status=500)
+
+@require_POST
+@login_required
+def create_coach_availability(request):
+    try:
+        # Parse the request data
+        data = json.loads(request.body)
+        coach = request.user
+
+        current_month_data = data.get("currentMonth")
+        next_month_data = data.get("nextMonth")
+
+        if not current_month_data or not next_month_data:
+            return JsonResponse({"error": "Missing data for current or next month"}, status=400)
+
+        # Helper function to handle MonthSchedule updates
+        def update_month_schedule(month_data, is_current_month):
+            month = month_data.get("month")
+            if not month:
+                raise ValueError("Month field is required in month data")
+
+            # Get or create the corresponding MonthSchedule
+            month_schedule, created = MonthSchedule.objects.update_or_create(
+                coach_availability=coach.availability or CoachAvailability.objects.create(coach=coach),
+                is_current_month=is_current_month,
+                defaults={"month": month},
+            )
+
+            # Clear existing schedules and blocked days
+            month_schedule.weekly_schedules.all().delete()
+            month_schedule.blocked_days.all().delete()
+
+            # Create weekly schedules
+            weekly_schedules = [
+                WeeklySchedule(
+                    day_of_week=ws["day_of_week"],
+                    start_time=ws["start_time"],
+                    end_time=ws["end_time"],
+                    month_schedule=month_schedule,
+                )
+                for ws in month_data.get("weekly", [])
+            ]
+            WeeklySchedule.objects.bulk_create(weekly_schedules)
+
+            # Create blocked days
+            blocked_days = [
+                BlockedDay(
+                    date=bd,
+                    month_schedule=month_schedule,
+                )
+                for bd in month_data.get("blocked_days", [])
+            ]
+            BlockedDay.objects.bulk_create(blocked_days)
+
+            return month_schedule
+
+        # Wrap updates in a transaction for consistency
+        with transaction.atomic():
+            update_month_schedule(current_month_data, is_current_month=True)
+            update_month_schedule(next_month_data, is_current_month=False)
+
+        return JsonResponse({"message": "Coach availability successfully updated."})
+
+    except ValueError as ve:
+        return JsonResponse({"error": str(ve)}, status=400)
+    except Exception as e:
+        return JsonResponse({"error": "An unexpected error occurred", "details": str(e)}, status=500)
 
 
 # Stripe methods ------------------------------------------------

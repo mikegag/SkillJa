@@ -42,5 +42,7 @@ urlpatterns = [
     path('chat/contact_coach/', views.contact_coach, name='contact_coach'),
     path('chat/send_chat_message/', views.send_chat_message, name='send_chat_message'),
     path('calendar/create_calendar_event/', views.create_calendar_event, name='create_calendar_event'),
-    path('calendar/get_calendar_event/', views.get_calendar_event, name='get_calendar_event')
+    path('calendar/get_calendar_event/', views.get_calendar_event, name='get_calendar_event'),
+    path('calendar/get_coach_availability/', views.get_coach_availability, name='get_coach_availability'),
+    path('calendar/create_coach_availability/', views.create_coach_availability, name='create_coach_availability')
 ]   

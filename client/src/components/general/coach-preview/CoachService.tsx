@@ -170,7 +170,7 @@ export default function CoachService({exitView, data}:ServiceProps){
                         / {data.type.includes('program')? 'Program': 'Session'}
                     </span>
                 </p>
-                <ServiceDateTimePicker csrftoken={csrfToken!} />
+                <ServiceDateTimePicker csrftoken={csrfToken!} coachId={coachId!} />
                 <button 
                     className={`form-btn mt-9 mb-3 py-2 lg:w-72 mx-auto ${coachId ? 'cursor-pointer' : 'bg-main-grey-200 cursor-not-allowed hover:bg-main-grey-200'}`}
                     onClick={(e)=>handleSubmit(e)}

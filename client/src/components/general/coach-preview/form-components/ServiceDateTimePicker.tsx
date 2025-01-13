@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css"
 
 interface Props {
     csrftoken: string;
+    coachId: string;
 }
 
 interface Availability {
@@ -20,7 +21,7 @@ interface Month {
 }
 
 
-export default function ServiceDateTimePicker({ csrftoken }: Props) {
+export default function ServiceDateTimePicker({ csrftoken, coachId }: Props) {
     const [startDate, setStartDate] = useState(new Date())
     const [openPicker, setOpenPicker] = useState<boolean>(false)
     const [CoachAvailability, setCoachAvailability] = useState<Availability | null>(null)
@@ -60,7 +61,7 @@ export default function ServiceDateTimePicker({ csrftoken }: Props) {
 
     // API call to get coach availability
     function getCoachAvailability() {
-        axios.get(`${process.env.REACT_APP_SKILLJA_URL}/calendar/get_coach_availability/`, {
+        axios.get(`${process.env.REACT_APP_SKILLJA_URL}/calendar/get_coach_availability/?coachId=${coachId}`, {
                 headers: {
                     'X-CSRFToken': csrftoken,
                     'Content-Type': 'application/json',
