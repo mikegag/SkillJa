@@ -64,6 +64,44 @@ body {
     @apply relative flex flex-col bg-white rounded-2xl border-t lg:border border-main-black w-11/12 h-fit 
             top-5 lg:top-10 bottom-0 lg:w-6/12 lg:my-auto overflow-scroll py-5;
   }
+  .toggle-btn {
+    margin: 1em 2rem 0 auto;
+  }
+  .checkbox {
+    opacity: 0;
+    position: absolute;
+    z-index: 9991;
+  }
+  .checkbox-label {
+    background-color: var(--main-grey-100);
+    width: 53px;
+    height: 25px;
+    border-radius: 50px;
+    position: relative;
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 9991;
+  }
+  .checkbox-label .ball {
+    background-color: white;
+    width: 22px;
+    height: 20.5px;
+    position: absolute;
+    left: 2px;
+    border-radius: 50%;
+    transition: transform 0.2s linear;
+    cursor: pointer;
+    z-index: 9991;
+  }
+  .checkbox:checked + .checkbox-label .ball {
+    transform: translateX(26.5px);
+  }
+  .checkbox:checked + .checkbox-label {
+    background-color: var(--main-green-400);
+  }
 }
 
 @layer utilities {
@@ -192,20 +230,34 @@ body {
     margin: 0;
   }
   .datepicker {
-    @apply mx-auto left-10;
+    @apply mx-auto left-10 font-kulim;
     left: 70px !important;
   }
   /* Selected day background color */
-  .datepicker .react-datepicker__day--selected{
-    @apply bg-main-green-500 text-white;
+  .datepicker .react-datepicker__day--selected,
+  .react-datepicker__day--selected,
+  .react-datepicker__day--highlighted,
+  .react-datepicker__day--keyboard-selected {
+    @apply bg-main-green-500 text-white font-kulim;
   }
   /* Hover effect for selected day */
-  .datepicker .react-datepicker__day--selected:hover {
-    @apply hover:bg-main-green-700;
+  .datepicker .react-datepicker__day--selected:hover,
+  .react-datepicker__day--selected:hover,
+  .react-datepicker__day--keyboard-selected:hover,
+  .react-datepicker__day--highlighted:hover {
+    @apply hover:bg-main-green-700 text-white font-kulim;
+  }
+  .datepicker .react-datepicker__day--highlighted,
+  .react-datepicker__day--highlighted {
+    @apply bg-white text-black font-kulim;
+  }
+  .react-datepicker h2.react-datepicker__current-month,
+  .react-datepicker__day-name {
+    font-family: 'Kulim Park' !important;
   }
   /* Styling for the time picker inputs (select dropdown or time input) */
   .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected,
   .datepicker .react-datepicker__time-container input {
-    @apply bg-main-green-500 hover:bg-main-green-700;
+    @apply bg-main-green-500 hover:bg-main-green-700 font-kulim;
   }
 }

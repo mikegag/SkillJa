@@ -6,6 +6,7 @@ import EventAccordion from "../../components/general/calendar-preview/EventAccor
 import Footer from "../../components/navigation/Footer"
 import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
+import AvailabilityForm from "../../components/general/calendar-preview/AvailabilityForm"
 
 interface MonthDays {
     month: string;
@@ -28,6 +29,7 @@ export default function Calendar(){
     const [secondMonthSelectedDay, setSecondMonthSelectedDay] = useState<string>(new Date().toDateString().slice(8,10))
     const [displayCurrentMonth, setDisplayCurrentMonth] = useState<boolean>(true)
     const [savedEvents, setSavedEvents] = useState<CalendarEvent[]>()
+    const [displayForm, setDisplayForm] = useState<boolean>(false)
 
     useEffect(()=>{
         document.title = 'SkillJa - Calendar'
@@ -129,17 +131,23 @@ export default function Calendar(){
                         <CalendarDisplay monthDays={nextMonthDays} daySelection={setSecondMonthSelectedDay} monthSelection={setDisplayCurrentMonth} selectedDay={secondMonthSelectedDay} />
                     }
                 </section>
-                <section className="flex flex-col items-start justify-start mx-auto border-t md:border-t-0 w-80 mt-10 md:mt-0 lg:ml-4 lg:mr-auto">
-                    <div className="flex py-2 font-source text-left w-full mb-6">
+                <section className="flex flex-col items-start justify-start mx-auto border-t md:border-t-0 w-80 lg:w-3/12 mt-10 md:mt-0 lg:ml-4 lg:mr-auto">
+                    <div className="flex py-2 font-source text-left w-full mb-6 pt-6 md:pt-0">
                         {displayCurrentMonth ?
-                            <h2 className="ml-0 mr-auto pt-6 md:pt-0 my-auto text-2xl text-left">
+                            <h2 className="ml-0 mr-auto  my-auto text-2xl text-left">
                                 {currentMonthDays.month} {firstMonthSelectedDay}
                             </h2>
                         : 
-                            <h2 className="ml-0 mr-auto pt-6 md:pt-0 my-auto text-2xl text-left">
-                            {nextMonthDays.month} {secondMonthSelectedDay}
+                            <h2 className="ml-0 mr-auto  my-auto text-2xl text-left">
+                                {nextMonthDays.month} {secondMonthSelectedDay}
                             </h2>
                         }
+                        <button 
+                            onClick={()=>setDisplayForm(true)}
+                            className="ml-auto mr-0 form-btn my-auto text-sm px-3.5 rounded-xl py-1.5">
+                            Update Availability
+                        </button>
+                        {displayForm && (<AvailabilityForm csrftoken={csrfToken!} displayForm={setDisplayForm} />)}
                     </div>
                     {savedEvents && savedEvents.length > 0 ?
                         savedEvents.map((event)=>(

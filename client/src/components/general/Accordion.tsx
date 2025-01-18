@@ -8,9 +8,10 @@ type AccordionProps = {
   styles?: string;
   titleStyles?: string;
   childrenStyles?: string;
+  childrenContainerStyles?: string;
 };
 
-export default function Accordion({ title, children, styles, titleStyles, childrenStyles }: AccordionProps) {
+export default function Accordion({ title, children, styles, titleStyles, childrenStyles, childrenContainerStyles }: AccordionProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [answerHeight, setAnswerHeight] = useState<number | undefined>(undefined)
   const answerRef = useRef<HTMLDivElement>(null)
@@ -36,7 +37,7 @@ export default function Accordion({ title, children, styles, titleStyles, childr
         />
       </button>
       <div
-        className={` max-h-40 overflow-scroll transition-height duration-300 rounded-lg ${isOpen ? 'rounded-t-none' : ''}`}
+        className={`${childrenContainerStyles ? childrenContainerStyles : "max-h-40"} overflow-scroll transition-height duration-300 rounded-lg ${isOpen ? 'rounded-t-none' : ''}`}
         style={{ height: isOpen ? answerHeight : 0 }}
       >
         <div ref={answerRef} className={`bg-main-white ${isOpen ? `flex flex-col border-t ${childrenStyles}` : 'hidden'}`}>

@@ -1144,7 +1144,7 @@ def get_calendar_event(request):
 @login_required
 def get_coach_availability(request):
     try:
-        coach_id = request.GET.get("coachId")
+        coach_id = request.user.id
         if not coach_id:
             return JsonResponse({"error": "Missing 'coachId' parameter"}, status=400)
 
@@ -1160,13 +1160,13 @@ def get_coach_availability(request):
             return {
                 "weekly": [
                     {
-                        "day_of_week": ws.day_of_week,
-                        "start_time": str(ws.start_time),
-                        "end_time": str(ws.end_time),
+                        "dayOfWeek": ws.day_of_week,
+                        "startTime": str(ws.start_time),
+                        "endTime": str(ws.end_time),
                     }
                     for ws in month_schedule.weekly_schedules.all()
                 ],
-                "blocked_days": [str(bd.date) for bd in month_schedule.blocked_days.all()],
+                "blockedDays": [str(bd.date) for bd in month_schedule.blocked_days.all()],
             }
 
         data = {
@@ -1217,9 +1217,9 @@ def create_coach_availability(request):
             # Create weekly schedules
             weekly_schedules = [
                 WeeklySchedule(
-                    day_of_week=ws["day_of_week"],
-                    start_time=ws["start_time"],
-                    end_time=ws["end_time"],
+                    day_of_week=ws["dayOfWeek"],
+                    start_time=ws["startTime"],
+                    end_time=ws["endTime"],
                     month_schedule=month_schedule,
                 )
                 for ws in month_data.get("weekly", [])
@@ -1229,7 +1229,7 @@ def create_coach_availability(request):
             # Create blocked days
             blocked_days = [
                 BlockedDay(
-                    date=bd,
+                    date=bd, 
                     month_schedule=month_schedule,
                 )
                 for bd in month_data.get("blocked_days", [])

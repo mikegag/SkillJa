@@ -245,6 +245,7 @@ class Event(models.Model):
         cls.objects.filter(date__lt=one_year_ago).delete()
 
 class BlockedDay(models.Model):
+    # Format YYYY-MM-DD
     date = models.DateField()
     month_schedule = models.ForeignKey("MonthSchedule", on_delete=models.CASCADE, related_name="blocked_days")
 
