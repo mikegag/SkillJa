@@ -12,6 +12,7 @@ urlpatterns = [
     path('verify_captcha/', views.verify_captcha, name='captcha'),
     path('get_user_email/', views.get_user_email, name='get_user_email'),
     path('does_user_exist/', views.does_user_exist, name='does_user_exist'),
+    path('is_user_coach/', views.is_user_coach, name='is_user_coach'),
     path('delete_account/', views.delete_account, name='delete_account'),
     path('search/', views.search, name='search'),
     path('random_profiles/', views.random_profiles, name='random_profiles'),

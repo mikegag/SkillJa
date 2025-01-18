@@ -30,9 +30,24 @@ export default function Calendar(){
     const [displayCurrentMonth, setDisplayCurrentMonth] = useState<boolean>(true)
     const [savedEvents, setSavedEvents] = useState<CalendarEvent[]>()
     const [displayForm, setDisplayForm] = useState<boolean>(false)
+    const [isCoach, setIsCoach] = useState<boolean>(false)
 
     useEffect(()=>{
         document.title = 'SkillJa - Calendar'
+        // API call to check if user is a coach
+        axios.get(`${process.env.REACT_APP_SKILLJA_URL}/is_user_coach/`, { 
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true
+            }) 
+            .then(res => {
+                if(res.status===200){
+                    setIsCoach(res.data.coach)
+                } 
+            })
+            .catch(error => {console.error(error)})
     },[])
 
     // API call to get events for currently selected day
@@ -142,11 +157,13 @@ export default function Calendar(){
                                 {nextMonthDays.month} {secondMonthSelectedDay}
                             </h2>
                         }
-                        <button 
-                            onClick={()=>setDisplayForm(true)}
-                            className="ml-auto mr-0 form-btn my-auto text-sm px-3.5 rounded-xl py-1.5">
-                            Update Availability
-                        </button>
+                        {isCoach && (
+                            <button 
+                                onClick={()=>setDisplayForm(true)}
+                                className="ml-auto mr-0 form-btn my-auto text-sm px-3.5 rounded-xl py-1.5">
+                                Update Availability
+                            </button>
+                        )}
                         {displayForm && (<AvailabilityForm csrftoken={csrfToken!} displayForm={setDisplayForm} />)}
                     </div>
                     {savedEvents && savedEvents.length > 0 ?

@@ -58,6 +58,7 @@ def user_login(request):
         return JsonResponse({"error": "An unexpected error occurred"}, status=500)
  
 @require_POST
+@login_required
 def user_logout(request):
     if request.method == 'POST':
         logout(request)
@@ -182,7 +183,6 @@ def verify_captcha(request):
         return JsonResponse({"success": False, "error": str(e)}, status=500)
 
 @require_GET
-@csrf_exempt
 def get_user_email(request):
     email = request.COOKIES.get('user_email', 'No email found')
     return JsonResponse({'user_email': email})
@@ -207,6 +207,17 @@ def does_user_exist(request):
     except Exception as e:
         return JsonResponse({"error": "An unexpected error occurred."}, status=500)
 
+@require_GET
+@login_required
+def is_user_coach(request):
+    try:
+        coach = request.user
+        if not coach:
+            return JsonResponse({"error": "User was not found"}, status=400)
+        return JsonResponse({"coach": coach.iscoach})
+    except Exception as e:
+        return JsonResponse({"error": "An unexpected error occurred. Please try again later."}, status=500)
+    
 
 # Settings methods ----------------------------------------------
 @require_POST
@@ -1146,7 +1157,7 @@ def get_coach_availability(request):
     try:
         coach_id = request.user.id
         if not coach_id:
-            return JsonResponse({"error": "Missing 'coachId' parameter"}, status=400)
+            return JsonResponse({"error": "Coach account was not found"}, status=400)
 
         coach_availability = CoachAvailability.objects.prefetch_related(
             "month_schedules__weekly_schedules",
@@ -1154,7 +1165,7 @@ def get_coach_availability(request):
         ).filter(coach_id=coach_id).first()
 
         if not coach_availability:
-            return JsonResponse({"error": "Coach availability not found"}, status=404)
+            return JsonResponse({"error": "Coach availability not found"}, status=204)
 
         def serialize_month_schedule(month_schedule):
             return {
@@ -1199,15 +1210,23 @@ def create_coach_availability(request):
 
         # Helper function to handle MonthSchedule updates
         def update_month_schedule(month_data, is_current_month):
-            month = month_data.get("month")
-            if not month:
-                raise ValueError("Month field is required in month data")
+            today = date.today()
+            if is_current_month:
+                year, month = today.year, today.month
+            else:
+                if today.month == 12:
+                    year, month = today.year + 1, 1
+                else:
+                    year, month = today.year, today.month + 1
+
+            formatted_month = f"{year}-{month:02d}"  # Format as 'yyyy-mm'
 
             # Get or create the corresponding MonthSchedule
+            coach_availability, _ = CoachAvailability.objects.get_or_create(coach=coach)
             month_schedule, created = MonthSchedule.objects.update_or_create(
-                coach_availability=coach.availability or CoachAvailability.objects.create(coach=coach),
+                coach_availability=coach_availability,
                 is_current_month=is_current_month,
-                defaults={"month": month},
+                defaults={"month": formatted_month},
             )
 
             # Clear existing schedules and blocked days
@@ -1225,14 +1244,13 @@ def create_coach_availability(request):
                 for ws in month_data.get("weekly", [])
             ]
             WeeklySchedule.objects.bulk_create(weekly_schedules)
-
             # Create blocked days
             blocked_days = [
                 BlockedDay(
                     date=bd, 
                     month_schedule=month_schedule,
                 )
-                for bd in month_data.get("blocked_days", [])
+                for bd in month_data.get("blockedDays", [])
             ]
             BlockedDay.objects.bulk_create(blocked_days)
 
@@ -1246,7 +1264,9 @@ def create_coach_availability(request):
         return JsonResponse({"message": "Coach availability successfully updated."})
 
     except ValueError as ve:
-        return JsonResponse({"error": str(ve)}, status=400)
+        return JsonResponse({"error": f"Invalid input: {str(ve)}"}, status=400)
+    except KeyError as ke:
+        return JsonResponse({"error": f"Missing required data: {str(ke)}"}, status=400)
     except Exception as e:
         return JsonResponse({"error": "An unexpected error occurred", "details": str(e)}, status=500)
 
@@ -1338,6 +1358,7 @@ def create_stripe_checkout(request):
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
 
+@login_required
 def stripe_webhook(request):
     stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
     endpoint_key = os.getenv('STRIPE_ENDPOINT_KEY')
@@ -1409,7 +1430,6 @@ def new_user_confirmation_email(request):
             return JsonResponse({'error': str(e)}, status=500)
 
 @require_POST
-#@csrf_exempt
 def confirm_email(request):
     token = request.data.get("token")
     try:

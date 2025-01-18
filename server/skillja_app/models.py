@@ -268,7 +268,8 @@ class WeeklySchedule(models.Model):
 
 class MonthSchedule(models.Model):
     coach_availability = models.ForeignKey("CoachAvailability", on_delete=models.CASCADE, related_name="month_schedules")
-    month = models.DateField()  # Use the first day of the month as a reference point
+    # Format: YYYY-MM
+    month = models.CharField(max_length=7)
     is_current_month = models.BooleanField()
 
     def __str__(self):
