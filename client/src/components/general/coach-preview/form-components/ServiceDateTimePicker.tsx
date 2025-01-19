@@ -8,18 +8,21 @@ interface Props {
     coachId: string;
 }
 
+interface Week {
+    dayOfWeek: number;
+    startTime: string; 
+    endTime: string;
+}
 interface Availability {
-    currentMonth: Month;
-    nextMonth: Month;
+    currentMonth: {
+        weekly: Week[],
+        blockedDays: string[]
+    };
+    nextMonth: {
+        weekly: Week[],
+        blockedDays: string[]
+    };
 }
-
-interface Month {
-    // [day of week index 1-7]: [startHour, startMinute, endHour, endMinute]
-    weekly: { [day:number]: [number, number, number, number] };
-    // e.g., [1, 15, 20] (specific dates in the month)
-    blockedDays: number[];
-}
-
 
 export default function ServiceDateTimePicker({ csrftoken, coachId }: Props) {
     const [startDate, setStartDate] = useState(new Date())
@@ -40,20 +43,21 @@ export default function ServiceDateTimePicker({ csrftoken, coachId }: Props) {
          // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
         const dayOfWeek = date.getDay()
         // Adjust Sunday to 7 for API alignment
-        const dayKey = dayOfWeek === 0 ? 7 : dayOfWeek
+        const dayKey = dayOfWeek === 0 ? 6 : dayOfWeek - 1
         const daySchedule = availability.weekly[dayKey] || null
 
         if (!daySchedule) return {}
 
-        const [startHour, startMinute, endHour, endMinute] = daySchedule
+        const [startHour, startMinute] = daySchedule.startTime.split(':').map(Number);
+        const [endHour, endMinute] = daySchedule.endTime.split(':').map(Number);
 
-        const minTime = new Date()
-        minTime.setHours(startHour, startMinute, 0, 0)
+        const minTime = new Date();
+        minTime.setHours(startHour, startMinute, 0);
 
-        const maxTime = new Date()
-        maxTime.setHours(endHour, endMinute, 0, 0)
+        const maxTime = new Date();
+        maxTime.setHours(endHour, endMinute, 0);
 
-        return { minTime, maxTime }
+        return { minTime, maxTime };
     }
 
     // Determine time range based on the selected date
@@ -88,19 +92,18 @@ export default function ServiceDateTimePicker({ csrftoken, coachId }: Props) {
                     dateFormat="Pp"
                     popperClassName="datepicker"
                     className="border mx-auto text-center w-56 border-main-grey-100 rounded-2xl p-2 focus:ring-0 outline-main-green-500"
-                    minDate={today} // Restrict dates to today and onwards
-                    maxDate={twoMonthsFromNow} // Restrict dates to two months from today
-                    minTime={minTime} // Set dynamic min time
-                    maxTime={maxTime} // Set dynamic max time
+                    minDate={today}
+                    maxDate={twoMonthsFromNow}
+                    minTime={minTime}
+                    maxTime={maxTime}
                     filterDate={(date) => {
                         if (!CoachAvailability) return true;
                         // Determine if the date is in the current or next month
                         const isCurrentMonth = date.getMonth() === today.getMonth();
                         const availability = isCurrentMonth ? CoachAvailability.currentMonth : CoachAvailability.nextMonth;
-                        const dayOfMonth = date.getDate();
-                        const isBlockedDay = availability.blockedDays.includes(dayOfMonth);
+                        const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
                         // Disable blocked days only
-                        return !isBlockedDay;
+                        return !availability.blockedDays.includes(formattedDate);
                     }}
                 />
             ) : (

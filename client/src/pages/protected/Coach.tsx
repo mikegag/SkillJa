@@ -93,7 +93,7 @@ export default function Coach(){
 
     // API call to get coach details and user email
     useEffect(()=>{
-        document.title = "SkillJa - Coach Profile"
+        document.title = `SkillJa - ${profileDetails.fullname}'s Profile`
         axios.get(`${process.env.REACT_APP_SKILLJA_URL}/auth/coach?coach_id=${queryParameters.get("coach_id")}`, { 
             headers: {
                 'X-CSRFToken': csrfToken,

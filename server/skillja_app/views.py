@@ -1155,9 +1155,11 @@ def get_calendar_event(request):
 @login_required
 def get_coach_availability(request):
     try:
-        coach_id = request.user.id
+        coach_id = request.GET.get('coachId') or getattr(request.user, 'id', None)
+
         if not coach_id:
-            return JsonResponse({"error": "Coach account was not found"}, status=400)
+            return JsonResponse({"error": "Coach Id was not provided or user account is invalid."}, status=400)
+
 
         coach_availability = CoachAvailability.objects.prefetch_related(
             "month_schedules__weekly_schedules",
