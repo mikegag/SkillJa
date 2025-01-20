@@ -1348,8 +1348,7 @@ def create_stripe_checkout(request):
                         },
                     },
                     'quantity': 1
-                }
-                ]
+                }]
             )
             return JsonResponse({'checkout_url': checkout_session.url, 'checkout_session_id': checkout_session.id}, status=200)
         

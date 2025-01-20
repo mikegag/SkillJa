@@ -54,8 +54,8 @@ export default function Header({ useCase: initialUseCase, url}: HeaderProps) {
                 <div className="w-full flex items-center px-4 pt-6 pb-4 mb-8 lg:px-10">
                     <Link to="/" className="mr-auto ml-0 my-auto">
                         <img
-                            src={require("../../assets/skillja-logo.png")}
-                            className="w-12 lg:w-16"
+                            src={require("../../assets/new-skillja-logo.png")}
+                            className="w-16 lg:w-24"
                             alt="SkillJa logo"
                         />
                     </Link>

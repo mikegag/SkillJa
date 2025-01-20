@@ -23,17 +23,23 @@ export default function Footer(){
             transition={{ duration: 0.9 }}
         >
             <div className="flex flex-wrap text-center text-main-green-900 justify-center items-center w-fit">
-                <h4 className="my-auto mx-auto lg:mr-8 font-source font-medium text-2xl pb-3">SkillJa.</h4>
+                <Link to="/" className="mx-0 my-auto lg:mr-8 font-source font-medium text-2xl pr-1 pb-3.5 lg:pb-1">
+                    <img
+                        src={require("../../assets/new-skillja-logo.png")}
+                        className="w-14 lg:w-16"
+                        alt="SkillJa logo"
+                    />
+                </Link>
                 {footerData.subSections.map((section,index)=>(
                     <Link 
                         to={footerData.links[index]} 
                         key={index}
-                        className="my-auto mx-auto md:mx-6 font-semibold font-kulim px-2 lg:px-0 pb-3 hover:text-main-green-500 cursor-pointer"
+                        className="my-auto ml-auto mr-0 md:mx-6 font-semibold font-kulim pl-3 lg:px-0 pb-3 lg:pb-0 hover:text-main-green-500 cursor-pointer"
                     >
                         <p>{section}</p>
                     </Link>
                 ))}
-                <div className="flex mx-auto lg:ml-7 my-auto pb-2">
+                <div className="flex mx-auto lg:ml-7 my-auto pb-2 lg:pb-0">
                     <img 
                         src={require('../../assets/icons/instagram-icon.png')}
                         className="w-7 h-7 text-main-green-900 mx-1 cursor-pointer"
