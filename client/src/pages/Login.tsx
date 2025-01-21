@@ -33,7 +33,8 @@ export default function Login() {
   }, [])
 
   // Function to handle form submission
-  function onSubmit(data:FormStructure)  {
+  function onSubmit(data:FormStructure){
+    setLoading(true)
     axios
       .post(`${process.env.REACT_APP_SKILLJA_URL}/login/`, data, {
         headers: {
@@ -45,7 +46,6 @@ export default function Login() {
       .then((res) => {
         if (res.status === 200) {
           // Simulate loading process
-          setLoading(true)
           const timer = setTimeout(() => {
             setLoading(false)
             navigate("/home-feed")
@@ -136,6 +136,7 @@ export default function Login() {
                 className="w-full form-btn mx-auto"
                 type="submit"
                 aria-label="login form submission"
+                disabled={loading ? true: false}
               >
                 Login
               </button>
