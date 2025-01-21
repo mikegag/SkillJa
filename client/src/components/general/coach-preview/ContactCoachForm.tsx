@@ -109,7 +109,7 @@ export default function ContactCoachForm({coachId, csrftoken}:Props){
                 </div>
             :
                 <button 
-                    className="form-btn py-2 px-8 my-4"
+                    className="form-btn py-2 px-5 my-4 rounded-xl font-medium text-base"
                     onClick={()=>setOpenForm(true)}
                 >
                     Contact

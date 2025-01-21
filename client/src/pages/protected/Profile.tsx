@@ -148,7 +148,7 @@ export default function Profile(){
             {!profileDetails.profile.picture && (
                 <Header useCase="onboarding" /> 
             )}
-            <div className="pb-4 px-8 lg:px-14 lg:mb-32">
+            <div className="pb-4 px-8 lg:px-14 lg:mb-32"> 
             {profileDetails.isathlete && readyToDisplayProfileForm? <EditAthleteProfileForm displayForm={setReadyToDisplayProfileForm} prevSavedData={profileDetails} />:<></>}
             {profileDetails.iscoach && readyToDisplayProfileForm? <EditCoachProfileForm displayForm={setReadyToDisplayProfileForm} prevSavedData={profileDetails}/>:<></>}
             {profileDetails.iscoach && readyToDisplayServicesForm? <EditCoachServiceForm displayForm={setReadyToDisplayServicesForm}/>:<></>}
@@ -194,23 +194,21 @@ export default function Profile(){
                                 >
                                     Edit Profile
                                 </button>
-                                {profileDetails.iscoach? 
-                                <div className="flex flex-col justify-center items-center">
-                                    <button 
-                                        className="py-2 px-4 mt-3 mb-3 w-full lg:w-fit bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
-                                        onClick={()=>setReadyToDisplayServicesForm(true)}
-                                    >
-                                        Edit Services
-                                    </button>
-                                    <SocialMediaIcons 
-                                        instagram={profileDetails.profile.instagram!}
-                                        facebook={profileDetails.profile.facebook!}
-                                        twitter={profileDetails.profile.twitter!}
-                                        tiktok={profileDetails.profile.tiktok!}
-                                    />
-                                </div>
-                                :
-                                <></>
+                                {profileDetails.iscoach &&
+                                    <div className="flex flex-col justify-center items-center">
+                                        <button 
+                                            className="py-2 px-4 mt-3 mb-3 w-full lg:w-fit bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
+                                            onClick={()=>setReadyToDisplayServicesForm(true)}
+                                        >
+                                            Edit Services
+                                        </button>
+                                        <SocialMediaIcons 
+                                            instagram={profileDetails.profile.instagram!}
+                                            facebook={profileDetails.profile.facebook!}
+                                            twitter={profileDetails.profile.twitter!}
+                                            tiktok={profileDetails.profile.tiktok!}
+                                        />
+                                    </div>
                                 }
                             </div>
                         :

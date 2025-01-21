@@ -160,12 +160,12 @@ export default function Coach(){
                         onClick={()=>navigate(-1)} 
                         className="text-2xl my-auto mr-auto ml-0 hover:text-main-green-500 cursor-pointer" 
                     />
-                    <h1 className="font-source text-center text-3xl pr-4 lg:pr-1 my-auto mr-auto text-main-green-900">
+                    <h1 className="font-source text-center text-3xl pr-4 my-auto mr-auto text-main-green-900">
                         Profile
                     </h1>
                 </div>
-                <section className="flex flex-col justify-center items-center border-b-2 mt-8 lg:mt-20 border-main-grey-300 lg:pb-4 lg:px-16">
-                    <div className="flex flex-col justify-center items-center lg:flex-row lg:justify-center lg:items-center lg:w-full">
+                <section className="flex flex-col justify-center items-center border-b-2 mt-8 lg:mt-14 border-main-grey-300 lg:pb-4 ">
+                    <div className="flex flex-col justify-center items-center lg:flex-row lg:justify-center lg:items-center ">
                         {!profileDetails.userId && (
                             <img src={require('../../assets/default-avatar.jpg')} className="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-16 lg:ml-0" />
                         )}
@@ -173,7 +173,7 @@ export default function Coach(){
                             <RetrieveImage id={profileDetails.userId!} styling="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-16 lg:ml-0" />
                         )}
                         <div className="flex flex-col justify-center items-center font-kulim text-main-green-900 my-auto">
-                            <h2 className="text-3xl font-medium font-source mt-3 lg:mt-0 mx-auto lg:ml-0">
+                            <h2 className="text-2xl font-medium font-source mt-3 lg:mt-0 mx-auto lg:ml-0">
                                 {profileDetails?.fullname} 
                             </h2>
                             <h3 className="text-lg my-1 mx-auto font-medium font-source text-main-grey-300 lg:ml-0">
@@ -191,7 +191,7 @@ export default function Coach(){
                                 {profileDetails.profile?.primarySport || "No Primary Sport"}
                             </h3> 
                         </div>
-                        <div className="flex flex-col justify-center items-center my-2 lg:mr-0 lg:ml-auto">
+                        <div className="flex flex-col justify-center items-center my-2 md:w-96 lg:pl-16">
                             <ContactCoachForm csrftoken={csrfToken!} coachId={queryParameters.get("coach_id")!}/>
                             <SocialMediaIcons 
                                 instagram={profileDetails.profile?.socialMedia.instagram}

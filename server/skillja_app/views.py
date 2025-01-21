@@ -1318,6 +1318,8 @@ def create_stripe_checkout(request):
             body = json.loads(request.body)
             service_id = body.get('serviceId')
             coach_id = body.get('coachId')
+            # Retrieve desired service date and time if passed. Only passed from 'individual-session' services
+            date_time = body.get('dateTime', None)
 
             # Validate the input
             if not service_id:
@@ -1332,9 +1334,14 @@ def create_stripe_checkout(request):
             service = coach_profile.services.get(id=service_id)
             if not service:
                 return JsonResponse({'error': 'Service not found for this coach'}, status=404)
+            
+            # set url parameters for success url if user successfully checkouts
+            url_parameter = f'&coach_id={coach_id}'
+            if date_time:
+                url_parameter = f'&coach_id={coach_id}&date_time={date_time}'
 
             checkout_session = stripe.checkout.Session.create(
-                success_url='http://localhost:3000/order-success?session_id=${CHECKOUT_SESSION_ID}' + f'&coach_id={coach_id}',
+                success_url='http://localhost:3000/order-success?session_id=${CHECKOUT_SESSION_ID}' + url_parameter,
                 cancel_url='https://www.skillja.ca/order-cancelled',
                 payment_method_types=['card'],
                 mode='payment',

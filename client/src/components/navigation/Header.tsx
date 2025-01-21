@@ -51,32 +51,32 @@ export default function Header({ useCase: initialUseCase, url}: HeaderProps) {
     return (
         <>
             {useCase && useCase === "default" ? (
-                <div className="w-full flex items-center px-4 pt-6 pb-4 mb-8 lg:px-10">
+                <div className="w-full flex items-center px-4 pt-6 pb-4 mb-8 lg:px-14">
                     <Link to="/" className="mr-auto ml-0 my-auto">
                         <img
                             src={require("../../assets/new-skillja-logo.png")}
-                            className="w-16 lg:w-24"
+                            className="w-16 lg:w-20"
                             alt="SkillJa logo"
                         />
                     </Link>
                     <HamburgerMenu useCase="public" />
                 </div>
             ) : useCase && useCase === "protected" ? (
-                <div className="w-full flex items-center px-4 pt-6 pb-4 mb-8 lg:px-10">
+                <div className="w-full flex items-center px-4 pt-6 pb-4 mb-8 lg:px-14">
                     <Link to="/home-feed" className="mr-auto ml-0 my-auto">
                         <img
-                            src={require("../../assets/skillja-logo.png")}
-                            className="w-12 lg:w-16"
+                            src={require("../../assets/new-skillja-logo.png")}
+                            className="w-16 lg:w-20"
                             alt="SkillJa logo"
                         />
                     </Link>
                     <HamburgerMenu useCase="authorized" url={url} />
                 </div>
             ) : (
-                <div className="w-full flex items-center px-4 pt-6 pb-4 mb-8 lg:px-10">
+                <div className="w-full flex items-center px-4 pt-6 pb-4 mb-8 lg:px-14">
                     <img
-                        src={require("../../assets/skillja-logo.png")}
-                        className="w-12 mr-auto cursor-not-allowed ml-0 my-auto lg:w-16"
+                        src={require("../../assets/new-skillja-logo.png")}
+                        className="w-16 mr-auto cursor-not-allowed ml-0 my-auto lg:w-16"
                         alt="SkillJa logo"
                     />
                 </div>
