@@ -115,8 +115,17 @@ export default function ChatBox({displayChatBox, userId, sender, messages, chatI
                                         ? "bg-main-green-500 text-main-white ml-auto"
                                         : "bg-main-grey-100 text-black mr-auto"
                                 }`}
-                            >
-                                <p className="font-kulim text-center mx-auto">{msg.content}</p>
+                            >   
+                                {msg.content.includes('\n') ? (
+                                    msg.content.split("\n").map((line, index) => (
+                                        <React.Fragment key={index}>
+                                            {line}
+                                            <br />
+                                        </React.Fragment>
+                                    ))
+                                ) : (
+                                    <p className="font-kulim text-center mx-auto">{msg.content}</p>
+                                )}                             
                             </div>
                             {/* Invisible div to scroll to the bottom */}
                             {chatMessages.length === index+1 && (<div ref={chatEndRef} />)}

@@ -1085,12 +1085,12 @@ def create_transaction_notification(request):
         Message.objects.create(
             chat=chat,
             sender=sender,
-            content=(
-                f"Transaction ID: {session_id} \n"
-                f"Details: {sender.fullname} has purchased the {service.title} service. \n"
-                f"Deliverable: {service.deliverable} \n"
-                f"Coach {coach.fullname} will provide further details about your purchase."
-            ),
+            content="\n".join([
+                f"Transaction ID: {session_id}",
+                f"\n Details: {sender.fullname} has purchased the {service.title} service.",
+                f"\n Deliverable: {service.deliverable if service.deliverable else 'N/A'}",
+                f"\n Coach {coach.fullname} will provide further details about your purchase."
+            ]),
         )
 
         # Schedule an event if a date_time value is provided (indicating a meeting is requested)
