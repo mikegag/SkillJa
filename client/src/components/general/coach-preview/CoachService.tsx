@@ -29,6 +29,7 @@ interface Checkout {
     serviceId: number;
     publicKey: string;
     coachId: string;
+    dateTime?: string;
 }
 
 export default function CoachService({exitView, data}:ServiceProps){
@@ -39,6 +40,8 @@ export default function CoachService({exitView, data}:ServiceProps){
     const queryParams = new URLSearchParams(location.search)
     // Retrieve coachId param for API request
     const coachId = queryParams.get("coach_id")
+    // Date and Time data if a user selects an individual session
+    const [dateTime, setDateTime] = useState<string>()
 
     // callback function to let parent know user wants to exit focus view
     function handleExit(value:boolean){
@@ -75,7 +78,8 @@ export default function CoachService({exitView, data}:ServiceProps){
                 const dataToSend: Checkout = {
                     serviceId: data.id!,
                     publicKey: res.data.publicKey, 
-                    coachId: coachId!
+                    coachId: coachId!,
+                    dateTime: dateTime
                 }
                 // initialize Stripe object
                 const stripePromise = loadStripe(res.data.publicKey)
@@ -100,6 +104,7 @@ export default function CoachService({exitView, data}:ServiceProps){
                                     console.error("Stripe checkout error:", result.error.message)
                                 }
                                 else {
+                                    // Redirect user to success or cancelled page, deemed by stripe
                                     window.location.href = res.data.checkout_session_url
                                 }
                             })
@@ -170,7 +175,9 @@ export default function CoachService({exitView, data}:ServiceProps){
                         / {data.type.includes('program')? 'Program': 'Session'}
                     </span>
                 </p>
-                <ServiceDateTimePicker csrftoken={csrfToken!} coachId={coachId!} />
+                {data.type==='individual-session' && 
+                    <ServiceDateTimePicker csrftoken={csrfToken!} coachId={coachId!} dateTime={setDateTime}/>
+                }
                 <button 
                     className={`form-btn mt-9 mb-3 py-2 lg:w-72 mx-auto ${coachId ? 'cursor-pointer' : 'bg-main-grey-200 cursor-not-allowed hover:bg-main-grey-200'}`}
                     onClick={(e)=>handleSubmit(e)}

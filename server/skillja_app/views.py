@@ -18,7 +18,7 @@ from .utils import calculate_price_deviance, calculate_coach_cost, calculate_coa
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.loader import render_to_string
 from django.utils.timezone import now, make_aware
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta, date, timezone
 from django.utils.dateparse import parse_date
 
 
@@ -1040,7 +1040,84 @@ def send_chat_message(request):
 
     except Exception as e:
         return JsonResponse({"error": "An unexpected error occurred", "details": str(e)}, status=500)
-    
+   
+@require_POST
+@login_required
+def create_transaction_notification(request):
+    try:
+        sender = request.user
+        data = json.loads(request.body)
+        service_id = data.get('serviceId')
+        date_time = data.get('dateTime')
+        session_id = data.get('sessionId')
+
+        if not service_id:
+            return JsonResponse({"error": "serviceId parameter was not passed"}, status=400)
+        if not date_time:
+            return JsonResponse({"error": "dateTime parameter was not passed"}, status=400)
+        if not session_id:
+            return JsonResponse({"error": "sessionId parameter was not passed"}, status=400)
+
+        try:
+            service = Service.objects.get(id=service_id)
+        except Service.DoesNotExist:
+            return JsonResponse({"error": "Service not found"}, status=404)
+
+        # Access Coach profile through Service relationship
+        coach_profile = service.coach_profile
+        try:
+            coach = User.objects.get(id=coach_profile.user.id)
+        except User.DoesNotExist:
+            return JsonResponse({"error": "Coach not found"}, status=404)
+
+        # Get or create chat between athlete and coach
+        chat = Chat.objects.filter(
+            Q(user1=sender, user2=coach) | Q(user1=coach, user2=sender)
+        ).first()
+
+        if not chat:
+            chat = Chat.objects.create(user1=sender, user2=coach)
+            created = True
+        else:
+            created = False
+
+        # Create the new message
+        Message.objects.create(
+            chat=chat,
+            sender=sender,
+            content=(
+                f"Transaction ID: {session_id} \n"
+                f"Details: {sender.fullname} has purchased the {service.title} service. \n"
+                f"Deliverable: {service.deliverable} \n"
+                f"Coach {coach.fullname} will provide further details about your purchase."
+            ),
+        )
+
+        # Schedule an event if a date_time value is provided (indicating a meeting is requested)
+        if date_time:
+            try:
+                parsed_date_time = datetime.strptime(date_time, "%Y-%m-%d-%H-%M")
+                # Make the datetime aware
+                aware_date_time = timezone.make_aware(parsed_date_time)
+                new_event = Event.objects.create(
+                    date=aware_date_time,
+                    title=f"{service.title} between Coach: {coach.fullname} & Athlete {sender.fullname}",
+                    description=service.description,
+                    location=service.location,
+                )
+                # Add participants
+                new_event.participants.add(coach, sender) 
+            except ValueError:
+                return JsonResponse({"error": "Invalid dateTime format. Use 'YYYY-MM-DD HH:MM:SS'."}, status=400)
+
+        return JsonResponse({"success": "Message sent!"}, status=201)
+
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Invalid JSON in request body"}, status=400)
+
+    except Exception as e:
+        return JsonResponse({"error": "An unexpected error occurred", "details": str(e)}, status=500)
+
 
 # Calendar methods ----------------------------------------------
 @require_POST
@@ -1336,9 +1413,9 @@ def create_stripe_checkout(request):
                 return JsonResponse({'error': 'Service not found for this coach'}, status=404)
             
             # set url parameters for success url if user successfully checkouts
-            url_parameter = f'&coach_id={coach_id}'
+            url_parameter = f'&coach_id={coach_id}&service_id={service_id}'
             if date_time:
-                url_parameter = f'&coach_id={coach_id}&date_time={date_time}'
+                url_parameter = f'&coach_id={coach_id}&service_id={service_id}&date_time={date_time}'
 
             checkout_session = stripe.checkout.Session.create(
                 success_url='http://localhost:3000/order-success?session_id=${CHECKOUT_SESSION_ID}' + url_parameter,
@@ -1497,6 +1574,82 @@ def contact_us_email(request):
 
     except Exception as e:
         return JsonResponse({"Error": "An unexpected error occurred."}, status=500)
+
+@require_POST
+@login_required
+def order_confirmation_email(request):
+    try:
+        stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
+        data = json.loads(request.body)
+        recipient = request.user.email
+        coach_id = data.get('coachId')
+        service_id = data.get('serviceId')
+        stripe_session_id = data.get('sessionId')
+        date_time = data.get('dateTime')
+
+        if not recipient:
+            return JsonResponse({"error":"No email found for user"},status=400)
+
+        # Get coach full name and service details for email template
+        coach = User.objects.get(id=coach_id)
+        if not coach:
+            return JsonResponse({"error":"No user found with related coachId"},status=400)
+        
+        service = Service.objects.get(id=service_id)
+        if not service:
+            return JsonResponse({"error":"No service found with related serviceId"},status=400)
+        
+        # Verify Stripe session
+        if not stripe_session_id:
+            return JsonResponse({"error": "Stripe session ID is missing"}, status=400)
+        
+        # Retrieve the session from Stripe API
+        try: 
+            # Remove unwanted characters if present
+            stripe_session_id = stripe_session_id.lstrip("$")
+            session = stripe.checkout.Session.retrieve(stripe_session_id)
+        except stripe.error.StripeError as e:
+            return JsonResponse({"error": f"Stripe verification failed: {str(e)}"}, status=400)
+        
+        current_date = datetime.now()
+         # Parse the input string into a datetime object
+        try:
+            parsed_datetime = datetime.strptime(date_time, "%Y-%m-%d-%H-%M")
+        except ValueError:
+            return JsonResponse({"error": "Invalid dateTime format. Expected 'yyyy-mm-dd-hh-mm'."}, status=400)
+
+        # Format it to: yyyy-mm-dd (time)am/pm
+        formatted_date_time = parsed_datetime.strftime("%Y-%m-%d (%I:%M %p)")
+        # Render the HTML email template
+        html_content = render_to_string("email/order_confirmation_email.html", 
+            {"coach": coach, 
+            "service":service, 
+            "dateTime": formatted_date_time,
+            "current_date":f'{current_date.year}-{current_date.month}-{current_date.day}'}
+        )
+
+        # Mailgun API credentials
+        api_key = os.getenv("MAILGUN_API_KEY")
+        domain = os.getenv("MAILGUN_DOMAIN")
+
+        # Mailgun API request
+        response = requests.post(
+            f"https://api.mailgun.net/v3/{domain}/messages",
+            auth=("api", api_key),
+            data={
+                "from": f"SkillJa <mailgun@{domain}>",
+                "to": 'contact@m-gagliardi.com',
+                "subject": "Order Confirmation - SkillJa",
+                "html": html_content, 
+            },
+        )
+        if response.status_code == 200:
+            return JsonResponse({"message": "Email sent successfully!"}, status=200)
+        else:
+            return JsonResponse({"error": "Failed to send email", "details": response.text}, status=500)
+
+    except Exception as e:
+        return JsonResponse({"Error": "An unexpected error occurred.","details": str(e)}, status=500)
 
 
 # Image and Cloudinary methods ----------------------------------

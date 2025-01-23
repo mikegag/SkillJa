@@ -64,7 +64,7 @@ export default function ContactCoachForm({coachId, csrftoken}:Props){
                     <form onSubmit={handleSubmit(handleMessage)} className="pop-up-container h-2/5 py-4 px-6">
                         <FontAwesomeIcon 
                             icon={faX} 
-                            className="text-xl mt-4 mb-8 ml-auto mr-0 hover:text-main-green-500 cursor-pointer" 
+                            className="text-xl mt-4 mb-8 ml-0 mr-auto hover:text-main-green-500 cursor-pointer" 
                             onClick={()=>{setOpenForm(false)}}
                             aria-label="close contact coach form"
                         />

@@ -1,11 +1,12 @@
 import axios from "axios"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 
 interface Props {
     csrftoken: string;
     coachId: string;
+    dateTime: (vals:string)=>void;
 }
 
 interface Week {
@@ -24,7 +25,7 @@ interface Availability {
     };
 }
 
-export default function ServiceDateTimePicker({ csrftoken, coachId }: Props) {
+export default function ServiceDateTimePicker({ csrftoken, coachId, dateTime }: Props) {
     const [startDate, setStartDate] = useState(new Date())
     const [openPicker, setOpenPicker] = useState<boolean>(false)
     const [CoachAvailability, setCoachAvailability] = useState<Availability | null>(null)
@@ -59,6 +60,20 @@ export default function ServiceDateTimePicker({ csrftoken, coachId }: Props) {
 
         return { minTime, maxTime };
     }
+
+    useEffect(() => {
+        if (startDate) {
+            const year = startDate.getFullYear();
+            const month = String(startDate.getMonth() + 1).padStart(2, '0');
+            const day = String(startDate.getDate()).padStart(2, '0');
+            const hours = String(startDate.getHours()).padStart(2, '0');
+            const minutes = String(startDate.getMinutes()).padStart(2, '0');
+    
+            const formattedDateTime = `${year}-${month}-${day}-${hours}-${minutes}`;
+            dateTime(formattedDateTime)
+        }
+    }, [startDate]);
+    
 
     // Determine time range based on the selected date
     const { minTime, maxTime } = getMinMaxTime(startDate)

@@ -234,7 +234,7 @@ class Event(models.Model):
     participants = models.ManyToManyField(User, related_name='events')
 
     def __str__(self):
-        return f"{self.title} on {self.date.strftime('%Y-%m-%d')}"
+        return f"{self.title} on {self.date.strftime('%Y-%m-%d-%H-%M')}"
 
     @classmethod
     def delete_old_events(cls):

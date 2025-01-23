@@ -93,7 +93,6 @@ export default function Coach(){
 
     // API call to get coach details and user email
     useEffect(()=>{
-        document.title = `SkillJa - ${profileDetails.fullname}'s Profile`
         axios.get(`${process.env.REACT_APP_SKILLJA_URL}/auth/coach?coach_id=${queryParameters.get("coach_id")}`, { 
             headers: {
                 'X-CSRFToken': csrfToken,
@@ -127,21 +126,10 @@ export default function Coach(){
             .catch(error => {console.error(error)})
     },[])
 
-    // API call to contact coach
-    function handleMessage(e:React.FormEvent){
-        e.preventDefault()
-        axios.post(`${process.env.REACT_APP_SKILLJA_URL}/chat/contact_coach/`, {coach_id: queryParameters.get("coach_id")}, { 
-            headers: {
-                'X-CSRFToken': csrfToken,
-                'Content-Type': 'application/json'
-            },
-            withCredentials: true
-            }) 
-            .then(res => {
-                
-            })
-            .catch(error => {console.error(error)})
-    }
+    // Update document title with Coach Profile name
+    useEffect(()=>{
+        document.title = `SkillJa - ${profileDetails.fullname}'s Profile`
+    },[profileDetails])
 
     return (
         <div className="flex flex-col">
@@ -191,7 +179,7 @@ export default function Coach(){
                                 {profileDetails.profile?.primarySport || "No Primary Sport"}
                             </h3> 
                         </div>
-                        <div className="flex flex-col justify-center items-center my-2 md:w-96 lg:pl-16">
+                        <div className="flex flex-col justify-center items-center lg:my-2 md:w-96 lg:pl-16">
                             <ContactCoachForm csrftoken={csrfToken!} coachId={queryParameters.get("coach_id")!}/>
                             <SocialMediaIcons 
                                 instagram={profileDetails.profile?.socialMedia.instagram}

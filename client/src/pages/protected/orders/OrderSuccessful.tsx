@@ -11,10 +11,12 @@ export default function OrderSuccessful(){
     const [hasLoaded, setHasLoaded] = useState(false)
     const navigate = useNavigate()
     const [queryParameters] = useSearchParams()
-    // const csrfToken = GetCSFR({ name: "csrftoken" })
-    // const coachId = queryParameters.get('coach_id')
-    // const sessionId =queryParameters.get('session_id')
-    // const [responseMessage, setResponseMessage] = useState("-")
+    const coachId = queryParameters.get('coach_id')
+    let csrfToken = GetCSFR({ name: "csrftoken" })
+    const sessionId =queryParameters.get('session_id')
+    const serviceId =queryParameters.get('service_id')
+    const dateTime = queryParameters.get('date_time')
+    const [responseMessage, setResponseMessage] = useState<string>()
 
     useEffect(()=>{
         document.title = "Transaction Successful!"
@@ -22,27 +24,53 @@ export default function OrderSuccessful(){
             setHasLoaded(true)
         }, 1200)
 
-        // Trigger API to send user a confirmation email regarding their transaction + need to add endpoint in backed
-        // axios.post(`${process.env.REACT_APP_SKILLJA_URL}/order_confirmation/`, {session_id:sessionId, coach_id:coachId}, {
-        //     headers: {
-        //         'X-CSRFToken': csrfToken,
-        //         'Content-Type': 'application/json'
-        //     }, 
-        //     withCredentials: true
-        // })
-        //     .then(res => {
-        //         if (res.status === 200) {
-        //             setResponseMessage("An order confirmation will be sent to your email shortly.")
-        //         } else {
-        //             setResponseMessage("Error sending confirmation email. Please email us support@skillja.com")
-        //         }
-        //     })
-        //     .catch(error => {
-        //         console.error(error)
-        //     })
-        // Clean up Timeout function
+        if(csrfToken){
+            // Trigger API to send user a confirmation email regarding their transaction
+            axios.post(`${process.env.REACT_APP_SKILLJA_URL}/email/order_confirmation/`, 
+                {sessionId:sessionId, coachId:coachId, serviceId:serviceId, dateTime:dateTime}, 
+            {
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/json'
+                }, 
+                withCredentials: true
+            })
+            .then(res => {
+                if (res.status === 200) {
+                    // Trigger API call to create chat transaction notification
+                    createTransactionNotification()
+                } else {
+                    setResponseMessage("Error sending confirmation email. Please copy current url and email us support@skillja.com")
+                }
+            })
+            .catch(error => {
+                console.error(error)
+            })
+        }
+        //Clean up Timeout function
         return () => clearTimeout(timeoutId)
-    },[])
+    },[csrfToken])
+
+    // API call to create chat notification between coach and athlete
+    function createTransactionNotification(){
+        axios.post(`${process.env.REACT_APP_SKILLJA_URL}/chat/create_transaction_notification/`, 
+            {sessionId:sessionId, serviceId:serviceId, dateTime: dateTime }, 
+        {
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json'
+            }, 
+            withCredentials: true
+        })
+        .then(res => {
+            if (res.status === 201) {
+                setResponseMessage("An order confirmation will be sent to your email shortly.")
+            } 
+        })
+        .catch(error => {
+            console.error(error)
+        })
+    }
 
     return (
         <div>
@@ -55,8 +83,7 @@ export default function OrderSuccessful(){
                             Thank you!
                         </h1>
                         <p className="text-xl text-center mx-auto">
-                            {/* {responseMessage} */}
-                            An order confirmation will be sent to your email shortly.
+                            {responseMessage}
                         </p>
                         <div className="flex my-16">
                             <button
@@ -69,7 +96,7 @@ export default function OrderSuccessful(){
                             <button
                                 className="mx-1.5 py-2 px-5 bg-main-green-500 hover:bg-main-green-900 text-white rounded-xl cursor-pointer"
                                 aria-label="redirects to back to coach profile page"
-                                onClick={()=>navigate('/auth/coach?coach_id=')}
+                                onClick={()=>navigate(`/auth/coach?coach_id=${coachId}`)}
                             >
                                 Back to Coach Profile
                                 <FontAwesomeIcon icon={faArrowRight} className="ml-2 my-auto"/>

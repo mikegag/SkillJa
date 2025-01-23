@@ -80,9 +80,9 @@ export default function OfferedServices() {
                                 key={index}
                                 onClick={() => setViewCreateService(currentService.type as SavedInformationType['type'])}
                             >
-                                <div className="flex flex-col justify-center items-start">
-                                    <h4>{currentService.title}</h4>
-                                    <p className="text-sm">{currentService.subtitle}</p>
+                                <div className="flex flex-col justify-center items-start pr-2">
+                                    <h4 className="font-medium">{currentService.title}</h4>
+                                    <p className="text-sm text-main-grey-300 hover:text-main-white">{currentService.subtitle}</p>
                                 </div>
                                 <FontAwesomeIcon icon={faChevronRight} className="ml-auto my-auto"/>
                             </div>
@@ -110,21 +110,21 @@ export default function OfferedServices() {
                                         key={index}
                                         onClick={() => handleServiceClick(currService)}
                                     >
-                                        <div className="flex flex-col justify-center items-start">
-                                            <h4>{currService.title}</h4>
-                                            <p className="text-sm">See Price and Details</p>
+                                        <div className="flex flex-col justify-center items-start pr-2">
+                                            <h4 className="font-medium">{currService.title}</h4>
+                                            <p className="text-sm text-main-grey-300 hover:text-main-white">See Price and Details</p>
                                         </div>
                                         <FontAwesomeIcon icon={faChevronRight} className="ml-auto my-auto" />
                                     </div>
                                 ))}
                                 <div role="presentation" className="h-0.5 bg-main-grey-200 rounded-full my-4"></div>
                                 <div 
-                                    className="flex border border-main-grey-100 text-main-green-900 rounded-xl py-4 px-4 my-4 font-kulim cursor-pointer hover:bg-main-green-500 hover:text-main-white"
+                                    className="flex border border-main-grey-100 text-main-green-900 rounded-xl py-2 px-4 my-2 font-kulim cursor-pointer hover:bg-main-green-500 hover:text-main-white"
                                     onClick={() => setCreateService(true)}
                                 >
                                     <div className="flex flex-col justify-center items-start text-left">
-                                        <h4>Create New Session/Program</h4>
-                                        <p className="text-sm">Create a session/program for your athletes</p>
+                                        <h4 className="font-medium">Create New Session/Program</h4>
+                                        <p className="text-sm text-main-grey-300 hover:text-main-white">Create a session/program for your athletes</p>
                                     </div>
                                     <FontAwesomeIcon icon={faChevronRight} className="ml-auto my-auto" />
                                 </div>
@@ -144,9 +144,9 @@ export default function OfferedServices() {
                                     className="flex border border-main-grey-100 text-main-green-900 rounded-xl py-4 px-4 my-4 font-kulim cursor-pointer hover:bg-main-green-500 hover:text-main-white"
                                     onClick={() => setCreateService(true)}
                                 >
-                                    <div className="flex flex-col justify-center items-start text-left">
-                                        <h4>Create New Session/Program</h4>
-                                        <p className="text-sm">Create a session/program for your athletes</p>
+                                    <div className="flex flex-col justify-center items-start text-left pr-2">
+                                        <h4 className="font-medium">Create New Session/Program</h4>
+                                        <p className="text-sm text-main-grey-300 hover:text-main-white">Create a session/program for your athletes</p>
                                     </div>
                                     <FontAwesomeIcon icon={faChevronRight} className="ml-auto my-auto" />
                                 </div>
