@@ -4,7 +4,6 @@ from venv import logger
 from django.db import IntegrityError, transaction
 from django.db.models import Q
 from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login as auth_login, authenticate
 from django.contrib.auth import logout
 from django.http import HttpResponse, JsonResponse
@@ -17,8 +16,8 @@ from django.contrib.auth.decorators import login_required
 from .utils import calculate_price_deviance, calculate_coach_cost, calculate_coach_review
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.loader import render_to_string
-from django.utils.timezone import now, make_aware
 from datetime import datetime, timedelta, date, timezone
+from django.utils.timezone import now, make_aware, get_current_timezone
 from django.utils.dateparse import parse_date
 
 
@@ -1063,7 +1062,6 @@ def create_transaction_notification(request):
         except Service.DoesNotExist:
             return JsonResponse({"error": "Service not found"}, status=404)
 
-        # Access Coach profile through Service relationship
         coach_profile = service.coach_profile
         try:
             coach = User.objects.get(id=coach_profile.user.id)
@@ -1081,34 +1079,45 @@ def create_transaction_notification(request):
         else:
             created = False
 
-        # Create the new message
         Message.objects.create(
             chat=chat,
             sender=sender,
             content="\n".join([
-                f"Transaction ID: {session_id}",
+                f"\n Alert!",
+                f"\n Transaction ID: {session_id}",
                 f"\n Details: {sender.fullname} has purchased the {service.title} service.",
                 f"\n Deliverable: {service.deliverable if service.deliverable else 'N/A'}",
                 f"\n Coach {coach.fullname} will provide further details about your purchase."
             ]),
         )
 
-        # Schedule an event if a date_time value is provided (indicating a meeting is requested)
+        # Schedule event if date_time provided
         if date_time:
             try:
+                # Parse the date_time in 'yyyy-mm-dd-hh-mm' format
                 parsed_date_time = datetime.strptime(date_time, "%Y-%m-%d-%H-%M")
-                # Make the datetime aware
-                aware_date_time = timezone.make_aware(parsed_date_time)
+                aware_date_time = make_aware(parsed_date_time, get_current_timezone())
+
+                # Check for existing event
+                existing_event = Event.objects.filter(
+                    participants__in=[sender, coach],
+                    date__gte=aware_date_time,
+                    date__lt=aware_date_time + timedelta(minutes=1)
+                ).first()
+
+                if existing_event:
+                    return JsonResponse({"error": "An event already exists at this time for the same participants."}, status=400)
+
                 new_event = Event.objects.create(
                     date=aware_date_time,
-                    title=f"{service.title} between Coach: {coach.fullname} & Athlete {sender.fullname}",
+                    title=f"{service.title} between Coach: {coach.fullname} & Athlete: {sender.fullname}",
                     description=service.description,
                     location=service.location,
                 )
                 # Add participants
-                new_event.participants.add(coach, sender) 
+                new_event.participants.add(coach, sender)
             except ValueError:
-                return JsonResponse({"error": "Invalid dateTime format. Use 'YYYY-MM-DD HH:MM:SS'."}, status=400)
+                return JsonResponse({"error": "Invalid dateTime format. Use 'yyyy-mm-dd-hh-mm'."}, status=400)
 
         return JsonResponse({"success": "Message sent!"}, status=201)
 
@@ -1144,7 +1153,7 @@ def create_calendar_event(request):
         # Convert date to datetime object
         try:
             naive_date = datetime.strptime(event_date, '%Y-%m-%d-%H-%M')  # Custom format
-            aware_date = make_aware(naive_date)  # Add timezone info
+            aware_date = make_aware(naive_date, get_current_timezone())  # Add timezone info
         except ValueError:
             return JsonResponse({"error": "Invalid date format. Use YYYY-MM-DD-HH-MM."}, status=400)
 
@@ -1419,7 +1428,7 @@ def create_stripe_checkout(request):
 
             checkout_session = stripe.checkout.Session.create(
                 success_url='http://localhost:3000/order-success?session_id=${CHECKOUT_SESSION_ID}' + url_parameter,
-                cancel_url='https://www.skillja.ca/order-cancelled',
+                cancel_url='https://www.skillja.ca/order-cancelled'+f'&coach_id={coach_id}',
                 payment_method_types=['card'],
                 mode='payment',
                 line_items=[{

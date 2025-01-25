@@ -153,9 +153,6 @@ Q_CLUSTER = {
     'django_orm': 'default',
 }
 
-# Use local timezones
-USE_TZ=True
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/

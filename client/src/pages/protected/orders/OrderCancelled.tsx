@@ -3,10 +3,12 @@ import Header from "../../../components/navigation/Header";
 import LoadingAnimation from "../../../components/general/LoadingAnimation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faX } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function OrderCancelled(){
     const [hasLoaded, setHasLoaded] = useState(false)
+    const [queryParameters] = useSearchParams()
+    const coachId = queryParameters.get('coach_id')
     const navigate = useNavigate()
 
     useEffect(()=>{
@@ -41,7 +43,7 @@ export default function OrderCancelled(){
                             <button
                                 className="mx-1.5 py-2 px-5 bg-main-green-500 hover:bg-main-green-900 text-white rounded-xl cursor-pointer"
                                 aria-label="redirects to back to coach profile page"
-                                onClick={()=>navigate('/auth/coach?id=')}
+                                onClick={()=>navigate(`/auth/coach?coach_id=${coachId}`)}
                             >
                                 Back to Coach Profile
                                 <FontAwesomeIcon icon={faArrowRight} className="ml-2 my-auto"/>
