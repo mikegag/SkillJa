@@ -65,7 +65,7 @@ export default function HeroSection({view}:ViewProps){
                     className="w-64 mt-6 mb-5 lg:w-80"
                     alt="two runners kneeling down ready to race each other"
                 />
-                <SearchBar mobileView={true} />
+                <SearchBar mobileView={true} queryPage={1}/>
                 <Link 
                     to={'/signup'} 
                     className="flex flex-col justify-center mx-auto w-80 md:w-6/12 mt-5 mb-9"
@@ -98,7 +98,7 @@ export default function HeroSection({view}:ViewProps){
                 <h1 className="text-center text-main-green-900 font-medium text-4xl px-4 font-source">
                     Anytime, Anywhere.
                 </h1>
-                <SearchBar mobileView={false} />
+                <SearchBar mobileView={false} queryPage={1} />
                 <img 
                     src={require('../../../assets/landingAssets/main-landing-racers.png')} 
                     className="w-80 mt-6 mb-5"

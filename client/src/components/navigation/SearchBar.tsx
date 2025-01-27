@@ -1,7 +1,7 @@
 import { faMagnifyingGlass, faX } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { useEffect, useRef, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import DropDown from "./search/DropDown"
 import SingleSlider from "./search/SingleSlider"
 import MultiOption from "./search/MultiOption"
@@ -9,7 +9,8 @@ import DualSlider from "./search/DualSlider"
 
 // Define types for the component props and the search term structure
 interface SearchBarProps {
-    mobileView: boolean
+    mobileView: boolean;
+    queryPage: number;
 }
 
 interface SearchTermType {
@@ -18,7 +19,7 @@ interface SearchTermType {
     price: {value: string, min:number, max:number};
 }
 
-export default function SearchBar({mobileView}:SearchBarProps){
+export default function SearchBar({mobileView,queryPage}:SearchBarProps){
     // State for managing filter visibility, search term data, selected filter, and inside status
     const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
     const [searchTerm, setSearchTerm] = useState<SearchTermType>({
@@ -28,23 +29,30 @@ export default function SearchBar({mobileView}:SearchBarProps){
     })
     const [currentlySelected, setCurrentlySelected] = useState<string>('')
     const [insideSearchBar, setInsideSearchBar] = useState<boolean>(false)
+    const [searchParams, setSearchParams] = useSearchParams()
     const navigate = useNavigate()
     // Separate refs for each input
-    const sportInputRef = useRef<HTMLInputElement>(null);
-    const locationInputRef = useRef<HTMLInputElement>(null);
-    const priceInputRef = useRef<HTMLInputElement>(null);
+    const sportInputRef = useRef<HTMLInputElement>(null)
+    const locationInputRef = useRef<HTMLInputElement>(null)
+    const priceInputRef = useRef<HTMLInputElement>(null)
 
     // Handle focusing the correct input and clearing focus on the others
     const handleFocus = (inputType: string) => {
         // Focus the respective input
         if (inputType === "sport") {
-        sportInputRef.current?.focus();
+            sportInputRef.current?.focus()
         } else if (inputType === "location") {
-        locationInputRef.current?.focus();
+            locationInputRef.current?.focus()
         } else if (inputType === "price") {
-        priceInputRef.current?.focus();
+            priceInputRef.current?.focus()
         }
     }
+
+    useEffect(()=>{
+        if(searchParams.get('page')){
+            performSearch()
+        }
+    },[queryPage])
 
     // Function to execute search and navigate to home feed page with query parameters
     function performSearch() {
@@ -54,7 +62,8 @@ export default function SearchBar({mobileView}:SearchBarProps){
             proximity: searchTerm.location.proximity.toString(),
             priceValue: searchTerm.price.value,
             priceMin: Math.floor(searchTerm.price.min).toString(),
-            priceMax: Math.floor(searchTerm.price.max).toString()
+            priceMax: Math.floor(searchTerm.price.max).toString(),
+            page: `${queryPage}`
         })
 
         navigate(`/home-feed?${queryParams.toString()}`)

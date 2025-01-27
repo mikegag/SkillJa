@@ -76,7 +76,7 @@ export default function Header({ useCase: initialUseCase, url}: HeaderProps) {
                 <div className="w-full flex items-center px-4 pt-6 pb-4 mb-8 lg:px-14">
                     <img
                         src={require("../../assets/new-skillja-logo.png")}
-                        className="w-16 mr-auto cursor-not-allowed ml-0 my-auto lg:w-16"
+                        className="w-16 mr-auto cursor-not-allowed ml-0 my-auto lg:w-20"
                         alt="SkillJa logo"
                     />
                 </div>

@@ -2,11 +2,14 @@ import React, { useEffect, useState, Suspense, lazy } from "react"
 import Header from "../../components/navigation/Header"
 import SearchBar from "../../components/navigation/SearchBar"
 import ProfilePreview from "../../components/navigation/ProfilePreview"
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useSearchParams } from "react-router-dom"
 import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
 import GetWindowSize from "../../hooks/GetWindowSize"
 import { UserContext } from "../../hooks/RetrieveImageContext"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faArrowLeftLong, faArrowRightLong } from "@fortawesome/free-solid-svg-icons"
+import Footer from "../../components/navigation/Footer"
 
 // Lazy load LoadingAnimation
 const LoadingAnimation = lazy(() => import("../../components/general/LoadingAnimation"))
@@ -23,7 +26,10 @@ interface resultsType{
 }
 
 interface dataResultsType {
-    results: resultsType[]
+    results: resultsType[];
+    totalResults: number;
+    totalPages: number;
+    currentPage: number;
 }
 
 export default function HomeFeed(){
@@ -31,17 +37,21 @@ export default function HomeFeed(){
     const currentWindow = GetWindowSize()
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
     const location = useLocation()
-    const [data, setData] = useState<dataResultsType>({ results: [] })
+    const [data, setData] = useState<dataResultsType>({ results: [], totalResults: 0, totalPages: 4, currentPage: 1 })
     const protectedRoute = '/auth/coach' 
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [userEmail, setUserEmail] = useState<string>("")
+    const [queryPage, setQueryPage] = useState<number>(1)
+    const [searchParams, setSearchParams] = useSearchParams()
+
+    // -- update search backend view to return number of total results so we can paginate pages ui
 
     useEffect(() => {
         document.title = "SkillJa - Home Feed"
     }, [])
 
     useEffect(() => {
-        // Perform a search if the query parameter exists, search was performed from landing page in this case
+        // Perform a search if the query parameter exists/updates
         if (location.search) {
             performSearch()
         }
@@ -78,16 +88,16 @@ export default function HomeFeed(){
             },
             withCredentials: true
         }) 
-            .then(res => {
-                if (res.status === 200) {
-                    setData(res.data)
-                } else {
-                    console.error("Failed to retrieve services")
-                }
-            }) 
-            .catch(error => {console.error(error) })
-            // End loading
-            .finally(() => { setIsLoading(false) })
+        .then(res => {
+            if (res.status === 200) {
+                setData(res.data)
+            } else {
+                console.error("Failed to retrieve services")
+            }
+        }) 
+        .catch(error => {console.error(error) })
+        // End loading
+        .finally(() => { setIsLoading(false) })
     }
 
     return (
@@ -100,16 +110,16 @@ export default function HomeFeed(){
             { (!userEmail || !isLoggedIn) && ( 
                 <Header useCase="onboarding"  /> 
             )}
-            <div className="px-4">
+            <div className="px-4 mb-48">
                 <div className="flex flex-col items-center justify-center text-main-green-900 mt-10">
                     <h1 className="font-source font-medium text-4xl my-2">
                         Let's Find Your Coach
                     </h1>
                     <div className="mt-7 lg:mt-1 mb-12 lg:mb-24">
                         {currentWindow.width < 765 ?
-                            <SearchBar mobileView={true} />
+                            <SearchBar mobileView={true} queryPage={queryPage}/>
                             :
-                            <SearchBar mobileView={false} />
+                            <SearchBar mobileView={false} queryPage={queryPage}/>
                         }
                     </div>
                     <div role="presentation" className="h-0.5 bg-main-grey-100 rounded-full w-20 lg:w-32 mb-10"></div>
@@ -139,14 +149,43 @@ export default function HomeFeed(){
                             ))
                         ) 
                         : 
-                        (
-                            <p className="text-center mx-auto text-lg font-kulim">
-                                No coaches match your search criteria. Try again.
+                            location.search && (
+                                <p className="text-center mx-auto text-lg font-kulim">
+                                    No coaches match your search criteria. Try again.
+                                </p>
+                            )
+                    } 
+                    {data.totalPages > 0 && searchParams.get('page') && (
+                        <div className="mx-auto mt-20 mb-5 w-full lg:w-8/12 flex justify-center items-center border-t border-main-grey-100 py-4">
+                            <p 
+                                className={`ml-0 mr-auto text-main-grey-400 ${data.currentPage === 1? "cursor-not-allowed": "cursor-pointer hover:text-main-green-500"} pr-2 w-28 text-start`}
+                                onClick={()=>setQueryPage(data.currentPage-1)}
+                            >
+                                <FontAwesomeIcon icon={faArrowLeftLong} className="mr-2"/>
+                                Previous
                             </p>
-                        )
-                    }    
+                            {Array.from(Array(data.totalPages)).map((page, index)=>(
+                                <p 
+                                    key={index} 
+                                    className={`${data.currentPage == (index+1) ? "bg-main-green-500" : "bg-main-grey-100"} 
+                                        py-1.5 px-3 text-white text-sm rounded-lg my-auto mx-2 cursor-pointer hover:bg-main-grey-200`}
+                                    onClick={()=>setQueryPage(index+1)}
+                                >
+                                    {index+1}
+                                </p>
+                            ))}
+                            <p 
+                                className={`mr-0 ml-auto text-main-grey-400 ${data.totalPages === data.currentPage ? "cursor-not-allowed": "cursor-pointer hover:text-main-green-500"} w-28 text-end pl-2`}
+                                onClick={()=>setQueryPage(data.currentPage+1)}
+                            >
+                                Next
+                                <FontAwesomeIcon icon={faArrowRightLong} className="ml-2"/>
+                            </p>
+                        </div>
+                    )}   
                 </div>
             </div>
+            <Footer />
         </>
     )
 }

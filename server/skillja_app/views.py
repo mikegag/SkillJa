@@ -1,7 +1,7 @@
 from django.forms import model_to_dict
 import json, os, stripe, requests, jwt, cloudinary, cloudinary.uploader, time
 from venv import logger
-from django.db import IntegrityError, transaction
+from django.db import DatabaseError, IntegrityError, transaction
 from django.db.models import Q
 from django.shortcuts import render
 from django.contrib.auth import login as auth_login, authenticate
@@ -19,6 +19,7 @@ from django.template.loader import render_to_string
 from datetime import datetime, timedelta, date, timezone
 from django.utils.timezone import now, make_aware, get_current_timezone
 from django.utils.dateparse import parse_date
+from django.core.paginator import Paginator, EmptyPage
 
 
 # Authentication methods ----------------------------------------
@@ -716,6 +717,9 @@ def delete_coach_service(request):
 @require_GET
 def search(request): 
     try:
+        # Set page results to a maximum of 6 profiles
+        results_per_page = 6
+
         # Get query parameters or set default values
         sport = request.GET.get('sport', 'tennis') 
         location = request.GET.get('location', 'toronto')
@@ -725,6 +729,8 @@ def search(request):
         min_deviation = request.GET.get('priceMin', 0)
         # Default to 50%
         max_deviation = request.GET.get('priceMax', 50)
+        # Default to 1 if no page exists (first query from current user session)
+        page = int(request.GET.get('page', 1))
 
         # Convert to integers, handling empty strings
         original_price = int(original_price) if original_price else 60
@@ -734,7 +740,7 @@ def search(request):
         # Calculate price bounds
         price_min, price_max = calculate_price_deviance(original_price, min_deviation, max_deviation)
         
-        # Perform the search for coaches based on specialization, location, and price range.
+        # Perform the search for active coaches based on specialization, location, and price range.
         results = User.objects.filter(
             iscoach=True,
             is_active=True,
@@ -750,6 +756,9 @@ def search(request):
             'coach_preferences__experience_level',
             'coach_profile__biography'
         ).distinct()
+
+        # Create a paginator to handle paginated responses
+        paginator = Paginator(results, results_per_page)
 
         # Format results for cleaner JSON output
         formatted_results = []
@@ -768,13 +777,24 @@ def search(request):
                 'rating': average_rating
             })
 
-        data = {
-            'results': formatted_results
-        }
-        return JsonResponse(data)
+        try:
+            current_page = paginator.page(page)
+        except EmptyPage:
+            return JsonResponse({"error": "Invalid/Empty page number"}, status=400)
 
+        return JsonResponse({
+            "results": formatted_results,
+            "totalResults": paginator.count,
+            "totalPages": paginator.num_pages,
+            "currentPage": current_page.number,
+        })
+
+    except ValueError as e:
+        return JsonResponse({'error': 'Invalid input: {}'.format(str(e))}, status=400)
+    except DatabaseError as e:
+        return JsonResponse({'error': 'Database error: {}'.format(str(e))}, status=500)
     except Exception as e:
-        return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
+        return JsonResponse({'error': 'An unexpected error occurred: {}'.format(str(e))}, status=500)
 
 @require_GET
 def random_profiles(request):
