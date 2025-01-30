@@ -77,5 +77,4 @@ def calculate_coach_review(coach_id):
         # Handle cases where the coach does not exist
         return None
 
-
 #function that utilizes geocoding api to apply results to search proximity

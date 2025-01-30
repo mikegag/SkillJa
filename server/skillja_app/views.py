@@ -217,7 +217,23 @@ def is_user_coach(request):
         return JsonResponse({"coach": coach.iscoach})
     except Exception as e:
         return JsonResponse({"error": "An unexpected error occurred. Please try again later."}, status=500)
-    
+
+@require_POST
+@login_required
+def update_user_timezone(request)   :
+    try:
+        data = json.loads(request.body)
+        timezone = data.get("timezone", "UTC")
+
+        # Update the user's timezone in the database
+        user = request.user
+        user.timezone = timezone
+        user.save()
+
+        return JsonResponse({"status": "success", "timezone": timezone})
+    except Exception as e:
+        return JsonResponse({"error": "an unexpected error occurred"},status=500)
+
 
 # Settings methods ----------------------------------------------
 @require_POST

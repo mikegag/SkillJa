@@ -55,6 +55,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     gender = models.CharField(max_length=20)
     iscoach = models.BooleanField(default=False)
     isathlete = models.BooleanField(default=False)
+    timezone = models.CharField(max_length=50, default="UTC")
 
     groups = models.ManyToManyField(
         'auth.Group',

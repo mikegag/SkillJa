@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import GetCSFR from "../hooks/GetCSFR";
+import { updateTimezone } from "../hooks/UpdateTimezone";
 
 interface FormStructure {
   email: string;
@@ -45,6 +46,9 @@ export default function Login() {
       })
       .then((res) => {
         if (res.status === 200) {
+          // Update user's timezone
+          updateTimezone(csrfToken!)
+          
           // Simulate loading process
           const timer = setTimeout(() => {
             setLoading(false)
