@@ -50,8 +50,8 @@ export default function EventAccordion({ title, time, description, styling }: Ev
         style={{ height: isOpen ? answerHeight : 0 }}
       >
         <div ref={answerRef} className={`bg-main-color-lightgrey flex flex-col items-start p-4 ${isOpen ? 'flex flex-col' : 'hidden'}`}>
-          <p className="font-kulim font-light text-main-green-900 my-3">
-            {description ? description : 'N/A'}
+          <p className="font-kulim font-light text-main-green-900 my-3 mx-auto">
+            {description ? description : 'No event details given.'}
           </p>
         </div>
       </div>
