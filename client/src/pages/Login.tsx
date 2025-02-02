@@ -10,6 +10,7 @@ import { faLock } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import GetCSFR from "../hooks/GetCSFR";
 import { updateTimezone } from "../hooks/UpdateTimezone";
+import Footer from "../components/navigation/Footer";
 
 interface FormStructure {
   email: string;
@@ -48,7 +49,7 @@ export default function Login() {
         if (res.status === 200) {
           // Update user's timezone
           updateTimezone(csrfToken!)
-          
+
           // Simulate loading process
           const timer = setTimeout(() => {
             setLoading(false)
@@ -164,6 +165,9 @@ export default function Login() {
             </p>
           </>
         )}
+      </div>
+      <div className="mb-6 mt-10">
+        <Footer />
       </div>
     </div>
   )

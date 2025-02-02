@@ -74,7 +74,7 @@ export default function Contact(){
                     Contact Us
                 </h2>
                 <p>
-                    Reach out directly for support with any issues or questions
+                    Reach out directly for support with any issues or questions.
                 </p>
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col justify-center items-start w-full max-w-xl mt-8">
                     <div className="flex justify-start items-start w-full mb-3">
@@ -143,7 +143,7 @@ export default function Contact(){
                     {errors.email && <p className="text-red-500">{errors.email.message}</p>}
                     <input id="newsletter" type="checkbox" className="hidden w-0.5 h-0.5 mx-auto border-0 outline-none bg-main-cream" onClick={()=>setPreventSubmit(true)}/>
                     <label className="font-semibold mb-0.5">Reason For Contact</label>
-                    <Accordion title="Select reason" styles="border-main-grey-100 w-full" titleStyles="font-kulim">
+                    <Accordion title="Select reason" styles="border-main-grey-100 w-full bg-white border rounded-2xl" titleStyles="font-kulim">
                         {data.contactUs.map((option, index) => (
                             <button 
                                 onClick={(e) => {
@@ -162,7 +162,7 @@ export default function Contact(){
                             </button>
                         ))}
                     </Accordion>
-                    <label className="font-semibold mb-0.5">What Can We Help You with?</label>
+                    <label className="font-semibold mt-4 mb-0.5">What Can We Help You with?</label>
                     <textarea
                         id="message"  
                         className="form-input px-3 border border-gray-300 w-full min-h-36 max-h-44" 
@@ -181,7 +181,7 @@ export default function Contact(){
                     <input id="phone_extension" type="text" className="opacity-80 pt-1 w-0.5 h-0.5 mx-auto border-0 outline-none bg-main-cream" onClick={()=>setPreventSubmit(true)}/>
                     {errors.message && <p className="text-red-500">{errors.message.message}</p>}
                     <button 
-                        className="form-btn mt-6 px-7 py-2 mr-auto" 
+                        className="form-btn mt-4 px-7 py-2 mr-auto" 
                         type="submit"
                         aria-label="contact form submission"
                         disabled={disableButton}

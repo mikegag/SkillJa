@@ -11,6 +11,7 @@ import { IconDefinition, faChevronDown, faLock, faPhone } from "@fortawesome/fre
 import data from "../data.json"
 import axios from "axios"
 import ReCAPTCHA from "react-google-recaptcha"
+import Footer from "../components/navigation/Footer"
 
 interface FormStructure {
   fullname: string;
@@ -277,6 +278,9 @@ export default function SignUp() {
               </p>
           </>
         )}
+      </div>
+      <div className="mb-6 mt-10">
+        <Footer />
       </div>
     </div>
   )
