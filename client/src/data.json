@@ -21,7 +21,7 @@
           },
           "footer": {
             "subSections": ["About Us","Become a Coach", "How SkillJa Works", "FAQ's"],
-            "links":["/about-us","/signup","/coming-soon","/faqs"]
+            "links":["/about-us","/signup","/how-skillja-works","/faqs"]
           }
     },
     
@@ -789,5 +789,60 @@
       {"index":2, "option": "Billing & Payments"},
       {"index":3, "option": "Report an Issue"},
       {"index":4, "option": "Partnerships and Collaboration"}
-    ]
+    ],
+    "howSkilljaWorks": {
+      "athlete": {
+        "header": {
+          "title": "Simple Steps to Athletic Success",
+          "subtitle": "Explore how easy it is to find a coach, plan your training, and reach your potential."
+        },
+        "step1": {
+          "subtitle": "Create Your Profile",
+          "description": "Sign up as an athlete and personalize your profile. Let us know your sport, training goals, and preferences so we can help you find the perfect coach.",
+          "image": "athlete-step-1.png"
+        },
+        "step2": {
+          "subtitle": "Find Your Perfect Coach",
+          "description": "Browse through our curated list of coaches who match your sport, goals, and preferences. Use filters like location, skill level, and availability to find the best fit for you.",
+          "image": "athlete-step-2a.png",
+          "secondImage": "athlete-step-2b.png"
+        },
+        "step3": {
+          "subtitle": "Book Your Session or Program",
+          "description": "Once you've found the right coach, easily book a session or enroll in a training program that suits your schedule. Choose from single sessions, multi-session packages, or custom programs.",
+          "image": "athlete-step-3.png"
+        },
+        "step4": {
+          "subtitle": "Achieve Your Goals",
+          "description": "Work with your coach through tailored sessions or programs to make progress and reach your athletic potential.",
+          "image": "athlete-step-4.png"
+        }
+      },
+      "coach": {
+        "header": {
+          "title": "Empower Athletes, Elevate Your Coaching",
+          "subtitle": "Share your expertise, connect with athletes, and help them achieve their goals—all while growing your coaching business."
+        },
+        "step1": {
+          "subtitle": "Create Your Profile",
+          "description": "Showcase your expertise by building a professional coach profile. Highlight your qualifications, experience, and the sports or training programs you offer.",
+          "image": "coach-step-1.png"
+        },
+        "step2": {
+          "subtitle": "Connect with Athletes",
+          "description": "Get discovered by athletes looking for your skills. Use tools to communicate, answer inquiries, and build trust with potential clients.",
+          "image": "coach-step-2.png"
+        },
+        "step3": {
+          "subtitle": "Schedule and Manage Sessions",
+          "description": "Easily manage bookings and schedules through the platform. Offer single sessions, packages, or customized training programs.",
+          "image": "coach-step-3.png"
+        },
+        "step4": {
+          "subtitle": "Help Athletes Succeed",
+          "description": "Work with dedicated athletes, track their progress, and celebrate their achievements—all while growing your reputation as a coach.",
+          "image": "coach-step-4.png"
+        }
+      }
+    }
 }

@@ -220,7 +220,7 @@ def is_user_coach(request):
 
 @require_POST
 @login_required
-def update_user_timezone(request)   :
+def update_user_timezone(request):
     try:
         data = json.loads(request.body)
         timezone = data.get("timezone", "UTC")

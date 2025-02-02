@@ -26,6 +26,7 @@ import Contact from "./pages/protected/settings/Contact"
 import AboutUs from "./pages/AboutUs"
 import TermsConditions from "./pages/TermsConditions"
 import PrivacyPolicy from "./pages/PrivacyPolicy"
+import HowSkilljaWorks from "./pages/HowSkilljaWorks"
 
 export default function App() {
   return (
@@ -45,6 +46,7 @@ export default function App() {
         <Route path="order-success" element={<OrderSuccessful />} />
         <Route path="order-cancelled" element={<OrderCancelled />} />
         <Route path="confirm-account" element={<ConfirmEmail />} />
+        <Route path="how-skillja-works" element={<HowSkilljaWorks />} />
         <Route path="auth" element={<Authentication />}>
           <Route path="onboarding" element={<Onboarding />} />
           <Route path="coach" element={<Coach />} />
