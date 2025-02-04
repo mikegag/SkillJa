@@ -10,6 +10,7 @@ import { UserContext } from "../../hooks/RetrieveImageContext"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowLeftLong, faArrowRightLong } from "@fortawesome/free-solid-svg-icons"
 import Footer from "../../components/navigation/Footer"
+import { updateTimezone } from "../../hooks/UpdateTimezone"
 
 // Lazy load LoadingAnimation
 const LoadingAnimation = lazy(() => import("../../components/general/LoadingAnimation"))
@@ -44,10 +45,12 @@ export default function HomeFeed(){
     const [queryPage, setQueryPage] = useState<number>(1)
     const [searchParams, setSearchParams] = useSearchParams()
 
-    // -- update search backend view to return number of total results so we can paginate pages ui
-
     useEffect(() => {
         document.title = "SkillJa - Home Feed"
+        // Update user's timezone upon initial login
+        if(isLoggedIn && location.search === '' && csrfToken){
+            updateTimezone(csrfToken)
+        }
     }, [])
 
     useEffect(() => {

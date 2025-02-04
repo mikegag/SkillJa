@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useMemo, useRef, useState } from "react"
 import GetWindowSize from "../../../hooks/GetWindowSize"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronLeft, faCircleArrowUp } from "@fortawesome/free-solid-svg-icons"
-import axios from "axios";
+import axios from "axios"
 
 interface Message {
     messageId: number;
@@ -10,6 +10,7 @@ interface Message {
     content: string;
     sentAt: string;
     read: boolean;
+    localTime?: string;
 }
 
 interface ChatBoxProps {
@@ -23,7 +24,7 @@ interface ChatBoxProps {
 }
 
 
-export default function ChatBox({displayChatBox, userId, sender, messages, chatId, csrftoken}:ChatBoxProps){
+export default function ChatBox({displayChatBox, userId, sender, messages, chatId, csrftoken}: ChatBoxProps){
     const size = GetWindowSize()
     const displayedDates = new Set<string>()
     const currentDate = getCurrentDate() 
@@ -32,6 +33,7 @@ export default function ChatBox({displayChatBox, userId, sender, messages, chatI
      // Ref for the chat end to enforce autoscroll during initial load
     const chatEndRef = useRef<HTMLDivElement>(null)
     
+    // Update displayed messages when a different chat is selected
     useEffect(()=>{
         setChatMessages(messages)
     },[chatId])
@@ -48,12 +50,36 @@ export default function ChatBox({displayChatBox, userId, sender, messages, chatI
         const day = date.getDate().toString()
         return `0${day}-0${month}`
     }
+
     // formats sentAt prop which is a date object in the format {yyyy}-{mm}-{dd}T{00:00:00Z}
-    function formatSentAtProp(sentAtProp: string){
-        const day = sentAtProp.slice(8,10)
-        const month = sentAtProp.slice(5,7)
-        return `${day}-${month}`
+    function formatSentAtProp(sentAtProp: string) {
+        const date = new Date(sentAtProp) // Convert to Date object
+    
+        // Convert to local timezone
+        const localDate = new Date(date.toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }))
+    
+        const day = localDate.getDate()
+         // 0-indexed
+        const month = localDate.getMonth()
+        const year = localDate.getFullYear()
+    
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    
+        // Get current date in local time
+        const currentDate = new Date()
+        const currentMonth = currentDate.getMonth()
+        const currentYear = currentDate.getFullYear()
+        
+        // return current month name and day if passed date falls within current month range
+        if (month === currentMonth && year === currentYear) {
+            // e.g., "Feb 4"
+            return `${monthNames[month]} ${day}`
+        }
+        // else return month and day e.g., "02-04"
+        return `${month + 1}-${day}` 
     }
+    
+
     // API call to send message in chat
     function handleMessage(){
         axios.post(`${process.env.REACT_APP_SKILLJA_URL}/chat/send_chat_message/`, {chat_id: chatId, message: message}, { 
@@ -79,13 +105,14 @@ export default function ChatBox({displayChatBox, userId, sender, messages, chatI
     }
     
     return (
-        <section className="w-full h-fit flex flex-col px-4 md:pr-0 md:pl-8 md:border-l-4 border-main-grey-200">
+        <section className="md:w-96 lg:w-full h-fit flex flex-col px-4 md:px-8 md:border-l-4 border-main-grey-200">
             <div className="flex justify-center lg:justify-start pb-6 mb-2">
                 {size.width < 900 && (
                     <FontAwesomeIcon 
                         icon={faChevronLeft} 
                         className="text-2xl my-auto mr-6 ml-3 text-main-green-500 hover:text-main-green-700 cursor-pointer"
                         onClick={()=>displayChatBox(false)} 
+                        aria-label="navigate back to list of message previews"
                     />
                 )}
                 <div className="flex justify-center items-center mr-6 md:mr-auto lg:flex-row bg-white border border-gray-300 w-full rounded-xl">
@@ -125,14 +152,16 @@ export default function ChatBox({displayChatBox, userId, sender, messages, chatI
                                     ))
                                 ) : (
                                     <p className="font-kulim text-center mx-auto">{msg.content}</p>
-                                )}                             
+                                )}                         
                             </div>
                             {/* Invisible div to scroll to the bottom */}
                             {chatMessages.length === index+1 && (<div ref={chatEndRef} />)}
+                            <p className={`${isUserMessage ? 'ml-auto pr-1':'mr-auto pl-1'} font-kulim text-xs mb-1 mt-0.5`}>
+                                {msg.localTime}
+                            </p>   
                         </div>
                     )
                 })}
-                
             </div>
             <div className="relative w-full pt-6">
                 <input 
@@ -145,8 +174,9 @@ export default function ChatBox({displayChatBox, userId, sender, messages, chatI
                 />
                 <FontAwesomeIcon 
                     icon={faCircleArrowUp} 
-                    className="absolute right-4 inset-y-12 text-main-green-500 my-auto text-2xl" 
+                    className={`absolute right-4 inset-y-12 ${message ? 'text-main-green-500' : 'text-main-grey-200'} my-auto text-2xl`}
                     onClick={handleMessage}
+                    aria-label="trigger message confirmation"
                 />
             </div>
         </section>

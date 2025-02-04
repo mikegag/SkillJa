@@ -6,6 +6,7 @@ import GetWindowSize from '../../hooks/GetWindowSize'
 import Footer from "../../components/navigation/Footer"
 import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"
+import UseLocalTime from "../../hooks/UseLocalTime"
 
 interface Message {
     messageId: number;
@@ -13,6 +14,7 @@ interface Message {
     content: string;
     sentAt: string;
     read: boolean;
+    localTime?:string;
 }
 
 interface MessagePreview {
@@ -42,15 +44,22 @@ export default function Chat(){
     const csrfToken = GetCSFR({ name: "csrftoken" })
     const [savedChats, setSavedChats] = useState<MessagePreview[] | null>(null)
 
+    // Load any previous chats upon initial page render
+    useEffect(()=>{
+        retrieveMessagePreviews()
+    },[])
+
     useEffect(()=>{
         document.title = 'SkillJa - Messages'
 
-        // if a chat is currently being displayed, use http polling to update the conversation periodically
+        // if a chat is currently being displayed, use http polling to update the conversation and previous chats periodically
         if(selectedChatDetails){
-            const httpPolling = setInterval(()=> retrieveChatInfo(selectedChatDetails.chatId), 45000)
+            const httpPolling = setInterval(()=> {
+                retrieveChatInfo(selectedChatDetails.chatId)
+                retrieveMessagePreviews()
+            }, 45000)
             return ()=> clearInterval(httpPolling)
         }
-
     },[selectedChatDetails])
 
     useEffect(()=>{
@@ -60,9 +69,6 @@ export default function Chat(){
             setSelectedChatDetails(null)
         }
 
-        // get any previous chats and display their previews
-        retrieveMessagePreviews()
-        
         // update message read status if currently selected chat has unopened messages, delay to allow API data to load
         const messageReadDelay = setTimeout(() => {
             if (selectedChat === selectedChatDetails?.chatId && 
@@ -103,11 +109,14 @@ export default function Chat(){
             .then(res => {
                 if(res.status===200){
                     setSelectedChatDetails(res.data.chat)
+                    setSelectedChatDetails(prev => 
+                        prev ? { ...prev, messages: prev.messages.map(msg => ({ ...msg, localTime: UseLocalTime(msg.sentAt) })) } : prev
+                    )
                 }
             })
             .catch(error => {console.error(error)})
     }
-
+        
     // Retrieve message previews
     function retrieveMessagePreviews(){
         axios.get(`${process.env.REACT_APP_SKILLJA_URL}/chat/get_message_previews/`, { 
@@ -128,12 +137,13 @@ export default function Chat(){
             })
             .catch(error => {console.error(error)})
     }
-
+    
     return (
         <div className="flex flex-col"> 
             <Header useCase="protected"/>
             <div className="flex mt-10 pb-4 lg:pb-0 mb-16 lg:mb-32 md:px-12">
                 {size.width < 900 && openChat === true ?
+                
                     <ChatBox 
                         displayChatBox={setOpenChat} 
                         csrftoken={csrfToken!}
@@ -141,10 +151,10 @@ export default function Chat(){
                         senderId={selectedChatDetails ? selectedChatDetails.senderId : -1}
                         sender={selectedChatDetails ? selectedChatDetails.sender : "Select a chat"}
                         userId={selectedChatDetails ? selectedChatDetails.userId : -2}
-                        messages={selectedChatDetails ? selectedChatDetails.messages : []}
+                        messages={selectedChatDetails?.messages[0].localTime ? selectedChatDetails.messages : []}
                     />
                     :
-                    <section className="w-full mx-5 lg:mx-0 lg:pr-8">
+                    <section className="w-full lg:w-9/12 mx-5 lg:mx-0 lg:pr-8">
                         <h1 className=" mt-4 mb-8 mr-auto text-4xl font-source font-semibold">
                             Messages
                         </h1>

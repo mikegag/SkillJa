@@ -47,9 +47,6 @@ export default function Login() {
       })
       .then((res) => {
         if (res.status === 200) {
-          // Update user's timezone
-          updateTimezone(csrfToken!)
-
           // Simulate loading process
           const timer = setTimeout(() => {
             setLoading(false)

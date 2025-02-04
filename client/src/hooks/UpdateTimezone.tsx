@@ -7,7 +7,7 @@ export async function updateTimezone(csrfToken: string): Promise<void> {
         
         // API call to update user timezone
         const response = await axios.post(
-            `${process.env.REACT_APP_SKILLJA_URL}/update_timezone/`,
+            `${process.env.REACT_APP_SKILLJA_URL}/update_user_timezone/`,
             { timezone: userTimezone },
             {
                 headers: {

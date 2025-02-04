@@ -224,7 +224,6 @@ def update_user_timezone(request):
     try:
         data = json.loads(request.body)
         timezone = data.get("timezone", "UTC")
-
         # Update the user's timezone in the database
         user = request.user
         user.timezone = timezone
