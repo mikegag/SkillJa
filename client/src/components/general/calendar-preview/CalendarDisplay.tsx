@@ -1,7 +1,7 @@
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react"
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 
 interface MonthDays {
     month: string;
@@ -55,7 +55,7 @@ export default function CalendarDisplay({ monthDays, daySelection, monthSelectio
 
     return (
         <div className="flex flex-col font-source text-lg lg:text-2xl">
-            <div className="flex mb-4 lg:mb-10 lg:px-8">
+            <div className="flex mb-4 lg:mb-8 lg:px-8">
                 <h2 className="text-main-green-900 font-source text-3xl lg:text-4xl font-semibold ml-0 mr-auto my-auto">
                     {monthDays.month} {currentYear}
                 </h2>
@@ -100,11 +100,11 @@ export default function CalendarDisplay({ monthDays, daySelection, monthSelectio
                                     font-source p-2 lg:py-5 lg:px-6`
                                 }
                             >
-                                <div className="flex justify-center w-full cursor-pointer" onClick={()=>daySelection(day.toString())}>
-                                    <p className={`flex justify-center px-2 py-0.5 lg:py-2 lg:px-3 md:min-w-12 mx-auto 
-                                            ${(today.toDateString().slice(8,10).replace(/^0+(?=\d)/, '') == day.toString()) && (today.toDateString().slice(4,7) == monthDays.month.slice(0,3)) ? "underline":""} 
-                                            ${selectedDay === day.toString() ? "flex justify-center bg-amber-400 rounded-full":""}  
-                                            ${day === 0 ? 'cursor-not-allowed' : ''} `}
+                                <div className="flex justify-center w-full" onClick={()=>daySelection(day.toString())}>
+                                    <p className={`flex justify-center px-2 py-0.5 lg:py-2 lg:px-3 md:min-w-12 mx-auto cursor-pointer hover:bg-main-green-400 hover:rounded-full hover:text-white
+                                            ${( (today.toDateString().slice(8,10).replace(/^0+(?=\d)/, '') == day.toString()) && (today.toDateString().slice(4,7) == monthDays.month.slice(0,3)) ) && "underline"} 
+                                            ${selectedDay === day.toString() && "bg-main-green-700 text-white rounded-full"}  
+                                            ${day === 0 && 'cursor-not-allowed hover:bg-transparent'} `}
                                     >
                                         {day !== 0 ? day : ''}
                                     </p>

@@ -171,7 +171,7 @@ export default function Calendar(){
                             <EventAccordion title={event.title} time={event.date}  />
                         ))
                     :
-                        <p>No scheduled events.</p>
+                        <p className="mt-2">No scheduled events.</p>
                     }
                 </section>
             </div>
