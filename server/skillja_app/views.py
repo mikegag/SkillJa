@@ -1,4 +1,5 @@
 from django.forms import model_to_dict
+import pytz
 import json, os, stripe, requests, jwt, cloudinary, cloudinary.uploader, time
 from venv import logger
 from django.db import DatabaseError, IntegrityError, transaction
@@ -1131,7 +1132,9 @@ def create_transaction_notification(request):
             try:
                 # Parse the date_time in 'yyyy-mm-dd-hh-mm' format
                 parsed_date_time = datetime.strptime(date_time, "%Y-%m-%d-%H-%M")
-                aware_date_time = make_aware(parsed_date_time, get_current_timezone())
+                user_timezone = timezone(sender.timezone)
+                # Transform date_time to conform with user's local timezone
+                aware_date_time = make_aware(parsed_date_time, user_timezone)
 
                 # Check for existing event
                 existing_event = Event.objects.filter(
@@ -1187,8 +1190,10 @@ def create_calendar_event(request):
 
         # Convert date to datetime object
         try:
-            naive_date = datetime.strptime(event_date, '%Y-%m-%d-%H-%M')  # Custom format
-            aware_date = make_aware(naive_date, get_current_timezone())  # Add timezone info
+            naive_date = datetime.strptime(event_date, '%Y-%m-%d-%H-%M')
+            user_timezone = timezone(user.timezone)
+                # Transform date_time to conform with user's local timezone
+            aware_date = make_aware(naive_date, user_timezone) 
         except ValueError:
             return JsonResponse({"error": "Invalid date format. Use YYYY-MM-DD-HH-MM."}, status=400)
 
@@ -1281,7 +1286,6 @@ def get_coach_availability(request):
         if not coach_id:
             return JsonResponse({"error": "Coach Id was not provided or user account is invalid."}, status=400)
 
-
         coach_availability = CoachAvailability.objects.prefetch_related(
             "month_schedules__weekly_schedules",
             "month_schedules__blocked_days"
@@ -1290,13 +1294,33 @@ def get_coach_availability(request):
         if not coach_availability:
             return JsonResponse({"error": "Coach availability not found"}, status=204)
 
+        # Get the user's timezone
+        user_timezone = pytz.timezone(request.user.timezone)
+        # Get the coach's timezone
+        coach = User.objects.get(id=coach_id)
+        coach_timezone = pytz.timezone(coach.timezone) 
+
+        # Helper function to convert times if needed
+        def convert_to_user_timezone(dt):
+            if dt:
+                # Convert only if user's and Coach's timezones differ
+                if user_timezone != coach_timezone:
+                    # Localize to coach's timezone first, then convert to UTC and then user's timezone
+                    coach_dt = coach_timezone.localize(dt) 
+                    utc_dt = coach_dt.astimezone(pytz.utc) 
+                    user_dt = utc_dt.astimezone(user_timezone)  
+                    return user_dt
+                else:
+                    return dt
+            return None
+        
         def serialize_month_schedule(month_schedule):
             return {
                 "weekly": [
                     {
                         "dayOfWeek": ws.day_of_week,
-                        "startTime": str(ws.start_time),
-                        "endTime": str(ws.end_time),
+                        "startTime": str(convert_to_user_timezone(ws.start_time)),
+                        "endTime": str(convert_to_user_timezone(ws.end_time)),
                     }
                     for ws in month_schedule.weekly_schedules.all()
                 ],
