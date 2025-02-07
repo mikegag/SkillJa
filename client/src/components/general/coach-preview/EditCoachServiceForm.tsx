@@ -34,10 +34,10 @@ export default function EditCoachServiceForm({displayForm}:FormProps){
                         onClick={()=>handleExit(false)}
                         onMouseEnter={()=>setInsideForm(false)}
                     />
-                    <h3 className="text-lg font-medium font-source mx-auto text-center pl-10 lg:pl-24">
+                    <h3 className="text-lg font-medium font-source mx-auto text-center">
                         Edit Services
                     </h3>
-                    <p className="mx-auto"> </p>
+                    <p className="ml-auto mr-0"></p>
                 </div>
                 <OfferedServices />
             </div>

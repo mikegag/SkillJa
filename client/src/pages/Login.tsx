@@ -9,7 +9,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import GetCSFR from "../hooks/GetCSFR";
-import { updateTimezone } from "../hooks/UpdateTimezone";
 import Footer from "../components/navigation/Footer";
 
 interface FormStructure {

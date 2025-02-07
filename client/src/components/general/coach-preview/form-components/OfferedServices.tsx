@@ -16,6 +16,7 @@ type SavedInformationType = {
     targetAudience?: string;
     location?: string;
     deliverable?: string;
+    sessionLength?: number;
     price: number;
 }
 
@@ -76,13 +77,13 @@ export default function OfferedServices() {
                         </p>
                         {createServiceData.map((currentService, index)=>(
                             <div 
-                                className="flex border border-main-grey-100 text-main-green-900 rounded-xl py-2 px-4 my-2 font-kulim cursor-pointer hover:bg-main-green-500 hover:text-main-white"
+                                className="flex border border-main-grey-100 rounded-xl py-2 px-4 my-2 font-kulim cursor-pointer hover:bg-main-green-500 hover:text-white"
                                 key={index}
                                 onClick={() => setViewCreateService(currentService.type as SavedInformationType['type'])}
                             >
-                                <div className="flex flex-col justify-center items-start pr-2">
+                                <div className="flex flex-col justify-center items-start pr-2 hover:text-white">
                                     <h4 className="font-medium">{currentService.title}</h4>
-                                    <p className="text-sm text-main-grey-300 hover:text-main-white">{currentService.subtitle}</p>
+                                    <p className="text-sm pt-1">{currentService.subtitle}</p>
                                 </div>
                                 <FontAwesomeIcon icon={faChevronRight} className="ml-auto my-auto"/>
                             </div>
@@ -106,25 +107,25 @@ export default function OfferedServices() {
                                 </p>
                                 {services && services.length > 0 && services.map((currService, index) => (
                                     <div 
-                                        className="flex border border-main-grey-100 text-main-green-900 rounded-xl py-2 px-4 my-2 font-kulim cursor-pointer hover:bg-main-green-500 hover:text-main-white"
+                                        className="flex border border-main-grey-100 rounded-xl py-2 px-4 my-2 font-kulim cursor-pointer hover:bg-main-green-500 hover:text-main-white"
                                         key={index}
                                         onClick={() => handleServiceClick(currService)}
                                     >
                                         <div className="flex flex-col justify-center items-start pr-2">
                                             <h4 className="font-medium">{currService.title}</h4>
-                                            <p className="text-sm text-main-grey-300 hover:text-main-white">See Price and Details</p>
+                                            <p className="text-sm pt-1">See Price and Details</p>
                                         </div>
                                         <FontAwesomeIcon icon={faChevronRight} className="ml-auto my-auto" />
                                     </div>
                                 ))}
                                 <div role="presentation" className="h-0.5 bg-main-grey-200 rounded-full my-4"></div>
                                 <div 
-                                    className="flex border border-main-grey-100 text-main-green-900 rounded-xl py-2 px-4 my-2 font-kulim cursor-pointer hover:bg-main-green-500 hover:text-main-white"
+                                    className="flex border border-main-grey-100 rounded-xl py-2 px-4 my-2 font-kulim cursor-pointer hover:bg-main-green-500 hover:text-main-white"
                                     onClick={() => setCreateService(true)}
                                 >
-                                    <div className="flex flex-col justify-center items-start text-left">
+                                    <div className="flex flex-col justify-center items-start text-left hover:text-white">
                                         <h4 className="font-medium">Create New Session/Program</h4>
-                                        <p className="text-sm text-main-grey-300 hover:text-main-white">Create a session/program for your athletes</p>
+                                        <p className="text-sm pt-1">Create a session/program for your athletes</p>
                                     </div>
                                     <FontAwesomeIcon icon={faChevronRight} className="ml-auto my-auto" />
                                 </div>
@@ -141,12 +142,12 @@ export default function OfferedServices() {
                                 </p>
                                 <div role="presentation" className="h-1 bg-main-grey-200 rounded-full my-6"></div>
                                 <div 
-                                    className="flex border border-main-grey-100 text-main-green-900 rounded-xl py-4 px-4 my-4 font-kulim cursor-pointer hover:bg-main-green-500 hover:text-main-white"
+                                    className="flex border border-main-grey-100 rounded-xl py-4 px-4 my-4 font-kulim cursor-pointer hover:bg-main-green-500 hover:text-white"
                                     onClick={() => setCreateService(true)}
                                 >
-                                    <div className="flex flex-col justify-center items-start text-left pr-2">
+                                    <div className="flex flex-col justify-center items-start text-left pr-2 hover:text-white">
                                         <h4 className="font-medium">Create New Session/Program</h4>
-                                        <p className="text-sm text-main-grey-300 hover:text-main-white">Create a session/program for your athletes</p>
+                                        <p className="text-sm pt-1">Create a session/program for your athletes</p>
                                     </div>
                                     <FontAwesomeIcon icon={faChevronRight} className="ml-auto my-auto" />
                                 </div>

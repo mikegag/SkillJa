@@ -1282,6 +1282,7 @@ def get_calendar_event(request):
 def get_coach_availability(request):
     try:
         coach_id = request.GET.get('coachId') or getattr(request.user, 'id', None)
+        coach = User.objects.get(id=coach_id)
 
         if not coach_id:
             return JsonResponse({"error": "Coach Id was not provided or user account is invalid."}, status=400)
@@ -1293,11 +1294,13 @@ def get_coach_availability(request):
 
         if not coach_availability:
             return JsonResponse({"error": "Coach availability not found"}, status=204)
+        
+        # Get saved Calendar Events to prevent a Coach from being double booked
+        booked_events = Event.objects.get(participants = coach)
 
         # Get the user's timezone
         user_timezone = pytz.timezone(request.user.timezone)
         # Get the coach's timezone
-        coach = User.objects.get(id=coach_id)
         coach_timezone = pytz.timezone(coach.timezone) 
 
         # Helper function to convert times if needed

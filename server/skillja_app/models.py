@@ -143,14 +143,13 @@ class Service(models.Model):
     type = models.CharField(max_length=25, choices = TYPE_CHOICES, default='individual-session')
     title = models.CharField(max_length=110)
     description = models.CharField(max_length=240)
-    duration = models.CharField(max_length=110, default='')
+    duration = models.CharField(max_length=110, blank=True, null=True)
     frequency = models.CharField(max_length=110, blank=True, null=True)
     target_audience = models.CharField(max_length=110, blank=True, null=True)
     location = models.CharField(max_length=110, blank=True, null=True)
     deliverable = models.CharField(max_length=240, blank=True, null=True)
-    price = models.PositiveIntegerField(blank=True, null=True)  
-
-    #tbd - deliverable = models.FileField(upload_to='service_files/', blank=True, null=True)
+    price = models.PositiveIntegerField(default=5)  
+    session_length = models.PositiveIntegerField(blank=True, null=True) 
 
     def __str__(self):
         return f'{self.user.email} - Service'
