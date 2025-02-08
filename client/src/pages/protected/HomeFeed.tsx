@@ -113,7 +113,7 @@ export default function HomeFeed(){
             { (!userEmail || !isLoggedIn) && ( 
                 <Header useCase="onboarding"  /> 
             )}
-            <div className="px-4 mb-48">
+            <div className="px-4 mb-64">
                 <div className="flex flex-col items-center justify-center text-main-green-900 mt-10">
                     <h1 className="font-source font-medium text-4xl my-2">
                         Let's Find Your Coach
