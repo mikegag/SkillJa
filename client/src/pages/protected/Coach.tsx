@@ -148,9 +148,10 @@ export default function Coach(){
                         onClick={()=>navigate(-1)} 
                         className="text-2xl my-auto mr-auto ml-0 hover:text-main-green-500 cursor-pointer" 
                     />
-                    <h1 className="font-source text-center text-3xl pr-4 my-auto mr-auto text-main-green-900">
+                    <h1 className="font-source text-center text-3xl my-auto mx-auto text-main-green-900">
                         Profile
                     </h1>
+                    <p className="w-6 ml-auto mr-0"></p>
                 </div>
                 <section className="flex flex-col justify-center items-center border-b-2 mt-8 lg:mt-14 border-main-grey-300 lg:pb-4 ">
                     <div className="flex flex-col justify-center items-center lg:flex-row lg:justify-center lg:items-center ">

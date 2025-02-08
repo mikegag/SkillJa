@@ -3,8 +3,8 @@ import Header from "../../components/navigation/Header"
 import GetWindowSize from '../../hooks/GetWindowSize'
 import CurrentGoal from "../../components/general/athlete-preview/CurrentGoal"
 import SocialMediaIcons from "../../components/general/coach-preview/SocialMediaIcons"
-import { useNavigate, Link } from 'react-router-dom'
-import { faChevronRight, faGear, faLocationDot, faLongArrowLeft, faStar } from "@fortawesome/free-solid-svg-icons"
+import { useNavigate } from 'react-router-dom'
+import { faChevronRight, faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import axios from "axios"
 import GetCSFR from "../../hooks/GetCSFR"

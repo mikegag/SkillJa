@@ -2,7 +2,7 @@ import { faX } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import axios from "axios"
 import { loadStripe } from "@stripe/stripe-js"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import GetCSFR from "../../../hooks/GetCSFR"
 import { useLocation } from "react-router-dom"
 import ServiceDateTimePicker from "./form-components/ServiceDateTimePicker"
@@ -12,7 +12,8 @@ interface Service {
     type: string;
     title: string;
     description: string;
-    duration: string;
+    duration?: string;
+    sessionLength?: number;
     frequency?: string;
     target_audience?: string;
     location?: string;
@@ -41,7 +42,16 @@ export default function CoachService({exitView, data}:ServiceProps){
     // Retrieve coachId param for API request
     const coachId = queryParams.get("coach_id")
     // Date and Time data if a user selects an individual session
-    const [dateTime, setDateTime] = useState<string>()
+    const [dateTime, setDateTime] = useState<string|null>(null)
+    // Used to activate purchase button once dateTime value has been acknowledged and a value has been by user
+    const [acknowledgeDateTime, setAcknowledgeDateTime] = useState<boolean>(false)
+    const [activatePurchaseButton, setActivatePurchase] = useState<boolean>(false)
+
+    useEffect(()=>{
+        if(dateTime && acknowledgeDateTime){
+            setActivatePurchase(true)
+        }
+    },[dateTime])
 
     // callback function to let parent know user wants to exit focus view
     function handleExit(value:boolean){
@@ -79,7 +89,7 @@ export default function CoachService({exitView, data}:ServiceProps){
                     serviceId: data.id!,
                     publicKey: res.data.publicKey, 
                     coachId: coachId!,
-                    dateTime: dateTime
+                    dateTime: dateTime!
                 }
                 // initialize Stripe object
                 const stripePromise = loadStripe(res.data.publicKey)
@@ -122,7 +132,6 @@ export default function CoachService({exitView, data}:ServiceProps){
         .catch(handleError)
     }
 
-
     return (
         <div className="pop-up-background" onClick={()=>handleExit(false)}>
             <div className="pop-up-container p-4 lg:p-6 text-main-green-900" onMouseEnter={()=>setInsideModal(true)} onMouseLeave={()=>setInsideModal(false)}>
@@ -143,9 +152,16 @@ export default function CoachService({exitView, data}:ServiceProps){
                 <p className="font-kulim font-light">
                     {data.description}
                 </p>
-                <p className="font-kulim mt-4 font-light">
-                    <span className="font-semibold">Duration:</span> {data.duration}
-                </p>
+                {data.duration && (
+                    <p className="font-kulim mt-4 font-light">
+                        <span className="font-semibold">Duration:</span> {data.duration}
+                    </p>
+                )}
+                {data.sessionLength && (
+                    <p className="font-kulim mt-4 font-light">
+                        <span className="font-semibold">Session Length (min):</span> {data.sessionLength}
+                    </p>
+                )}
                 {data.frequency && (
                     <p className="font-kulim mt-4 font-light">
                         <span className="font-semibold">Frequency:</span> {data.frequency}
@@ -176,10 +192,15 @@ export default function CoachService({exitView, data}:ServiceProps){
                     </span>
                 </p>
                 {data.type==='individual-session' && 
-                    <ServiceDateTimePicker csrftoken={csrfToken!} coachId={coachId!} dateTime={setDateTime}/>
+                    <div onClick={()=>setAcknowledgeDateTime(true)}>
+                        <ServiceDateTimePicker csrftoken={csrfToken!} coachId={coachId!} dateTime={setDateTime}/>
+                    </div>
                 }
                 <button 
-                    className={`form-btn mt-9 mb-3 py-2 lg:w-72 mx-auto ${coachId ? 'cursor-pointer' : 'bg-main-grey-200 cursor-not-allowed hover:bg-main-grey-200'}`}
+                    className={`form-btn mt-9 mb-3 py-2 lg:w-72 mx-auto 
+                        ${(data.type === 'individual-session' && activatePurchaseButton && coachId) || (coachId && data.type !== 'individual-session') ? 
+                            'cursor-pointer' : 'bg-main-grey-200 cursor-not-allowed hover:bg-main-grey-200'}`
+                        }
                     onClick={(e)=>handleSubmit(e)}
                 >
                     Purchase Now

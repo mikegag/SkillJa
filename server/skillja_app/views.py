@@ -1295,18 +1295,38 @@ def get_coach_availability(request):
         if not coach_availability:
             return JsonResponse({"error": "Coach availability not found"}, status=204)
         
-        # Get saved Calendar Events to prevent a Coach from being double booked
-        booked_events = Event.objects.get(participants = coach)
 
-        # Get the user's timezone
+        # Get saved Calendar Events to prevent a Coach from being double booked --------------
+
+        # Filter booked events to only include those occurring within the next two months
+        start_date = now()
+        end_date = start_date + timedelta(days=62)
+        booked_events = Event.objects.filter(
+            participants=coach,
+            date__range=(start_date, end_date)
+        )
+        # Format book events to include date, start and end times
+        formatted_booked_events = [
+            {
+                "date": event.date.strftime("%Y-%m-%d"),
+                "startTime": event.date.strftime("%H:%M"), 
+                "endTime": (event.date + timedelta(minutes=event.session_length)).strftime("%H:%M")
+                if event.session_length else event.date.strftime("%H:%M")
+            }
+            for event in booked_events
+        ]
+
+
+        # Serialize and format Coach's availability --------------
+
+        # Get the user's and coach's timezone
         user_timezone = pytz.timezone(request.user.timezone)
-        # Get the coach's timezone
         coach_timezone = pytz.timezone(coach.timezone) 
 
-        # Helper function to convert times if needed
+        # Helper function to convert times to user's local timezone if needed
         def convert_to_user_timezone(dt):
             if dt:
-                # Convert only if user's and Coach's timezones differ
+                # Convert only if user's and Coach's timezones differ indicating they are in different geographical/timezone areas
                 if user_timezone != coach_timezone:
                     # Localize to coach's timezone first, then convert to UTC and then user's timezone
                     coach_dt = coach_timezone.localize(dt) 
@@ -1339,7 +1359,7 @@ def get_coach_availability(request):
             ),
         }
 
-        return JsonResponse({"availability": data})
+        return JsonResponse({"availability": data, "bookedEvents": formatted_booked_events})
 
     except Exception as e:
         return JsonResponse({"error": "An unexpected error occurred", "details": str(e)}, status=500)

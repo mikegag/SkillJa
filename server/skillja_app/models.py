@@ -232,6 +232,7 @@ class Event(models.Model):
     description = models.CharField(max_length=255, blank=True, null=True)
     location = models.CharField(max_length=255, blank=True, null=True)
     participants = models.ManyToManyField(User, related_name='events')
+    session_length = models.PositiveIntegerField(blank=True, null=True) 
 
     def __str__(self):
         return f"{self.title} on {self.date.strftime('%Y-%m-%d-%H-%M')}"
