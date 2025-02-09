@@ -2,8 +2,8 @@
     "landing": {
           "hero": {
             "title":"Find the Perfect Coach for Your Sport.",
-            "sports": ["Ice Hockey 🏒", "Basketball 🏀", "Soccer ⚽", "Baseball ⚾", "Football 🏈", "Rugby 🏉", "Lacrosse 🥍", "Cricket 🏏", "Softball 🥎", "Volleyball 🏐", "Curling 🥌", "Field Hockey 🏑", "Water Polo 💧",
-            "Running 🏃", "Golf ⛳", "Cycling 🚲", "Swimming 🏊‍♂️", "Snowboarding 🏂", "Skiing 🎿", "Personal Training 🏋️", "Tennis 🎾", "Gymnastics 🤸‍♂️", "Boxing 🥊", "Martial Arts 🥋", "Wrestling 🤼", "Track & Field 👟"]
+            "sports": ["Running 🏃", "Golf ⛳", "Cycling 🚲", "Pickleball 🏓", "Ice Hockey 🏒", "Basketball 🏀", "Soccer ⚽", "Baseball ⚾", "Football 🏈", "Rugby 🏉", "Lacrosse 🥍", "Cricket 🏏", "Softball 🥎", 
+            "Swimming 🏊‍♂️", "Snowboarding 🏂", "Skiing 🎿", "Powerlifting 🏋️", "Tennis 🎾", "Gymnastics 🤸‍♂️", "Boxing 🥊", "Martial Arts 🥋", "Wrestling 🤼", "Track & Field 👟", "Volleyball 🏐", "Curling 🥌", "Field Hockey 🏑", "Water Polo 💧", "Ping Pong 🏓"]
           },
           "secondSection":{
             "title":"Discover Coaches Who Understand Your Goals.",
@@ -511,7 +511,7 @@
             "questions": [
               { "id": 2, "title": "What sports are you interested in 👀?", "multiOptions": {
                     "team":["Ice Hockey 🏒", "Basketball 🏀", "Soccer ⚽", "Baseball ⚾", "Football 🏈", "Rugby 🏉", "Lacrosse 🥍", "Cricket 🏏", "Softball 🥎", "Volleyball 🏐", "Curling 🥌", "Field Hockey 🏑", "Water Polo 💧"],
-                    "individual": ["Running 🏃", "Golf ⛳", "Cycling 🚲", "Swimming 🏊‍♂️", "Snowboarding 🏂", "Skiing 🎿", "Personal Training 🏋️", "Tennis 🎾", "Gymnastics 🤸‍♂️", "Boxing 🥊", "Martial Arts 🥋", "Wrestling 🤼", "Track & Field 👟"]
+                    "individual": ["Running 🏃", "Golf ⛳", "Cycling 🚲", "Swimming 🏊‍♂️", "Snowboarding 🏂", "Skiing 🎿", "Powerlifting 🏋️", "Tennis 🎾", "Gymnastics 🤸‍♂️", "Boxing 🥊", "Pickleball 🏓", "Martial Arts 🥋", "Wrestling 🤼", "Track & Field 👟", "Ping Pong 🏓"]
                   }, 
                 "multiSelect":true }
             ]
@@ -548,7 +548,7 @@
           "questions": [
             { "id": 2, "title": "What sports are you interested in 👀?", "multiOptions": {
                   "team":["Ice Hockey 🏒", "Basketball 🏀", "Soccer ⚽", "Baseball ⚾", "Football 🏈", "Rugby 🏉", "Lacrosse 🥍", "Cricket 🏏", "Softball 🥎", "Volleyball 🏐", "Curling 🥌", "Field Hockey 🏑", "Water Polo 💧"],
-                  "individual": ["Running 🏃", "Golf ⛳", "Cycling 🚲", "Swimming 🏊‍♂️", "Snowboarding 🏂", "Skiing 🎿", "Personal Training 🏋️", "Tennis 🎾", "Gymnastics 🤸‍♂️", "Boxing 🥊", "Martial Arts 🥋", "Wrestling 🤼", "Track & Field 👟"]
+                  "individual": ["Running 🏃", "Golf ⛳", "Cycling 🚲", "Swimming 🏊‍♂️", "Snowboarding 🏂", "Skiing 🎿", "Powerlifting 🏋️", "Tennis 🎾", "Gymnastics 🤸‍♂️", "Boxing 🥊", "Pickleball 🏓", "Martial Arts 🥋", "Wrestling 🤼", "Track & Field 👟", "Ping Pong 🏓"]
                 }, 
               "multiSelect":true }
           ]
@@ -587,7 +587,7 @@
             {"id":4, "property": "goals"}
           ],
           "sports": ["Ice Hockey 🏒", "Basketball 🏀", "Soccer ⚽", "Baseball ⚾", "Football 🏈", "Rugby 🏉", "Lacrosse 🥍", "Cricket 🏏", "Softball 🥎", "Volleyball 🏐", "Curling 🥌", "Field Hockey 🏑", "Water Polo 💧",
-            "Running 🏃", "Golf ⛳", "Cycling 🚲", "Swimming 🏊‍♂️", "Snowboarding 🏂", "Skiing 🎿", "Personal Training 🏋️", "Tennis 🎾", "Gymnastics 🤸‍♂️", "Boxing 🥊", "Martial Arts 🥋", "Wrestling 🤼", "Track & Field 👟"],
+            "Running 🏃", "Golf ⛳", "Cycling 🚲", "Ping Pong 🏓", "Swimming 🏊‍♂️", "Snowboarding 🏂", "Skiing 🎿", "Personal Training 🏋️", "Tennis 🎾", "Gymnastics 🤸‍♂️", "Boxing 🥊", "Pickleball 🏓", "Martial Arts 🥋", "Wrestling 🤼", "Track & Field 👟"],
           "accountTypes": ["Athlete 🥇", "Coach 🎓"]
     },
 

@@ -6,7 +6,7 @@ import SliderPreview from "./SliderPreview"
 import SearchBar from "../../navigation/SearchBar"
 import axios from "axios"
 import GetCSFR from "../../../hooks/GetCSFR"
-import { UserContext, useUserContext } from "../../../hooks/RetrieveImageContext"
+import { UserContext } from "../../../hooks/RetrieveImageContext"
 
 interface ViewProps {
     view: 'mobile' | 'desktop'

@@ -71,7 +71,7 @@ export default function Login() {
       <h2 className="heading mt-10">Welcome Back!</h2>
       <div className="flex flex-col justify-center items-center py-12">
         {loading ? (
-          <div className="mt-20 h-52">
+          <div className="mt-20 h-56">
             <LoadingAnimation />
           </div>
         ) : (

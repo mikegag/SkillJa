@@ -3,7 +3,6 @@ import Header from "../../components/navigation/Header"
 import GetWindowSize from '../../hooks/GetWindowSize'
 import CurrentGoal from "../../components/general/athlete-preview/CurrentGoal"
 import SocialMediaIcons from "../../components/general/coach-preview/SocialMediaIcons"
-import { useNavigate } from 'react-router-dom'
 import { faChevronRight, faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import axios from "axios"
@@ -16,6 +15,7 @@ import CoachService from "../../components/general/coach-preview/CoachService"
 import Footer from "../../components/navigation/Footer"
 import RetrieveImage from "../../hooks/RetrieveImage"
 import { UserContext } from "../../hooks/RetrieveImageContext"
+import LoadingAnimation from "../../components/general/LoadingAnimation"
 
 interface Review {
     id: number;
@@ -113,10 +113,10 @@ export default function Profile(){
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const [profileDetails, setProfileDetails] = useState<ProfileDetails>(defaultProfileDetails)
     const windowSize = GetWindowSize()
-    const navigate = useNavigate()
     const csrfToken = GetCSFR({ name: "csrftoken" })
     const [readyToDisplayProfileForm, setReadyToDisplayProfileForm] = useState<boolean>(false)
     const [readyToDisplayServicesForm, setReadyToDisplayServicesForm] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(true)
 
     // API call to get user profile details
     useEffect(()=>{
@@ -138,6 +138,14 @@ export default function Profile(){
             .catch(error => {console.error(error)})
     },[])
 
+    // Force simulate loading animation while Coach data is being fetched
+    useEffect(()=>{
+        const timer = setTimeout(() => {
+            setLoading(false)
+        }, 1500)
+        return ()=> clearTimeout(timer)
+    },[])
+
     return (
         <div className="flex flex-col">
             {profileDetails.profile.picture && (
@@ -145,13 +153,14 @@ export default function Profile(){
                     <Header useCase="protected" /> 
                 </UserContext.Provider> 
             )}
-            {!profileDetails.profile.picture && (
-                <Header useCase="onboarding" /> 
-            )}
-            <div className="pb-4 px-8 lg:px-14 lg:mb-32"> 
-            {profileDetails.isathlete && readyToDisplayProfileForm? <EditAthleteProfileForm displayForm={setReadyToDisplayProfileForm} prevSavedData={profileDetails} />:<></>}
-            {profileDetails.iscoach && readyToDisplayProfileForm? <EditCoachProfileForm displayForm={setReadyToDisplayProfileForm} prevSavedData={profileDetails}/>:<></>}
-            {profileDetails.iscoach && readyToDisplayServicesForm? <EditCoachServiceForm displayForm={setReadyToDisplayServicesForm}/>:<></>}
+            {/* force simulate loading simulation while API data loads */}
+            <div className={`${loading ? 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2': 'opacity-0'}`}>
+                <LoadingAnimation />
+            </div>
+            <div className={`pb-4 px-8 lg:px-14 lg:mb-32 ${loading ? 'opacity-0':'opacity-100'}`}> 
+                {profileDetails.isathlete && readyToDisplayProfileForm? <EditAthleteProfileForm displayForm={setReadyToDisplayProfileForm} prevSavedData={profileDetails} />:<></>}
+                {profileDetails.iscoach && readyToDisplayProfileForm? <EditCoachProfileForm displayForm={setReadyToDisplayProfileForm} prevSavedData={profileDetails}/>:<></>}
+                {profileDetails.iscoach && readyToDisplayServicesForm? <EditCoachServiceForm displayForm={setReadyToDisplayServicesForm}/>:<></>}
                 <div className="flex justify-center text-center mt-10">
                     <h1 className="font-source text-3xl m-auto text-main-green-900">
                         Profile

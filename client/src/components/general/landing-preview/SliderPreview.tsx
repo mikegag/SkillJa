@@ -5,7 +5,7 @@ import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons
 import useWindowSize from '../../../hooks/GetWindowSize';
 
 export default function SliderPreview() {
-    const sliderData = data.onboarding.sports
+    const sliderData = data.landing.hero.sports
     // Initialize state to track the starting index of visible items
     const [startIndex, setStartIndex] = useState(0)
     // Get current window size

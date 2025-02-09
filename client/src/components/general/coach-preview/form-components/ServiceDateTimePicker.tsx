@@ -24,11 +24,19 @@ interface Availability {
         blockedDays: string[]
     };
 }
+interface BookedEvent {
+    date: string; 
+    startTime: string; 
+    endTime: string;
+}
 
 export default function ServiceDateTimePicker({ csrftoken, coachId, dateTime }: Props) {
     const [startDate, setStartDate] = useState(new Date())
     const [openPicker, setOpenPicker] = useState<boolean>(false)
+    // Store any previously saved availability
     const [CoachAvailability, setCoachAvailability] = useState<Availability | null>(null)
+    // Store any previously booked events/sessions
+    const [bookedSessions, setBookedSessions] = useState<BookedEvent[]>([])
 
     // Calculate the date range
     const today = new Date()
@@ -49,30 +57,30 @@ export default function ServiceDateTimePicker({ csrftoken, coachId, dateTime }: 
 
         if (!daySchedule) return {}
 
-        const [startHour, startMinute] = daySchedule.startTime.split(':').map(Number);
-        const [endHour, endMinute] = daySchedule.endTime.split(':').map(Number);
+        const [startHour, startMinute] = daySchedule.startTime.split(':').map(Number)
+        const [endHour, endMinute] = daySchedule.endTime.split(':').map(Number)
 
-        const minTime = new Date();
-        minTime.setHours(startHour, startMinute, 0);
+        const minTime = new Date()
+        minTime.setHours(startHour, startMinute, 0)
 
-        const maxTime = new Date();
-        maxTime.setHours(endHour, endMinute, 0);
+        const maxTime = new Date()
+        maxTime.setHours(endHour, endMinute, 0)
 
-        return { minTime, maxTime };
+        return { minTime, maxTime }
     }
 
     useEffect(() => {
         if (startDate) {
             const year = startDate.getFullYear();
-            const month = String(startDate.getMonth() + 1).padStart(2, '0');
-            const day = String(startDate.getDate()).padStart(2, '0');
-            const hours = String(startDate.getHours()).padStart(2, '0');
-            const minutes = String(startDate.getMinutes()).padStart(2, '0');
+            const month = String(startDate.getMonth() + 1).padStart(2, '0')
+            const day = String(startDate.getDate()).padStart(2, '0')
+            const hours = String(startDate.getHours()).padStart(2, '0')
+            const minutes = String(startDate.getMinutes()).padStart(2, '0')
     
-            const formattedDateTime = `${year}-${month}-${day}-${hours}-${minutes}`;
+            const formattedDateTime = `${year}-${month}-${day}-${hours}-${minutes}`
             dateTime(formattedDateTime)
         }
-    }, [startDate]);
+    }, [startDate])
     
 
     // Determine time range based on the selected date
@@ -90,11 +98,10 @@ export default function ServiceDateTimePicker({ csrftoken, coachId, dateTime }: 
             .then((res) => {
                 if (res.status === 200) {
                     setCoachAvailability(res.data.availability)
+                    setBookedSessions(res.data.bookedEvents)
                 }
             })
-            .catch((error) => {
-                console.error(error)
-            })
+            .catch((error) => {console.error(error)})
     }
 
     return (
@@ -119,6 +126,21 @@ export default function ServiceDateTimePicker({ csrftoken, coachId, dateTime }: 
                         const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
                         // Disable blocked days only
                         return !availability.blockedDays.includes(formattedDate);
+                    }}
+                    filterTime={(time) => {
+                        if (!bookedSessions.length) return true;
+                    
+                        const selectedDate = time.toISOString().split("T")[0]; 
+                        const selectedMinutes = time.getHours() * 60 + time.getMinutes();
+                    
+                        return !bookedSessions.some((session) => {
+                            if (session.date !== selectedDate) return false;
+                    
+                            const sessionStartMinutes = parseInt(session.startTime.split(":")[0]) * 60 + parseInt(session.startTime.split(":")[1]);
+                            const sessionEndMinutes = parseInt(session.endTime.split(":")[0]) * 60 + parseInt(session.endTime.split(":")[1]);
+                    
+                            return selectedMinutes >= sessionStartMinutes && selectedMinutes < sessionEndMinutes;
+                        });
                     }}
                 />
             ) : (

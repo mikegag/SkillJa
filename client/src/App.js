@@ -55,7 +55,7 @@ export default function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="settings">
             <Route index element={<Account />} />
-            <Route path="payments" element={<Payments />} />
+            <Route path="payments" element={<ComingSoon />} />
             <Route path="notifications" element={<Notifications />} />
             <Route path="invite" element={<Invite />} />
             <Route path="privacy">

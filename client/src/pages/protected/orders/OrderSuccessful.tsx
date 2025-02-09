@@ -54,7 +54,7 @@ export default function OrderSuccessful(){
     // API call to create chat notification between coach and athlete
     function createTransactionNotification(){
         axios.post(`${process.env.REACT_APP_SKILLJA_URL}/chat/create_transaction_notification/`, 
-            {sessionId:sessionId, serviceId:serviceId, dateTime: dateTime }, 
+            {sessionId:sessionId, serviceId:serviceId, dateTime: dateTime },
         {
             headers: {
                 'X-CSRFToken': csrfToken,

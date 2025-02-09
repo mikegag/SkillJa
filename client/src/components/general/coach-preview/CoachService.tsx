@@ -13,9 +13,9 @@ interface Service {
     title: string;
     description: string;
     duration?: string;
-    sessionLength?: number;
+    session_length?: number;
     frequency?: string;
-    target_audience?: string;
+    targetAudience?: string;
     location?: string;
     deliverable?: string;
     price: number;
@@ -157,9 +157,9 @@ export default function CoachService({exitView, data}:ServiceProps){
                         <span className="font-semibold">Duration:</span> {data.duration}
                     </p>
                 )}
-                {data.sessionLength && (
+                {data.session_length && (
                     <p className="font-kulim mt-4 font-light">
-                        <span className="font-semibold">Session Length (min):</span> {data.sessionLength}
+                        <span className="font-semibold">Session Length: </span> {data.session_length} min
                     </p>
                 )}
                 {data.frequency && (
@@ -188,7 +188,7 @@ export default function CoachService({exitView, data}:ServiceProps){
                     </span>
                         ${data.price}
                     <span className="ml-2">
-                        / {data.type.includes('program')? 'Program': 'Session'}
+                        / {data.type.includes('program')? 'Resource': 'Session'}
                     </span>
                 </p>
                 {data.type==='individual-session' && 

@@ -653,11 +653,12 @@ def create_coach_service(request):
                 # Update the service fields
                 service.title = data['title']
                 service.description = data['description']
-                service.duration = data['duration']
+                service.duration = data.get('duration', service.duration)
                 service.frequency = data.get('frequency', service.frequency)
                 service.target_audience = data.get('targetAudience', service.target_audience)
                 service.location = data.get('location', service.location)
                 service.deliverable = data.get('deliverable', service.deliverable)
+                service.session_length = data.get('sessionLength', service.session_length)
                 service.price = data['price']
                 service.save()
 
@@ -677,6 +678,7 @@ def create_coach_service(request):
             target_audience=data.get('targetAudience', ''),
             location=data.get('location', ''),
             deliverable=data.get('deliverable', ''), 
+            session_length = data.get('sessionLength', ''),
             price=data['price']
         )
 
@@ -1132,25 +1134,23 @@ def create_transaction_notification(request):
             try:
                 # Parse the date_time in 'yyyy-mm-dd-hh-mm' format
                 parsed_date_time = datetime.strptime(date_time, "%Y-%m-%d-%H-%M")
-                user_timezone = timezone(sender.timezone)
-                # Transform date_time to conform with user's local timezone
-                aware_date_time = make_aware(parsed_date_time, user_timezone)
 
                 # Check for existing event
                 existing_event = Event.objects.filter(
                     participants__in=[sender, coach],
-                    date__gte=aware_date_time,
-                    date__lt=aware_date_time + timedelta(minutes=1)
+                    date__gte=parsed_date_time,
+                    date__lt=parsed_date_time + timedelta(minutes=1)
                 ).first()
 
                 if existing_event:
                     return JsonResponse({"error": "An event already exists at this time for the same participants."}, status=400)
 
                 new_event = Event.objects.create(
-                    date=aware_date_time,
+                    date=parsed_date_time,
                     title=f"{service.title} between Coach: {coach.fullname} & Athlete: {sender.fullname}",
                     description=service.description,
                     location=service.location,
+                    session_length=int(service.session_length)
                 )
                 # Add participants
                 new_event.participants.add(coach, sender)
@@ -1714,7 +1714,7 @@ def order_confirmation_email(request):
         # Render the HTML email template
         html_content = render_to_string("email/order_confirmation_email.html", 
             {"coach": coach, 
-            "service":service, 
+            "service":service,  
             "dateTime": formatted_date_time,
             "current_date":f'{current_date.year}-{current_date.month}-{current_date.day}'}
         )
