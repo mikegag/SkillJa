@@ -777,6 +777,7 @@
         {"type":"individual-session","title":"Individual Session", "subtitle":"Individual Session to focus on specific needs (e.g. one-on-one training session)"}
       ]
     },
+
     "deleteAccount": [
       {"index":0, "option": "I am no longer interested in SkillJa and/or sports"},
       {"index":1, "option": "SkillJa is too expensive"},
@@ -784,6 +785,7 @@
       {"index":3, "option": "SkillJa is too difficult to use"},
       {"index":4, "option": "I had a bad experience with SkillJa"}
     ],
+
     "contactUs": [
       {"index":0, "option": "General Inquiry"},
       {"index":1, "option": "Suggestions"},
@@ -791,6 +793,7 @@
       {"index":3, "option": "Report an Issue"},
       {"index":4, "option": "Partnerships and Collaboration"}
     ],
+
     "howSkilljaWorks": {
       "athlete": {
         "header": {

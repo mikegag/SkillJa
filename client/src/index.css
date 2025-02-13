@@ -102,6 +102,9 @@ body {
   .checkbox:checked + .checkbox-label {
     background-color: var(--main-green-400);
   }
+  .page-container {
+    @apply mx-10 my-5 md:mx-28 md:my-16 lg:mx-60 
+  }
 }
 
 @layer utilities {

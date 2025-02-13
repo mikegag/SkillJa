@@ -281,3 +281,17 @@ class CoachAvailability(models.Model):
 
     def __str__(self):
         return f"Availability for Coach {self.coach}"
+
+class Location(models.Model):
+    city = models.CharField(max_length=50)
+    province = models.CharField(max_length=40)
+    province_code = models.CharField(max_length=2)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, default=0.0)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, default=0.0)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['city']),
+            models.Index(fields=['province']),
+        ]
+        unique_together = ['city', 'province']
