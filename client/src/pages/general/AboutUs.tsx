@@ -37,12 +37,20 @@ export default function AboutUs(){
                             imaginable. Your success is our passion.
                         </p>
                     </div>
-                    <img src={require('../../assets/aboutUsAssets/man-cycling-on-bike.png')} className="mx-auto h-60 w-60 mt-12 md:my-auto md:ml-auto md:mr-0 md:pl-2 md:w-80 md:h-80"/>
+                    <img 
+                        src={require('../../assets/aboutUsAssets/man-cycling-on-bike.png')} 
+                        className="mx-auto h-60 w-60 mt-12 md:my-auto md:ml-auto md:mr-0 md:pl-2 md:w-80 md:h-80"
+                        alt="man sitting on a bike"
+                    />
                 </section>
                 <section className="flex flex-wrap w-full max-w-5xl mx-auto mb-28">
                     { windowSize.width > 950 ? 
                     (   <>
-                        <img src={require('../../assets/aboutUsAssets/man-standing-on-podium.png')} className=" my-auto mr-auto ml-0 pr-8 w-80 h-80"/>
+                        <img 
+                            src={require('../../assets/aboutUsAssets/man-standing-on-podium.png')} 
+                            className=" my-auto mr-auto ml-0 pr-8 w-80 h-80"
+                            alt="man standing on a podium celebrating"
+                        />
                         <div className="flex flex-col justify-start items-start my-auto mr-0 ml-auto">
                             <h2 className="font-source text-3xl font-bold mr-auto text-left">
                                 Where We're Headed
@@ -56,9 +64,9 @@ export default function AboutUs(){
                         </div>
                         </>
                     )
-                    :(
+                    :
+                    (
                         <>
-                        
                         <div className="flex flex-col justify-start items-start my-auto mx-auto lg:ml-0 lg:mr-auto">
                             <h2 className="font-source text-3xl font-bold mr-auto text-left">
                                 Where We're Headed
@@ -70,7 +78,11 @@ export default function AboutUs(){
                                 goal is out of reach, and every effort is met with guidance and inspiration.
                             </p>
                         </div>
-                        <img src={require('../../assets/aboutUsAssets/man-standing-on-podium.png')} className="mx-auto h-60 w-60 mt-12 pl-3 md:my-auto md:ml-auto md:mr-0 md:pl-2 md:w-80 md:h-80"/>
+                        <img 
+                            src={require('../../assets/aboutUsAssets/man-standing-on-podium.png')} 
+                            className="mx-auto h-60 w-60 mt-12 pl-3 md:my-auto md:ml-auto md:mr-0 md:pl-2 md:w-80 md:h-80"
+                            alt="man standing on a podium celebrating"
+                        />
                         </>
                     )
             }
@@ -93,7 +105,11 @@ export default function AboutUs(){
                             the world.
                         </p>
                     </div>
-                    <img src={require('../../assets/main-landing-racers.png')} className="mx-auto h-60 w-60 mt-12 pl-3 md:my-auto md:ml-auto md:mr-0 md:pl-2 md:w-80 md:h-80"/>
+                    <img 
+                        src={require('../../assets/main-landing-racers.png')} 
+                        className="mx-auto h-60 w-60 mt-12 pl-3 md:my-auto md:ml-auto md:mr-0 md:pl-2 md:w-80 md:h-80"
+                        alt="two runners kneeling at a start line"
+                    />
                 </section>
             </section>
             <Footer />

@@ -67,7 +67,7 @@ export default function DeleteAccount(){
                 <p className="mb-4 font-semibold">
                     Why are you deleting your account?
                 </p>
-                <Accordion title="Select reason" styles="border-main-grey-100 lg:w-2/6 ml-0 mr-auto">
+                <Accordion title="Select reason" styles="bg-white mt-2 mb-12 border rounded-xl border-main-grey-100 lg:w-2/6 ml-0 mr-auto">
                     {data.deleteAccount.map((value) => (
                         <button
                             onClick={(e) => {
@@ -86,14 +86,15 @@ export default function DeleteAccount(){
                     ))}
                 </Accordion>
                 <button
-                    className={`form-btn ${confirmDelete ? "bg-red-500 hover:bg-red-700" : ""}`}
+                    className={`form-btn ${confirmDelete ? "bg-red-500 hover:bg-red-700" : ""} ${reason.length <= 0 ? 'cursor-not-allowed bg-main-grey-300': 'cursor-pointer bg-main-green-500'}`}
                     onClick={() => {
-                        if (confirmDelete) {
+                        if (confirmDelete && reason.length > 0) {
                             handleAccountDeletion();
                         } else {
                             setConfirmDelete(true);
                         }
                     }}
+                    disabled={reason.length <= 0}
                     aria-describedby="delete-warning"
                 >
                     {confirmDelete ? "Confirm Account Deletion" : "Delete my account"}

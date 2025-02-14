@@ -170,7 +170,7 @@ export default function HomeFeed(){
                             {Array.from(Array(data.totalPages)).map((page, index)=>(
                                 <p 
                                     key={index} 
-                                    className={`${data.currentPage == (index+1) ? "bg-main-green-500" : "bg-main-grey-100"} 
+                                    className={`${data.currentPage === (index+1) ? "bg-main-green-500" : "bg-main-grey-100"} 
                                         py-1.5 px-3 text-white text-sm rounded-lg my-auto mx-2 cursor-pointer hover:bg-main-grey-200`}
                                     onClick={()=>setQueryPage(index+1)}
                                 >

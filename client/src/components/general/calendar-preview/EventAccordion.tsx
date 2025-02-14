@@ -1,5 +1,3 @@
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { useState, useEffect, useRef } from "react"
 
 type EventAccordionProps = {
@@ -13,7 +11,6 @@ export default function EventAccordion({ title, time, description, styling }: Ev
   const [isOpen, setIsOpen] = useState(false)
   const [answerHeight, setAnswerHeight] = useState<number | undefined>(undefined)
   const answerRef = useRef<HTMLDivElement>(null)
-  let formattedTime = time.slice(10,-3)
 
   function formatTime(dateString:string) {
     const date = new Date(dateString); // Convert the string to a Date object

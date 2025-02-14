@@ -53,7 +53,7 @@ export default function Login() {
           }, 1000)
           // End loading animation and cleanup timer
           return ()=> clearTimeout(timer)
-        } else if(res.status == 204) {
+        } else if(res.status === 204) {
             setErrorMessage("Your account has not been confirmed! Please check your email and click the confirmation link sent to you.")
         } else {
             setErrorMessage("Login failed. Try again!")

@@ -79,7 +79,7 @@ export default function Invite(){
                 formToDisplay === "terms"?
                     <div className="w-dvw h-dvh flex justify-center items-center bg-black bg-opacity-60 absolute top-0 left-0">
                         <div className="flex flex-col bg-white rounded-2xl border border-main-black w-80 h-96 lg:w-6/12 lg:h-4/6 overflow-scroll p-4">
-                            <button className="ml-auto mr-0 hover:text-main-green-500" onClick={()=>setFormToDisplay("")}>
+                            <button className="ml-0 mr-auto hover:text-main-green-500" onClick={()=>setFormToDisplay("")}>
                                 <FontAwesomeIcon icon={faX}/>
                             </button>
                             {data.terms.terms_conditions.map((info, index) => (
@@ -115,7 +115,7 @@ export default function Invite(){
                     formToDisplay === "privacy" ?
                     <div className="w-dvw h-dvh flex justify-center items-center bg-black bg-opacity-60 absolute top-0 left-0">
                         <div className="flex flex-col bg-white rounded-2xl border border-main-black w-80 h-96 lg:w-6/12 lg:h-4/6 overflow-scroll p-4">
-                            <button className="ml-auto mr-0 hover:text-main-green-500" onClick={()=>setFormToDisplay("")}>
+                            <button className="ml-0 mr-auto hover:text-main-green-500" onClick={()=>setFormToDisplay("")}>
                                 <FontAwesomeIcon icon={faX}/>
                             </button>
                             {data.terms.privacy_policy.map((info, index) => (
@@ -151,7 +151,7 @@ export default function Invite(){
                         formToDisplay === "data" ?
                             <div className="w-dvw h-dvh flex justify-center items-center bg-black bg-opacity-60 absolute top-0 left-0">
                                 <div className="flex flex-col bg-white rounded-2xl border border-main-black w-80 h-96 lg:w-6/12 lg:h-4/6 overflow-scroll p-4">
-                                    <button className="ml-auto mr-0 hover:text-main-green-500" onClick={()=>setFormToDisplay("")}>
+                                    <button className="ml-0 mr-auto hover:text-main-green-500" onClick={()=>setFormToDisplay("")}>
                                         <FontAwesomeIcon icon={faX}/>
                                     </button>
                                     {data.terms.data_collection.map((info, index) => (
