@@ -7,7 +7,7 @@ import { faLongArrowLeft } from "@fortawesome/free-solid-svg-icons"
 import Accordion from "../../../components/general/Accordion"
 import data from "../../../data.json"
 import axios from "axios"
-import GetCSFR from "../../../hooks/GetCSFR"
+import GetCSFR from "../../../hooks/userAuthentication/GetCSFR"
 
 
 export default function DeleteAccount(){

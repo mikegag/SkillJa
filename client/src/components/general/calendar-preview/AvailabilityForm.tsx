@@ -1,7 +1,7 @@
 import { faX } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { useEffect, useState } from "react"
-import GetWindowSize from "../../../hooks/GetWindowSize"
+import GetWindowSize from "../../../hooks/general/GetWindowSize"
 import Accordion from "../Accordion"
 import DatePicker from "react-datepicker"
 import axios from "axios"

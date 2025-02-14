@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import axios from "axios"
 import Header from "../../../components/navigation/Header"
 import { useNavigate, useSearchParams } from "react-router-dom"
-import GetCSFR from "../../../hooks/GetCSFR"
+import GetCSFR from "../../../hooks/userAuthentication/GetCSFR"
 import LoadingAnimation from "../../../components/general/LoadingAnimation"
 
 export default function ConfirmEmail(){

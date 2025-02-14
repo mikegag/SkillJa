@@ -1,9 +1,9 @@
 import '@testing-library/jest-dom';
 import React, {useEffect, useState} from 'react';
 import { render, waitFor } from '@testing-library/react';
-import UseWindowSize from '../hooks/GetWindowSize';
-import CreateCSFR from '../hooks/CreateCSFR';
-import GetCSFR from '../hooks/GetCSFR';
+import UseWindowSize from '../hooks/general/GetWindowSize';
+import CreateCSFR from '../hooks/userAuthentication/CreateCSFR';
+import GetCSFR from '../hooks/userAuthentication/GetCSFR';
 import FilterOnboardingData from '../hooks/FilterOnboardingData';
 import axios from 'axios';
 

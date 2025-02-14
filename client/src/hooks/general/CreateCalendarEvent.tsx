@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { format } from 'date-fns'
 import axios from "axios"
-import GetCSFR from "./GetCSFR";
+import GetCSFR from "../userAuthentication/GetCSFR";
 
 interface EventData {
     title: string;

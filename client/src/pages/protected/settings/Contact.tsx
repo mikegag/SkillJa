@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form"
 import Header from "../../../components/navigation/Header"
 import Footer from "../../../components/navigation/Footer"
 import axios from "axios"
-import GetCSFR from "../../../hooks/GetCSFR"
+import GetCSFR from "../../../hooks/userAuthentication/GetCSFR"
 import Accordion from "../../../components/general/Accordion"
 import data from "../../../data.json"
 

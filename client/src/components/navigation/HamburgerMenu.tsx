@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react"
 import { Link, useNavigate} from "react-router-dom"
 import axios from "axios"
-import GetCSFR from "../../hooks/GetCSFR"
+import GetCSFR from "../../hooks/userAuthentication/GetCSFR"
 import data from "../../data.json"
-import RetrieveImage from "../../hooks/RetrieveImage"
+import RetrieveImage from "../../hooks/images/RetrieveImage"
 
 interface MenuProps {
     useCase: 'public' | 'authorized';

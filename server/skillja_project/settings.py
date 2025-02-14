@@ -50,7 +50,7 @@ CORS_ALLOW_HEADERS = [
 
 CSRF_COOKIE_SECURE = True
 # Below set to False during production 
-CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 SESSION_COOKIE_SECURE = True

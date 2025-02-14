@@ -4,13 +4,13 @@ import SearchBar from "../../components/navigation/SearchBar"
 import ProfilePreview from "../../components/navigation/ProfilePreview"
 import { Link, useLocation, useSearchParams } from "react-router-dom"
 import axios from "axios"
-import GetCSFR from "../../hooks/GetCSFR"
-import GetWindowSize from "../../hooks/GetWindowSize"
-import { UserContext } from "../../hooks/RetrieveImageContext"
+import GetCSFR from "../../hooks/userAuthentication/GetCSFR"
+import GetWindowSize from "../../hooks/general/GetWindowSize"
+import { UserContext } from "../../hooks/images/RetrieveImageContext"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowLeftLong, faArrowRightLong } from "@fortawesome/free-solid-svg-icons"
 import Footer from "../../components/navigation/Footer"
-import { updateTimezone } from "../../hooks/UpdateTimezone"
+import { updateTimezone } from "../../hooks/general/UpdateTimezone"
 
 // Lazy load LoadingAnimation
 const LoadingAnimation = lazy(() => import("../../components/general/LoadingAnimation"))

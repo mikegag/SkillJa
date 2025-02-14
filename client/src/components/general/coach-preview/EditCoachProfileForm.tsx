@@ -4,12 +4,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { useRef, useState } from "react";
 import Accordion from "../Accordion"
 import data from '../../../data.json'
-import GetWindowSize from '../../../hooks/GetWindowSize'
+import GetWindowSize from '../../../hooks/general/GetWindowSize'
 import axios from "axios"
-import GetCSFR from "../../../hooks/GetCSFR"
-import ProfilePhotoUploader from "../../../hooks/ProfilePhotoUploader"
+import GetCSFR from "../../../hooks/userAuthentication/GetCSFR"
+import ProfilePhotoUploader from "../../../hooks/images/ProfilePhotoUploader"
 import { faFacebook, faInstagram, faTiktok, faTwitter } from "@fortawesome/free-brands-svg-icons"
-import LocationSuggestions from "../../../hooks/LocationSuggestions"
+import LocationSuggestions from "../../../hooks/general/LocationSuggestions"
 
 interface FormStructure {
     fullname: string;

@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import GetCSFR from "../hooks/GetCSFR";
-import LoadingAnimation from "../components/general/LoadingAnimation";
+import GetCSFR from "../../hooks/userAuthentication/GetCSFR";
+import LoadingAnimation from "../../components/general/LoadingAnimation";
 
 export default function Authentication(){
     const navigate = useNavigate()

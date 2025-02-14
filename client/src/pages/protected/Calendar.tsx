@@ -5,7 +5,7 @@ import CalendarDisplay from "../../components/general/calendar-preview/CalendarD
 import EventAccordion from "../../components/general/calendar-preview/EventAccordion"
 import Footer from "../../components/navigation/Footer"
 import axios from "axios"
-import GetCSFR from "../../hooks/GetCSFR"
+import GetCSFR from "../../hooks/userAuthentication/GetCSFR"
 import AvailabilityForm from "../../components/general/calendar-preview/AvailabilityForm"
 
 interface MonthDays {

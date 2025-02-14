@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import data from "../../../../data.json"
 import axios from "axios"
-import GetCSFR from "../../../../hooks/GetCSFR"
+import GetCSFR from "../../../../hooks/userAuthentication/GetCSFR"
 import { useForm } from "react-hook-form"
 
 interface TemplateProps {

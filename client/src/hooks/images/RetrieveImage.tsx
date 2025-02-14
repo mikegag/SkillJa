@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react"
-import { useUserContext } from "../hooks/RetrieveImageContext"
+import { useUserContext } from "./RetrieveImageContext"
 import axios from "axios"
-import GetCSFR from "./GetCSFR";
+import GetCSFR from "../userAuthentication/GetCSFR";
 
 interface Image {
     id?:string;
@@ -73,7 +73,7 @@ export default function RetrieveImage({ styling, url, id}:Image) {
 
   return (
     <img 
-        src={imageUrl ? imageUrl : require('../assets/default-avatar.jpg')} 
+        src={imageUrl ? imageUrl : require('../../assets/default-avatar.jpg')} 
         alt={imageUrl ? "profile picture of user": "default avatar"}
         className={`${styling? styling: "w-60 h-60"}`}
     />

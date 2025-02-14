@@ -1,17 +1,17 @@
 import React, { useReducer, useState } from "react"
 import { useForm } from "react-hook-form"
-import Header from "../components/navigation/Header"
-import AgreementTerms from "../components/userAuthentication/AgreementTerms"
-import LoadingAnimation from "../components/general/LoadingAnimation"
-import GetCSFR from '../hooks/GetCSFR'
+import Header from "../../components/navigation/Header"
+import AgreementTerms from "../../components/userAuthentication/AgreementTerms"
+import LoadingAnimation from "../../components/general/LoadingAnimation"
+import GetCSFR from '../../hooks/userAuthentication/GetCSFR'
 import { Link, useNavigate } from "react-router-dom"
 import { faCalendar, faEnvelope, faUser } from "@fortawesome/free-regular-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { IconDefinition, faChevronDown, faLock, faPhone } from "@fortawesome/free-solid-svg-icons"
-import data from "../data.json"
+import data from "../../data.json"
 import axios from "axios"
 import ReCAPTCHA from "react-google-recaptcha"
-import Footer from "../components/navigation/Footer"
+import Footer from "../../components/navigation/Footer"
 
 interface FormStructure {
   fullname: string;

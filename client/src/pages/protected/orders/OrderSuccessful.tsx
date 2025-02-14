@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowRight, faBagShopping } from "@fortawesome/free-solid-svg-icons"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import axios from "axios"
-import GetCSFR from "../../../hooks/GetCSFR"
+import GetCSFR from "../../../hooks/userAuthentication/GetCSFR"
 
 export default function OrderSuccessful(){
     const [hasLoaded, setHasLoaded] = useState(false)

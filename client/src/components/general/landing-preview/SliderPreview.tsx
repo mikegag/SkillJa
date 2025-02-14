@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import data from "../../../data.json";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import useWindowSize from '../../../hooks/GetWindowSize';
+import useWindowSize from '../../../hooks/general/GetWindowSize';
 
 export default function SliderPreview() {
     const sliderData = data.landing.hero.sports

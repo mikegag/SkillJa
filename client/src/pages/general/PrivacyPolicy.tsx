@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
-import Header from "../components/navigation/Header"
-import Footer from "../components/navigation/Footer"
-import data from "../data.json"
+import Header from "../../components/navigation/Header"
+import Footer from "../../components/navigation/Footer"
+import data from "../../data.json"
 
 
 export default function PrivacyPolicy(){

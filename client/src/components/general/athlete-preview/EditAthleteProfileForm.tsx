@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React, { useState } from "react"
 import Accordion from "../Accordion"
 import data from '../../../data.json'
-import GetWindowSize from '../../../hooks/GetWindowSize'
+import GetWindowSize from '../../../hooks/general/GetWindowSize'
 import axios from "axios"
-import GetCSFR from "../../../hooks/GetCSFR"
-import ProfilePhotoUploader from "../../../hooks/ProfilePhotoUploader"
+import GetCSFR from "../../../hooks/userAuthentication/GetCSFR"
+import ProfilePhotoUploader from "../../../hooks/images/ProfilePhotoUploader"
 
 interface FormStructure {
     fullname: string,

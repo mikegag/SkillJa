@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react"
 import Header from "../../components/navigation/Header"
 import MessageSummary from "../../components/general/chat-preview/MessageSummary"
 import ChatBox from "../../components/general/chat-preview/ChatBox"
-import GetWindowSize from '../../hooks/GetWindowSize'
+import GetWindowSize from '../../hooks/general/GetWindowSize'
 import Footer from "../../components/navigation/Footer"
 import axios from "axios"
-import GetCSFR from "../../hooks/GetCSFR"
-import UseLocalTime from "../../hooks/UseLocalTime"
+import GetCSFR from "../../hooks/userAuthentication/GetCSFR"
+import UseLocalTime from "../../hooks/general/UseLocalTime"
 
 interface Message {
     messageId: number;

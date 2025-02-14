@@ -1,4 +1,4 @@
-import dataStructure from "../data.json";
+import dataStructure from "../../data.json";
 
 interface DataProps {
     data: { questionId: number; answer: string[] }[]

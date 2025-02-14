@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
-import Header from "../components/navigation/Header"
-import Footer from "../components/navigation/Footer"
-import data from "../data.json"
+import Header from "../../components/navigation/Header"
+import Footer from "../../components/navigation/Footer"
+import data from "../../data.json"
 
 interface Data {
     header: {
@@ -91,7 +91,7 @@ export default function HowSkilljaWorks(){
                     {selectedCategory === 'athlete' ?
                         <div className="rounded-xl bg-main-green-200 px-5 py-2">
                             <img 
-                                src={require(`../assets/howSkilljaWorks/${pageData.step1.image}`)} 
+                                src={require(`../../assets/howSkilljaWorks/${pageData.step1.image}`)} 
                                 className="mx-auto my-auto pt-4 w-96 h-48"
                                 alt="list of questions that will be asked to an athlete during the signup process"
                             />
@@ -99,7 +99,7 @@ export default function HowSkilljaWorks(){
                     :
                         <div className="rounded-xl bg-main-green-700 px-5 pt-2 pb-5">
                             <img 
-                                src={require(`../assets/howSkilljaWorks/${pageData.step1.image}`)} 
+                                src={require(`../../assets/howSkilljaWorks/${pageData.step1.image}`)} 
                                 className="mx-auto my-auto pt-4 w-96 h-48"
                                 alt="list of questions that will be asked to a coach during the signup process"
                             />
@@ -121,12 +121,12 @@ export default function HowSkilljaWorks(){
                     {selectedCategory === 'athlete' ?
                         <div className="flex flex-col p-6 rounded-xl bg-main-green-200">
                             <img 
-                                src={require(`../assets/howSkilljaWorks/${pageData.step2.image}`)} 
+                                src={require(`../../assets/howSkilljaWorks/${pageData.step2.image}`)} 
                                 className="mx-auto my-auto w-80 h-32 rounded-xl shadow-lg"
                                 alt="showcasing the search bar available on the landing page"
                             />
                             <img 
-                                src={require(`../assets/howSkilljaWorks/${pageData.step2.secondImage}`)} 
+                                src={require(`../../assets/howSkilljaWorks/${pageData.step2.secondImage}`)} 
                                 className="mx-auto my-auto pt-4 w-80 h-28"
                                 alt="list of coaches available on SkillJA"
                             />
@@ -134,7 +134,7 @@ export default function HowSkilljaWorks(){
                     :
                         <div className="flex flex-col p-6 rounded-xl bg-main-green-700">
                             <img 
-                                src={require(`../assets/howSkilljaWorks/${pageData.step2.image}`)} 
+                                src={require(`../../assets/howSkilljaWorks/${pageData.step2.image}`)} 
                                 className="mx-auto my-auto w-92 h-64 rounded-xl shadow-lg"
                                 alt="a coach profile demonstrating his services and other personal details"
                             />
@@ -156,7 +156,7 @@ export default function HowSkilljaWorks(){
                     {selectedCategory === 'athlete' ?
                         <div className="flex flex-wrap px-4 pt-6 pb-4 rounded-xl bg-main-green-200">
                             <img 
-                                src={require(`../assets/howSkilljaWorks/${pageData.step3.image}`)} 
+                                src={require(`../../assets/howSkilljaWorks/${pageData.step3.image}`)} 
                                 className="mx-auto my-auto w-96 h-48"
                                 alt="list of potential services an athlete can purchase"
                             />
@@ -164,7 +164,7 @@ export default function HowSkilljaWorks(){
                     :
                         <div className="flex flex-wrap px-1 py-5 rounded-xl bg-main-green-700">
                             <img 
-                                src={require(`../assets/howSkilljaWorks/${pageData.step3.image}`)} 
+                                src={require(`../../assets/howSkilljaWorks/${pageData.step3.image}`)} 
                                 className="mx-auto my-auto w-96 h-28"
                                 alt="list of potential services a coach can create"
                             />
@@ -186,7 +186,7 @@ export default function HowSkilljaWorks(){
                     {selectedCategory === 'athlete' ?
                         <div className="flex flex-wrap px-2 py-6 rounded-xl bg-main-green-200">
                             <img 
-                                src={require(`../assets/howSkilljaWorks/${pageData.step4.image}`)} 
+                                src={require(`../../assets/howSkilljaWorks/${pageData.step4.image}`)} 
                                 className="mx-4 my-auto w-72 md:w-96 h-60 rounded-xl shadow-lg"
                                 alt="conversation between athlete and coach showcasing ease of use"
                             />
@@ -194,7 +194,7 @@ export default function HowSkilljaWorks(){
                     :
                         <div className="flex flex-wrap px-2 py-6 rounded-xl bg-main-green-700">
                             <img 
-                                src={require(`../assets/howSkilljaWorks/${pageData.step4.image}`)} 
+                                src={require(`../../assets/howSkilljaWorks/${pageData.step4.image}`)} 
                                 className="mx-4 my-auto w-72 md:w-96 h-68 rounded-xl"
                                 alt="conversation between athlete and coach showcasing ease of use"
                             />

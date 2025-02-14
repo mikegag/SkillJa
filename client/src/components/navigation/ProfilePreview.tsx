@@ -1,8 +1,8 @@
 import React from "react";
 import { faChevronRight, faDollarSign, faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import RetrieveImage from "../../hooks/RetrieveImage"
-import GetWindowSize from "../../hooks/GetWindowSize"
+import RetrieveImage from "../../hooks/images/RetrieveImage"
+import GetWindowSize from "../../hooks/general/GetWindowSize"
 import LoadingAnimation from "../general/LoadingAnimation";
 
 interface ProfilePreviewProps {

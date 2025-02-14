@@ -6,7 +6,7 @@ import DropDown from "./search/DropDown"
 import SingleSlider from "./search/SingleSlider"
 import MultiOption from "./search/MultiOption"
 import DualSlider from "./search/DualSlider"
-import LocationSuggestions from "../../hooks/LocationSuggestions"
+import LocationSuggestions from "../../hooks/general/LocationSuggestions"
 
 // Define types for the component props and the search term structure
 interface SearchBarProps {

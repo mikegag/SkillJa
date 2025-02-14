@@ -1,7 +1,7 @@
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
-import GetWindowSize from '../../../hooks/GetWindowSize'
+import GetWindowSize from '../../../hooks/general/GetWindowSize'
 import OfferedServices from "./form-components/OfferedServices";
 
 interface FormProps {

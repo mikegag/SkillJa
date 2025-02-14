@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import Header from "../components/navigation/Header";
-import SignInPartners from "../components/userAuthentication/SignInPartners";
-import LoadingAnimation from "../components/general/LoadingAnimation";
+import Header from "../../components/navigation/Header";
+import SignInPartners from "../../components/userAuthentication/SignInPartners";
+import LoadingAnimation from "../../components/general/LoadingAnimation";
 import { Link, useNavigate } from "react-router-dom";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import GetCSFR from "../hooks/GetCSFR";
-import Footer from "../components/navigation/Footer";
+import GetCSFR from "../../hooks/userAuthentication/GetCSFR";
+import Footer from "../../components/navigation/Footer";
 
 interface FormStructure {
   email: string;

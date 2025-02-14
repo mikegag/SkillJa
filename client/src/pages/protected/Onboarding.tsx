@@ -1,13 +1,13 @@
 import React, { useEffect, useReducer, useState, useRef } from "react"
 import data from "../../data.json"
 import Accordion from "../../components/general/Accordion"
-import FilterOnboardingData from "../../hooks/FilterOnboardingData"
+import FilterOnboardingData from "../../hooks/userAuthentication/FilterOnboardingData"
 import { Link } from "react-router-dom"
 import axios from "axios"
-import GetCSFR from "../../hooks/GetCSFR"
+import GetCSFR from "../../hooks/userAuthentication/GetCSFR"
 import Header from "../../components/navigation/Header"
-import SendEmailConfirmation from "../../hooks/SendEmailConfirmation"
-import GetUserEmail from "../../hooks/GetUserEmail"
+import SendEmailConfirmation from "../../hooks/userAuthentication/SendEmailConfirmation"
+import GetUserEmail from "../../hooks/general/GetUserEmail"
 
 // Interface for a single question
 interface Question {

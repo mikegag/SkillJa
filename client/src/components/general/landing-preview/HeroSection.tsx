@@ -5,8 +5,8 @@ import Header from "../../navigation/Header"
 import SliderPreview from "./SliderPreview"
 import SearchBar from "../../navigation/SearchBar"
 import axios from "axios"
-import GetCSFR from "../../../hooks/GetCSFR"
-import { UserContext } from "../../../hooks/RetrieveImageContext"
+import GetCSFR from "../../../hooks/userAuthentication/GetCSFR"
+import { UserContext } from "../../../hooks/images/RetrieveImageContext"
 
 interface ViewProps {
     view: 'mobile' | 'desktop'

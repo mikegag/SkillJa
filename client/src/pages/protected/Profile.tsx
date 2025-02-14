@@ -1,20 +1,20 @@
 import React, { useEffect, useState} from "react"
 import Header from "../../components/navigation/Header"
-import GetWindowSize from '../../hooks/GetWindowSize'
+import GetWindowSize from '../../hooks/general/GetWindowSize'
 import CurrentGoal from "../../components/general/athlete-preview/CurrentGoal"
 import SocialMediaIcons from "../../components/general/coach-preview/SocialMediaIcons"
 import { faChevronRight, faLocationDot, faStar } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import axios from "axios"
-import GetCSFR from "../../hooks/GetCSFR"
+import GetCSFR from "../../hooks/userAuthentication/GetCSFR"
 import EditAthleteProfileForm from "../../components/general/athlete-preview/EditAthleteProfileForm"
 import EditCoachProfileForm from "../../components/general/coach-preview/EditCoachProfileForm"
 import EditCoachServiceForm from "../../components/general/coach-preview/EditCoachServiceForm"
 import ReviewSlider from "../../components/general/coach-preview/ReviewSlider"
 import CoachService from "../../components/general/coach-preview/CoachService"
 import Footer from "../../components/navigation/Footer"
-import RetrieveImage from "../../hooks/RetrieveImage"
-import { UserContext } from "../../hooks/RetrieveImageContext"
+import RetrieveImage from "../../hooks/images/RetrieveImage"
+import { UserContext } from "../../hooks/images/RetrieveImageContext"
 import LoadingAnimation from "../../components/general/LoadingAnimation"
 
 interface Review {

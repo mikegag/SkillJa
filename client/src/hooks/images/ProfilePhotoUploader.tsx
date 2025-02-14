@@ -68,7 +68,7 @@ export default function ProfilePhotoUploader({ token }: { token: string }) {
   return (
     <div className="flex flex-col justify-center items-center my-5">
         <img
-            src={previewUrl || require('../assets/default-avatar.jpg')}
+            src={previewUrl || require('../../assets/default-avatar.jpg')}
             className="w-24 h-24 rounded-xl"
             alt="Profile Preview"
         />

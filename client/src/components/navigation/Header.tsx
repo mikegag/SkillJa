@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import HamburgerMenu from "./HamburgerMenu"
 import { Link } from "react-router-dom"
 import axios from "axios"
-import GetCSFR from "../../hooks/GetCSFR"
+import GetCSFR from "../../hooks/userAuthentication/GetCSFR"
 
 interface HeaderProps {
     useCase?: "default" | "protected" | "onboarding";

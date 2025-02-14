@@ -1,19 +1,19 @@
 import React, { useEffect, Suspense } from "react"
 import { useInView } from "react-intersection-observer"
-import GetWindowSize from "../hooks/GetWindowSize"
-import CreateCSFR from "../hooks/CreateCSFR"
-import HeroSection from "../components/general/landing-preview/HeroSection"
-import Footer from "../components/navigation/Footer"
+import GetWindowSize from "../../hooks/general/GetWindowSize"
+import CreateCSFR from "../../hooks/userAuthentication/CreateCSFR"
+import HeroSection from "../../components/general/landing-preview/HeroSection"
+import Footer from "../../components/navigation/Footer"
 
 // Lazy load sections
 const SecondSection = React.lazy(() =>
-    import("../components/general/landing-preview/SecondSection")
+    import("../../components/general/landing-preview/SecondSection")
 )
 const ThirdSection = React.lazy(() =>
-    import("../components/general/landing-preview/ThirdSection")
+    import("../../components/general/landing-preview/ThirdSection")
 )
 const FourthSection = React.lazy(() =>
-    import("../components/general/landing-preview/FourthSection")
+    import("../../components/general/landing-preview/FourthSection")
 )
 
 export default function Landing(){

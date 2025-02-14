@@ -5,10 +5,10 @@ import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import axios from 'axios';
-import Login from '../pages/Login';
-import SignUp from '../pages/SignUp';
-import CreateCSFR from '../hooks/CreateCSFR';
-import GetCSFR from '../hooks/GetCSFR';
+import Login from '../pages/userAuthentication/Login';
+import SignUp from '../pages/userAuthentication/SignUp';
+import CreateCSFR from '../hooks/userAuthentication/CreateCSFR';
+import GetCSFR from '../hooks/userAuthentication/GetCSFR';
 
 // Mock axios globally for all tests
 jest.mock('axios')

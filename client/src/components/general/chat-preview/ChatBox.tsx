@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react"
-import GetWindowSize from "../../../hooks/GetWindowSize"
+import GetWindowSize from "../../../hooks/general/GetWindowSize"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronLeft, faCircleArrowUp } from "@fortawesome/free-solid-svg-icons"
 import axios from "axios"
@@ -69,7 +69,7 @@ export default function ChatBox({displayChatBox, userId, sender, messages, chatI
         const currentDate = new Date()
         const currentMonth = currentDate.getMonth()
         const currentYear = currentDate.getFullYear()
-        
+
         // return current month name and day if passed date falls within current month range
         if (month === currentMonth && year === currentYear) {
             // e.g., "Feb 4"
