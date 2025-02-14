@@ -6,6 +6,7 @@ import DropDown from "./search/DropDown"
 import SingleSlider from "./search/SingleSlider"
 import MultiOption from "./search/MultiOption"
 import DualSlider from "./search/DualSlider"
+import LocationSuggestions from "./search/LocationSuggestions"
 
 // Define types for the component props and the search term structure
 interface SearchBarProps {
@@ -35,6 +36,8 @@ export default function SearchBar({mobileView,queryPage}:SearchBarProps){
     const sportInputRef = useRef<HTMLInputElement>(null)
     const locationInputRef = useRef<HTMLInputElement>(null)
     const priceInputRef = useRef<HTMLInputElement>(null)
+    // Checks if a valid location has been selected from dropdown
+    const [validLocationInput, setValidLocationInput] = useState<boolean>(false)
 
     // Handle focusing the correct input and clearing focus on the others
     const handleFocus = (inputType: string) => {
@@ -53,6 +56,12 @@ export default function SearchBar({mobileView,queryPage}:SearchBarProps){
             performSearch()
         }
     },[queryPage])
+
+    // Checks if a valid location has been inputted and updates state which is referenced in search bar styling
+    useEffect(()=>{
+        const validProvinces = ['AB','BC','MB','NB','NL','NT','NS','NU','ON','PE','QC','SK', 'YT']
+        setValidLocationInput(validProvinces.some(province => searchTerm.location.place.includes(province)))
+    },[searchTerm.location.place])
 
     // Function to execute search and navigate to home feed page with query parameters
     function performSearch() {
@@ -126,8 +135,8 @@ export default function SearchBar({mobileView,queryPage}:SearchBarProps){
                                 <input 
                                     id="sport"
                                     name="sport"
-                                    aria-label="search term" 
-                                    className={`w-full text-main-grey-200 border border-main-grey-100 p-2 mt-1 rounded-2xl hover:cursor-pointer`}
+                                    aria-label="search sport" 
+                                    className={`w-full text-main-grey-400 border border-main-grey-100 p-2 mt-1 rounded-2xl hover:cursor-pointer`}
                                     placeholder="Search Sports"
                                     onChange={(e) => setSearchTerm({ ...searchTerm, sport: e.target.value })}
                                     onClick={()=>setCurrentlySelected('sport')}
@@ -143,15 +152,21 @@ export default function SearchBar({mobileView,queryPage}:SearchBarProps){
                                 <input 
                                     id="location"
                                     name="location"
-                                    aria-label="search term" 
-                                    className={` w-full text-main-grey-200 border border-main-grey-100 p-2 mt-1 mb-6 rounded-2xl hover:cursor-pointer`}
+                                    aria-label="search location" 
+                                    className={` w-full text-main-grey-400 border border-main-grey-100 p-2 mt-1 mb-6 rounded-2xl hover:cursor-pointer`}
                                     placeholder="My location"
                                     onChange={(e) => setSearchTerm({ ...searchTerm, location: {...searchTerm.location, place:e.target.value} })}
                                     onClick={()=>setCurrentlySelected('location')}
                                     value={searchTerm.location.place}
                                     autoComplete="off"
                                 />
-                                <SingleSlider sliderValue={handleLocationChange} />
+                                {currentlySelected === 'location' && (
+                                    validLocationInput && searchTerm.location.place ?
+                                    <SingleSlider sliderValue={handleLocationChange} />
+                                    :
+                                        <LocationSuggestions locationQuery={searchTerm.location.place} updateLocation={setSearchTerm} inView={currentlySelected === 'location'} />
+                                )}
+                                
                             </div>
                             <div className="border-b border-main-grey-100 font-kulim">
                                 <p className="my-3 text-left">
@@ -160,8 +175,8 @@ export default function SearchBar({mobileView,queryPage}:SearchBarProps){
                                 <input 
                                     id="price"
                                     name="price"
-                                    aria-label="search term" 
-                                    className={` text-main-grey-200 w-full border border-main-grey-100 p-2 mt-1 mb-3 rounded-2xl hover:cursor-pointer`}
+                                    aria-label="search price" 
+                                    className={` text-main-grey-400 w-full border border-main-grey-100 p-2 mt-1 mb-3 rounded-2xl hover:cursor-pointer`}
                                     placeholder="$$$"
                                     onChange={(e) => setSearchTerm({...searchTerm, price: {...searchTerm.price, value: e.target.value} })}
                                     onClick={()=>setCurrentlySelected('price')}
@@ -237,8 +252,8 @@ export default function SearchBar({mobileView,queryPage}:SearchBarProps){
                     <input 
                         id="sport"
                         name="sport"
-                        aria-label="search term" 
-                        className={`${currentlySelected === 'sport'? 'bg-main-white': (currentlySelected ===''? 'bg-main-white' :'bg-main-grey-100')} w-full text-main-grey-200 focus:outline-none ml-0 hover:cursor-pointer`}
+                        aria-label="search sport" 
+                        className={`${currentlySelected === 'sport'? 'bg-main-white': (currentlySelected ===''? 'bg-main-white' :'bg-main-grey-100')} w-full text-main-grey-400 focus:outline-none ml-0 hover:cursor-pointer`}
                         placeholder="Search Sports"
                         ref={sportInputRef}
                         onChange={(e) => setSearchTerm({ ...searchTerm, sport: e.target.value })}
@@ -262,8 +277,8 @@ export default function SearchBar({mobileView,queryPage}:SearchBarProps){
                     <input 
                         id="location"
                         name="location"
-                        aria-label="search term" 
-                        className={`${currentlySelected === 'location'? 'bg-main-white': (currentlySelected ===''? 'bg-main-white' :'bg-main-grey-100')} w-full text-main-grey-200 focus:outline-none ml-0 hover:cursor-pointer`}
+                        aria-label="search location" 
+                        className={`${currentlySelected === 'location'? 'bg-main-white': (currentlySelected ===''? 'bg-main-white' :'bg-main-grey-100')} w-full text-main-grey-400 focus:outline-none ml-0 hover:cursor-pointer`}
                         placeholder="My location"
                         ref={locationInputRef}
                         onChange={(e) => {const value = e.target.value;
@@ -273,7 +288,12 @@ export default function SearchBar({mobileView,queryPage}:SearchBarProps){
                         value={searchTerm.location.place}
                         autoComplete="off"
                     />
-                    {currentlySelected === 'location' ? <DropDown useCase="location" onLocationChange={handleLocationChange} /> : <></>}
+                    {currentlySelected === 'location' && (
+                        validLocationInput && searchTerm.location.place ?
+                            <DropDown useCase="location" onLocationChange={handleLocationChange} />
+                        :
+                            <LocationSuggestions locationQuery={searchTerm.location.place} updateLocation={setSearchTerm} inView={currentlySelected === 'location'} />
+                    )}
                 </div>
                 <div role="presentation" className="h-11 w-0.5 bg-main-grey-100 rounded-full py-0.5 m-auto"></div>
                 <div
@@ -291,8 +311,8 @@ export default function SearchBar({mobileView,queryPage}:SearchBarProps){
                         <input 
                             id="price"
                             name="price"
-                            aria-label="search term" 
-                            className={`${currentlySelected === 'price'? 'bg-main-white': (currentlySelected === ''? 'bg-main-white':'bg-main-grey-100 rounded-none')} text-main-grey-200 w-full mx-2 focus:outline-none ml-0 hover:cursor-pointer`}
+                            aria-label="search price" 
+                            className={`${currentlySelected === 'price'? 'bg-main-white': (currentlySelected === ''? 'bg-main-white':'bg-main-grey-100 rounded-none')} text-main-grey-400 w-full mx-2 focus:outline-none ml-0 hover:cursor-pointer`}
                             placeholder="$$$"
                             ref={priceInputRef}
                             onChange={(e) => setSearchTerm({...searchTerm, price: {...searchTerm.price, value: e.target.value} })}

@@ -10,7 +10,7 @@ from django.contrib.auth import logout
 from django.http import HttpResponse, JsonResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import User, CoachPreferences, AthletePreferences, CoachProfile, AthleteProfile, Service, Review, SocialMedia, Settings, Chat, Message, Calendar, Event, CoachAvailability, BlockedDay, WeeklySchedule, MonthSchedule
+from .models import User, CoachPreferences, AthletePreferences, CoachProfile, AthleteProfile, Service, Review, SocialMedia, Settings, Chat, Message, Calendar, Event, CoachAvailability, BlockedDay, WeeklySchedule, MonthSchedule, Location
 from django.middleware.csrf import get_token, rotate_token
 from django.views.decorators.http import require_POST, require_GET
 from django.contrib.auth.decorators import login_required
@@ -814,6 +814,25 @@ def search(request):
     except Exception as e:
         return JsonResponse({'error': 'An unexpected error occurred: {}'.format(str(e))}, status=500)
 
+@require_GET
+def search_location(request):
+    try:
+        location = request.GET.get('search')
+        if not location:
+            return JsonResponse({'error': 'search parameter not provided in query url'}, status=400)
+        
+        # limit to four results
+        results = Location.objects.filter(city__icontains=location)[:4]
+
+        formatted_results = [
+            {'name': f'{result.city}, {result.province_code}'}
+            for result in results
+        ]
+
+        return JsonResponse({"locations": formatted_results}, status=200)
+    except Exception as e:
+        return JsonResponse({'error': f'An error occurred: {str(e)}'}, status=500)
+    
 @require_GET
 def random_profiles(request):
     try:

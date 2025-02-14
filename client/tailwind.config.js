@@ -12,7 +12,6 @@ module.exports = {
           'main-color-white': '#fffbf2',
           'main-color-beige': '#f1ecd5',
 
-
           'main-green-100':'#C9EBCD',
           'main-green-200':'#B1D5B6',
           'main-green-300':'#9AC09F',

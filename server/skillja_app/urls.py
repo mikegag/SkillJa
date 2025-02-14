@@ -16,6 +16,7 @@ urlpatterns = [
     path('delete_account/', views.delete_account, name='delete_account'),
     path('update_user_timezone/', views.update_user_timezone, name='update_user_timezone'),
     path('search/', views.search, name='search'),
+    path('search/location/', views.search_location, name='search_location'),
     path('random_profiles/', views.random_profiles, name='random_profiles'),
     path('auth_status/', views.auth_status, name='auth_status'),
     path('auth/onboarding/', views.onboarding_user, name='onboarding'),
