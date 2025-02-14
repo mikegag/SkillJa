@@ -6,7 +6,7 @@ import DropDown from "./search/DropDown"
 import SingleSlider from "./search/SingleSlider"
 import MultiOption from "./search/MultiOption"
 import DualSlider from "./search/DualSlider"
-import LocationSuggestions from "./search/LocationSuggestions"
+import LocationSuggestions from "../../hooks/LocationSuggestions"
 
 // Define types for the component props and the search term structure
 interface SearchBarProps {
@@ -164,7 +164,7 @@ export default function SearchBar({mobileView,queryPage}:SearchBarProps){
                                     validLocationInput && searchTerm.location.place ?
                                     <SingleSlider sliderValue={handleLocationChange} />
                                     :
-                                        <LocationSuggestions locationQuery={searchTerm.location.place} updateLocation={setSearchTerm} inView={currentlySelected === 'location'} />
+                                        <LocationSuggestions locationQuery={searchTerm.location.place} updateSearchLocation={setSearchTerm} inView={currentlySelected === 'location'} insideForm={false} />
                                 )}
                                 
                             </div>
@@ -292,7 +292,7 @@ export default function SearchBar({mobileView,queryPage}:SearchBarProps){
                         validLocationInput && searchTerm.location.place ?
                             <DropDown useCase="location" onLocationChange={handleLocationChange} />
                         :
-                            <LocationSuggestions locationQuery={searchTerm.location.place} updateLocation={setSearchTerm} inView={currentlySelected === 'location'} />
+                            <LocationSuggestions locationQuery={searchTerm.location.place} updateSearchLocation={setSearchTerm} inView={currentlySelected === 'location'} insideForm={false}/>
                     )}
                 </div>
                 <div role="presentation" className="h-11 w-0.5 bg-main-grey-100 rounded-full py-0.5 m-auto"></div>

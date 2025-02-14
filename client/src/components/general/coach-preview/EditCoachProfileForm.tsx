@@ -1,14 +1,15 @@
-import { faNewspaper } from "@fortawesome/free-regular-svg-icons";
-import { faLocationDot, faMedal, faPhone, faUser, faX } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
-import Accordion from "../Accordion";
+import { faNewspaper } from "@fortawesome/free-regular-svg-icons"
+import { faLocationDot, faMedal, faPhone, faUser, faX } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import React, { useRef, useState } from "react";
+import Accordion from "../Accordion"
 import data from '../../../data.json'
 import GetWindowSize from '../../../hooks/GetWindowSize'
-import axios from "axios";
-import GetCSFR from "../../../hooks/GetCSFR";
-import ProfilePhotoUploader from "../../../hooks/ProfilePhotoUploader";
-import { faFacebook, faInstagram, faTiktok, faTwitter } from "@fortawesome/free-brands-svg-icons";
+import axios from "axios"
+import GetCSFR from "../../../hooks/GetCSFR"
+import ProfilePhotoUploader from "../../../hooks/ProfilePhotoUploader"
+import { faFacebook, faInstagram, faTiktok, faTwitter } from "@fortawesome/free-brands-svg-icons"
+import LocationSuggestions from "../../../hooks/LocationSuggestions"
 
 interface FormStructure {
     fullname: string;
@@ -97,6 +98,13 @@ export default function EditCoachProfileForm({displayForm, prevSavedData}:FormPr
     const [insideForm, setInsideForm] = useState<boolean>(false)
     const windowSize = GetWindowSize()
     const csrfToken = GetCSFR({ name: "csrftoken" })
+    const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null)
+    const [focusedInputId, setFocusedInputId] = useState<string | null>(null)
+
+    // Updates which element is currently in focus
+    const handleFocus = (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setFocusedInputId(event.target.id);
+    }
 
     // Handles form submission/saving
     function handleSubmit(e:React.FormEvent){
@@ -116,21 +124,7 @@ export default function EditCoachProfileForm({displayForm, prevSavedData}:FormPr
                     console.error("submission failed")
                 }
             })
-            .catch(error => {
-                if (error.response) {
-                    // the server responded with a status code that falls out of the range of 2xx
-                    console.error('Error response:', error.response.data)
-                    console.error('Status:', error.response.status)
-                    console.error('Headers:', error.response.headers)
-                } else if (error.request) {
-                    // no response was received
-                    console.error('No response received:', error.request)
-                } else {
-                    // Something happened in setting up the request that triggered an Error
-                    console.error('Error setting up request:', error.message)
-                }
-                console.error('Error config:', error.config)
-            })
+            .catch(error => {console.error('Error:', error)})
     }
     // Close the form if user clicks outside of it
     function handleExit(value:boolean){
@@ -241,20 +235,54 @@ export default function EditCoachProfileForm({displayForm, prevSavedData}:FormPr
                         placeholder={input.placeholder}
                         value={formData[input.name as keyof FormStructure] as string}
                         onChange={handleChange}
+                        ref={inputRef as React.RefObject<HTMLTextAreaElement>}
+                        onFocus={handleFocus}
                         maxLength={220}
                     />
-                ) : (
-                    <input
-                        id={input.id}
-                        type={input.type}
-                        name={input.name}
-                        className="form-input w-full border-main-grey-100"
-                        placeholder={input.placeholder}
-                        value={formData[input.name as keyof FormStructure] as string}
-                        onChange={handleChange}
-                        maxLength={110}
-                        data-index={input.index || ''}
-                    />
+                ) 
+                : 
+                (
+                    input.id === 'location' ?
+                        <div className="relative">
+                            <input
+                                id={input.id}
+                                type={input.type}
+                                name={input.name}
+                                className="form-input w-full border-main-grey-100"
+                                placeholder={input.placeholder}
+                                value={formData[input.name as keyof FormStructure] as string}
+                                onChange={handleChange}
+                                ref={inputRef as React.RefObject<HTMLInputElement>}
+                                onFocus={handleFocus}
+                                maxLength={110}
+                                data-index={input.index || ''}
+                                autoComplete="off"
+                            />
+                            {
+                            focusedInputId === 'location' && (
+                                <LocationSuggestions
+                                    locationQuery={formData.location}
+                                    inView={true}
+                                    insideForm={true}
+                                    updateFormLocation={setFormData}
+                                />
+                            )}
+
+                        </div>
+                    :
+                        <input
+                            id={input.id}
+                            type={input.type}
+                            name={input.name}
+                            className="form-input w-full border-main-grey-100"
+                            placeholder={input.placeholder}
+                            value={formData[input.name as keyof FormStructure] as string}
+                            onChange={handleChange}
+                            ref={inputRef as React.RefObject<HTMLInputElement>}
+                            onFocus={handleFocus}
+                            maxLength={110}
+                            data-index={input.index || ''}
+                        />
                 )}
                 <FontAwesomeIcon
                     icon={IconComponent}
@@ -296,7 +324,7 @@ export default function EditCoachProfileForm({displayForm, prevSavedData}:FormPr
                 </div>
                 <form className="flex flex-col bg-main-white p-3 lg:px-5 rounded-b-xl" onSubmit={handleSubmit}>
                     <ProfilePhotoUploader token={csrfToken!} />
-                    <div>
+                    <div className="relative">
                         <p>Personal Information</p>
                         {data.profileForms.coach.personalInformation.map(renderInput)}
 
