@@ -51,7 +51,7 @@ export default function Header({ useCase: initialUseCase, url}: HeaderProps) {
     return (
         <>
             {useCase && useCase === "default" ? (
-                <div className="w-full flex items-center px-4 pt-6 pb-4 mb-8 lg:px-14">
+                <div className="w-full flex items-center px-4 pt-6 pb-4 mb-8 lg:px-20">
                     <Link to="/" className="mr-auto ml-0 my-auto">
                         <img
                             src={require("../../assets/new-skillja-logo.png")}
@@ -62,7 +62,7 @@ export default function Header({ useCase: initialUseCase, url}: HeaderProps) {
                     <HamburgerMenu useCase="public" />
                 </div>
             ) : useCase && useCase === "protected" ? (
-                <div className="w-full flex items-center px-4 pt-6 pb-4 mb-8 lg:px-14">
+                <div className="w-full flex items-center px-4 pt-6 pb-4 mb-8 lg:px-20">
                     <Link to="/home-feed" className="mr-auto ml-0 my-auto">
                         <img
                             src={require("../../assets/new-skillja-logo.png")}
@@ -73,7 +73,7 @@ export default function Header({ useCase: initialUseCase, url}: HeaderProps) {
                     <HamburgerMenu useCase="authorized" url={url} />
                 </div>
             ) : (
-                <div className="w-full flex items-center px-4 pt-6 pb-4 mb-8 lg:px-14">
+                <div className="w-full flex items-center px-4 pt-6 pb-4 mb-8 lg:px-20">
                     <img
                         src={require("../../assets/new-skillja-logo.png")}
                         className="w-16 mr-auto cursor-not-allowed ml-0 my-auto lg:w-20"

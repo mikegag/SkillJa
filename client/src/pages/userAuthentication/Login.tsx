@@ -70,9 +70,15 @@ export default function Login() {
       <Header useCase="default" />
       <h2 className="heading mt-10">Welcome Back!</h2>
       <div className="flex flex-col justify-center items-center py-12">
-        {loading ? (
+        {loading ? ( errorMessage.length === 0 ? 
           <div className="mt-20 h-56">
             <LoadingAnimation />
+          </div>
+          :
+          <div className="mt-20 h-56">
+            <p className="text-center mx-auto px-3">
+              Your account has not been confirmed or was previously deleted. Check your email for a confirmation link!
+            </p>
           </div>
         ) : (
           <>

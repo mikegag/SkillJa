@@ -14,7 +14,7 @@ from .models import User, CoachPreferences, AthletePreferences, CoachProfile, At
 from django.middleware.csrf import get_token, rotate_token
 from django.views.decorators.http import require_POST, require_GET
 from django.contrib.auth.decorators import login_required
-from .utils import calculate_price_deviance, calculate_coach_cost, calculate_coach_review
+from .utils import calculate_price_deviance, calculate_coach_cost, calculate_coach_review, calculate_distance
 from django.core.exceptions import ObjectDoesNotExist
 from django.template.loader import render_to_string
 from datetime import datetime, timedelta, date, timezone
@@ -330,7 +330,7 @@ def get_user_profile(request):
 
         user = User.objects.get(email=email)
         data = {
-            'name': user.fullname,
+            'fullname': user.fullname,
             'id': user.id,
             'email': user.email,
             'iscoach': user.iscoach,
@@ -737,33 +737,47 @@ def search(request):
     try:
         # Set page results to a maximum of 6 profiles
         results_per_page = 6
-
         # Get query parameters or set default values
         sport = request.GET.get('sport', 'tennis') 
         location = request.GET.get('location', 'toronto')
         # Default to '$60'
-        original_price = request.GET.get('priceValue', 60)
+        original_price = int(request.GET.get('priceValue', 60))
         # Default to 0%
-        min_deviation = request.GET.get('priceMin', 0)
+        min_deviation = int(request.GET.get('priceMin', 0))
         # Default to 50%
-        max_deviation = request.GET.get('priceMax', 50)
+        max_deviation = int(request.GET.get('priceMax', 50))
+        # Default to 10km
+        proximity = int(request.GET.get('proximity', 10))
         # Default to 1 if no page exists (first query from current user session)
         page = int(request.GET.get('page', 1))
-
         # Convert to integers, handling empty strings
         original_price = int(original_price) if original_price else 60
         min_deviation = int(min_deviation) if min_deviation else 0
         max_deviation = int(max_deviation) if max_deviation else 50
 
+
+        # Extract city, province
+        try:
+            city, province_code = map(str.strip, location.split(','))
+        except ValueError:
+            return JsonResponse({'error': 'Invalid location format. Use "City, ProvinceCode".'}, status=400)
+
+        # Validate city-province combination
+        location_obj = Location.objects.filter(city__iexact=city, province_code__iexact=province_code).first()
+        if not location_obj:
+            return JsonResponse({'error': 'Invalid city or province code'}, status=400)
+
+        latitude, longitude = location_obj.latitude, location_obj.longitude
+
         # Calculate price bounds
         price_min, price_max = calculate_price_deviance(original_price, min_deviation, max_deviation)
+
         
-        # Perform the search for active coaches based on specialization, location, and price range.
-        results = User.objects.filter(
+        # Fetch active coaches that match the sport and price range
+        coaches = User.objects.filter(
             iscoach=True,
             is_active=True,
             coach_preferences__specialization__icontains=sport,
-            coach_profile__location__icontains=location,
             coach_profile__services__price__gte=price_min,
             coach_profile__services__price__lte=price_max
         ).select_related('coach_profile').values(
@@ -775,25 +789,33 @@ def search(request):
             'coach_profile__biography'
         ).distinct()
 
-        # Create a paginator to handle paginated responses
-        paginator = Paginator(results, results_per_page)
-
-        # Format results for cleaner JSON output
         formatted_results = []
-        for result in results:
-            average_cost = calculate_coach_cost(result['id']) or 1
-            average_rating = calculate_coach_review(result['id']) or 0
+        for coach in coaches:
+            try:
+                coach_city, coach_province_code = map(str.strip, coach['coach_profile__location'].split(','))
+                coach_location = Location.objects.filter(city__iexact=coach_city, province_code__iexact=coach_province_code).first()
 
-            formatted_results.append({
-                'id': result['id'],
-                'fullname': result['fullname'],
-                'location': result['coach_profile__location'],
-                'specialization': result['coach_preferences__specialization'],
-                'experience': result['coach_preferences__experience_level'],
-                'biography': result['coach_profile__biography'],
-                'cost': average_cost,
-                'rating': average_rating
-            })
+                if coach_location:
+                    coach_lat, coach_lon = coach_location.latitude, coach_location.longitude
+                    distance = calculate_distance(latitude, longitude, coach_lat, coach_lon)
+                    # Include coaches that fall within proximity range in results
+                    if distance <= proximity:
+                        formatted_results.append({
+                            'id': coach['id'],
+                            'fullname': coach['fullname'],
+                            'location': coach['coach_profile__location'],
+                            'specialization': coach['coach_preferences__specialization'],
+                            'experience': coach['coach_preferences__experience_level'],
+                            'biography': coach['coach_profile__biography'],
+                            'cost': calculate_coach_cost(coach['id']) or 1,
+                            'rating': calculate_coach_review(coach['id']) or 0
+                        })
+            # Skip invalid location formats
+            except ValueError:
+                continue  
+
+        # Apply pagination after filtering by proximity
+        paginator = Paginator(formatted_results, results_per_page)
 
         try:
             current_page = paginator.page(page)
@@ -801,7 +823,7 @@ def search(request):
             return JsonResponse({"error": "Invalid/Empty page number"}, status=400)
 
         return JsonResponse({
-            "results": formatted_results,
+            "results": list(current_page.object_list),
             "totalResults": paginator.count,
             "totalPages": paginator.num_pages,
             "currentPage": current_page.number,

@@ -3,7 +3,7 @@ import { faChevronRight, faDollarSign, faLocationDot, faStar } from "@fortawesom
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import RetrieveImage from "../../hooks/images/RetrieveImage"
 import GetWindowSize from "../../hooks/general/GetWindowSize"
-import LoadingAnimation from "../general/LoadingAnimation";
+
 
 interface ProfilePreviewProps {
     id: string;
@@ -22,12 +22,12 @@ export default function ProfilePreview(props:ProfilePreviewProps){
     const windowSize = GetWindowSize()
 
     return (
-        <div className="flex mx-auto mb-4 w-full lg:w-10/12 justify-center items-center rounded-2xl bg-main-white border-2 border-main-grey-100 px-2 py-4 hover:border-main-green-500 hover:shadow-sm cursor-pointer">
+        <div className="flex mx-auto mb-4 w-full lg:max-w-4xl justify-center items-center rounded-2xl bg-main-white border-2 border-main-grey-100 px-2 py-4 hover:border-main-green-500 hover:shadow-sm cursor-pointer">
             {props.id && (
-                <RetrieveImage id={props.id} styling="w-14 h-14 md:w-28 md:h-28 my-auto mx-3 lg:mx-5 rounded-full border" />
+                <RetrieveImage id={props.id} styling="w-20 h-20 md:w-28 md:h-28 my-auto mx-3 lg:mx-5 rounded-full border" />
             )}
             {!props.id && (
-                <img src={require('../../assets/default-avatar.jpg')} className="w-14 h-14 md:w-28 md:h-28 my-auto mx-3 lg:mx-5 rounded-full border" />
+                <img src={require('../../assets/default-avatar.jpg')} className="w-16 h-16 md:w-28 md:h-28 my-auto mx-3 lg:mx-5 rounded-full border" />
             )}
             <div className="flex justify-start flex-wrap my-auto ml-1 md:ml-6 mr-auto">
                 <h3 className="w-full text-lg lg:text-2xl pb-2 font-source">{props.fullname}</h3>
@@ -37,8 +37,11 @@ export default function ProfilePreview(props:ProfilePreviewProps){
                     <p className="text-main-grey-300 mx-3">|</p>
                     <p className="text-main-grey-300">{props.experience}</p>
                 </div>
-                <p className="w-full text-sm pr-2 lg:pr-0 font-kulim my-2.5 overflow-hidden text-ellipsis whitespace-nowrap">
-                    {props.biography.length > 85 ? `${props.biography.substring(0, 85)}...` : props.biography}
+                <p className="w-full text-sm pr-2 lg:pr-1 font-kulim my-2.5 overflow-hidden text-ellipsis whitespace-nowrap">
+                    {props.biography.length > 25 && windowSize.width >=1024 && `${props.biography.substring(0, 65)}...`}
+                    {props.biography.length > 25 && windowSize.width <=1023 && windowSize.width >= 500 && `${props.biography.substring(0, 40)}...`}
+                    {props.biography.length > 25 && windowSize.width <=499 && windowSize.width >= 300 && `${props.biography.substring(0, 26)}...`}
+                    
                 </p>
                 <FontAwesomeIcon 
                     icon={faStar} 
@@ -66,13 +69,13 @@ export default function ProfilePreview(props:ProfilePreviewProps){
                 </div>
                 {props.specialization.map((currSport:string, index:number)=>(
                     <div key={index} className="bg-main-green-500 py-0.5 px-2.5 my-auto rounded-full mx-1">
-                        <p className="text-sm text-main-white">{currSport}</p>
+                        <p className="text-xs md:text-sm text-main-white">{currSport}</p>
                     </div>
                 ))}
             </div>
             <div className="ml-auto mr-4 my-auto flex w-fit text-main-grey-300 hover:text-main-green-500">
                 {windowSize.width >= 1024 ? 
-                    <p className="text-sm lg:text-base ml-auto font-kulim mr-0 w-24">
+                    <p className="text-sm lg:text-base ml-auto font-kulim mr-0 w-24 lg:pl-2">
                         View Profile
                     </p>
                 :

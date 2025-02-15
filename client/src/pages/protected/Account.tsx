@@ -25,7 +25,7 @@ export default function Account(){
     return (
         <>
             <Header useCase="protected" />
-            <section className="flex flex-col justify-start items-start font-kulim py-2 px-4 lg:px-12 mx-auto mt-10 mb-16">
+            <section className="flex flex-col justify-start items-start font-kulim py-2 px-4 lg:px-24 mx-auto mt-10 mb-16">
                 <h2 className="text-3xl font-source mb-2">
                     Account
                 </h2>
@@ -50,7 +50,7 @@ export default function Account(){
                     ))}
                 </div>
             </section>
-            <section className="flex flex-col justify-start items-start font-kulim py-2 px-4 lg:px-12 mx-auto mb-32">
+            <section className="flex flex-col justify-start items-start font-kulim py-2 px-4 lg:px-24 mx-auto mb-32">
                 <h2 className="text-3xl font-source mb-2">
                     Support
                 </h2>

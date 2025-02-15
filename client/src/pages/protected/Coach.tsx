@@ -31,7 +31,7 @@ interface Service {
     duration: string;
     frequency?: string;
     target_audience?: string;
-    session_length: number;
+    session_length?: number;
     location?: string;
     deliverable?: string;
     price: number;
@@ -147,31 +147,31 @@ export default function Coach(){
                     <LoadingAnimation />
                 </div>
             :
-                <div className={`pb-4 px-8 lg:px-14 lg:mb-32 ${loading ? 'opacity-0':'opacity-100'}`}>
+                <div className={`pb-4 px-8 lg:px-32 lg:mb-32 ${loading ? 'opacity-0':'opacity-100'}`}>
                     <div className="flex justify-center items-center text-center mt-10">
                         <FontAwesomeIcon 
                             icon={faLongArrowLeft}
                             onClick={()=>navigate(-1)} 
-                            className="text-2xl my-auto mr-auto ml-0 hover:text-main-green-500 cursor-pointer" 
+                            className="text-3xl my-auto mr-auto ml-0 hover:text-main-green-500 cursor-pointer" 
                         />
                         <h1 className="font-source text-center text-3xl my-auto mx-auto text-main-green-900">
                             Profile
                         </h1>
                         <p className="w-6 ml-auto mr-0"></p>
                     </div>
-                    <section className="flex flex-col justify-center items-center border-b-2 mt-8 lg:mt-14 border-main-grey-300 lg:pb-4 ">
-                        <div className="flex flex-col justify-center items-center lg:flex-row lg:justify-center lg:items-center ">
+                    <section className="flex flex-col justify-center items-center border-b-2 mt-8 lg:mt-20 border-main-grey-300 lg:pb-4 ">
+                        <div className="flex flex-col justify-center items-center w-full lg:flex-row">
                             {!profileDetails.userId && (
-                                <img src={require('../../assets/default-avatar.jpg')} className="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-16 lg:ml-0" />
+                                <img src={require('../../assets/default-avatar.jpg')} className="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-10 lg:ml-0" />
                             )}
                             {profileDetails.userId && (
-                                <RetrieveImage id={profileDetails.userId!} styling="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-16 lg:ml-0" />
+                                <RetrieveImage id={profileDetails.userId!} styling="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-10 lg:ml-0" />
                             )}
-                            <div className="flex flex-col justify-center items-center font-kulim text-main-green-900 my-auto">
-                                <h2 className="text-2xl font-medium font-source mt-3 lg:mt-0 mx-auto lg:ml-0">
-                                    {profileDetails?.fullname} 
-                                </h2>
-                                <h3 className="text-lg my-1 mx-auto font-medium font-source text-main-grey-300 lg:ml-0">
+                            <div className="flex flex-col justify-center font-kulim text-main-green-900 items-center ">
+                                <h3 className="text-2xl mt-3 lg:mt-0 lg:mb-0.5 mx-auto font-kulim lg:ml-0">
+                                    {profileDetails.fullname || "Loading..."}
+                                </h3>
+                                <h3 className="text-lg my-1 mx-auto font-medium font-kulim text-main-grey-300 lg:ml-0">
                                     <FontAwesomeIcon icon={faLocationDot} className="text-main-grey-300 text-lg lg:text-base mr-2 lg:ml-0" />
                                     {profileDetails.profile?.location || "Location not provided"}
                                 </h3>
@@ -182,11 +182,11 @@ export default function Coach(){
                                 <h3 className="text-lg lg:text-base my-1 lg:ml-0 font-medium">
                                     Experience: {profileDetails.preferences?.experience_level || "Not provided"}
                                 </h3>
-                                <h3 className="py-2 px-4 rounded-xl mt-2 mx-auto bg-main-white border border-main-grey-100 cursor-pointer lg:ml-0">
+                                <h3 className="py-1.5 px-4 rounded-xl mt-2 mx-auto bg-main-white border border-main-grey-100 cursor-pointer lg:ml-0">
                                     {profileDetails.profile?.primarySport || "No Primary Sport"}
                                 </h3> 
                             </div>
-                            <div className="flex flex-col justify-center items-center lg:my-2 md:w-96 lg:pl-16">
+                            <div className="flex flex-col justify-center items-center w-96 lg:ml-28">
                                 <ContactCoachForm csrftoken={csrfToken!} coachId={queryParameters.get("coach_id")!}/>
                                 <SocialMediaIcons 
                                     instagram={profileDetails.profile?.socialMedia.instagram}
@@ -196,19 +196,19 @@ export default function Coach(){
                                 /> 
                             </div>
                         </div>
-                        <div className="w-full lg:mt-6 lg:px-20">
+                        <div className="w-full lg:mt-8 lg:px-12">
                             {windowSize.width >=1024 ? 
-                                <h3 className="text-lg my-1 mr-auto font-medium">About Me</h3>
+                                <h3 className="text-lg my-1 mr-auto font-medium font-source">About Me:</h3>
                             :
                                 <></>
                             }
-                            <p className="my-6 lg:my-3 text-center lg:text-start">
-                                {profileDetails.profile?.biography || "Biography not provided"}
+                            <p className="my-6 lg:my-3 text-center lg:text-start font-kulim">
+                                {profileDetails.profile?.biography || "Biography not provided."}
                             </p>
                         </div>
                     </section>
-                    <section className="flex justify-center items-center flex-col lg:flex-row lg:items-start mt-8 mb-12 mx-auto">
-                        <div className="flex flex-col justify-center w-full lg:w-5/12 lg:mx-6 lg:mr-10">
+                    <section className="flex justify-center items-center flex-col lg:flex-row lg:items-start my-8 mx-auto lg:pt-6">
+                        <div className="flex flex-col justify-center w-full lg:w-5/12 lg:mr-auto">
                             <h2 className="text-2xl font-medium font-source mx-auto mb-6 text-center">
                                 Sessions and Packages
                             </h2>
@@ -236,17 +236,17 @@ export default function Coach(){
                                     ))}
                                 </>
                             :
-                                <p className="mx-auto">No sessions are currently available</p>
+                                <p className="mx-auto font-kulim">No sessions are currently available</p>
                             }
                         </div>
-                        <div className="flex flex-col justify-center mt-12 lg:mt-0 w-full lg:w-5/12 lg:mx-6 lg:mr-10">
+                        <div className="flex flex-col justify-center mt-12 lg:mt-0 w-full lg:w-5/12 lg:ml-auto">
                             <h2 className="text-2xl font-medium font-source mx-auto mb-6 text-center">
                                 Reviews and Testimonials
                             </h2>
                             {profileDetails.profile?.reviews?.length > 0 ?
                                 <ReviewSlider data={profileDetails.profile.reviews}/>   
                             :
-                                <p className="mx-auto">No reviews available</p>    
+                                <p className="mx-auto font-kulim">No reviews available</p>    
                             }
                         </div>
                     </section>

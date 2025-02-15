@@ -141,7 +141,7 @@ export default function Chat(){
     return (
         <div className="flex flex-col"> 
             <Header useCase="protected"/>
-            <div className="flex mt-10 pb-4 lg:pb-0 mb-16 lg:mb-32 md:px-12">
+            <div className="flex mt-10 pb-4 lg:pb-0 mb-16 lg:mb-32 md:px-24 justify-center">
                 {size.width < 900 && openChat === true ?
                 
                     <ChatBox 

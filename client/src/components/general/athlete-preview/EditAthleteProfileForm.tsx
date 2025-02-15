@@ -46,7 +46,7 @@ interface Service {
 }
   
 interface ProfileDetails {
-    name: string;
+    fullname: string;
     email: string;
     iscoach: boolean;
     isathlete: boolean;
@@ -75,7 +75,7 @@ interface ProfileDetails {
 
 export default function EditAthleteProfileForm({displayForm, prevSavedData}:FormProps){
     const [formData, setFormData] = useState<FormStructure>({
-        fullname: prevSavedData?.name || "",
+        fullname: prevSavedData?.fullname || "",
         phonenumber: prevSavedData?.phonenumber || "",
         location: prevSavedData?.profile.location || "",
         biography: prevSavedData?.profile.biography || "",
@@ -265,11 +265,11 @@ export default function EditAthleteProfileForm({displayForm, prevSavedData}:Form
                         onClick={()=>handleExit(false)}
                         onMouseEnter={()=>setInsideForm(false)}
                     />
-                    <h3 className="text-lg font-medium font-source mx-auto text-center pl-6">
+                    <h3 className="text-lg font-semibold font-kulim underline mx-auto text-center pl-6">
                         Edit Profile
                     </h3>
                     <p 
-                        className="text-main-green-900 hover:text-main-green-500 ml-auto cursor-pointer"
+                        className="text-main-green-900 font-kulim hover:text-main-green-500 ml-auto cursor-pointer"
                         onClick={handleSubmit}
                     >
                         Save
@@ -303,8 +303,8 @@ export default function EditAthleteProfileForm({displayForm, prevSavedData}:Form
                                     }}
                                     key={index}
                                     className={`py-2 px-4 rounded-xl mr-2 border border-main-grey-100 cursor-pointer
-                                        ${currentPrimarySport === currSport ? "bg-main-color-darkgreen text-white" : "bg-white text-black"}
-                                        hover:bg-main-color-lightgreen`}
+                                        ${currentPrimarySport === currSport ? "bg-main-green-500 text-white" : "bg-white text-black"}
+                                        hover:bg-main-green-600 hover:text-white`}
                                 >
                                     {currSport}
                                 </button>
@@ -320,7 +320,7 @@ export default function EditAthleteProfileForm({displayForm, prevSavedData}:Form
                         <p className="my-6">
                             Sports of Interest
                         </p>
-                        <Accordion title="Individual Sports" styles="border-main-grey-100">
+                        <Accordion title="Individual Sports" styles="border-main-grey-100 border rounded-xl">
                             {data.profileForms.athlete.sportOptions.individual.map((option, index) => (
                                 <button 
                                     onClick={(e)=>{e.preventDefault(); handleAccordionChange(e)}}
@@ -333,7 +333,7 @@ export default function EditAthleteProfileForm({displayForm, prevSavedData}:Form
                                 </button>
                             ))}
                         </Accordion>
-                        <Accordion title="Team Sports" styles="border-main-grey-100">
+                        <Accordion title="Team Sports" styles="border-main-grey-100 border rounded-xl mt-2">
                             {data.profileForms.athlete.sportOptions.team.map((option, index) => (
                                 <button 
                                     onClick={(e)=>{e.preventDefault(); handleAccordionChange(e)}}

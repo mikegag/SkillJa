@@ -33,13 +33,14 @@ interface Service {
     duration: string;
     frequency?: string;
     target_audience?: string;
+    session_length?: number;
     location?: string;
     deliverable?: string;
     price: number;
 }
   
 interface ProfileDetails {
-    name: string;
+    fullname: string;
     email: string;
     iscoach: boolean;
     isathlete: boolean;
@@ -76,12 +77,13 @@ const defaultService: Service = {
     target_audience: '',
     location: '',
     deliverable: '',
+    session_length: 0,
     price: 0
 }
 
 // Default values for profileDetails
 const defaultProfileDetails: ProfileDetails = {
-    name: 'Name',
+    fullname: 'Name',
     email: 'Email',
     iscoach: false,
     isathlete: false,
@@ -154,10 +156,10 @@ export default function Profile(){
                 </UserContext.Provider> 
             )}
             {/* force simulate loading simulation while API data loads */}
-            <div className={`${loading ? 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2': 'opacity-0'}`}>
+            <div className={`${loading ? 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2': 'opacity-0 -top-10'}`}>
                 <LoadingAnimation />
             </div>
-            <div className={`pb-4 px-8 lg:px-14 lg:mb-32 ${loading ? 'opacity-0':'opacity-100'}`}> 
+            <div className={`pb-4 px-8 lg:px-32 lg:mb-32 ${loading ? 'opacity-0':'opacity-100'}`}> 
                 {profileDetails.isathlete && readyToDisplayProfileForm? <EditAthleteProfileForm displayForm={setReadyToDisplayProfileForm} prevSavedData={profileDetails} />:<></>}
                 {profileDetails.iscoach && readyToDisplayProfileForm? <EditCoachProfileForm displayForm={setReadyToDisplayProfileForm} prevSavedData={profileDetails}/>:<></>}
                 {profileDetails.iscoach && readyToDisplayServicesForm? <EditCoachServiceForm displayForm={setReadyToDisplayServicesForm}/>:<></>}
@@ -177,10 +179,10 @@ export default function Profile(){
                             <img src={require('../../assets/default-avatar.jpg')} className="w-32 h-32 lg:w-44 lg:h-44 rounded-2xl lg:mr-10" />
                         )}
                         <div className="flex flex-col justify-center items-center font-kulim text-main-green-900">
-                            <h2 className="text-2xl font-medium font-source mt-3 lg:mt-0 mx-auto lg:ml-0">
-                                {profileDetails.name? profileDetails.name : 'Name' }
+                            <h2 className="text-2xl font-medium font-kulim mt-3 lg:mt-0 mx-auto lg:ml-0">
+                                {profileDetails.fullname? profileDetails.fullname : 'Name' }
                             </h2>
-                            <h3 className="text-lg my-1 mx-auto font-medium font-source text-main-grey-300 lg:ml-0">
+                            <h3 className="text-lg my-1 mx-auto font-medium font-kulim text-main-grey-300 lg:ml-0">
                                 <FontAwesomeIcon icon={faLocationDot} className="text-main-grey-300 text-lg lg:text-base mr-2 lg:ml-0" />
                                 {profileDetails.profile.location? profileDetails.profile.location : 'Location' }
                             </h3>
@@ -195,8 +197,8 @@ export default function Profile(){
                                 {profileDetails.profile.primary_sport}
                             </h3>
                         </div>
-                        {windowSize.width >= 1024 ?
-                            <div className="flex flex-col justify-center items-center w-96 pl-16">
+                        {windowSize.width >= 1026 &&
+                            <div className='flex flex-col justify-center items-center w-96 lg:ml-32'>
                                 <button 
                                     className="py-2 px-4 mt-6 w-80 lg:w-fit lg:mt-0 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
                                     onClick={()=>setReadyToDisplayProfileForm(true)}
@@ -220,24 +222,22 @@ export default function Profile(){
                                     </div>
                                 }
                             </div>
-                        :
-                            <></>
                         }
                     </div>
-                    <div className="w-full lg:mt-8 lg:px-20">
-                        {windowSize.width >=1024 ? 
-                            <h3 className="text-lg my-1 mr-auto font-medium">About Me</h3>
+                    <div className="w-full lg:mt-8 lg:px-12">
+                        {windowSize.width >=1025 ? 
+                            <h3 className="text-base my-1 mr-auto font-medium font-kulim">About Me:</h3>
                         :
                             <></>
                         }
-                        <p className="my-6 lg:my-3 text-center lg:text-start">
+                        <p className="my-6 lg:my-3 text-center lg:text-start font-kulim">
                             {profileDetails.profile.biography? profileDetails.profile.biography : 'Bio goes here...' }
                         </p>
                     </div>
-                    {windowSize.width <= 1024 ?
+                    {windowSize.width <= 1025 ?
                         <div className="flex flex-col mb-3">
                             <button 
-                                className="py-2 px-4 w-80 lg:w-fit lg:mt-0 lg:ml-44 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
+                                className={`py-2 px-4 w-80 ${windowSize.width >=1026 && 'w-fit mt-0 ml-44'} bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700`}
                                 onClick={()=>setReadyToDisplayProfileForm(true)}
                             >
                                 Edit Profile
@@ -245,7 +245,7 @@ export default function Profile(){
                             {profileDetails.iscoach? 
                                 <>
                                     <button 
-                                        className="py-2 px-4 mt-3 mb-4 w-full lg:w-fit lg:ml-44 bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700"
+                                        className={`py-2 px-4 mt-3 mb-4 w-full ${windowSize.width >=1026 && 'w-fit  ml-44'} bg-main-green-500 text-main-white font-kulim rounded-xl hover:bg-main-green-700`}
                                         onClick={()=>setReadyToDisplayServicesForm(true)}
                                     >
                                         Edit Services
@@ -266,9 +266,9 @@ export default function Profile(){
                     }
                 </section>
 
-                <section className="flex justify-center items-center flex-col lg:flex-row lg:items-start my-8 mx-auto">
-                    <div className="flex flex-col justify-center w-full lg:w-5/12 lg:mx-6 lg:mr-10">
-                    {profileDetails.isathlete?
+                <section className="flex justify-center items-center flex-col lg:flex-row lg:items-start my-8 mx-auto lg:pt-6">
+                    <div className="flex flex-col justify-center w-full lg:w-5/12 lg:mr-auto">
+                    {profileDetails.isathlete ?
                         <>
                             <h2 className="text-2xl font-medium font-source mx-auto mb-4 text-center">
                                 Current Goals
@@ -280,7 +280,7 @@ export default function Profile(){
                                     ))}
                                 </>
                             :
-                                <p>No goals to display</p>
+                                <p className="font-kulim">No goals to display</p>
                             }
                         </>
                     :
@@ -312,19 +312,19 @@ export default function Profile(){
                                     ))}
                                 </>
                             :
-                                <p className="mx-auto">No services are currently available</p>
+                                <p className="mx-auto font-kulim">No services are currently available</p>
                             }
                         </>
                     }
                     </div>
-                    <div className="flex flex-col justify-center mt-12 lg:mt-0 w-full lg:w-5/12 lg:mx-6 lg:mr-10">
+                    <div className="flex flex-col justify-center mt-12 lg:mt-0 w-full lg:w-5/12 lg:ml-auto">
                         <h2 className="text-2xl font-medium font-source mx-auto mb-6 text-center">
                             Reviews and Testimonials
                         </h2>
                         {profileDetails.profile.reviews?.length > 0 ?
                             <ReviewSlider data={profileDetails.profile.reviews}/>   
                         :
-                            <p className="mx-auto">No reviews available</p>    
+                            <p className="mx-auto font-kulim">No reviews available</p>    
                         }
                     </div>
                 </section>

@@ -15,7 +15,7 @@ interface Service {
     duration?: string;
     session_length?: number;
     frequency?: string;
-    targetAudience?: string;
+    target_audience?: string;
     location?: string;
     deliverable?: string;
     price: number;
@@ -135,18 +135,18 @@ export default function CoachService({exitView, data}:ServiceProps){
     return (
         <div className="pop-up-background" onClick={()=>handleExit(false)}>
             <div className="pop-up-container p-4 lg:p-6 text-main-green-900" onMouseEnter={()=>setInsideModal(true)} onMouseLeave={()=>setInsideModal(false)}>
-                <div className="flex pb-3 border-b border-gray-400">
+                <div className="flex">
                     <FontAwesomeIcon 
                         icon={faX} 
                         className="text-main-green-900 hover:text-main-green-500 my-auto mr-auto cursor-pointer" 
                         onClick={()=> {handleExit(false)}} onMouseEnter={()=>setInsideModal(false)}
                     />
-                    <h1 className="font-medium font-source text-lg m-auto">
+                    <h1 className="font-semibold underline font-kulim text-lg m-auto">
                         Sessions & Packages
                     </h1>
                     <p className="opacity-0 ml-auto">-</p>
                 </div>
-                <h3 className="font-kulim font-semibold mr-auto text-center mt-6 mb-2">
+                <h3 className="font-kulim font-semibold mr-auto text-center mt-8 mb-2">
                     {data.title}
                 </h3>
                 <p className="font-kulim font-light">
@@ -157,7 +157,7 @@ export default function CoachService({exitView, data}:ServiceProps){
                         <span className="font-semibold">Duration:</span> {data.duration}
                     </p>
                 )}
-                {data.session_length && (
+                {typeof data.session_length === "number" && data.session_length > 1 && (
                     <p className="font-kulim mt-4 font-light">
                         <span className="font-semibold">Session Length: </span> {data.session_length} min
                     </p>

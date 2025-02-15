@@ -52,7 +52,7 @@ interface Service {
 }
   
 interface ProfileDetails {
-    name: string;
+    fullname: string;
     email: string;
     iscoach: boolean;
     isathlete: boolean;
@@ -81,7 +81,7 @@ interface ProfileDetails {
 
 export default function EditCoachProfileForm({displayForm, prevSavedData}:FormProps){
     const [formData, setFormData] = useState<FormStructure>({
-        fullname: prevSavedData?.name || '',
+        fullname: prevSavedData?.fullname || '',
         phonenumber: prevSavedData?.phonenumber || '',
         location: prevSavedData?.profile.location || '',
         biography: prevSavedData?.profile.biography || '',
@@ -305,18 +305,18 @@ export default function EditCoachProfileForm({displayForm, prevSavedData}:FormPr
                 onMouseEnter={()=>setInsideForm(true)} 
                 onMouseLeave={()=>setInsideForm(false)}
             >
-                <div className="flex justify-center items-center border-b border-main-grey-100 p-3 lg:px-5 bg-main-white rounded-t-xl">
+                <div className="flex justify-center items-center p-3 lg:px-5 bg-main-white rounded-t-xl">
                     <FontAwesomeIcon 
                         icon={faX}
                         className="text-main-green-900 hover:text-main-green-500 mr-auto cursor-pointer"
                         onClick={()=>handleExit(false)}
                         onMouseEnter={()=>setInsideForm(false)}
                     />
-                    <h3 className="text-lg font-medium font-source mx-auto text-center pl-6">
+                    <h3 className="text-lg font-semibold font-kulim underline mx-auto text-center pl-6">
                         Edit Profile
                     </h3>
                     <p 
-                        className="text-main-green-900 hover:text-main-green-500 ml-auto cursor-pointer"
+                        className="text-main-green-900 font-kulim my-auto hover:text-main-green-500 ml-auto cursor-pointer"
                         onClick={handleSubmit}
                     >
                         Save
@@ -347,8 +347,8 @@ export default function EditCoachProfileForm({displayForm, prevSavedData}:FormPr
                                     }}
                                     key={index}
                                     className={`py-2 px-4 rounded-xl mr-2 border border-main-grey-100 cursor-pointer
-                                        ${currentPrimarySport === currSport ? "bg-main-color-darkgreen text-white" : "bg-white text-black"}
-                                        hover:bg-main-color-lightgreen`}
+                                        ${currentPrimarySport === currSport ? "bg-main-green-500 text-white" : "bg-white text-black"}
+                                        hover:bg-main-green-600 hover:text-white`}
                                 >
                                     {currSport}
                                 </button>
@@ -364,7 +364,7 @@ export default function EditCoachProfileForm({displayForm, prevSavedData}:FormPr
                         <p className="my-6">
                             Sports You Coach
                         </p>
-                        <Accordion title="Individual Sports" styles="border-main-grey-100">
+                        <Accordion title="Individual Sports" styles="border-main-grey-100 border rounded-xl">
                             {data.profileForms.coach.sportOptions.individual.map((option, index) => (
                                 <button 
                                     onClick={(e)=>{
@@ -380,7 +380,7 @@ export default function EditCoachProfileForm({displayForm, prevSavedData}:FormPr
                                 </button>
                             ))}
                         </Accordion>
-                        <Accordion title="Team Sports" styles="border-main-grey-100">
+                        <Accordion title="Team Sports" styles="border-main-grey-100 border rounded-xl mt-2">
                             {data.profileForms.coach.sportOptions.team.map((option, index) => (
                                 <button 
                                     onClick={(e)=>{

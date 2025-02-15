@@ -13,10 +13,10 @@ type SavedInformationType = {
     description: string;
     duration: string;
     frequency: string;
-    targetAudience?: string;
+    target_audience?: string;
     location?: string;
     deliverable?: string;
-    sessionLength?: number;
+    session_length?: number;
     price: number;
 }
 

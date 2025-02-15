@@ -27,14 +27,14 @@ export default function EditCoachServiceForm({displayForm}:FormProps){
                 onMouseEnter={()=>setInsideForm(true)} 
                 onMouseLeave={()=>setInsideForm(false)}
             >
-                <div className="flex justify-center items-center border-b border-main-grey-100 p-3 lg:px-5 bg-main-white rounded-t-xl">
+                <div className="flex justify-center items-center underline p-3 lg:px-5 bg-main-white rounded-t-xl">
                     <FontAwesomeIcon 
                         icon={faX}
                         className="text-main-green-900 hover:text-main-green-500 mr-auto cursor-pointer"
                         onClick={()=>handleExit(false)}
                         onMouseEnter={()=>setInsideForm(false)}
                     />
-                    <h3 className="text-lg font-medium font-source mx-auto text-center">
+                    <h3 className="text-lg font-semibold font-kulim mx-auto text-center">
                         Edit Services
                     </h3>
                     <p className="ml-auto mr-0"></p>

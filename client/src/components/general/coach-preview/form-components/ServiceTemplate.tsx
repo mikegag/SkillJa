@@ -38,11 +38,11 @@ type SavedInformationType = {
     description: string;
     duration?: string;
     frequency: string;
-    targetAudience?: string;
+    target_audience?: string;
     location?: string;
     deliverable?: string;
     price: number;
-    sessionLength?: number;
+    session_length?: number;
 }
 
 export default function ServiceTemplate({useCase, savedInformation}:TemplateProps){
@@ -55,11 +55,11 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
         description: savedInformation?.description || "",
         duration: savedInformation?.duration || "",
         frequency: savedInformation?.frequency || "",
-        targetAudience: savedInformation?.targetAudience || "",
+        target_audience: savedInformation?.target_audience || "",
         location: savedInformation?.location || "",
         deliverable: savedInformation?.deliverable || "",
         price: savedInformation?.price || 0,
-        sessionLength: savedInformation?.sessionLength || 0,
+        session_length: savedInformation?.session_length || 0,
     })
 
     // React Hook Form setup
@@ -74,11 +74,11 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
             description: savedInformation?.description || undefined,
             duration: savedInformation?.duration || undefined,
             frequency: savedInformation?.frequency || undefined,
-            targetAudience: savedInformation?.targetAudience || undefined,
+            target_audience: savedInformation?.target_audience || undefined,
             location: savedInformation?.location || undefined,
             deliverable: savedInformation?.deliverable || undefined,
             price: savedInformation?.price || undefined,
-            sessionLength: savedInformation?.sessionLength || undefined,
+            session_length: savedInformation?.session_length || undefined,
         }
     })
 
@@ -90,7 +90,7 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
             type: savedInformation?.type || useCase,
             price: parseInt(data.price.toString()),
             duration: data.duration || null, 
-            sessionLength: parseInt(data.sessionLength?.toString() || "0"),
+            sessionLength: parseInt(data.session_length?.toString() || "0"),
             id: savedInformation?.id ?? undefined,
         } 
 
@@ -121,7 +121,7 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
     function handleDelete(e:React.FormEvent){
         // only trigger if a previously saved service exists
         if (savedInformation?.id !== undefined) {
-            axios.post('https://www.skillja.ca/auth/profile/delete_service/', { id: savedInformation.id }, {
+            axios.post(`${process.env.REACT_APP_SKILLJA_URL}/auth/profile/delete_service/`, { id: savedInformation.id }, {
                 headers: {
                     'X-CSRFToken': csrfToken,
                     'Content-Type': 'application/json'
@@ -186,12 +186,16 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
                 ))}
 
                 {savedInformation?.id !== undefined ? 
-                    <div className="flex justify-center items-center flex-wrap">
-                        <button className="bg-main-green-500 rounded-xl p-3 mb-3 mt-6 mx-auto md:w-52 text-main-white hover:bg-main-green-700">
+                    <div className="flex justify-center items-center flex-wrap my-5 lg:w-96 mx-auto">
+                        <button 
+                            className="bg-main-green-500 rounded-xl p-3 m-auto md:w-44 text-main-white hover:bg-main-green-700"
+                            aria-label="Update previously saved Service"
+                            type="submit"
+                        >
                             Update
                         </button>
                         <button 
-                            className="bg-gray-500 rounded-xl p-3 mb-3 mt-6 ml-3 mr-auto md:w-52 text-main-white hover:bg-red-500"
+                            className="bg-gray-500 rounded-xl p-3 ml-3 m-auto md:w-44 text-main-white hover:bg-red-500"
                             onClick={handleDelete}
                             aria-label="Delete previously saved Service"
                             type="button"
@@ -201,8 +205,9 @@ export default function ServiceTemplate({useCase, savedInformation}:TemplateProp
                     </div>
                 :
                     <button 
-                        className="bg-main-green-500 rounded-xl p-3 mb-3 mt-6 mx-auto md:w-72 text-main-white hover:bg-main-green-700"
-                        aria-label="Save/Create Service"
+                        className="bg-main-green-500 rounded-xl p-3 mb-3 mt-6 mx-auto md:w-44 text-main-white hover:bg-main-green-700"
+                        aria-label="Save/create a Service"
+                        type="submit"
                     >
                         Save
                     </button>

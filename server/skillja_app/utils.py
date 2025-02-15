@@ -1,4 +1,5 @@
 from .models import User
+from math import radians, cos, sin, sqrt, atan2
 
 # Calculates the lower and upper bounds for a price range based on a given input and percentage deviations.
 # This is used in search results to filter coaches within a specified price range.
@@ -77,4 +78,15 @@ def calculate_coach_review(coach_id):
         # Handle cases where the coach does not exist
         return None
 
-#function that utilizes geocoding api to apply results to search proximity
+# Calculates Haversine Formula to determine a circular boundary around a given latitude and longitude coordinate pair
+def calculate_distance(lat1, lon1, lat2, lon2):
+    # Radius of Earth in km
+    R = 6371
+
+    dlat = radians(lat2 - lat1)
+    dlon = radians(lon2 - lon1)
+
+    a = sin(dlat/2) ** 2 + cos(radians(lat1)) * cos(radians(lat2)) * sin(dlon/2) ** 2
+    c = 2 * atan2(sqrt(a), sqrt(1-a))
+    # Distance in km
+    return R * c

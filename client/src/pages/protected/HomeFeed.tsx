@@ -158,7 +158,7 @@ export default function HomeFeed(){
                                 </p>
                             )
                     } 
-                    {data.totalPages > 0 && searchParams.get('page') && (
+                    {data.totalPages > 1 && searchParams.get('page') && (
                         <div className="mx-auto mt-20 mb-5 w-full lg:w-8/12 flex justify-center items-center border-t border-main-grey-100 py-4">
                             <p 
                                 className={`ml-0 mr-auto text-main-grey-400 ${data.currentPage === 1? "cursor-not-allowed": "cursor-pointer hover:text-main-green-500"} pr-2 w-28 text-start`}

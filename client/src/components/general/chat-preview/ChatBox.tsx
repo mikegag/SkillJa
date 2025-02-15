@@ -105,7 +105,7 @@ export default function ChatBox({displayChatBox, userId, sender, messages, chatI
     }
     
     return (
-        <section className="md:w-96 lg:w-full h-fit flex flex-col px-4 md:px-8 md:border-l-4 border-main-grey-200">
+        <section className="md:w-96 lg:w-full h-fit flex flex-col px-4 md:pl-8 md:border-l-4 border-main-grey-200">
             <div className="flex justify-center lg:justify-start pb-6 mb-2">
                 {size.width < 900 && (
                     <FontAwesomeIcon 
