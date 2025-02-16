@@ -108,7 +108,8 @@ def auth_status(request):
     if request.user.is_authenticated:
         return JsonResponse({
             'is_logged_in': True,
-            'email': request.user.email
+            'email': request.user.email,
+            'id': request.user.id
         })
     else:
         return JsonResponse({
@@ -1131,8 +1132,6 @@ def create_transaction_notification(request):
 
         if not service_id:
             return JsonResponse({"error": "serviceId parameter was not passed"}, status=400)
-        if not date_time:
-            return JsonResponse({"error": "dateTime parameter was not passed"}, status=400)
         if not session_id:
             return JsonResponse({"error": "sessionId parameter was not passed"}, status=400)
 
@@ -1632,7 +1631,7 @@ def new_user_confirmation_email(request):
             f"https://api.mailgun.net/v3/{domain}/messages",
             auth=("api", api_key),
             data={
-                "from": f"SkillJa <mailgun@{domain}>",
+                "from": f"SkillJa <noreply@{domain}>",
                 "to": recipient,
                 "subject": "Confirm Your Email Address - SkillJa",
                 "html": html_content, 
@@ -1693,7 +1692,7 @@ def contact_us_email(request):
             f"https://api.mailgun.net/v3/{domain}/messages",
             auth=("api", api_key),
             data={
-                "from": f"SkillJa <mailgun@{domain}>",
+                "from": f"SkillJa <noreply@{domain}>",
                 "to": recipient,
                 "subject": f"Inquiry - Contact Us Message From {firstname} {lastname}",
                 "text": body, 
@@ -1717,7 +1716,7 @@ def order_confirmation_email(request):
         coach_id = data.get('coachId')
         service_id = data.get('serviceId')
         stripe_session_id = data.get('sessionId')
-        date_time = data.get('dateTime')
+        date_time = data.get('dateTime','N/A')
 
         if not recipient:
             return JsonResponse({"error":"No email found for user"},status=400)
@@ -1744,14 +1743,18 @@ def order_confirmation_email(request):
             return JsonResponse({"error": f"Stripe verification failed: {str(e)}"}, status=400)
         
         current_date = datetime.now()
-         # Parse the input string into a datetime object
-        try:
-            parsed_datetime = datetime.strptime(date_time, "%Y-%m-%d-%H-%M")
-        except ValueError:
-            return JsonResponse({"error": "Invalid dateTime format. Expected 'yyyy-mm-dd-hh-mm'."}, status=400)
 
-        # Format it to: yyyy-mm-dd (time)am/pm
-        formatted_date_time = parsed_datetime.strftime("%Y-%m-%d (%I:%M %p)")
+        # Handle "N/A" case for date_time
+        if date_time is None or str(date_time).strip().lower() in ["", "n/a"]:
+            formatted_date_time = "N/A"
+        else:
+            try:
+                # Parse the input string into a datetime object
+                parsed_datetime = datetime.strptime(date_time, "%Y-%m-%d-%H-%M")
+                formatted_date_time = parsed_datetime.strftime("%Y-%m-%d (%I:%M %p)")
+            except ValueError:
+                return JsonResponse({"error": "Invalid dateTime format. Expected 'yyyy-mm-dd-hh-mm'."}, status=400)
+            
         # Render the HTML email template
         html_content = render_to_string("email/order_confirmation_email.html", 
             {"coach": coach, 
@@ -1769,8 +1772,8 @@ def order_confirmation_email(request):
             f"https://api.mailgun.net/v3/{domain}/messages",
             auth=("api", api_key),
             data={
-                "from": f"SkillJa <mailgun@{domain}>",
-                "to": 'contact@m-gagliardi.com',
+                "from": f"SkillJa <noreply@{domain}>",
+                "to": recipient,
                 "subject": "Order Confirmation - SkillJa",
                 "html": html_content, 
             },
@@ -1778,7 +1781,7 @@ def order_confirmation_email(request):
         if response.status_code == 200:
             return JsonResponse({"message": "Email sent successfully!"}, status=200)
         else:
-            return JsonResponse({"error": "Failed to send email", "details": response.text}, status=500)
+            return JsonResponse({"error": "Failed to send email", "details": response}, status=500)
 
     except Exception as e:
         return JsonResponse({"Error": "An unexpected error occurred.","details": str(e)}, status=500)
@@ -1797,12 +1800,9 @@ def get_image(request):
             # Fetch the user and derive image_name from the email
             try:
                 user = User.objects.get(id=user_id)
-                image_name = user.email.replace('@', '_')
+                image_name = user.id
             except User.DoesNotExist:
                 return JsonResponse({"error": "User not found."}, status=404)
-
-        # Ensure image_name follows expected conventions
-        image_name = image_name.replace('@', '_')
 
         # Possible image formats
         formats = ["jpg", "png", "jpeg"]
@@ -1861,8 +1861,9 @@ def upload_image(request):
         if not email:
             return JsonResponse({'error': 'Email not found in cookies'}, status=400)
 
-        # Format file name to prevent Cloudinary errors
-        file_name = email.replace('@', '_')
+        # Format file name in Cloudinary to user id
+        user = User.objects.get(email=email)
+        file_name = user.id
 
         # Upload the image to Cloudinary
         cloudinary.uploader.upload(
@@ -1872,7 +1873,6 @@ def upload_image(request):
         )
 
         # update user picture reference with Cloudinary public_id
-        user = User.objects.get(email=email)
         if hasattr(user, 'coach_profile') and user.iscoach:
             user.coach_profile.picture = file_name
             user.coach_profile.save()

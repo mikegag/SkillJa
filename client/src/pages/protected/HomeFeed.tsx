@@ -41,7 +41,7 @@ export default function HomeFeed(){
     const [data, setData] = useState<dataResultsType>({ results: [], totalResults: 0, totalPages: 4, currentPage: 1 })
     const protectedRoute = '/auth/coach' 
     const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [userEmail, setUserEmail] = useState<string>("")
+    const [userId, setUserId] = useState<string>("")
     const [queryPage, setQueryPage] = useState<number>(1)
     const [searchParams, setSearchParams] = useSearchParams()
 
@@ -69,7 +69,7 @@ export default function HomeFeed(){
         .then(res => {
             if (res.status === 200) {
                 setIsLoggedIn(res.data.is_logged_in)
-                setUserEmail(res.data.email)
+                setUserId(res.data.id)
             } else {
                 console.error("Failed to verify authentication")
             }
@@ -105,12 +105,12 @@ export default function HomeFeed(){
 
     return (
         <>
-            { (userEmail && isLoggedIn) && ( 
-                <UserContext.Provider value={{imageName: userEmail, cache: true}}>
+            { (userId && isLoggedIn) && ( 
+                <UserContext.Provider value={{imageName: userId, cache: true}}>
                     <Header useCase="protected"  /> 
                 </UserContext.Provider>
             )}
-            { (!userEmail || !isLoggedIn) && ( 
+            { (!userId || !isLoggedIn) && ( 
                 <Header useCase="onboarding"  /> 
             )}
             <div className="px-4 mb-64">

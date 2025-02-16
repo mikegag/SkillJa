@@ -243,7 +243,7 @@
                         {
                             "subheader": "",
                             "points": [
-                                "If you have any questions or concerns about these Terms and Conditions, please contact us at support@skillja.com."
+                                "If you have any questions or concerns about these Terms and Conditions, please contact us at support@skillja.ca"
                             ]
                         }
                     ]
@@ -428,7 +428,7 @@
                       "subheader": "",
                       "points": [
                         "If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at:",
-                        "Email: support@skillja.com"
+                        "Email: support@skillja.ca"
                       ]
                     }
                   ]
@@ -641,7 +641,7 @@
         "paymentSupport": [
             { "question": "What payment methods are accepted?", "answer":"We accept a variety of payment methods, including major credit cards, debit cards, and digital wallets like Apple Pay." },
             { "question": "Can I get a refund if I'm not satisfied?", "answer":"Refund policies vary depending on the coach or program. Be sure to review the terms before purchasing, and feel free to contact us for assistance if needed." },
-            { "question": "How do I contact support if I have an issue with my payment?", "answer":"You can reach our support team through the “Contact Us” page. Select the “Billing & Payments” category, and we’ll respond as quickly as possible to help resolve your concern." },
+            { "question": "How do I contact support if I have an issue with my payment?", "answer":"You can reach our support team through the “Contact Us” page. We will respond as quickly as possible to help resolve your concern." },
             { "question": "Are there any hidden fees or charges?", "answer":"No, we prioritize transparency. All fees, including any applicable taxes, will be clearly displayed during checkout." }
         ]
     },

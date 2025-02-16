@@ -254,7 +254,7 @@ export default function EditAthleteProfileForm({displayForm, prevSavedData}:Form
             }
         > 
             <div 
-                className="pop-up-container h-4/5" 
+                className="pop-up-container h-4/5"
                 onMouseEnter={()=>setInsideForm(true)} 
                 onMouseLeave={()=>setInsideForm(false)}
             >

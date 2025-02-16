@@ -17,7 +17,7 @@ export default function Invite(){
     return (
         <>
             <Header useCase="protected" />
-            <section className="font-kulim flex flex-col justify-start items-start py-2 px-4 lg:px-12 mx-auto mt-10 mb-20">
+            <section className="font-kulim flex flex-col justify-start items-start py-2 px-4 lg:px-20 mx-auto mt-10 mb-20">
                 <h2 className="text-3xl font-source mb-3">
                     Privacy
                 </h2>
@@ -77,7 +77,7 @@ export default function Invite(){
                </Link>
                {
                 formToDisplay === "terms"?
-                    <div className="w-dvw h-dvh flex justify-center items-center bg-black bg-opacity-60 absolute top-0 left-0">
+                    <div className="pop-up-background">
                         <div className="flex flex-col bg-white rounded-2xl border border-main-black w-80 h-96 lg:w-6/12 lg:h-4/6 overflow-scroll p-4">
                             <button className="ml-0 mr-auto hover:text-main-green-500" onClick={()=>setFormToDisplay("")}>
                                 <FontAwesomeIcon icon={faX}/>
@@ -113,7 +113,7 @@ export default function Invite(){
                 :
                 (
                     formToDisplay === "privacy" ?
-                    <div className="w-dvw h-dvh flex justify-center items-center bg-black bg-opacity-60 absolute top-0 left-0">
+                    <div className="pop-up-background">
                         <div className="flex flex-col bg-white rounded-2xl border border-main-black w-80 h-96 lg:w-6/12 lg:h-4/6 overflow-scroll p-4">
                             <button className="ml-0 mr-auto hover:text-main-green-500" onClick={()=>setFormToDisplay("")}>
                                 <FontAwesomeIcon icon={faX}/>
@@ -149,7 +149,7 @@ export default function Invite(){
                 :
                     (
                         formToDisplay === "data" ?
-                            <div className="w-dvw h-dvh flex justify-center items-center bg-black bg-opacity-60 absolute top-0 left-0">
+                            <div className="pop-up-background">
                                 <div className="flex flex-col bg-white rounded-2xl border border-main-black w-80 h-96 lg:w-6/12 lg:h-4/6 overflow-scroll p-4">
                                     <button className="ml-0 mr-auto hover:text-main-green-500" onClick={()=>setFormToDisplay("")}>
                                         <FontAwesomeIcon icon={faX}/>

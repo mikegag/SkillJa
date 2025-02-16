@@ -11,7 +11,7 @@ export default function Invite(){
     return (
         <>
             <Header useCase="protected" />
-            <section className="font-kulim flex flex-col justify-start items-start py-2 px-4 lg:px-12 mx-auto mt-10 mb-36">
+            <section className="font-kulim flex flex-col justify-start items-start py-2 px-4 lg:px-20 mx-auto mt-10 mb-36">
                 <h2 className="text-3xl font-source mb-3 pr-3">
                     Earn 5% off your next purchase for every athlete or coach you refer
                 </h2>
