@@ -6,6 +6,7 @@ import { faArrowRight, faBagShopping } from "@fortawesome/free-solid-svg-icons"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import axios from "axios"
 import GetCSFR from "../../../hooks/userAuthentication/GetCSFR"
+import Footer from "../../../components/navigation/Footer"
 
 export default function OrderSuccessful(){
     const [hasLoaded, setHasLoaded] = useState(false)
@@ -39,13 +40,13 @@ export default function OrderSuccessful(){
                 if (res.status === 200) {
                     // Trigger API call to create chat transaction notification
                     createTransactionNotification()
+                    // Trigger API call to create an order review email
+                    createOrderReviewEmail()
                 } else {
                     setResponseMessage("Error sending confirmation email. Please copy current url and email us support@skillja.com")
                 }
             })
-            .catch(error => {
-                console.error(error)
-            })
+            .catch(error => {console.error(error)})
         }
         //Clean up Timeout function
         return () => clearTimeout(timeoutId)
@@ -67,15 +68,32 @@ export default function OrderSuccessful(){
                 setResponseMessage("An order confirmation will be sent to your email shortly.")
             } 
         })
-        .catch(error => {
-            console.error(error)
+        .catch(error => {console.error(error)})
+    }
+
+    // API call to create chat notification between coach and athlete
+    function createOrderReviewEmail(){
+        axios.post(`${process.env.REACT_APP_SKILLJA_URL}/review/order_review_email/`, 
+            {coachId:coachId},
+        {
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json'
+            }, 
+            withCredentials: true
         })
+        .then(res => {
+            if (res.status === 200) {
+                setResponseMessage("An order confirmation will be sent to your email shortly.")
+            } 
+        })
+        .catch(error => {console.error(error)})
     }
 
     return (
         <div>
             <Header useCase="onboarding" />
-            <section className="mt-16 px-8 font-kulim flex flex-col justify-center items-center">
+            <section className="mt-16 mb-32 px-8 font-kulim flex flex-col justify-center items-center">
                 {hasLoaded ?
                     <>
                         <FontAwesomeIcon icon={faBagShopping} className="mt-6 text-main-green-600 h-12 mx-auto"/>
@@ -109,6 +127,7 @@ export default function OrderSuccessful(){
                     </div>
                 }
             </section>
+            <Footer />
         </div>
     )
 }

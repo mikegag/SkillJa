@@ -155,7 +155,8 @@ class Service(models.Model):
         return f'{self.user.email} - Service'
 
 class Review(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
+    reviewer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='given_reviews', null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recieved_reviews')
     title = models.CharField(max_length=100)
     description = models.TextField(validators=[MaxLengthValidator(1000)])
     rating = models.DecimalField(max_digits=2, decimal_places=1)

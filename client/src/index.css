@@ -263,4 +263,19 @@ body {
   .datepicker .react-datepicker__time-container input {
     @apply bg-main-green-500 hover:bg-main-green-700 font-kulim;
   }
+  .star-rating {
+    display: inline-flex;
+    justify-content: center;
+  }
+  
+  /* .star-rating .style-module_simpleStarRating__nWUxf,
+  .star-rating .style-module_emptyIcons__Bg-FZ {
+    display: inline-flex;
+    justify-content: center;
+  } */
+  
+  .star-rating svg.star-svg {
+    cursor: pointer;
+    display: inline;
+  }
 }

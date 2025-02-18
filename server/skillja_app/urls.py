@@ -49,5 +49,7 @@ urlpatterns = [
     path('calendar/create_calendar_event/', views.create_calendar_event, name='create_calendar_event'),
     path('calendar/get_calendar_event/', views.get_calendar_event, name='get_calendar_event'),
     path('calendar/get_coach_availability/', views.get_coach_availability, name='get_coach_availability'),
-    path('calendar/create_coach_availability/', views.create_coach_availability, name='create_coach_availability')
+    path('calendar/create_coach_availability/', views.create_coach_availability, name='create_coach_availability'),
+    path('review/create_review/', views.create_review, name='create_review'),
+    path('review/order_review_email/', views.order_review_email, name='order_review_email')
 ]   

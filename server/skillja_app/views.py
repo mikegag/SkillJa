@@ -1548,6 +1548,9 @@ def create_stripe_checkout(request):
             if date_time:
                 url_parameter = f'&coach_id={coach_id}&service_id={service_id}&date_time={date_time}'
 
+            # Fee in cents ($3.99)
+            service_fee = 399
+
             checkout_session = stripe.checkout.Session.create(
                 success_url='http://localhost:3000/order-success?session_id=${CHECKOUT_SESSION_ID}' + url_parameter,
                 cancel_url='https://www.skillja.ca/order-cancelled'+f'&coach_id={coach_id}',
@@ -1563,7 +1566,18 @@ def create_stripe_checkout(request):
                         },
                     },
                     'quantity': 1
-                }]
+                },
+                {
+                    'price_data': {
+                        'currency': 'cad',
+                        'product_data': {
+                            'name': 'SkillJa Service Fee',
+                        },
+                        'unit_amount': service_fee,
+                    },
+                    'quantity': 1,
+                },
+                ]
             )
             return JsonResponse({'checkout_url': checkout_session.url, 'checkout_session_id': checkout_session.id}, status=200)
         
@@ -1786,6 +1800,64 @@ def order_confirmation_email(request):
     except Exception as e:
         return JsonResponse({"Error": "An unexpected error occurred.","details": str(e)}, status=500)
 
+@require_POST
+@login_required
+def order_review_email(request):
+    try:
+        # Parse request data
+        data = json.loads(request.body)
+        coach_id = data.get('coachId')
+
+        if not coach_id:
+            return JsonResponse({"error": "Coach Id parameter not found!"}, status=400)
+        
+        user = User.objects.get(email=request.user.email)
+        coach = User.objects.get(id=coach_id)
+
+        if not coach:
+            return JsonResponse({"error": "Coach not found!"}, status=400)
+        if not request.user.email:
+            return JsonResponse({"error": "User not found!"}, status=400)
+        
+
+        # Prepare the JWT token
+        token_payload = {
+            "user_id": user.id,
+            "coach_id": coach.id,
+            "exp": (now() + timedelta(days=14)).timestamp() 
+        }
+        token = jwt.encode(token_payload, os.getenv('EMAIL_CONFIRMATION_KEY'), algorithm="HS256")
+        review_link = f"https://www.skillja.ca/order-review?token={token}&coach_id={coach_id}&coach_name={coach.fullname}"
+        
+        # Render the HTML email template
+        html_content = render_to_string("email/order_review_email.html", {"review_link": review_link, "coach_name": coach.fullname})
+
+        # Mailgun API credentials
+        api_key = os.getenv("MAILGUN_API_KEY")
+        domain = os.getenv("MAILGUN_DOMAIN")
+
+        if not api_key or not domain:
+            return JsonResponse({"error": "Mailgun configuration missing!"}, status=500)
+
+        # Mailgun API request
+        response = requests.post(
+            f"https://api.mailgun.net/v3/{domain}/messages",
+            auth=("api", api_key),
+            data={
+                "from": f"SkillJa <noreply@{domain}>",
+                "to": user.email,
+                "subject": "Review Your Recent Purchase - SkillJa",
+                "html": html_content, 
+            },
+        )
+        if response.status_code == 200:
+            return JsonResponse({"message": "Email sent successfully!"}, status=200)
+        else:
+            return JsonResponse({"error": "Failed to send email", "details": response.text}, status=500)
+
+    except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    
 
 # Image and Cloudinary methods ----------------------------------
 @require_GET
@@ -1904,6 +1976,58 @@ def get_cached_image(request):
             return JsonResponse({"profile_image_url": profile_image_url}, status=200)
         else:
             return JsonResponse({"error": "No cached image available."}, status=204)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
+
+# Review methods ------------------------------------------------
+@require_POST
+def create_review(request):
+    try:
+        data = json.loads(request.body)
+        rating = data.get('rating')
+        token = data.get('token')
+        title = data.get('title')
+        description = data.get('description')
+
+        if not rating:
+            return JsonResponse({"error": "rating parameter not given"}, status=400)
+        if not token:
+            return JsonResponse({"error": "token parameter not given"}, status=400)
+        
+        try:
+            # convert token from payload to check its validity
+            payload = jwt.decode(token, os.getenv('EMAIL_CONFIRMATION_KEY'), algorithms=["HS256"])
+            coach_id = payload["coach_id"]
+            user_id = payload["user_id"]
+        except jwt.ExpiredSignatureError:
+            return JsonResponse({"error": "Token has expired"}, status=400)
+        except jwt.InvalidTokenError:
+            return JsonResponse({"error": "Invalid token"}, status=400)
+
+        # Validate users
+        coach = User.objects.get(id=coach_id)
+        user = User.objects.get(id=user_id)
+
+        if not coach or not user:
+            return JsonResponse({"error": "Invalid user or coach"}, status=400)
+
+        # Prevent duplicate reviews, users can only review a coach one time regardless of how many services they purchased
+        existing_review = Review.objects.filter(user=user, reviewer=coach).first()
+        if existing_review:
+            return JsonResponse({"error": "You have already reviewed this coach"}, status=400)
+
+        # Create a new review
+        Review.objects.create(
+            user=coach,
+            reviewer=user,
+            title=title,
+            description=description,
+            rating=rating
+        )
+
+        return JsonResponse({"message": "Review created successfully"}, status=201)
+
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
 

@@ -4,6 +4,7 @@ import LoadingAnimation from "../../../components/general/LoadingAnimation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faX } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import Footer from "../../../components/navigation/Footer";
 
 export default function OrderCancelled(){
     const [hasLoaded, setHasLoaded] = useState(false)
@@ -22,7 +23,7 @@ export default function OrderCancelled(){
     return (
         <div>
             <Header useCase="onboarding" />
-            <section className="mt-16 px-8 font-kulim flex flex-col justify-center items-center">
+            <section className="mt-16 mb-32 px-8 font-kulim flex flex-col justify-center items-center">
                 {hasLoaded ?
                     <>
                         <FontAwesomeIcon icon={faX} className="mt-6 text-red-500 h-9 mx-auto"/>
@@ -56,6 +57,7 @@ export default function OrderCancelled(){
                     </div>
                 }
             </section>
+            <Footer />
         </div>
     )
 }
