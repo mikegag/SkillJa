@@ -39,17 +39,17 @@ export default function ReviewSlider({data}:ReviewData) {
     const visibleReviews = data.slice(startIndex, startIndex + itemsToShow)
 
     return (
-        <div className="flex w-full lg:px-10 justify-center items-center">
+        <div className="flex w-full justify-center items-center">
             <FontAwesomeIcon 
                 icon={faChevronLeft} 
-                className={`mr-2 p-1 ${startIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:text-main-green-500 cursor-pointer'}`} 
+                className={`mr-3 p-1 ${startIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:text-main-green-500 cursor-pointer'}`} 
                 onClick={handlePrev} 
             />
-            <div className="flex justify-between">
+            <div className="flex justify-between w-full">
                 {visibleReviews.map((currReview, index) => (
                     <div 
                         key={index} 
-                        className="flex flex-col font-kulim bg-main-white py-2 px-4 border border-main-grey-100 rounded-xl"
+                        className="flex flex-col font-kulim bg-main-white py-3.5 px-5 border border-main-grey-100 rounded-xl"
                     >
                         <div className="flex mb-2">
                             {Array.from({length:Math.round(Number(currReview.rating))}, (_,i)=> 
@@ -59,7 +59,7 @@ export default function ReviewSlider({data}:ReviewData) {
                                 {currReview.date}
                             </p>
                         </div>
-                        <p className="font-bold my-1 text-left mr-auto">
+                        <p className="font-bold my-4 text-left mr-auto">
                             {currReview.title}
                         </p>
                         <p className="text-left my-1">
@@ -70,7 +70,7 @@ export default function ReviewSlider({data}:ReviewData) {
             </div>
             <FontAwesomeIcon 
                 icon={faChevronRight} 
-                className={`ml-2 p-1 ${startIndex + itemsToShow >= data.length ? 'opacity-50 cursor-not-allowed' : 'hover:text-main-green-500 cursor-pointer'}`} 
+                className={`ml-3 p-1 ${startIndex + itemsToShow >= data.length ? 'opacity-50 cursor-not-allowed' : 'hover:text-main-green-500 cursor-pointer'}`} 
                 onClick={handleNext} 
             />
         </div>

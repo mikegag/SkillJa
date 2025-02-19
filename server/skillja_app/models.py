@@ -117,7 +117,7 @@ class CoachProfile(models.Model):
     biography = models.CharField(max_length=255, default='No Biography Specified')
     picture = models.CharField(max_length=120, default='', blank=True)
     services = models.ManyToManyField('Service', related_name='coach_services', blank=True)
-    reviews = models.ManyToManyField('Review', related_name='coach_profiles', blank=True) 
+    reviews = models.ManyToManyField('Review', related_name='coach_reviews', blank=True) 
 
     def __str__(self):
         return f'{self.user.email} - Coach Profile'
@@ -155,7 +155,9 @@ class Service(models.Model):
         return f'{self.user.email} - Service'
 
 class Review(models.Model):
+    coach_profile = models.ForeignKey('CoachProfile', on_delete=models.CASCADE, related_name='profile_reviews',null=True, blank=True )
     reviewer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='given_reviews', null=True, blank=True)
+    # user represents the coach account recieving the review
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recieved_reviews')
     title = models.CharField(max_length=100)
     description = models.TextField(validators=[MaxLengthValidator(1000)])

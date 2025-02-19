@@ -1,4 +1,4 @@
-from .models import User
+from .models import User, CoachProfile, Review
 from math import radians, cos, sin, sqrt, atan2
 
 # Calculates the lower and upper bounds for a price range based on a given input and percentage deviations.
@@ -59,7 +59,7 @@ def calculate_coach_review(coach_id):
         # Ensure the user is marked as a coach
         if coach.iscoach:
             # Retrieve all reviews associated with the coach
-            reviews = coach.coach_profile.reviews.all()
+            reviews = Review.objects.filter(user=coach)
 
             # Extract valid ratings from reviews
             ratings = [review.rating for review in reviews if review.rating]

@@ -551,7 +551,7 @@ def get_coach_profile(request):
             coach_preferences = None
 
         try:
-            coach_profile = CoachProfile.objects.select_related('user').prefetch_related('reviews', 'services').get(user=user)
+            coach_profile = CoachProfile.objects.select_related('user').prefetch_related('services').get(user=user)
         except ObjectDoesNotExist:
             return JsonResponse({'error': 'Coach profile not found'}, status=404)
 
@@ -559,7 +559,10 @@ def get_coach_profile(request):
             coach_social_media = SocialMedia.objects.get(user=user)
         except ObjectDoesNotExist:
             coach_social_media = None
-        
+
+        # Get random reviews for the coach profile, up to a maximum of 15 reviews
+        reviews_data = [model_to_dict(review) for review in Review.objects.filter(user=user).order_by('?')[:15]]
+
         # Retrieve average review rating for coach
         average_rating = calculate_coach_review(coach_id) or 0
         
@@ -572,7 +575,7 @@ def get_coach_profile(request):
                 'biography': coach_profile.biography or '',
                 'primarySport': coach_profile.primary_sport or '', 
                 'picture': coach_profile.picture if coach_profile.picture else None,
-                'reviews': [model_to_dict(review) for review in coach_profile.reviews.all()],
+                'reviews': reviews_data,
                 'services': [model_to_dict(service) for service in coach_profile.services.all()],
                 'rating': average_rating,
                 'socialMedia': {
@@ -2019,6 +2022,7 @@ def create_review(request):
 
         # Create a new review
         Review.objects.create(
+            coach_profile = CoachProfile.get(user=coach),
             user=coach,
             reviewer=user,
             title=title,

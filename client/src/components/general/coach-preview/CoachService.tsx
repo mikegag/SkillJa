@@ -74,6 +74,8 @@ export default function CoachService({exitView, data}:ServiceProps){
 
     // Handles Stripe checkout functionality
     function handleSubmit(e:React.FormEvent){
+        // Prevent reclicks on purchase button
+        setPreventSubmit(true)
         e.preventDefault()
         // initialize Stripe instance
         axios.get(`${process.env.REACT_APP_SKILLJA_URL}/stripe/config/`, {
@@ -202,10 +204,7 @@ export default function CoachService({exitView, data}:ServiceProps){
                         ${(data.type === 'individual-session' && activatePurchaseButton && coachId) || (coachId && data.type !== 'individual-session') ? 
                             'cursor-pointer' : 'bg-main-grey-200 cursor-not-allowed hover:bg-main-grey-200'}`
                         }
-                    onClick={(e)=>{
-                        handleSubmit(e);
-                        setPreventSubmit(true)
-                    }}
+                    onClick={(e)=>{handleSubmit(e)}}
                     disabled={preventSubmit}
                 >
                     Purchase Now
