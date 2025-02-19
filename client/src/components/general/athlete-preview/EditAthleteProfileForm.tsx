@@ -1,13 +1,14 @@
 import { faNewspaper } from "@fortawesome/free-regular-svg-icons"
 import { faLocationDot, faMedal, faPhone, faUser, faX } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 import Accordion from "../Accordion"
 import data from '../../../data.json'
 import GetWindowSize from '../../../hooks/general/GetWindowSize'
 import axios from "axios"
 import GetCSFR from "../../../hooks/userAuthentication/GetCSFR"
 import ProfilePhotoUploader from "../../../hooks/images/ProfilePhotoUploader"
+import LocationSuggestions from "../../../hooks/general/LocationSuggestions"
 
 interface FormStructure {
     fullname: string,
@@ -88,7 +89,14 @@ export default function EditAthleteProfileForm({displayForm, prevSavedData}:Form
     const [insideForm, setInsideForm] = useState<boolean>(false)
     const windowSize = GetWindowSize()
     const csrfToken = GetCSFR({ name: "csrftoken" })
+    const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null)
+    const [focusedInputId, setFocusedInputId] = useState<string | null>(null)
 
+    // Updates which element is currently in focus
+    const handleFocus = (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setFocusedInputId(event.target.id);
+    }
+    
     // Handles form submission/saving
     function handleSubmit(e:React.FormEvent){
         e.preventDefault()
@@ -201,15 +209,17 @@ export default function EditAthleteProfileForm({displayForm, prevSavedData}:Form
             )
         }
         return ( 
-            <div key={input.id} className="relative w-full mb-5 mt-5">
+            <div key={input.id} className="relative w-full mb-5 mt-5"> 
                 {input.type === 'textarea' ? (
                     <textarea
                         id={input.id}
                         name={input.name}
                         className="form-input w-full border-main-grey-100 max-h-24 min-h-24"
                         placeholder={input.placeholder}
+                        ref={inputRef as React.RefObject<HTMLTextAreaElement>}
                         value={formData[input.name as keyof FormStructure] as string}
                         onChange={handleChange}
+                        onFocus={handleFocus}
                         maxLength={220}
                     />
                 ) : ( input.name.includes('Goal') ? 
@@ -220,22 +230,57 @@ export default function EditAthleteProfileForm({displayForm, prevSavedData}:Form
                             className="form-input w-full border-main-grey-100"
                             placeholder={formData.goals[input.index] as string || input.placeholder}
                             value={formData[input.name as keyof FormStructure] as string}
+                            ref={inputRef as React.RefObject<HTMLInputElement>}
                             onChange={handleChange}
+                            onFocus={handleFocus}
                             maxLength={110}
                             data-index={input.index || ''}
                         />
                     :
-                        <input
-                            id={input.id}
-                            type={input.type}
-                            name={input.name}
-                            className="form-input w-full border-main-grey-100"
-                            placeholder={input.placeholder}
-                            value={formData[input.name as keyof FormStructure] as string}
-                            onChange={handleChange}
-                            maxLength={110}
-                            data-index={input.index || ''}
-                        />
+                    (
+                        input.id === 'location' ?
+                            <div className="relative">
+                                <input
+                                    id={input.id}
+                                    type={input.type}
+                                    name={input.name}
+                                    className="form-input w-full border-main-grey-100"
+                                    placeholder={input.placeholder}
+                                    value={formData[input.name as keyof FormStructure] as string}
+                                    onChange={handleChange}
+                                    ref={inputRef as React.RefObject<HTMLInputElement>}
+                                    onFocus={handleFocus}
+                                    maxLength={110}
+                                    data-index={input.index || ''}
+                                    autoComplete="off"
+                                />
+                                {
+                                focusedInputId === 'location' && (
+                                    <LocationSuggestions
+                                        <FormStructure>
+                                        locationQuery={formData.location}
+                                        inView={true}
+                                        insideForm={true}
+                                        updateFormLocation={setFormData}
+                                    />
+                                )}
+
+                            </div>
+                        :
+                            <input
+                                id={input.id}
+                                type={input.type}
+                                name={input.name}
+                                className="form-input w-full border-main-grey-100"
+                                placeholder={input.placeholder}
+                                ref={inputRef as React.RefObject<HTMLInputElement>}
+                                value={formData[input.name as keyof FormStructure] as string}
+                                onChange={handleChange}
+                                onFocus={handleFocus}
+                                maxLength={110}
+                                data-index={input.index || ''}
+                            />
+                    )
                 )}
                 <FontAwesomeIcon
                     icon={IconComponent}

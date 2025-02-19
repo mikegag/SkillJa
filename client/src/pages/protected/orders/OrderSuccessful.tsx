@@ -114,7 +114,7 @@ export default function OrderSuccessful(){
                             <button
                                 className="mx-1.5 py-2 px-5 bg-main-green-500 hover:bg-main-green-900 text-white rounded-xl cursor-pointer"
                                 aria-label="redirects to back to coach profile page"
-                                onClick={()=>navigate(`/auth/coach?coach_id=${coachId}`)}
+                                onClick={()=>navigate(`/auth/coach?coach_id=${coachId}&allowed_back=False`)}
                             >
                                 Back to Coach Profile
                                 <FontAwesomeIcon icon={faArrowRight} className="ml-2 my-auto"/>

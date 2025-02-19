@@ -1827,7 +1827,7 @@ def order_review_email(request):
             "exp": (now() + timedelta(days=14)).timestamp() 
         }
         token = jwt.encode(token_payload, os.getenv('EMAIL_CONFIRMATION_KEY'), algorithm="HS256")
-        review_link = f"https://www.skillja.ca/order-review?token={token}&coach_id={coach_id}&coach_name={coach.fullname}"
+        review_link = f"http://localhost:3000/order-review?token={token}&coach_name={coach.fullname}"
         
         # Render the HTML email template
         html_content = render_to_string("email/order_review_email.html", {"review_link": review_link, "coach_name": coach.fullname})

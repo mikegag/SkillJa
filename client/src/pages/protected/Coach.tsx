@@ -93,6 +93,8 @@ export default function Coach(){
     const [queryParameters] = useSearchParams()
     const [userEmail, setUserEmail] = useState<string>("")
     const [loading, setLoading] = useState<boolean>(true)
+    // Get Back parameter to determine if user has come from a specialized page that cannot be revisited (e.g order review page)
+    const preventNavigation =queryParameters.get('allowed_back')
 
     // API call to get coach details and user email
     useEffect(()=>{
@@ -151,7 +153,7 @@ export default function Coach(){
                     <div className="flex justify-center items-center text-center mt-10">
                         <FontAwesomeIcon 
                             icon={faLongArrowLeft}
-                            onClick={()=>navigate(-1)} 
+                            onClick={()=>preventNavigation ? navigate('/home-feed'): navigate(-1)} 
                             className="text-3xl my-auto mr-auto ml-0 hover:text-main-green-500 cursor-pointer" 
                         />
                         <h1 className="font-source text-center text-3xl my-auto mx-auto text-main-green-900">

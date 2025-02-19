@@ -13,31 +13,40 @@ interface SearchTermType {
   price: { value: string; min: number; max: number };
 }
 
-interface FormInputType {
-    fullname: string;
-    phonenumber: string;
-    location: string;
-    biography: string;
-    primarySport: string;
-    sportInterests: string[];
-    experienceLevel: string;
-    ageGroups: string[];
-    instagram: string;
-    facebook: string;
-    twitter: string;
-    tiktok: string;
+
+interface BaseFormStructure {
+  fullname: string;
+  phonenumber: string;
+  location: string;
+  biography: string;
+  primarySport: string;
+  sportInterests: string[];
+  experienceLevel: string;
 }
 
-interface Props {
+interface AthleteFormStructure extends BaseFormStructure {
+  goals: string[];
+}
+
+interface CoachFormStructure extends BaseFormStructure {
+  ageGroups: string[];
+  socialMedia: {
+    instagram?: string;
+    facebook?: string;
+    twitter?: string;
+    tiktok?: string;
+  };
+}
+
+interface Props<T extends BaseFormStructure> {
   locationQuery: string;
-  //updateLocation: (updateFn: (prev: SearchTermType | FormInputType) => SearchTermType | FormInputType) => void;
   updateSearchLocation?: (updateFn: (prev: SearchTermType) => SearchTermType) => void;
-  updateFormLocation?: (updateFn: (prev: FormInputType) => FormInputType) => void;
+  updateFormLocation?: (updateFn: (prev: T) => T) => void;
   inView: boolean;
   insideForm: boolean;
 }
 
-export default function LocationSuggestions({locationQuery,updateSearchLocation, updateFormLocation,insideForm,inView}: Props) {
+export default function LocationSuggestions<T extends BaseFormStructure>({locationQuery,updateSearchLocation, updateFormLocation,insideForm,inView}: Props<T>) {
   const [locations, setLocations] = useState<Location[] | null>(null);
   const windowSize = GetWindowSize();
 
@@ -90,9 +99,9 @@ export default function LocationSuggestions({locationQuery,updateSearchLocation,
                   updateFormLocation((prev) => ({
                     ...prev,
                     location: location.name,
-                  }))
+                  } as T))
                 } else { updateSearchLocation &&
-                  updateSearchLocation((prev) => ({
+                  updateSearchLocation((prev: SearchTermType) => ({
                     ...prev,
                     location: {proximity: prev.location.proximity, place:location.name},
                   }))

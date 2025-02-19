@@ -46,6 +46,7 @@ export default function CoachService({exitView, data}:ServiceProps){
     // Used to activate purchase button once dateTime value has been acknowledged and a value has been by user
     const [acknowledgeDateTime, setAcknowledgeDateTime] = useState<boolean>(false)
     const [activatePurchaseButton, setActivatePurchase] = useState<boolean>(false)
+    const [preventSubmit, setPreventSubmit] = useState<boolean>(false)
 
     useEffect(()=>{
         if(dateTime && acknowledgeDateTime){
@@ -201,7 +202,11 @@ export default function CoachService({exitView, data}:ServiceProps){
                         ${(data.type === 'individual-session' && activatePurchaseButton && coachId) || (coachId && data.type !== 'individual-session') ? 
                             'cursor-pointer' : 'bg-main-grey-200 cursor-not-allowed hover:bg-main-grey-200'}`
                         }
-                    onClick={(e)=>handleSubmit(e)}
+                    onClick={(e)=>{
+                        handleSubmit(e);
+                        setPreventSubmit(true)
+                    }}
+                    disabled={preventSubmit}
                 >
                     Purchase Now
                 </button>

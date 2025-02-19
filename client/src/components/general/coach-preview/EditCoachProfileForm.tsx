@@ -261,6 +261,7 @@ export default function EditCoachProfileForm({displayForm, prevSavedData}:FormPr
                             {
                             focusedInputId === 'location' && (
                                 <LocationSuggestions
+                                    <FormStructure>
                                     locationQuery={formData.location}
                                     inView={true}
                                     insideForm={true}
