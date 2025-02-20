@@ -124,10 +124,10 @@ export default function SearchBar({mobileView,queryPage}:SearchBarProps){
             (isFilterOpen? 
                 <div className="pop-up-background">
                     <div className="pop-up-container h-5/6">
-                        <div className="flex justify-center pb-4 text-main-green-900 font-kulim">
-                            <FontAwesomeIcon icon={faX} className="w-6 pr-10 ml-5 mr-auto my-auto hover:text-main-green-500 cursor-pointer" onClick={()=> {setIsFilterOpen(false)}}/>
+                        <div className="flex justify-center pt-2 pb-5 text-main-green-900 font-kulim w-full px-3">
+                            <FontAwesomeIcon icon={faX} className="mr-5 ml-auto my-auto hover:text-main-green-500 cursor-pointer" onClick={()=> {setIsFilterOpen(false)}}/>
                         </div>
-                        <div className="px-6 py-1" onClick={()=>setIsFilterOpen(true)}>
+                        <div className="px-6 py-2" onClick={()=>setIsFilterOpen(true)}>
                             <div className="border-b border-main-grey-100 font-kulim">
                                 <p className="my-3 text-left">
                                     My Sport
@@ -136,7 +136,7 @@ export default function SearchBar({mobileView,queryPage}:SearchBarProps){
                                     id="sport"
                                     name="sport"
                                     aria-label="search sport" 
-                                    className={`w-full text-main-grey-400 border border-main-grey-100 p-2 mt-1 rounded-2xl hover:cursor-pointer`}
+                                    className={`w-full text-main-grey-400 border border-main-grey-100 p-2.5 mt-1 rounded-2xl hover:cursor-pointer`}
                                     placeholder="Search Sports"
                                     onChange={(e) => setSearchTerm({ ...searchTerm, sport: e.target.value })}
                                     onClick={()=>setCurrentlySelected('sport')}
@@ -153,7 +153,7 @@ export default function SearchBar({mobileView,queryPage}:SearchBarProps){
                                     id="location"
                                     name="location"
                                     aria-label="search location" 
-                                    className={` w-full text-main-grey-400 border border-main-grey-100 p-2 mt-1 mb-6 rounded-2xl hover:cursor-pointer`}
+                                    className={` w-full text-main-grey-400 border border-main-grey-100 p-2.5 mt-1 mb-6 rounded-2xl hover:cursor-pointer`}
                                     placeholder="My location"
                                     onChange={(e) => setSearchTerm({ ...searchTerm, location: {...searchTerm.location, place:e.target.value} })}
                                     onClick={()=>setCurrentlySelected('location')}
@@ -168,7 +168,7 @@ export default function SearchBar({mobileView,queryPage}:SearchBarProps){
                                 )}
                                 
                             </div>
-                            <div className="border-b border-main-grey-100 font-kulim">
+                            <div className="font-kulim pb-3">
                                 <p className="my-3 text-left">
                                     Price
                                 </p>
@@ -176,7 +176,7 @@ export default function SearchBar({mobileView,queryPage}:SearchBarProps){
                                     id="price"
                                     name="price"
                                     aria-label="search price" 
-                                    className={` text-main-grey-400 w-full border border-main-grey-100 p-2 mt-1 mb-3 rounded-2xl hover:cursor-pointer`}
+                                    className={` text-main-grey-400 w-full border border-main-grey-100 p-2.5 mt-1 mb-3 rounded-2xl hover:cursor-pointer`}
                                     placeholder="$$$"
                                     onChange={(e) => setSearchTerm({...searchTerm, price: {...searchTerm.price, value: e.target.value} })}
                                     onClick={()=>setCurrentlySelected('price')}
@@ -187,7 +187,7 @@ export default function SearchBar({mobileView,queryPage}:SearchBarProps){
                                 <DualSlider onPriceChange={handlePriceChange} />
                             </div>
                             <button
-                                className="flex justify-center items-center ml-auto mt-12 p-2.5 rounded-xl bg-main-green-500 hover:bg-main-green-900"
+                                className="flex justify-center items-center ml-auto mt-12 py-2 px-4 rounded-xl bg-main-green-500 hover:bg-main-green-900"
                                 aria-label="magnifying glass icon within search bar"
                                 onClick={()=>{
                                     performSearch(); 

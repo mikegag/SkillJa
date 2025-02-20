@@ -5,8 +5,8 @@ interface SliderProps {
 }
 
 export default function DualSlider({onPriceChange}:SliderProps){
-    const [minValue, setMinValue] = useState(25)
-    const [maxValue, setMaxValue] = useState(75)
+    const [minValue, setMinValue] = useState(0)
+    const [maxValue, setMaxValue] = useState(100)
     const minGap = 20
     const minRange = 0
     const maxRange = 100

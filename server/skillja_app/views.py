@@ -1820,7 +1820,7 @@ def order_confirmation_email(request):
         if response.status_code == 200:
             return JsonResponse({"message": "Email sent successfully!"}, status=200)
         else:
-            return JsonResponse({"error": "Failed to send email", "details": response}, status=500)
+            return JsonResponse({"error": "Failed to send email", "details": response.text}, status=500)
 
     except Exception as e:
         return JsonResponse({"Error": "An unexpected error occurred.","details": str(e)}, status=500)

@@ -77,10 +77,10 @@ export default function LocationSuggestions<T extends BaseFormStructure>({locati
       <ul
         className={`p-2.5 border border-main-grey-100 bg-white w-60 absolute shadow-lg z-50 rounded-xl 
           ${!insideForm ? `${windowSize.width > 800 
-            ? locations && locations.length > 3
+            ? locations && locations.length >= 3
               ? 'mt-60 -ml-4' 
-              : 'mt-44 -ml-4'
-            : locations && locations.length > 2
+              : 'mt-40 -ml-4'
+            : locations && locations.length === 2
               ? '-mt-2 -ml-0' 
               : 'mt-0 -ml-0'
           }`
@@ -112,7 +112,7 @@ export default function LocationSuggestions<T extends BaseFormStructure>({locati
             </li>
           ))
         ) : (
-          <li className="text-main-grey-300">No results found</li>
+          <li className="text-main-grey-300 py-1">No results found</li>
         )}
       </ul>
     ) : (

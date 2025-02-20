@@ -157,7 +157,7 @@ body {
     border: 1px solid var(--main-white);
   }
   .range-slider {
-    @apply absolute w-full h-2 bg-transparent pointer-events-none;
+    @apply absolute w-full h-2 bg-transparent rounded-full pointer-events-none;
     -webkit-appearance: none;
     appearance: none;
   }
@@ -194,6 +194,7 @@ body {
     position: absolute;
     height: 8px;
     background-color: var(--main-green-900); /* Green color */
+    border-radius: 30px;
     z-index: 2;
   }
   .loading-animation {

@@ -14,8 +14,8 @@ interface DropDownProps {
 //interface above needs to be updated to have callback functions for each dropdown type
 export default function DropDown({useCase, onSportSelect, onLocationChange, onPriceChange}:DropDownProps){
     const [selectedValue, setSelectedValue] = useState<string | null>(null)
-    const [minValue, setMinValue] = useState(25)
-    const [maxValue, setMaxValue] = useState(50)
+    const [minValue, setMinValue] = useState(0)
+    const [maxValue, setMaxValue] = useState(100)
     const minGap = 20
     const minRange = 0
     const maxRange = 100

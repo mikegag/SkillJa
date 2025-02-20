@@ -36,7 +36,7 @@ export default function Authentication(){
 
     // Handle loading state and redirect if not authenticated
     if (loading) {
-        return <div className="mt-40 lg:mt-64 flex flex-col justify-center items-center">
+        return <div className="mt-36 lg:mt-64 mx-auto w-full flex flex-col justify-center items-center">
                 <LoadingAnimation />
             </div>
     }
