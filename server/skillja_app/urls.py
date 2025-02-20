@@ -51,5 +51,6 @@ urlpatterns = [
     path('calendar/get_coach_availability/', views.get_coach_availability, name='get_coach_availability'),
     path('calendar/create_coach_availability/', views.create_coach_availability, name='create_coach_availability'),
     path('review/create_review/', views.create_review, name='create_review'),
-    path('review/order_review_email/', views.order_review_email, name='order_review_email')
+    path('review/order_review_email/', views.order_review_email, name='order_review_email'),
+    path('newsletter/signup/', views.newsletter_signup, name='newsletter_signup')
 ]   

@@ -57,7 +57,7 @@ body {
             rounded-2xl px-4 py-2 hover:bg-main-green-700 hover:text-main-white;
   }
   .pop-up-background {
-    @apply w-full h-full flex justify-center items-center bg-black bg-opacity-60 top-0 left-0 z-50 pb-10;
+    @apply w-full h-full flex justify-center items-center bg-black bg-opacity-75 top-0 left-0 z-50 pb-10;
     position: fixed !important;
   }
   .pop-up-container {
@@ -267,13 +267,6 @@ body {
     display: inline-flex;
     justify-content: center;
   }
-  
-  /* .star-rating .style-module_simpleStarRating__nWUxf,
-  .star-rating .style-module_emptyIcons__Bg-FZ {
-    display: inline-flex;
-    justify-content: center;
-  } */
-  
   .star-rating svg.star-svg {
     cursor: pointer;
     display: inline;

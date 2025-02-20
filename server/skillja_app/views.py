@@ -10,7 +10,7 @@ from django.contrib.auth import logout
 from django.http import HttpResponse, JsonResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import User, CoachPreferences, AthletePreferences, CoachProfile, AthleteProfile, Service, Review, SocialMedia, Settings, Chat, Message, Calendar, Event, CoachAvailability, BlockedDay, WeeklySchedule, MonthSchedule, Location
+from .models import User, CoachPreferences, AthletePreferences, CoachProfile, AthleteProfile, Service, Review, SocialMedia, Settings, Chat, Message, Calendar, Event, CoachAvailability, BlockedDay, WeeklySchedule, MonthSchedule, Location, Newsletter
 from django.middleware.csrf import get_token, rotate_token
 from django.views.decorators.http import require_POST, require_GET
 from django.contrib.auth.decorators import login_required
@@ -235,6 +235,28 @@ def update_user_timezone(request):
     except Exception as e:
         return JsonResponse({"error": "an unexpected error occurred"},status=500)
 
+
+# Newsletter methods --------------------------------------------
+@require_POST
+def newsletter_signup(request):
+    try:
+        data = json.loads(request.body)
+        email = data.get('email')
+        if not email:
+            return JsonResponse({"error": "no email was given"},status=400)
+        
+         # Check if the email already exists
+        if Newsletter.objects.filter(email=email).exists():
+            return JsonResponse({"error": "User has already signed up!"}, status=403)
+
+        # Create and save the new email entry
+        Newsletter.objects.create(email=email)
+
+        return JsonResponse({"success": "user successfully signed up for newsletter"}, status=201)
+        
+    except Exception as e:
+        return JsonResponse({"error": "an unexpected error occurred"},status=500)
+    
 
 # Settings methods ----------------------------------------------
 @require_POST

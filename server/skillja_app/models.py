@@ -298,3 +298,10 @@ class Location(models.Model):
             models.Index(fields=['province']),
         ]
         unique_together = ['city', 'province']
+
+class Newsletter(models.Model):
+    email = models.EmailField("email address", unique=True, max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email
