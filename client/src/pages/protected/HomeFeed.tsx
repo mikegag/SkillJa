@@ -38,7 +38,7 @@ export default function HomeFeed(){
     const currentWindow = GetWindowSize()
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
     const location = useLocation()
-    const [data, setData] = useState<dataResultsType>({ results: [], totalResults: 0, totalPages: 4, currentPage: 1 })
+    const [data, setData] = useState<dataResultsType>({ results: [], totalResults: 0, totalPages: 0, currentPage: 1 })
     const protectedRoute = '/auth/coach' 
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [userId, setUserId] = useState<string>("")
