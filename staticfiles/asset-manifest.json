@@ -1,11 +1,12 @@
 {
   "files": {
-    "main.css": "/static/css/main.a0a22241.css",
-    "main.js": "/static/js/main.978135ad.js",
+    "main.css": "/static/css/main.896bb613.css",
+    "main.js": "/static/js/main.2ec0f714.js",
     "static/js/946.b1a356d8.chunk.js": "/static/js/946.b1a356d8.chunk.js",
     "static/js/207.4d85b315.chunk.js": "/static/js/207.4d85b315.chunk.js",
     "static/js/158.4d228a0e.chunk.js": "/static/js/158.4d228a0e.chunk.js",
     "static/media/coach-step-2.png": "/static/media/coach-step-2.5aff9345b6ab2669dbf4.png",
+    "static/media/newsletter-image.jpg": "/static/media/newsletter-image.634c5e6af9b401bef1c6.jpg",
     "static/media/coach-step-4.png": "/static/media/coach-step-4.279ba79c78023593bcca.png",
     "static/media/athlete-step-1.png": "/static/media/athlete-step-1.d128679d313fb509ae13.png",
     "static/media/coach-step-1.png": "/static/media/coach-step-1.ba9bed87c508d3894bb7.png",
@@ -28,20 +29,21 @@
     "static/media/calender-clock.png": "/static/media/calender-clock.083d63e438f7da890d9a.png",
     "static/media/coach-profile-2.png": "/static/media/coach-profile-2.a2cc5286ea80a55981b6.png",
     "static/media/payment-process.png": "/static/media/payment-process.ba9fe732a3d4b9747acc.png",
+    "static/media/new-skillja-logo.png": "/static/media/new-skillja-logo.88209c80be2fcb0afe2c.png",
     "static/media/phone-message.png": "/static/media/phone-message.2ab3f54fcf23689d2625.png",
     "static/media/soccer.svg": "/static/media/soccer.5e86dcc4eb7a04d3a88bf8d5a062aff1.svg",
     "static/media/runner.svg": "/static/media/runner.cf70761f892b1724d83a50dba8b6bee5.svg",
     "static/media/tennis.svg": "/static/media/tennis.a41c03cbbd357589d8d7f1c97f32a070.svg",
     "static/media/golf.svg": "/static/media/golf.5da8f10b735d81ec46fdd97ba8113e8b.svg",
     "index.html": "/index.html",
-    "main.a0a22241.css.map": "/static/css/main.a0a22241.css.map",
-    "main.978135ad.js.map": "/static/js/main.978135ad.js.map",
+    "main.896bb613.css.map": "/static/css/main.896bb613.css.map",
+    "main.2ec0f714.js.map": "/static/js/main.2ec0f714.js.map",
     "946.b1a356d8.chunk.js.map": "/static/js/946.b1a356d8.chunk.js.map",
     "207.4d85b315.chunk.js.map": "/static/js/207.4d85b315.chunk.js.map",
     "158.4d228a0e.chunk.js.map": "/static/js/158.4d228a0e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a0a22241.css",
-    "static/js/main.978135ad.js"
+    "static/css/main.896bb613.css",
+    "static/js/main.2ec0f714.js"
   ]
 }
